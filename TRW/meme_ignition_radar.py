@@ -5,35 +5,27 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-# --- 🌕 MEME IGNITION CONFIG (With RSI + BB) ---
+# --- 🌕 CONFIG: Optimized for 00:00–01:30 GMT Meme Ignition ---
 CONFIG = {
-    'MAX_TOKENS_TO_FETCH': 250,
-    'MIN_VOLUME_USD_1H': 75_000,
+    'MAX_TOKENS_TO_FETCH': 200,
+    'MIN_VOLUME_USD_1H': 50_000,      # Real volume, not bots
     'MIN_PRICE_USD': 0.00001,
-    'MIN_PRICE_CHANGE_1H': 25.0,
-    'MAX_PRICE_CHANGE_1H': 3000.0,
-    'MAX_MARKET_CAP_USD': 750_000_000,
-    'EXCLUDE_TOP_RANKED': True,
-    'MAX_AGE_DAYS': 200,
+    'MIN_PRICE_CHANGE_1H': 5.0,       # Only >5% moves
+    'MAX_MARKET_CAP_USD': 1_000_000_000,  # Up to $1B
+    'EXCLUDE_TOP_RANKED': True,        # Skip top 200
+    'MAX_AGE_DAYS': 365,               # Up to 1 year old
 
-    # 🔥 RSI + BB Settings
-    'RSI_LENGTH': 7,          # Fast RSI for memes
-    'RSI_EMA_SMOOTH': 7,      # Smooth RSI with EMA
-    'BB_LENGTH': 20,          # BB on RSI
-    'BB_STDDEV': 2.0,
-    'REQUIRE_RSI_ABOVE_BB': True,  # Only take if RSI breaks upper BB
+    # 🔥 RSI Settings
+    'RSI_LENGTH': 7,          # Fast RSI
+    'RSI_EMA_LENGTH': 7,      # EMA of RSI
 }
 
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
 CACHE_DIR = Path("cache_meme_radar")
 CACHE_DIR.mkdir(exist_ok=True)
 
-# --- RSI + BOLLINGER BANDS ON RSI ---
-def compute_rsi_with_bb(prices, rsi_length=7, smooth_ema=7, bb_length=20, bb_std=2.0):
-    """
-    Returns (rsi_smoothed, upper_bb, lower_bb, current_rsi)
-    """
-    # Calculate RSI
+def compute_rsi_and_ema(prices, rsi_length=7, ema_length=7):
+    """Return (rsi_current, rsi_ema_current)"""
     delta = prices.diff()
     gain = (delta.where(delta > 0, 0))
     loss = (-delta.where(delta < 0, 0))
@@ -41,136 +33,39 @@ def compute_rsi_with_bb(prices, rsi_length=7, smooth_ema=7, bb_length=20, bb_std
     avg_loss = loss.ewm(span=rsi_length, min_periods=rsi_length).mean()
     rs = avg_gain / avg_loss
     rsi = 100 - (100 / (1 + rs))
-    
-    # Smooth RSI with EMA
-    rsi_smooth = rsi.ewm(span=smooth_ema, adjust=False).mean()
-    
-    # Bollinger Bands on smoothed RSI
-    bb_mid = rsi_smooth.rolling(window=bb_length).mean()
-    bb_std = rsi_smooth.rolling(window=bb_length).std()
-    bb_upper = bb_mid + (bb_std * bb_stddev)
-    bb_lower = bb_mid - (bb_std * bb_stddev)
-    
+    rsi_ema = rsi.ewm(span=ema_length, adjust=False).mean()
     return (
-        rsi_smooth.iloc[-1] if not rsi_smooth.empty else np.nan,
-        bb_upper.iloc[-1] if not bb_upper.empty else np.nan,
-        bb_lower.iloc[-1] if not bb_lower.empty else np.nan,
-        rsi.iloc[-1] if not rsi.empty else np.nan
+        rsi.iloc[-1] if len(rsi.dropna()) > 0 else np.nan,
+        rsi_ema.iloc[-1] if len(rsi_ema.dropna()) > 0 else np.nan
     )
 
-# --- FETCH OHLCV for RSI (need 30+ candles) ---
-def fetch_ohlc_for_rsi(coin_id, days=30):
-    cache_file = CACHE_DIR / f"{coin_id}_ohlc_rsi.csv"
+def fetch_ohlc_hourly(coin_id, hours=24):
+    """Fetch hourly OHLC for RSI calculation"""
+    cache_file = CACHE_DIR / f"{coin_id}_hourly.csv"
     if cache_file.exists():
         try:
-            return pd.read_csv(cache_file, index_col=0, parse_dates=True)
+            return pd.read_csv(cache_file, index_col=0)
         except:
             pass
     try:
         url = f"{COINGECKO_API_URL}/coins/{coin_id}/market_chart"
-        params = {'vs_currency': 'usd', 'days': days, 'interval': 'hourly'}
+        params = {'vs_currency': 'usd', 'days': 1, 'interval': 'hourly'}
         r = requests.get(url, params=params, timeout=15)
         if r.status_code == 200:
             data = r.json()
-            prices = [x[1] for x in data.get('prices', [])]
-            if len(prices) >= 25:
-                df = pd.DataFrame({'close': prices})
+            closes = [x[1] for x in data.get('prices', [])]
+            if len(closes) >= 10:
+                df = pd.DataFrame({'close': closes})
                 df.to_csv(cache_file)
                 return df
     except:
         pass
     return None
 
-# --- FETCH TOP GAINERS (same as before) ---
-def fetch_top_gainers_1h():
-    url = f"{COINGECKO_API_URL}/coins/markets"
-    params = {'vs_currency': 'usd', 'order': 'market_cap_desc', 'per_page': 250, 'page': 1}
-    try:
-        r = requests.get(url, params=params, timeout=20)
-        if r.status_code == 200:
-            return r.json()[:200]
-    except:
-        pass
-    return []
-
-# --- MAIN FILTER WITH RSI + BB ---
-def apply_meme_filter(coins_data):
-    pool = []
-    stablecoins = {'USDT', 'USDC', 'DAI', 'BUSD', 'TUSD', 'USDP', 'FDUSD', 'PYUSD', 'EURC'}
-    
-    for coin in coins_
-        symbol = coin['symbol'].upper()
-        name = coin['name']
-        price_change_1h = coin.get('price_change_percentage_1h')
-        volume_1h = coin.get('total_volume_1h', 0)
-        price = coin.get('current_price', 0)
-        market_cap = coin.get('market_cap_usd', 0)
-        rank = coin.get('market_cap_rank', 9999)
-        age_days = coin.get('age_days', 999)
-        
-        # Basic filters
-        if price_change_1h is None or not (25 <= price_change_1h <= 3000):
-            continue
-        if CONFIG['EXCLUDE_TOP_RANKED'] and rank <= 150:
-            continue
-        if symbol in stablecoins or price < 0.00001 or volume_1h < 75_000 or market_cap > 750_000_000 or age_days > 200:
-            continue
-
-        # Fetch OHLC for RSI
-        ohlc = fetch_ohlc_for_rsi(coin['id'], days=30)
-        if ohlc is None or len(ohlc) < 25:
-            continue
-
-        try:
-            rsi_smooth, bb_upper, bb_lower, rsi_raw = compute_rsi_with_bb(
-                ohlc['close'],
-                rsi_length=CONFIG['RSI_LENGTH'],
-                smooth_ema=CONFIG['RSI_EMA_SMOOTH'],
-                bb_length=CONFIG['BB_LENGTH'],
-                bb_std=CONFIG['BB_STDDEV']
-            )
-            if any(np.isnan([rsi_smooth, bb_upper])):
-                continue
-
-            # RSI breakout condition
-            passes_rsi_bb = rsi_smooth > bb_upper if CONFIG['REQUIRE_RSI_ABOVE_BB'] else True
-
-            if passes_rsi_bb:
-                pool.append({
-                    'TOKEN': symbol,
-                    'NAME': name,
-                    'PRICE_CHANGE_1H': round(price_change_1h, 2),
-                    'VOLUME_1H_USD': int(volume_1h),
-                    'RSI_SMOOTH': round(rsi_smooth, 1),
-                    'RSI_BB_UPPER': round(bb_upper, 1),
-                    'MARKET_CAP_USD': int(market_cap) if market_cap else 0,
-                    'AGE_DAYS': age_days,
-                    'POOL': 'meme_ignition'
-                })
-        except Exception as e:
-            continue
-        time.sleep(2.2)  # Rate limit
-
-    if pool:
-        df = pd.DataFrame(pool)
-        df = df.sort_values(['PRICE_CHANGE_1H', 'VOLUME_1H_USD'], ascending=[False, False])
-        return df.head(50)
-    return pd.DataFrame()
-
-# --- SAVE & RUN (same) ---
-def save_csv(df, filename="meme_ignition_radar.csv"):
-    if df.empty:
-        print("🌙 No meme ignition with RSI breakout.")
-        pd.DataFrame().to_csv(filename, index=False)
-    else:
-        df.to_csv(filename, index=False)
-        print(f"🔥 {len(df)} RSI-breakout meme candidates!")
-        print(df[['TOKEN', 'PRICE_CHANGE_1H', 'RSI_SMOOTH', 'RSI_BB_UPPER']].head(10).to_string(index=False))
-
 def enrich_with_1h_data(coins_list):
-    """Add 1h change, volume, age to each coin"""
+    """Add 1h % change, volume, age, market cap"""
     enriched = []
-    for i, coin in enumerate(coins_list):
+    for coin in coins_list[:150]:  # Limit to avoid rate limits
         try:
             detail = requests.get(f"{COINGECKO_API_URL}/coins/{coin['id']}", timeout=10)
             if detail.status_code == 200:
@@ -195,12 +90,94 @@ def enrich_with_1h_data(coins_list):
             time.sleep(1)
     return enriched
 
-if __name__ == "__main__":
-    print("🌕 MEME IGNITION RADAR — With RSI + Bollinger Breakout")
-    print("   • Finds tokens with >25% 1h gain + RSI breaking upper BB")
-    print("   • Perfect for catching early FOMO surges\n")
+def apply_meme_filter(coins_data):
+    pool = []
+    stablecoins = {'USDT', 'USDC', 'DAI', 'BUSD', 'TUSD', 'USDP', 'FDUSD', 'PYUSD', 'EURC'}
     
-    base_coins = fetch_top_gainers_1h()
+    for coin in coins_data:  # ✅ Fixed variable name
+        symbol = coin['symbol'].upper()
+        name = coin['name']
+        price_change_1h = coin.get('price_change_percentage_1h')
+        volume_1h = coin.get('total_volume_1h', 0)
+        price = coin.get('current_price', 0)
+        market_cap = coin.get('market_cap_usd', 0)
+        rank = coin.get('market_cap_rank', 9999)
+        age_days = coin.get('age_days', 999)
+        
+        # Basic filters
+        if price_change_1h is None or not (price_change_1h > CONFIG['MIN_PRICE_CHANGE_1H']):
+            continue
+        if CONFIG['EXCLUDE_TOP_RANKED'] and rank <= 200:
+            continue
+        if symbol in stablecoins or price < CONFIG['MIN_PRICE_USD'] or volume_1h < CONFIG['MIN_VOLUME_USD_1H']:
+            continue
+        if market_cap > CONFIG['MAX_MARKET_CAP_USD'] or age_days > CONFIG['MAX_AGE_DAYS']:
+            continue
+
+        # Fetch hourly data for RSI
+        ohlc = fetch_ohlc_hourly(coin['id'])
+        if ohlc is None or len(ohlc) < 10:
+            continue
+
+        try:
+            rsi_val, rsi_ema_val = compute_rsi_and_ema(
+                ohlc['close'],
+                rsi_length=CONFIG['RSI_LENGTH'],
+                ema_length=CONFIG['RSI_EMA_LENGTH']
+            )
+            if np.isnan(rsi_val) or np.isnan(rsi_ema_val):
+                continue
+
+            # 🔥 Core signal: RSI > 50 AND RSI > its EMA
+            if rsi_val > 50 and rsi_val > rsi_ema_val:
+                pool.append({
+                    'TOKEN': symbol,
+                    'NAME': name,
+                    'PRICE_CHANGE_1H': round(price_change_1h, 2),
+                    'VOLUME_1H_USD': int(volume_1h),
+                    'RSI': round(rsi_val, 1),
+                    'RSI_EMA': round(rsi_ema_val, 1),
+                    'MARKET_CAP_USD': int(market_cap) if market_cap else 0,
+                    'AGE_DAYS': age_days,
+                    'POOL': 'meme_ignition'
+                })
+        except Exception as e:
+            continue
+        time.sleep(2.2)
+
+    if pool:
+        df = pd.DataFrame(pool)
+        df = df.sort_values(['PRICE_CHANGE_1H', 'VOLUME_1H_USD'], ascending=[False, False])
+        return df.head(50)
+    return pd.DataFrame()
+
+def save_csv(df, filename="meme_ignition_radar.csv"):
+    if df.empty:
+        print("🌙 No tokens meet ignition criteria (5%+ gain, RSI>50, RSI>EMA).")
+        pd.DataFrame().to_csv(filename, index=False)
+    else:
+        df.to_csv(filename, index=False)
+        print(f"🔥 {len(df)} meme ignition candidates found!")
+        print(df[['TOKEN', 'PRICE_CHANGE_1H', 'RSI', 'RSI_EMA']].head(10).to_string(index=False))
+
+def fetch_top_coins():
+    url = f"{COINGECKO_API_URL}/coins/markets"
+    params = {'vs_currency': 'usd', 'order': 'market_cap_desc', 'per_page': 200, 'page': 1}
+    try:
+        r = requests.get(url, params=params, timeout=20)
+        if r.status_code == 200:
+            return r.json()
+    except:
+        pass
+    return []
+
+if __name__ == "__main__":
+    print("🌕 MEME IGNITION RADAR — 00:00–01:30 GMT Edition")
+    print("   • Price up >5% in last hour")
+    print("   • RSI(7) > 50 AND above its EMA(7)")
+    print("   • Runs best at 01:31 GMT\n")
+    
+    base_coins = fetch_top_coins()
     coins = enrich_with_1h_data(base_coins)
     df = apply_meme_filter(coins)
     save_csv(df, "meme_ignition_radar.csv")
