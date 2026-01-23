@@ -27,21 +27,22 @@ CONFIG = {
     'MIN_ATR_PCT': 0.020,
     'RSI_LOW': 20,
     'RSI_HIGH': 75,
-    'MIN_ADX': 10,
+    'MIN_ADX': 20,  # Increased for stronger trend confirmation
 
     # 🔥 Explosive filters
     'REQUIRE_ATR_UPTREND': True,
     'ATR_TREND_WINDOW': 3,
-    'MIN_ATR_TREND_SLOPE': 0.002,
+    'MIN_ATR_TREND_SLOPE': 0.005,  # Increased for steeper ATR trends
     'REQUIRE_VOLUME_SURGE': True,
     'VOLUME_SURGE_MULTIPLIER': 1.5,
     'REQUIRE_RECENT_CANDLE_STRENGTH': True,
     'REQUIRE_RSI_REVERSAL': True,
-    'RSI_REVERSAL_THRESHOLD': 35,
+    'RSI_REVERSAL_THRESHOLD': 30,  # Tighter for stronger RSI reversals
+    'REQUIRE_PRICE_ABOVE_SMA': True,  # New: Price must be above 20-day SMA
 
     # 🛡️ Macro guards
     'REQUIRE_BTC_HEALTHY': True,
-    'MIN_BTC_7D_CHANGE': -8.0,
+    'MIN_BTC_7D_CHANGE': -7.0,
 }
 
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
@@ -211,21 +212,25 @@ def apply_prime_key_filter(coins_data, btc_7d):
             passes_atr_trend = True
             if CONFIG['REQUIRE_ATR_UPTREND']:
                 slope = compute_trend_slope(atr_series / close, 3)
-                passes_atr_trend = not np.isnan(slope) and slope > 0.002
+                passes_atr_trend = not np.isnan(slope) and slope > CONFIG['MIN_ATR_TREND_SLOPE']
             passes_vol_surge = True
             if CONFIG['REQUIRE_VOLUME_SURGE'] and 'volume' in ohlc.columns:
                 passes_vol_surge = compute_volume_surge(ohlc['volume'])
             passes_candle = compute_candle_strength(high, low, close) > 70 if CONFIG['REQUIRE_RECENT_CANDLE_STRENGTH'] else True
             passes_rsi_rev = compute_rsi_reversal(close) if CONFIG['REQUIRE_RSI_REVERSAL'] else True
+            passes_sma = True
+            if CONFIG['REQUIRE_PRICE_ABOVE_SMA']:
+                sma = close.rolling(20).mean().iloc[-1]
+                passes_sma = not np.isnan(sma) and close.iloc[-1] > sma
             passes_rsi = 20 < rsi < 75
             passes_macd = macd_val > signal_val
             passes_dmi = di_plus > di_minus
             passes_7d = price_7d > 0
 
             tech_score = sum([passes_vol, passes_rsi, passes_macd, passes_dmi, passes_7d])
-            all_explosive = all([passes_atr_trend, passes_vol_surge, passes_candle, passes_rsi_rev])
+            all_explosive = all([passes_atr_trend, passes_vol_surge, passes_candle, passes_rsi_rev, passes_sma])
 
-            if passes_vol and all_explosive and tech_score >= 3:
+            if passes_vol and all_explosive and tech_score >= 4:
                 primary.append({
                     'TOKEN': symbol, 'MARKET_CAP_RANK': rank, 'PRICE': current_price,
                     'ATR_PCT': round(atr_pct*100,2), 'RSI_14': round(rsi,2),
