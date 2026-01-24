@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import numpy as np
+import time
 from datetime import datetime, timezone
 
 # --- CONFIG ---
@@ -111,7 +112,7 @@ def enrich_with_1h_data(coins_list):
 
 def filter_existing_memes(coins_data):
     pool = []
-    for coin in coins_
+    for coin in coins_data:
         symbol = coin['symbol'].upper()
         price_change_1h = coin.get('price_change_percentage_1h', 0)
         volume_1h = coin.get('total_volume_1h', 0)
