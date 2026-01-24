@@ -22,7 +22,22 @@ CONFIG = {
 # --- KNOWN MEME TOKENS (expand this list) ---
 KNOWN_MEMES = {
     'DOGE', 'SHIB', 'PEPE', 'WIF', 'BONK', 'FLOKI', 'MOG', 'TURBO', 'BRETT',
-    'KAIA', 'MYX', 'RIVER', 'POPCAT', 'MOTHER', 'NEIRO', 'SPX', 'ACT'
+    'KAIA', 'MYX', 'RIVER', 'POPCAT', 'MOTHER', 'NEIRO', 'SPX', 'ACT', 'PUMP',
+    'CVX', 'LITE', 'CUMMIES', 'HOGE', 'ELON', 'SAMO', 'DOGO', 'KISHU', 'AKITA', 'HUSKY',
+    'SANTA', 'MOON', 'BAB', 'FLOK', 'SHIBA', 'DUST', 'GME', 'AMC', 'BB', 'NOK', 'WSB',
+    'APE', 'CATE', 'DINO', 'FROG', 'GALA', 'PEPE2', 'RUG', 'SHEESH', 'TITAN', 'WOJAK',
+    'XRP', 'ADA', 'SOL', 'LUNA', 'AVAX', 'MATIC', 'DOT', 'DOGECOIN', 'IP', 'WLFI',
+    'CHZ', 'SFP', 'AKITAINU', 'KUMA', 'SHIBAINU', 'FLOKINU', 'HOKK', 'SAMOYEDCOIN',
+    'ELONMUSK', 'PEPECASH', 'DOGOCOIN', 'BABYDOGE', 'SAFEMOON', 'SAFEMOONV2', 'CC',
+    'AEVO', 'PEPEGOLD', 'PEPEGE', 'PEPEGPT', 'MEME', 'DOGEZILLA', 'SHIBX', 'FLOKIZILLA',
+    'PAXG', 'JUP', 'RACA', 'SUI', 'TAMA', 'YFI', 'XMON', 'ZIL', 'ZRX', 'PYTH', 'LRC', 
+    'ENS', 'GRT', 'RLY', 'MASK', 'MLN', 'RADAR', 'SAND', 'AXS', 'ILV', 'GNO', 'SYRUP',
+    'ZRX', 'MANTA', 'FARTCOIN', 'CRO', 'ENS', 'KAVA', 'ICP', 'BSV', 'VET', 'FIL', 'APT', 
+    'BGB', 'BCH', 'CRV', 'DASH', 'DCR', 'EGLD', 'GUSD', 'HOT', 'KSM', 'LTC', 'NEXO', 'QTUM',
+    'PENGU', 'ARKM', 'SEI', 'ETC', 'AAVE', 'C98', 'ENA', 'FLOKI', 'PENDLE', 'VIRTUAL',
+    'ALGO', 'INJ', 'SXP', 'DYDX', 'HBAR', 'BONK', 'ASR', 'IOTA', 'JASMY', 'GALA', 'AERO', 
+    'XCN', 'DASH', 'SAND', 'USELESS', 'MOONSHOT', 'TEST', 'DINGO', 'HYPE', 'ZOO', 'BONE', 'PEPES',
+    
 }
 
 def fetch_dex_new_pairs():
