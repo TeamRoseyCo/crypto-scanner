@@ -6,17 +6,18 @@ from datetime import datetime, timezone
 
 # --- CONFIG ---
 CONFIG = {
-    # DEX New Pairs
-    'MIN_NEW_PRICE_CHANGE_1H': 20.0,
-    'MIN_NEW_VOLUME_USD': 50_000,
-    'MIN_NEW_LIQUIDITY_USD': 20_000,
-    'MAX_NEW_AGE_HOURS': 6,
+    # NEW LAUNCHES (DEX)
+    'MIN_NEW_PRICE_CHANGE_1H': 5.0,
+    'MIN_NEW_VOLUME_USD': 25_000,
+    'MIN_NEW_LIQUIDITY_USD': 10_000,
+    'MAX_NEW_AGE_HOURS': 2,
+    'NEW_VOLUME_SURGE_MULTIPLIER': 3.0,  # Critical!
 
-    # Existing Memes
-    'EXISTING_MIN_PRICE_CHANGE_1H': 8.0,   # Lower threshold (they move slower)
-    'EXISTING_MIN_VOLUME_USD': 200_000,    # Higher volume (established tokens)
-    'EXISTING_MAX_MARKET_CAP_USD': 5_000_000_000,  # Up to $5B (includes DOGE/SHIB)
-    'MIN_SOCIAL_SENTIMENT_SPIKE': 0,       # Placeholder (add later if using API)
+    # EXISTING MEMES
+    'EXISTING_MIN_PRICE_CHANGE_1H': 3.0,
+    'EXISTING_MIN_VOLUME_USD': 100_000,
+    'EXISTING_MAX_MARKET_CAP_USD': 10_000_000_000,
+    'EXISTING_VOLUME_SURGE_MULTIPLIER': 2.0,
 }
 
 # --- KNOWN MEME TOKENS (expand this list) ---
