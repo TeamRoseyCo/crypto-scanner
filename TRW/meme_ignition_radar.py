@@ -138,7 +138,7 @@ def enrich_with_1h_data(coins_list):
 
 def filter_existing_memes(coins_data):
     pool = []
-    for coin in coins_  # ✅ Fixed variable name + colon
+    for coin in coins_:  # ✅ Fixed variable name + colon
         symbol = coin['symbol'].upper()
         price_change_1h = coin.get('price_change_percentage_1h', 0)
         volume_1h = coin.get('total_volume_1h', 0)
