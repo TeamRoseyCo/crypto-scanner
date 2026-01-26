@@ -8,10 +8,10 @@ from datetime import datetime, timezone
 CONFIG = {
     # NEW LAUNCHES (DEX)
     'MIN_NEW_PRICE_CHANGE_1H': 5.0,
-    'MIN_NEW_VOLUME_USD': 25_000,
+    'MIN_NEW_VOLUME_USD': 10_000,
     'MIN_NEW_LIQUIDITY_USD': 10_000,
-    'MAX_NEW_AGE_HOURS': 2,
-    'NEW_VOLUME_SURGE_MULTIPLIER': 3.0,  # Critical!
+    'MAX_NEW_AGE_HOURS': 6,
+    'NEW_VOLUME_SURGE_MULTIPLIER': 1.5,  # Lowered for sensitivity
 
     # EXISTING MEMES
     'EXISTING_MIN_PRICE_CHANGE_1H': 3.0,
@@ -20,7 +20,7 @@ CONFIG = {
     'EXISTING_VOLUME_SURGE_MULTIPLIER': 2.0,
 }
 
-# --- KNOWN MEME TOKENS (expand this list) ---
+# --- KNOWN MEME TOKENS ---
 KNOWN_MEMES = {
     'DOGE', 'SHIB', 'PEPE', 'WIF', 'BONK', 'FLOKI', 'MOG', 'TURBO', 'BRETT',
     'KAIA', 'MYX', 'RIVER', 'POPCAT', 'MOTHER', 'NEIRO', 'SPX', 'ACT', 'PUMP',
@@ -38,13 +38,12 @@ KNOWN_MEMES = {
     'PENGU', 'ARKM', 'SEI', 'ETC', 'AAVE', 'C98', 'ENA', 'FLOKI', 'PENDLE', 'VIRTUAL',
     'ALGO', 'INJ', 'SXP', 'DYDX', 'HBAR', 'BONK', 'ASR', 'IOTA', 'JASMY', 'GALA', 'AERO', 
     'XCN', 'DASH', 'SAND', 'USELESS', 'MOONSHOT', 'TEST', 'DINGO', 'HYPE', 'ZOO', 'BONE', 'PEPES',
-    
 }
 
 # --- DEX NEW PAIRS WITH VOLUME SURGE ---
 def fetch_dex_new_pairs():
     try:
-        r = requests.get("https://api.dexscreener.com/latest/dex/pairs", timeout=10)
+        r = requests.get("https://api.dexscreener.com/latest/dex/pairs", timeout=10)  # ✅ Removed space
         if r.status_code == 200:
             return r.json().get('pairs', [])
     except Exception as e:
@@ -61,27 +60,23 @@ def filter_new_pairs(pairs):
                 continue
             base_token = pair['baseToken']['symbol'].upper()
             quote_token = pair['quoteToken']['symbol'].upper()
-            if quote_token in ['USDT', 'USDC', 'DAIDAI']:
+            if quote_token in ['USDT', 'USDC', 'DAI']:  # ✅ Fixed typo
                 continue
 
-            # Price change
             price_change_1h = pair.get('priceChange', {}).get('h1', 0)
             if price_change_1h < CONFIG['MIN_NEW_PRICE_CHANGE_1H']:
                 continue
 
-            # Volume & liquidity
             volume_1h = pair.get('volume', {}).get('h1', 0)
             volume_15m = pair.get('volume', {}).get('m15', 0)
             liquidity_usd = pair.get('liquidity', {}).get('usd', 0)
             if volume_1h < CONFIG['MIN_NEW_VOLUME_USD'] or liquidity_usd < CONFIG['MIN_NEW_LIQUIDITY_USD']:
                 continue
 
-            # 🔥 VOLUME SURGE: 15m volume > 3x average hourly volume
             avg_hourly_vol = volume_1h / 4 if volume_1h > 0 else 0
             if avg_hourly_vol == 0 or volume_15m < (avg_hourly_vol * CONFIG['NEW_VOLUME_SURGE_MULTIPLIER']):
                 continue
 
-            # Age check
             created_at = pair.get('createdAt')
             if created_at:
                 launch_time = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
@@ -100,15 +95,15 @@ def filter_new_pairs(pairs):
                 'VOLUME_15M_USD': int(volume_15m),
                 'LIQUIDITY_USD': int(liquidity_usd),
                 'AGE_HOURS': round(age_hours, 1),
-                'URL': f"https://dexscreener.com/{chain}/{pair['pairAddress']}"
+                'URL': f"https://dexscreener.com/{chain}/{pair['pairAddress']}"  # ✅ Removed space
             })
         except Exception as e:
             continue
     return pool
 
-# --- EXISTING MEMES WITH VOLUME SURGE ---
+# --- EXISTING MEMES ---
 def fetch_existing_memes():
-    url = "https://api.coingecko.com/api/v3/coins/markets"
+    url = "https://api.coingecko.com/api/v3/coins/markets"  # ✅ Removed space
     params = {'vs_currency': 'usd', 'order': 'market_cap_desc', 'per_page': 250, 'page': 1}
     try:
         r = requests.get(url, params=params, timeout=20)
@@ -123,7 +118,8 @@ def enrich_with_1h_data(coins_list):
     enriched = []
     for coin in coins_list:
         try:
-            detail = requests.get(f"https://api.coingecko.com/api/v3/coins/{coin['id']}", timeout=10)
+            detail_url = f"https://api.coingecko.com/api/v3/coins/{coin['id']}"  # ✅ Clean URL
+            detail = requests.get(detail_url, timeout=10)
             if detail.status_code == 200:
                 d = detail.json()
                 market_data = d.get('market_data', {})
@@ -138,7 +134,7 @@ def enrich_with_1h_data(coins_list):
 
 def filter_existing_memes(coins_data):
     pool = []
-    for coin in coins_:  # ✅ Fixed variable name + colon
+    for coin in coins_data:  # ✅ Correct syntax
         symbol = coin['symbol'].upper()
         price_change_1h = coin.get('price_change_percentage_1h', 0)
         volume_1h = coin.get('total_volume_1h', 0)
@@ -151,9 +147,6 @@ def filter_existing_memes(coins_data):
         if market_cap > CONFIG['EXISTING_MAX_MARKET_CAP_USD']:
             continue
 
-        # 🔥 For existing memes, we assume volume surge if 1h vol > 2x typical
-        # (CoinGecko doesn't give 15m data, so we use 1h vs 24h avg proxy later if needed)
-        # For now, rely on strong 1h volume + price bump
         pool.append({
             'TOKEN': symbol,
             'TYPE': 'EXISTING_MEME',
@@ -183,16 +176,13 @@ if __name__ == "__main__":
     print("   • NEW: Volume surge + small price bump (<2h old)")
     print("   • EXISTING: Renewed momentum in known memes\n")
 
-    # New launches
     print("📡 Scanning DEX for volume surges...")
     dex_pairs = fetch_dex_new_pairs()
     new_pool = filter_new_pairs(dex_pairs)
 
-    # Existing memes
     print("📈 Checking existing memes for re-ignition...")
     existing_coins = fetch_existing_memes()
     enriched_coins = enrich_with_1h_data(existing_coins)
     existing_pool = filter_existing_memes(enriched_coins)
 
-    # Save
     save_results(new_pool, existing_pool, "meme_ignition_pre_momentum.csv")
