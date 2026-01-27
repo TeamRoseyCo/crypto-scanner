@@ -8,10 +8,10 @@ from datetime import datetime, timezone
 CONFIG = {
     # NEW LAUNCHES (DEX)
     'MIN_NEW_PRICE_CHANGE_1H': 5.0,
-    'MIN_NEW_VOLUME_USD': 10_000,
-    'MIN_NEW_LIQUIDITY_USD': 10_000,
-    'MAX_NEW_AGE_HOURS': 6,
-    'NEW_VOLUME_SURGE_MULTIPLIER': 1.5,  # Lowered for sensitivity
+    'MIN_NEW_VOLUME_USD': 5_000,      # Lowered
+    'MIN_NEW_LIQUIDITY_USD': 5_000,  # Lowered
+    'MAX_NEW_AGE_HOURS': 12,          # Extended
+    'NEW_VOLUME_SURGE_MULTIPLIER': 1.5,
 
     # EXISTING MEMES
     'EXISTING_MIN_PRICE_CHANGE_1H': 3.0,
@@ -60,7 +60,7 @@ def filter_new_pairs(pairs):
                 continue
             base_token = pair['baseToken']['symbol'].upper()
             quote_token = pair['quoteToken']['symbol'].upper()
-            if quote_token in ['USDT', 'USDC', 'DAI']:  # ✅ Fixed typo
+            if quote_token in ['USDT', 'USDC', 'DAI']:
                 continue
 
             price_change_1h = pair.get('priceChange', {}).get('h1', 0)
@@ -68,13 +68,20 @@ def filter_new_pairs(pairs):
                 continue
 
             volume_1h = pair.get('volume', {}).get('h1', 0)
-            volume_15m = pair.get('volume', {}).get('m15', 0)
+            volume_15m = pair.get('volume', {}).get('m15')  # May be None
             liquidity_usd = pair.get('liquidity', {}).get('usd', 0)
             if volume_1h < CONFIG['MIN_NEW_VOLUME_USD'] or liquidity_usd < CONFIG['MIN_NEW_LIQUIDITY_USD']:
                 continue
 
-            avg_hourly_vol = volume_1h / 4 if volume_1h > 0 else 0
-            if avg_hourly_vol == 0 or volume_15m < (avg_hourly_vol * CONFIG['NEW_VOLUME_SURGE_MULTIPLIER']):
+            # 🔥 Handle missing m15: if m15 is missing, skip surge check (rely on price + volume)
+            passes_volume_surge = True
+            if volume_15m is not None:
+                avg_hourly_vol = volume_1h / 4 if volume_1h > 0 else 0
+                if avg_hourly_vol == 0 or volume_15m < (avg_hourly_vol * CONFIG['NEW_VOLUME_SURGE_MULTIPLIER']):
+                    passes_volume_surge = False
+            # If m15 is missing, we assume surge is possible (don't disqualify)
+
+            if not passes_volume_surge:
                 continue
 
             created_at = pair.get('createdAt')
@@ -92,10 +99,10 @@ def filter_new_pairs(pairs):
                 'CHAIN': chain,
                 'PRICE_CHANGE_1H': round(price_change_1h, 2),
                 'VOLUME_1H_USD': int(volume_1h),
-                'VOLUME_15M_USD': int(volume_15m),
+                'VOLUME_15M_USD': int(volume_15m) if volume_15m else None,
                 'LIQUIDITY_USD': int(liquidity_usd),
                 'AGE_HOURS': round(age_hours, 1),
-                'URL': f"https://dexscreener.com/{chain}/{pair['pairAddress']}"  # ✅ Removed space
+                'URL': f"https://dexscreener.com/{chain}/{pair['pairAddress']}"
             })
         except Exception as e:
             continue
