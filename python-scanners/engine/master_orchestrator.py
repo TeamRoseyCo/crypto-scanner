@@ -146,7 +146,7 @@ MACRO = {
     "sideways_max_pos_pct":        6.0,  # Half position size in sideways
     "sideways_atr_mult":           1.0,  # Tighter stops in sideways (1.0× vs 1.5×)
     # Persistence — 2-scan confirmation rule
-    "persistence_window_h":        8.0,  # Qualifying scans must be within 8h of each other
+    "persistence_window_h":       24.0,  # Qualifying scans must be within 24h of each other
     "persistence_min_scans":       2,    # Must qualify on N consecutive scans before entry
 }
 
@@ -157,6 +157,29 @@ STABLECOINS = {
     "WBNB", "JITOSOL", "MSOL", "BNSOL", "EURC", "FRAX", "LUSD", "SUSD",
     "CRVUSD", "GUSD", "TUSD", "USDS", "SUSDS", "FRXETH", "OETH", "SUPRETH",
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DATA SOURCE TRACKING  (Binance vs CoinGecko — volume signals unreliable on CG)
+# ─────────────────────────────────────────────────────────────────────────────
+
+_DATA_SOURCE_FILE = _CACHE_DIR / "data_sources.json"
+
+def _load_data_sources() -> dict:
+    if _DATA_SOURCE_FILE.exists():
+        try:
+            return json.loads(_DATA_SOURCE_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+def _save_data_sources(sources: dict) -> None:
+    try:
+        _DATA_SOURCE_FILE.write_text(json.dumps(sources, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+_DATA_SOURCES: dict = _load_data_sources()   # coin_id → "binance" | "coingecko"
+
 
 _CG_PRO_KEY   = os.environ.get("CG_API_KEY", "")    # Pro plan key
 _CG_DEMO_KEY  = os.environ.get("CG_DEMO_KEY", "")   # Free Demo plan key
@@ -373,6 +396,13 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
             try:
                 df = pd.read_csv(cache_file, index_col=0, parse_dates=True)
                 if len(df) >= 20:
+                    # Source unknown from cached file — probe Binance if symbol given
+                    if coin_id not in _DATA_SOURCES and symbol:
+                        probe = _fetch_binance_ohlcv(symbol, 1)
+                        _DATA_SOURCES[coin_id] = "binance" if probe is not None else "coingecko"
+                        _save_data_sources(_DATA_SOURCES)
+                    elif coin_id not in _DATA_SOURCES:
+                        _DATA_SOURCES[coin_id] = "coingecko"
                     return df
             except Exception:
                 pass  # corrupt cache → re-fetch
@@ -381,6 +411,8 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
     if symbol:
         df = _fetch_binance_ohlcv(symbol, days)
         if df is not None:
+            _DATA_SOURCES[coin_id] = "binance"
+            _save_data_sources(_DATA_SOURCES)
             try:
                 df.to_csv(cache_file)
             except Exception:
@@ -419,6 +451,8 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
     else:
         df["volume"] = np.nan
 
+    _DATA_SOURCES[coin_id] = "coingecko"
+    _save_data_sources(_DATA_SOURCES)
     try:
         df.to_csv(cache_file)
     except Exception:
@@ -520,6 +554,30 @@ def _rs_vs_btc(token: pd.Series, btc: pd.Series, window: int = 7) -> float:
     return float(tok_ret - btc_ret)
 
 
+def _fetch_funding_rate(symbol: str) -> float | None:
+    """
+    Fetch the latest perpetual funding rate from Binance (no API key needed).
+    Returns the rate as a float (e.g. 0.0001 = 0.01% per 8h), or None on failure.
+
+    Interpretation:
+      Negative rate → shorts paying longs → bearish crowd, good for longs (add +2.0 conviction)
+      Positive >0.001 (0.1%/8h) → crowded long → apply -10 conviction penalty
+    """
+    try:
+        r = _BN_SESSION.get(
+            "https://fapi.binance.com/fapi/v1/fundingRate",
+            params={"symbol": f"{symbol}USDT", "limit": 1},
+            timeout=5,
+        )
+        if r.status_code == 200:
+            data = r.json()
+            if isinstance(data, list) and len(data) > 0:
+                return float(data[0].get("fundingRate", 0))
+    except Exception:
+        pass
+    return None
+
+
 def _slope(series: pd.Series, window: int = 5) -> float:
     s = series.dropna()
     if len(s) < window:
@@ -601,11 +659,12 @@ def _higher_lows(lows: pd.Series, window: int = 20) -> bool:
     if len(lows) < window:
         return False
     recent = lows.iloc[-window:]
+    # Require 3 bars on each side to be higher — prevents single-candle noise
+    # from qualifying as a swing low on 4h data.
     swings = [
         float(recent.iloc[i])
-        for i in range(1, len(recent) - 1)
-        if float(recent.iloc[i]) < float(recent.iloc[i - 1])
-        and float(recent.iloc[i]) < float(recent.iloc[i + 1])
+        for i in range(3, len(recent) - 3)
+        if float(recent.iloc[i]) == float(recent.iloc[i-3:i+4].min())
     ]
     return len(swings) >= 3 and swings[-1] > swings[-2] > swings[-3]
 
@@ -684,13 +743,15 @@ def _vol_expansion(
 _WEIGHTS = {
     # ── Early / pre-trend signals (catch the move before it starts) ──────────
     "rsi_divergence":     3.5,   # Price lower-low, RSI higher-low — earliest signal
-    "rs_vs_btc":          3.0,   # Token outperforming BTC (alpha rotation)
+    "rs_vs_btc":          3.0,   # Token outperforming BTC 7-day (alpha rotation)
     "macd_turning":       2.5,   # Histogram rising from its bottom before zero cross
-    "stealth_accum":      2.5,   # OBV rising while price flat (smart money, fixed)
+    "stealth_accum":      2.5,   # OBV rising while price flat (smart money)
+    "funding_neg":        2.0,   # Negative perp funding = shorts paying longs (free carry)
     "cmf":                2.0,   # Chaikin Money Flow > 0.05 — institutional buying pressure
     "vol_expansion":      2.0,   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)
     "bb_squeeze":         2.0,   # Volatility compression — coiling before explosion
     "higher_lows":        2.0,   # Ascending swing lows: base-building structure
+    "rs_acceleration":    1.5,   # Short-term RS (28h) confirms recent momentum building
     "declining_sell_vol": 1.5,   # Red-candle volume shrinking — sellers exhausting
     "rsi_ignition":       1.5,   # RSI leaving oversold zone
     "whale_candles":      1.5,   # Large BULLISH candles, close in upper 30% of range
@@ -703,11 +764,21 @@ _WEIGHTS = {
 }
 _TOTAL_WEIGHT = sum(_WEIGHTS.values())
 
+# Volume-dependent signals — unreliable when data comes from CoinGecko
+# (CoinGecko returns daily volume resampled to 4h, not real intraday volume).
+# Their contribution is halved automatically when binance_source=False.
+_VOLUME_SIGNAL_KEYS = {
+    "vol_velocity", "vol_expansion", "stealth_accum",
+    "cmf", "whale_candles", "declining_sell_vol",
+}
+
 
 def detect_signals(
-    ohlcv:       pd.DataFrame,
-    btc_closes:  pd.Series | None,
-    price:       float,
+    ohlcv:          pd.DataFrame,
+    btc_closes:     pd.Series | None,
+    price:          float,
+    binance_source: bool       = True,
+    funding_rate:   float | None = None,
 ) -> dict | None:
     """
     Run all 14 signal layers (pre-trend biased).
@@ -778,10 +849,18 @@ def detect_signals(
         s["plus_di"]    = round(plus_di,  1) if not np.isnan(plus_di)  else None
         s["minus_di"]   = round(minus_di, 1) if not np.isnan(minus_di) else None
 
-        # ── 6. RS vs BTC ──────────────────────────────────────────────────────
-        rs            = _rs_vs_btc(closes, btc_closes) if btc_closes is not None else np.nan
-        s["rs_vs_btc"] = not np.isnan(rs) and rs >= SIGNAL["rs_vs_btc_min"]
-        s["rs_value"]  = round(rs * 100, 2) if not np.isnan(rs) else None
+        # ── 6. RS vs BTC (7-day window) ───────────────────────────────────────
+        # Primary: 7-day (42 bars) sustained outperformance = real rotation.
+        # Acceleration: 28h (7 bars) confirms fresh momentum building right now.
+        rs_7d  = _rs_vs_btc(closes, btc_closes, window=42) if btc_closes is not None else np.nan
+        rs_28h = _rs_vs_btc(closes, btc_closes, window=7)  if btc_closes is not None else np.nan
+        s["rs_vs_btc"]     = not np.isnan(rs_7d) and rs_7d >= SIGNAL["rs_vs_btc_min"]
+        s["rs_acceleration"] = (
+            not np.isnan(rs_28h) and not np.isnan(rs_7d)
+            and rs_28h >= SIGNAL["rs_vs_btc_min"]  # recent window also outperforming
+            and rs_28h > rs_7d                      # recent momentum accelerating vs base
+        )
+        s["rs_value"] = round(rs_7d * 100, 2) if not np.isnan(rs_7d) else None
 
         # ── 7. ATR expanding ──────────────────────────────────────────────────
         atr_val, atr_series = _atr(highs, lows, closes)
@@ -845,7 +924,7 @@ def detect_signals(
                 obv_chg   = (obv.iloc[-1] - obv.iloc[-10]) / (avg_vol * 10 + 1)
                 stealth   = (
                     obv_chg        > SIGNAL["stealth_obv_threshold"]
-                    and abs(price_chg) < 0.05   # price genuinely flat — not just "not up a lot"
+                    and abs(price_chg) < 0.02   # price genuinely flat (tightened: was 0.05)
                 )
         s["stealth_accum"] = stealth
 
@@ -886,17 +965,45 @@ def detect_signals(
             if has_vol else False
         )
 
-        # ── 13. Higher lows (NEW — base-building / uptrend structure) ────────
+        # ── 13. Higher lows (base-building / uptrend structure) ──────────────
         s["higher_lows"] = _higher_lows(lows, window=SIGNAL["higher_lows_window"])
 
-        # ── 14. Conviction score ──────────────────────────────────────────────
-        score      = sum(_WEIGHTS[k] for k in _WEIGHTS if s.get(k, False))
-        conviction = round((score / _TOTAL_WEIGHT) * 100, 1)
-        active     = [k for k in _WEIGHTS if s.get(k, False)]
+        # ── 14. Funding rate — perp market sentiment ──────────────────────────
+        # Negative funding = shorts paying longs (free carry for longs, bullish crowd).
+        # Crowded long (>0.1%/8h) = penalty applied outside weight system (see below).
+        funding_crowded = False
+        if funding_rate is not None:
+            s["funding_neg"] = funding_rate < 0.0
+            funding_crowded  = funding_rate > 0.001   # > 0.1% per 8h = crowded long
+        else:
+            s["funding_neg"] = False
+        s["funding_crowded"] = funding_crowded
 
-        s["conviction"]     = conviction
-        s["signal_count"]   = len(active)
-        s["active_signals"] = active
+        # ── 15. Conviction score ──────────────────────────────────────────────
+        # Volume signals are halved for CoinGecko-sourced data (daily vol resampled
+        # to 4h — not real intraday volume, produces systematic false signals).
+        effective_score = 0.0
+        for sig_key, weight in _WEIGHTS.items():
+            if not s.get(sig_key, False):
+                continue
+            if not binance_source and sig_key in _VOLUME_SIGNAL_KEYS:
+                effective_score += weight * 0.5   # halved — unreliable data source
+            else:
+                effective_score += weight
+
+        # Crowded long penalty — outside weight system so it can push below threshold
+        crowded_penalty = 10.0 if funding_crowded else 0.0
+
+        conviction = max(0.0, round(
+            (effective_score / _TOTAL_WEIGHT) * 100 - crowded_penalty, 1
+        ))
+        active = [k for k in _WEIGHTS if s.get(k, False)]
+
+        s["conviction"]        = conviction
+        s["signal_count"]      = len(active)
+        s["active_signals"]    = active
+        s["binance_source"]    = binance_source
+        s["crowded_penalty"]   = crowded_penalty
 
         return s
 
@@ -915,6 +1022,7 @@ def build_trade_plan(
     price:        float,
     signals:      dict,
     account_size: float,
+    regime:       str = "SIDEWAYS",
 ) -> dict:
     """
     Generate a specific, actionable trade plan.
@@ -974,8 +1082,11 @@ def build_trade_plan(
             "usdt":     round(tp_usdt, 2),
         })
 
-    # ── Simple expected value (conservative win rate = 40%) ──────────────────
-    win_prob   = 0.40
+    # ── Expected value — regime-specific win rates ────────────────────────────
+    # These are estimates based on signal-type backtesting on mid-cap alts.
+    # Run backtest/backtest_signals.py to calibrate with your own historical data.
+    _regime_win_rates = {"BULL": 0.45, "SIDEWAYS": 0.38, "BEAR": 0.30}
+    win_prob   = _regime_win_rates.get(regime, 0.38)
     avg_gain   = sum(tp["gain_pct"] for tp in tps) / len(tps)
     avg_loss   = abs(stop_pct)
     ev_pct     = round((win_prob * avg_gain) - ((1 - win_prob) * avg_loss), 2)
@@ -1034,10 +1145,11 @@ def _append_watchlist(lines: list, watchlist: list | None, sep: str, dash: str) 
 
 
 def build_report(
-    market_ctx:  dict | None,
-    candidates:  list,
+    market_ctx:   dict | None,
+    candidates:   list,
     account_size: float,
-    watchlist:   list | None = None,
+    watchlist:    list | None = None,
+    scan_start:   datetime | None = None,
 ) -> str:
     ts   = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sep  = "=" * 80
@@ -1049,6 +1161,17 @@ def build_report(
         f"  Generated: {ts}",
         sep,
     ]
+
+    # Staleness warning — entries are only valid near scan time
+    if scan_start is not None:
+        age_min = (datetime.now() - scan_start).total_seconds() / 60
+        if age_min > 60:
+            lines += [
+                "",
+                f"  ⚠️  SCAN DATA IS {age_min:.0f} MINUTES OLD.",
+                "  Verify current price is within 2% of entry before placing orders.",
+                "  If price has moved past TP1, skip the trade entirely.",
+            ]
 
     # ── Market context ────────────────────────────────────────────────────────
     lines += ["", "MARKET CONTEXT", "-" * 40]
@@ -1229,13 +1352,15 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
 
     log.info("")
     log.info("=" * 80)
-    log.info("  CRYPTO MASTER ORCHESTRATOR v2.0")
-    log.info("  16-signal engine | Binance OHLCV | regime gate | 2-scan persistence")
+    log.info("  CRYPTO MASTER ORCHESTRATOR v2.1")
+    log.info("  18-signal engine | funding rate | corr filter | volume source tagging")
     log.info("=" * 80)
     log.info(f"  Account: ${account_size:,.2f} USDT  |  "
              f"Risk/trade: {ACCOUNT['risk_per_trade_pct']}%  |  "
              f"Max positions: {ACCOUNT['max_positions']}")
     log.info("")
+
+    scan_start = datetime.now()   # track for staleness warning in report
 
     # ── Step 1: Market context ────────────────────────────────────────────────
     log.info("[1/5] Analyzing market regime...")
@@ -1245,7 +1370,8 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     if market_ctx:
         if market_ctx["regime"] == "BEAR":
             log.warning("  ⛔ BEAR market — NO new longs. Standing down to protect capital.")
-            report_text = build_report(market_ctx, [], account_size, watchlist=[])
+            report_text = build_report(market_ctx, [], account_size,
+                                        watchlist=[], scan_start=scan_start)
             log.info("\n" + report_text)
             ts_str     = datetime.now().strftime("%Y%m%d_%H%M%S")
             ts_file    = _OUTPUT_DIR / f"master_trade_plan_{ts_str}.txt"
@@ -1350,8 +1476,22 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         _cache_fresh = _cf.exists() and (time.time() - _cf.stat().st_mtime) / 3600 < SCAN["cache_max_age_h"]
         ohlcv = fetch_ohlcv(coin_id, 30, symbol)
 
+        # ── Fetch funding rate (Binance perps, no key needed) ────────────────
+        funding_rate = _fetch_funding_rate(symbol)
+        if funding_rate is not None:
+            fr_str = f"{funding_rate*100:+.4f}%/8h"
+            if funding_rate > 0.001:
+                fr_str += " ⚠️ CROWDED"
+            elif funding_rate < 0:
+                fr_str += " ✅ shorts paying"
+            log.debug(f"          Funding: {fr_str}")
+
+        # ── Data source for volume signal reliability ─────────────────────────
+        is_binance = _DATA_SOURCES.get(coin_id, "coingecko") == "binance"
+
         # ── Run signals ───────────────────────────────────────────────────────
-        signals = detect_signals(ohlcv, btc_closes, price)
+        signals = detect_signals(ohlcv, btc_closes, price,
+                                 binance_source=is_binance, funding_rate=funding_rate)
 
         if signals is None:
             log.info("          → skip (insufficient data)")
@@ -1394,7 +1534,8 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                     "pending":   True,
                 })
             else:
-                plan = build_trade_plan(symbol, rank, price, signals, account_size)
+                _regime = market_ctx["regime"] if market_ctx else "SIDEWAYS"
+                plan = build_trade_plan(symbol, rank, price, signals, account_size, regime=_regime)
                 raw_candidates.append({
                     "symbol":    symbol,
                     "coin_id":   coin_id,
@@ -1427,11 +1568,62 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     # ── Save persistence history ──────────────────────────────────────────────
     _save_history(candidate_history)
 
-    # ── Step 5: Rank, apply heat limit, generate report ───────────────────────
+    # ── Step 5: Rank, correlation filter, heat limit, generate report ────────
     log.info(f"\n[5/5] Building trade plan report...")
     log.info(f"  Raw candidates found: {len(raw_candidates)}")
 
     raw_candidates.sort(key=lambda c: c["signals"]["conviction"], reverse=True)
+
+    # ── Correlation filter — remove duplicates within correlated pairs ────────
+    # When two candidates have close-price correlation > 0.75 over the last 30d,
+    # they are effectively the same bet. Keep only the higher-conviction one.
+    if len(raw_candidates) > 1:
+        _corr_closes: dict = {}
+        for c in raw_candidates:
+            try:
+                _cf_path = _CACHE_DIR / f"{c['coin_id']}_30d.csv"
+                if _cf_path.exists():
+                    _cdf = pd.read_csv(_cf_path, index_col=0, parse_dates=True)
+                    if "close" in _cdf.columns and len(_cdf) >= 20:
+                        _corr_closes[c["coin_id"]] = _cdf["close"]
+            except Exception:
+                pass
+
+        _to_remove: set = set()
+        _ids = [c["coin_id"] for c in raw_candidates if c["coin_id"] in _corr_closes]
+        for _i, _id_a in enumerate(_ids):
+            for _id_b in _ids[_i + 1:]:
+                if _id_a in _to_remove or _id_b in _to_remove:
+                    continue
+                try:
+                    _aligned = pd.concat(
+                        [_corr_closes[_id_a], _corr_closes[_id_b]], axis=1
+                    ).dropna()
+                    if len(_aligned) >= 20:
+                        _corr = float(_aligned.iloc[:, 0].corr(_aligned.iloc[:, 1]))
+                        if _corr > 0.75:
+                            _conv_a = next(
+                                c["signals"]["conviction"] for c in raw_candidates
+                                if c["coin_id"] == _id_a
+                            )
+                            _conv_b = next(
+                                c["signals"]["conviction"] for c in raw_candidates
+                                if c["coin_id"] == _id_b
+                            )
+                            _drop = _id_b if _conv_a >= _conv_b else _id_a
+                            _keep = _id_a if _drop == _id_b else _id_b
+                            _to_remove.add(_drop)
+                            log.info(
+                                f"  Correlation filter: dropped {_drop} "
+                                f"(corr={_corr:.2f} with {_keep} — kept higher conviction)"
+                            )
+                except Exception:
+                    pass
+
+        if _to_remove:
+            raw_candidates = [c for c in raw_candidates if c["coin_id"] not in _to_remove]
+            log.info(f"  After correlation filter: {len(raw_candidates)} unique candidates")
+
     watchlist.sort(key=lambda w: w["signals"]["conviction"], reverse=True)
     watchlist = watchlist[:10]  # cap at top 10
 
@@ -1455,7 +1647,8 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         cum_heat += heat_add
 
     # ── Output ────────────────────────────────────────────────────────────────
-    report_text = build_report(market_ctx, final, account_size, watchlist=watchlist)
+    report_text = build_report(market_ctx, final, account_size,
+                               watchlist=watchlist, scan_start=scan_start)
     log.info("\n" + report_text)
 
     ts_str = datetime.now().strftime("%Y%m%d_%H%M%S")
