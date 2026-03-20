@@ -796,7 +796,8 @@ def calibrate_weights(
     Fixed signals (funding_neg) are not touched.
     """
     # Quick lookup: signal_name → overall stats dict
-    stat_lookup = {s["signal"]: s for s in signal_stats}
+    # compute_stats() uses "label" as the key name, not "signal"
+    stat_lookup = {s["label"]: s for s in signal_stats}
 
     calibratable = [s for s in _ORIGINAL_WEIGHTS if s not in _FIXED_WEIGHTS]
 
