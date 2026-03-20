@@ -33,6 +33,9 @@ Usage:
 
 import os
 import sys
+import re
+import json
+import shutil
 import time
 import argparse
 import itertools
@@ -729,6 +732,284 @@ def _build_report(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# AUTO-CALIBRATION  — derive weights from backtest results, patch orchestrator
+# ─────────────────────────────────────────────────────────────────────────────
+
+_ORCHESTRATOR_PATH = _SCRIPT_DIR / "master_orchestrator.py"
+
+# Signals that cannot be backtested — keep fixed regardless of results.
+_FIXED_WEIGHTS: dict[str, float] = {
+    "funding_neg": 2.0,   # Real-time perp funding only — no historical data available.
+}
+
+# Original weights — used for comparison table and confidence-blend fallback.
+_ORIGINAL_WEIGHTS: dict[str, float] = {
+    "rsi_divergence":     3.5,
+    "rs_vs_btc":          3.0,
+    "macd_turning":       2.5,
+    "stealth_accum":      2.5,
+    "funding_neg":        2.0,
+    "cmf":                2.0,
+    "vol_expansion":      2.0,
+    "bb_squeeze":         2.0,
+    "higher_lows":        2.0,
+    "rs_acceleration":    1.5,
+    "declining_sell_vol": 1.5,
+    "rsi_ignition":       1.5,
+    "whale_candles":      1.5,
+    "macd_crossover":     1.5,
+    "vol_velocity":       1.5,
+    "trend_strong":       1.5,
+    "atr_expanding":      1.0,
+    "rsi_in_zone":        0.5,
+}
+
+_WEIGHT_MIN     = 0.3    # Floor — signals never fully disabled, just de-weighted
+_WEIGHT_MAX     = 4.5    # Ceiling — even outstanding signals get capped
+_TARGET_TOTAL   = sum(_ORIGINAL_WEIGHTS.values())   # ~33.5 — keep total stable
+
+
+def calibrate_weights(
+    signal_stats:  list[dict],
+    regime_stats:  dict[str, dict[str, dict]],
+    dry_run:       bool = False,
+) -> dict[str, float]:
+    """
+    Derive new _WEIGHTS for master_orchestrator.py from backtest results.
+
+    Weight formula (per signal):
+      quality = 0.55 × E[SIDEWAYS] + 0.35 × E[BULL] + 0.10 × E[BEAR]
+
+    SIDEWAYS weighted highest because that is the strictest and most common
+    regime in the scanner — a signal must earn its place there.
+
+    Confidence blending:
+      If a signal fired < 50 times in total the backtest data is thin.
+      We blend 50% toward the original normalized weight to avoid over-reacting
+      to small samples.
+
+    Scaling:
+      Quality scores are mapped linearly to [_WEIGHT_MIN, _WEIGHT_MAX].
+      The entire set is then scaled so the total equals _TARGET_TOTAL,
+      keeping the conviction score distribution stable in the scanner.
+
+    Fixed signals (funding_neg) are not touched.
+    """
+    # Quick lookup: signal_name → overall stats dict
+    stat_lookup = {s["signal"]: s for s in signal_stats}
+
+    calibratable = [s for s in _ORIGINAL_WEIGHTS if s not in _FIXED_WEIGHTS]
+
+    # ── Step 1: compute quality score per signal ─────────────────────────────
+    qualities: dict[str, float] = {}
+    for sig in calibratable:
+        bull_e = side_e = bear_e = 0.0
+
+        bull_stats = regime_stats.get("BULL",     {}).get(sig, {})
+        side_stats = regime_stats.get("SIDEWAYS", {}).get(sig, {})
+        bear_stats = regime_stats.get("BEAR",     {}).get(sig, {})
+
+        if bull_stats.get("n", 0) >= 10:
+            bull_e = float(bull_stats.get("expectancy", 0.0))
+        if side_stats.get("n", 0) >= 10:
+            side_e = float(side_stats.get("expectancy", 0.0))
+        if bear_stats.get("n", 0) >= 10:
+            bear_e = float(bear_stats.get("expectancy", 0.0))
+
+        # If no regime has enough fires, fall back to overall expectancy
+        overall_n = stat_lookup.get(sig, {}).get("n", 0)
+        if bull_stats.get("n", 0) < 10 and side_stats.get("n", 0) < 10:
+            overall_e = float(stat_lookup.get(sig, {}).get("expectancy", 0.0))
+            qualities[sig] = overall_e
+        else:
+            qualities[sig] = 0.55 * side_e + 0.35 * bull_e + 0.10 * bear_e
+
+    # ── Step 2: confidence blend (thin data → stay near original) ────────────
+    # Compute what the "original normalised quality" looks like so we can blend.
+    # Original weights normalised to [0,1] relative to their own range give us
+    # a reference expectancy proxy per signal.
+    orig_vals = [_ORIGINAL_WEIGHTS[s] for s in calibratable]
+    orig_min, orig_max = min(orig_vals), max(orig_vals)
+    orig_range = orig_max - orig_min or 1.0
+
+    q_vals_raw = list(qualities.values())
+    q_min = min(q_vals_raw)
+    q_max = max(q_vals_raw)
+    q_range = q_max - q_min if q_max != q_min else 1.0
+
+    for sig in calibratable:
+        n_fires = stat_lookup.get(sig, {}).get("n", 0)
+        confidence = min(1.0, n_fires / 50)   # full confidence at 50+ total fires
+
+        # Original weight expressed on the same 0→1 normalised scale as quality
+        orig_norm = (_ORIGINAL_WEIGHTS[sig] - orig_min) / orig_range
+        # Rescale to quality range so the blend is in the same units
+        orig_as_quality = q_min + orig_norm * q_range
+
+        qualities[sig] = confidence * qualities[sig] + (1 - confidence) * orig_as_quality
+
+    # ── Step 3: map quality → raw weight ─────────────────────────────────────
+    q_vals   = [qualities[s] for s in calibratable]
+    q_min    = min(q_vals)
+    q_max    = max(q_vals)
+    q_range  = q_max - q_min if q_max != q_min else 1.0
+
+    raw_weights: dict[str, float] = {}
+    for sig in calibratable:
+        q = qualities[sig]
+        if q <= 0:
+            # Negative-expectancy signals get floor weight (barely alive)
+            raw_weights[sig] = _WEIGHT_MIN
+        else:
+            # Linear map [0, q_max] → [_WEIGHT_MIN, _WEIGHT_MAX]
+            q_pos_max = max(q_max, 1e-9)
+            raw_weights[sig] = _WEIGHT_MIN + (q / q_pos_max) * (_WEIGHT_MAX - _WEIGHT_MIN)
+
+    # ── Step 4: scale total to _TARGET_TOTAL ─────────────────────────────────
+    fixed_total = sum(_FIXED_WEIGHTS.values())
+    target_cal  = _TARGET_TOTAL - fixed_total
+    raw_total   = sum(raw_weights.values())
+    scale       = target_cal / raw_total if raw_total > 0 else 1.0
+
+    for sig in raw_weights:
+        # Scale, round to nearest 0.5, clamp to [_WEIGHT_MIN, _WEIGHT_MAX]
+        w = raw_weights[sig] * scale
+        w = round(w * 2) / 2          # snap to 0.5 grid
+        raw_weights[sig] = max(_WEIGHT_MIN, min(_WEIGHT_MAX, w))
+
+    # Merge calibrated + fixed
+    new_weights = {**raw_weights, **_FIXED_WEIGHTS}
+
+    # ── Step 5: print comparison table ───────────────────────────────────────
+    sep  = "=" * 72
+    dash = "-" * 72
+    print(f"\n{sep}")
+    print(f"  AUTO-CALIBRATION RESULTS")
+    print(f"  Regime weight: SIDEWAYS 55% + BULL 35% + BEAR 10%")
+    print(sep)
+    print(f"  {'Signal':<25} {'Old':>5}  {'New':>5}  {'Quality':>9}  {'Change':>8}")
+    print(f"  {dash}")
+
+    ordered = sorted(_ORIGINAL_WEIGHTS, key=lambda s: -new_weights.get(s, 0))
+    for sig in ordered:
+        old = _ORIGINAL_WEIGHTS[sig]
+        new = new_weights.get(sig, old)
+        q   = qualities.get(sig, 0.0)
+        chg = new - old
+        arrow   = " ↑" if chg > 0.4 else (" ↓" if chg < -0.4 else "  ")
+        fixed_m = " [fixed]" if sig in _FIXED_WEIGHTS else ""
+        n_fires = stat_lookup.get(sig, {}).get("n", 0)
+        conf    = min(100, int(n_fires / 50 * 100))
+        print(
+            f"  {sig:<25} {old:>5.1f}  {new:>5.1f}  {q:>+9.5f}"
+            f"  {chg:>+7.1f}{arrow}  (n={n_fires}, conf={conf}%){fixed_m}"
+        )
+
+    old_total = sum(_ORIGINAL_WEIGHTS.values())
+    new_total = sum(new_weights.values())
+    print(f"  {dash}")
+    print(f"  {'TOTAL':<25} {old_total:>5.1f}  {new_total:>5.1f}")
+    print(sep)
+
+    if dry_run:
+        print("\n  [--dry-run] No changes written. Pass without --dry-run to apply.")
+        return new_weights
+
+    # ── Step 6: patch master_orchestrator.py ─────────────────────────────────
+    _patch_orchestrator_weights(new_weights)
+
+    # ── Step 7: save calibration record ──────────────────────────────────────
+    record = {
+        "timestamp":       datetime.now().isoformat(),
+        "old_weights":     _ORIGINAL_WEIGHTS,
+        "new_weights":     new_weights,
+        "quality_scores":  {s: round(qualities.get(s, 0.0), 6) for s in new_weights},
+        "signal_n_fires":  {s: stat_lookup.get(s, {}).get("n", 0) for s in new_weights},
+    }
+    record_path = _OUTPUT_DIR / "calibration_record_LATEST.json"
+    record_path.write_text(json.dumps(record, indent=2), encoding="utf-8")
+    print(f"\n  Calibration record saved → {record_path.name}")
+
+    return new_weights
+
+
+def _patch_orchestrator_weights(new_weights: dict[str, float]) -> None:
+    """
+    Replace the _WEIGHTS = {...} block in master_orchestrator.py in-place.
+    Creates a .bak backup of the original before writing.
+    """
+    if not _ORCHESTRATOR_PATH.exists():
+        print(f"  WARNING: master_orchestrator.py not found at {_ORCHESTRATOR_PATH}")
+        return
+
+    content = _ORCHESTRATOR_PATH.read_text(encoding="utf-8")
+
+    # ── Backup ────────────────────────────────────────────────────────────────
+    bak = _ORCHESTRATOR_PATH.with_suffix(".py.bak")
+    shutil.copy2(_ORCHESTRATOR_PATH, bak)
+
+    # ── Build replacement block ───────────────────────────────────────────────
+    ts_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+    ordered = sorted(new_weights.items(), key=lambda kv: -kv[1])
+    max_key_len = max(len(k) for k in new_weights)
+
+    lines = [
+        "_WEIGHTS = {",
+        f'    # Auto-calibrated by backtest_signals.py on {ts_str}',
+        f'    # Backup: {bak.name}  |  Re-run backtest_signals.py to recalibrate.',
+        f'    # ── Sorted by weight (highest → lowest) ────────────────────────────────────',
+    ]
+    for k, v in ordered:
+        # Preserve inline comment so humans know what each signal does
+        orig_comment = _get_original_comment(k)
+        padding = max_key_len - len(k)
+        lines.append(f'    "{k}":{" " * (padding + 1)}{v},{orig_comment}')
+    lines.append("}")
+
+    new_block = "\n".join(lines)
+
+    # ── Regex replace ─────────────────────────────────────────────────────────
+    # Match from "_WEIGHTS = {" through the closing lone "}" line
+    pattern = r'_WEIGHTS\s*=\s*\{[^}]*\}'
+    if not re.search(pattern, content, re.DOTALL):
+        print("  WARNING: Could not locate _WEIGHTS block. No changes written.")
+        return
+
+    new_content = re.sub(pattern, new_block, content, flags=re.DOTALL)
+    _ORCHESTRATOR_PATH.write_text(new_content, encoding="utf-8")
+
+    total = sum(new_weights.values())
+    print(f"\n  master_orchestrator.py updated successfully.")
+    print(f"    Backup  : {bak.name}")
+    print(f"    _TOTAL_WEIGHT will recompute to {total:.1f} on next import.")
+
+
+def _get_original_comment(signal: str) -> str:
+    """Return the inline comment for each signal (for documentation in patched file)."""
+    comments = {
+        "rsi_divergence":     "   # Price lower-low, RSI higher-low — earliest signal",
+        "rs_vs_btc":          "   # Token outperforming BTC 7-day (alpha rotation)",
+        "macd_turning":       "   # Histogram rising from its trough before zero-cross",
+        "stealth_accum":      "   # OBV rising while price flat (smart money)",
+        "funding_neg":        "   # Negative perp funding = shorts paying longs (free carry)",
+        "cmf":                "   # Chaikin Money Flow > 0.05 — institutional buying",
+        "vol_expansion":      "   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)",
+        "bb_squeeze":         "   # Volatility compression — coiling before explosion",
+        "higher_lows":        "   # Ascending swing lows: base-building structure",
+        "rs_acceleration":    "   # Short-term RS (28h) confirms momentum building",
+        "declining_sell_vol": "   # Red-candle volume shrinking — sellers exhausting",
+        "rsi_ignition":       "   # RSI leaving oversold zone",
+        "whale_candles":      "   # Large bullish candles, close in upper 30% of range",
+        "macd_crossover":     "   # MACD histogram just crossed zero from below",
+        "vol_velocity":       "   # Volume accelerating (short MA > long MA)",
+        "trend_strong":       "   # ADX > threshold and +DI > -DI",
+        "atr_expanding":      "   # Volatility expanding (energy building)",
+        "rsi_in_zone":        "   # RSI in 32–65 sweet-spot (broad filter only)",
+    }
+    return comments.get(signal, "")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MAIN BACKTEST LOOP
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -736,6 +1017,8 @@ def run_backtest(
     n_coins:       int | None  = None,
     days:          int | None  = None,
     signal_filter: str | None  = None,
+    auto_calibrate: bool        = True,
+    dry_run:        bool        = False,
 ) -> tuple[list, list]:
 
     n_coins = n_coins or CONFIG["n_coins"]
@@ -919,6 +1202,22 @@ def run_backtest(
     print(f"  Report      → {report_path}\n")
     print(report)
 
+    # ── Auto-calibration ──────────────────────────────────────────────────────
+    # Skipped when --signal is set (partial run — not enough data to recalibrate).
+    if auto_calibrate and signal_filter is None:
+        print("\n" + "=" * 70)
+        print("  STEP 5 — AUTO-CALIBRATING master_orchestrator.py weights...")
+        print("=" * 70)
+        calibrate_weights(
+            signal_stats,
+            regime_stats_for_report,
+            dry_run=dry_run,
+        )
+    elif signal_filter:
+        print("\n  [--signal mode] Auto-calibration skipped (partial run).")
+    else:
+        print("\n  [--no-calibrate] Auto-calibration skipped.")
+
     return signal_stats, combo_stats
 
 
@@ -927,18 +1226,43 @@ def run_backtest(
 # ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Signal Backtest Engine")
+    parser = argparse.ArgumentParser(
+        description="Signal Backtest Engine — validates scanner signals and auto-calibrates weights",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+examples:
+  python backtest_signals.py                         # full run, auto-calibrate
+  python backtest_signals.py --coins 20 --days 365   # faster run, auto-calibrate
+  python backtest_signals.py --dry-run               # show new weights, don't write
+  python backtest_signals.py --no-calibrate          # backtest only, skip weight update
+  python backtest_signals.py --signal rsi_divergence # single signal, no calibration
+        """,
+    )
     parser.add_argument(
         "--coins", type=int, default=None,
-        help=f"Coins to test (default: {CONFIG['n_coins']})"
+        help=f"Coins to test (default: {CONFIG['n_coins']})",
     )
     parser.add_argument(
         "--days", type=int, default=None,
-        help=f"Days of history (default: {CONFIG['days']})"
+        help=f"Days of history (default: {CONFIG['days']})",
     )
     parser.add_argument(
         "--signal", type=str, default=None,
-        help="Test a single signal by name (default: all 17)"
+        help="Test a single signal by name (default: all 17)",
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", default=False,
+        help="Compute and display new weights but do NOT write master_orchestrator.py",
+    )
+    parser.add_argument(
+        "--no-calibrate", action="store_true", default=False,
+        help="Skip auto-calibration entirely — backtest report only",
     )
     args = parser.parse_args()
-    run_backtest(n_coins=args.coins, days=args.days, signal_filter=args.signal)
+    run_backtest(
+        n_coins=args.coins,
+        days=args.days,
+        signal_filter=args.signal,
+        auto_calibrate=not args.no_calibrate,
+        dry_run=args.dry_run,
+    )
