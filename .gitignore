@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Crypto Scanner
+cache/
+outputs/portfolio/*.json
+outputs/portfolio/*.csv
+
+# Launchers with API keys — never commit with real keys
+python-scanners/launchers/run_master.bat
