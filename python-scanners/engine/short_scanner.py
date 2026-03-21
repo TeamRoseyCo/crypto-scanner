@@ -192,9 +192,12 @@ _CG_SESSION.headers.update({**_CG_HEADERS, "User-Agent": "crypto-short-scanner/1
 _BN_SESSION = requests.Session()
 _BN_SESSION.headers.update({"User-Agent": "crypto-short-scanner/1.0"})
 
+_BB_SESSION = requests.Session()
+_BB_SESSION.headers.update({"User-Agent": "crypto-short-scanner/1.0"})
+
 _CG_BASE = "https://api.coingecko.com/api/v3"
 _BN_BASE = "https://api.binance.com/api/v3"
-_BN_FAPI = "https://fapi.binance.com/fapi/v1"
+_BB_BASE = "https://api.bybit.com/v5"        # ByBit v5 — perp symbols + funding rates
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SIGNAL HELPER FUNCTIONS
@@ -361,35 +364,62 @@ def _vol_expansion_on_down(
 # DATA FETCHING
 # ─────────────────────────────────────────────────────────────────────────────
 
-def fetch_binance_perp_symbols() -> set[str]:
-    """Fetch all actively-trading USDT perpetual symbols from Binance futures."""
-    try:
-        r = _BN_SESSION.get(f"{_BN_FAPI}/exchangeInfo", timeout=10)
-        if r.status_code == 200:
-            return {
-                s["baseAsset"].upper()
-                for s in r.json().get("symbols", [])
-                if s.get("quoteAsset") == "USDT" and s.get("status") == "TRADING"
-                and s.get("contractType") == "PERPETUAL"
-            }
-    except Exception:
-        pass
-    log.warning("Could not fetch Binance perp symbols — no perp filter applied.")
-    return set()
+def fetch_bybit_perp_symbols() -> set[str]:
+    """
+    Fetch all actively-trading linear (USDT perpetual) symbols from ByBit v5.
+    Endpoint: GET /v5/market/instruments-info?category=linear
+    Returns a set of base asset symbols e.g. {'BTC', 'ETH', 'ANKR', ...}
+    """
+    symbols: set[str] = set()
+    cursor  = ""
+    while True:
+        try:
+            params = {"category": "linear", "limit": 1000}
+            if cursor:
+                params["cursor"] = cursor
+            r = _BB_SESSION.get(
+                f"{_BB_BASE}/market/instruments-info",
+                params=params,
+                timeout=10,
+            )
+            if r.status_code != 200:
+                break
+            body   = r.json()
+            result = body.get("result", {})
+            for item in result.get("list", []):
+                if (
+                    item.get("quoteCoin") == "USDT"
+                    and item.get("contractType") == "LinearPerpetual"
+                    and item.get("status") == "Trading"
+                ):
+                    symbols.add(item["baseCoin"].upper())
+            cursor = result.get("nextPageCursor", "")
+            if not cursor:
+                break
+        except Exception:
+            break
+
+    if not symbols:
+        log.warning("Could not fetch ByBit perp symbols — no perp filter applied.")
+    return symbols
 
 
 def fetch_funding_rate(symbol: str) -> float | None:
-    """Latest funding rate from Binance perpetuals."""
+    """
+    Latest funding rate from ByBit linear perpetuals.
+    Endpoint: GET /v5/market/tickers?category=linear&symbol={symbol}USDT
+    Returns the current funding rate as a float (e.g. 0.0001 = 0.01% per 8h).
+    """
     try:
-        r = _BN_SESSION.get(
-            f"{_BN_FAPI}/fundingRate",
-            params={"symbol": f"{symbol}USDT", "limit": 1},
+        r = _BB_SESSION.get(
+            f"{_BB_BASE}/market/tickers",
+            params={"category": "linear", "symbol": f"{symbol}USDT"},
             timeout=5,
         )
         if r.status_code == 200:
-            data = r.json()
-            if isinstance(data, list) and data:
-                return float(data[0].get("fundingRate", 0))
+            items = r.json().get("result", {}).get("list", [])
+            if items:
+                return float(items[0].get("fundingRate", 0))
     except Exception:
         pass
     return None
@@ -875,8 +905,8 @@ def build_report(
             lines += [
                 f"     E[V]         :  {plan['ev_pct']:+.2f}% per trade",
                 "",
-                f"  ⚠️  SHORTING REQUIRES A BINANCE PERP ACCOUNT. Verify margin and",
-                f"     liquidation price before entering. Always use isolated margin.",
+                f"  ⚠️  SHORTING ON BYBIT — use isolated margin, verify liquidation price.",
+                f"     Pair: {setup['symbol']}USDT  |  Category: Linear Perpetual",
                 dash,
                 "",
             ]
@@ -952,10 +982,10 @@ def run(account_size: float | None = None) -> None:
     log.info(f"  BTC ${btc_price:,.0f}  |  7d {btc_7d:+.2f}%  |  Regime: {regime}")
     log.info(f"  Min conviction for shorts: {min_conv}")
 
-    # ── 2. Binance perp universe ──────────────────────────────────────────────
-    log.info("\n[2/5] Fetching Binance perp symbols...")
-    perp_symbols = fetch_binance_perp_symbols()
-    log.info(f"  {len(perp_symbols)} active USDT perp markets found")
+    # ── 2. ByBit perp universe ────────────────────────────────────────────────
+    log.info("\n[2/5] Fetching ByBit perp symbols...")
+    perp_symbols = fetch_bybit_perp_symbols()
+    log.info(f"  {len(perp_symbols)} active ByBit USDT linear perp markets found")
 
     # ── 3. Market coins ───────────────────────────────────────────────────────
     log.info("\n[3/5] Fetching top coins from CoinGecko...")
