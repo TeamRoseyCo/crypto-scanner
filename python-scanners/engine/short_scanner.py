@@ -147,6 +147,9 @@ MACRO = {
     "bull_min_conviction":        55,   # high bar — going against bull trend
     "sideways_min_conviction":    42,   # normal
     "bear_min_conviction":        35,   # easier — trend is your friend
+    # Bear wave: BTC sharp intraday drop — correlated sell-off mode
+    "bear_wave_24h_pct":         -1.5,  # BTC 24h below this → activate bear wave mode
+    "bear_wave_excess_pct":      -1.0,  # token must be ≥1% weaker than BTC (24h) to lead
 }
 
 STABLECOINS = {
@@ -535,10 +538,13 @@ def fetch_ohlcv(coin_id: str, symbol: str) -> pd.DataFrame | None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def detect_short_signals(
-    ohlcv:        pd.DataFrame,
-    btc_7d_pct:   float,
-    price:        float,
-    funding_rate: float | None = None,
+    ohlcv:          pd.DataFrame,
+    btc_7d_pct:     float,
+    price:          float,
+    funding_rate:   float | None = None,
+    btc_24h_pct:    float = 0.0,
+    token_24h_pct:  float = 0.0,
+    bear_wave:      bool  = False,
 ) -> dict | None:
     """
     Run all 13 bearish signal layers.
@@ -683,6 +689,21 @@ def detect_short_signals(
             s["funding_crowded"] = False
             s["funding_value"]   = None
 
+        # ── 14. Bear wave leader ──────────────────────────────────────────────
+        # Active only when BTC 24h drops ≥ 1.5% (correlated sell-off mode).
+        # Finds tokens dropping FASTER than BTC — they have extra selling pressure
+        # on top of the BTC correlation, making them the best short candidates.
+        if bear_wave:
+            excess = token_24h_pct - btc_24h_pct   # negative = token weaker than BTC today
+            s["bear_wave_leader"] = excess <= MACRO["bear_wave_excess_pct"]
+            s["bear_excess_pct"]  = round(excess, 2)
+            # Relax rs_vs_btc_neg: 24h underperformance of 1%+ is enough in a dump
+            if not s.get("rs_vs_btc_neg", False) and excess <= -1.0:
+                s["rs_vs_btc_neg"] = True
+        else:
+            s["bear_wave_leader"] = False
+            s["bear_excess_pct"]  = None
+
     except Exception as e:
         log.debug(f"Signal error: {e}")
         return None
@@ -692,12 +713,17 @@ def detect_short_signals(
         w for k, w in _SHORT_WEIGHTS.items()
         if s.get(k, False)
     )
-    # Crowded funding bonus: +5 conviction on top of weight (extreme short setup)
+    # Crowded funding bonus: +5 conviction (extreme short setup — crowded longs trapped)
     funding_bonus = 5.0 if s.get("funding_crowded") and s.get("funding_value", 0) and \
                     s["funding_value"] > 0.15 else 0.0
-    conviction = max(0.0, round((score / _TOTAL_SHORT_WEIGHT) * 100 + funding_bonus, 1))
+    # Bear wave leader bonus: +20 conviction (token leading the dump — pure momentum short)
+    bear_wave_bonus = 20.0 if s.get("bear_wave_leader") else 0.0
+    conviction = max(0.0, round((score / _TOTAL_SHORT_WEIGHT) * 100 + funding_bonus + bear_wave_bonus, 1))
 
     active = [k for k in _SHORT_WEIGHTS if s.get(k, False)]
+    # bear_wave_leader is a bonus signal (not in _SHORT_WEIGHTS) — add to front if active
+    if s.get("bear_wave_leader"):
+        active.insert(0, "bear_wave_leader")
     s["conviction"]    = conviction
     s["signal_count"]  = len(active)
     s["active_signals"] = active
@@ -800,13 +826,15 @@ def build_report(
     regime:       str,
     account_size: float,
     min_conv:     int,
+    bear_wave:    bool = False,
 ) -> str:
     sep  = "=" * 80
     dash = "-" * 40
+    bear_wave_tag = "  🌊 BEAR WAVE ACTIVE" if bear_wave else ""
     lines = [
         "",
         sep,
-        "  SHORT SCANNER v1.0 — BEARISH TRADE PLAN",
+        "  SHORT SCANNER v1.1 — BEARISH TRADE PLAN",
         f"  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         sep,
         "",
@@ -816,13 +844,25 @@ def build_report(
         f"  BTC 7-day    :  {btc_7d:>+10.2f}%",
         f"  BTC 24-hour  :  {btc_24h:>+10.2f}%",
         f"  Regime       :  {'🔴 BEAR' if regime == 'BEAR' else '🟡 SIDEWAYS' if regime == 'SIDEWAYS' else '🟢 BULL'}",
-        "",
     ]
+    if bear_wave:
+        lines += [
+            f"  Bear Wave    :  🌊 YES — BTC 24h {btc_24h:+.2f}% — correlated sell-off active",
+            f"  Mode         :  Scanning for dump leaders (tokens falling FASTER than BTC)",
+        ]
+    lines.append("")
 
     if regime == "BEAR":
         lines += [f"  🔴 BEAR — Short setups have highest edge. Min conviction ≥ {min_conv}.", ""]
     elif regime == "SIDEWAYS":
-        lines += [f"  🟡 SIDEWAYS — Selective shorts only. Min conviction ≥ {min_conv}.", ""]
+        if bear_wave:
+            lines += [
+                f"  🟡 SIDEWAYS + 🌊 BEAR WAVE — BTC dropping hard intraday.",
+                f"  Dump leaders get +20 conviction bonus. Min conviction ≥ {min_conv}.",
+                "",
+            ]
+        else:
+            lines += [f"  🟡 SIDEWAYS — Selective shorts only. Min conviction ≥ {min_conv}.", ""]
     else:
         lines += [
             f"  🟢 BULL — Shorting against the trend. Higher bar: conviction ≥ {min_conv}.",
@@ -858,6 +898,10 @@ def build_report(
                 f"     RSI         : {sig.get('rsi_value', 'N/A')}",
                 f"     Funding     : {sig.get('funding_value', 'N/A')}% (crowded={'YES ⚡' if sig.get('funding_crowded') else 'no'})",
                 f"     RS vs BTC   : {sig.get('rs_value', 'N/A')}%",
+                *(
+                    [f"     Bear Excess : {sig.get('bear_excess_pct', 'N/A')}% vs BTC (24h) 🌊"]
+                    if sig.get("bear_wave_leader") else []
+                ),
                 "",
                 "     ── SHORT TRADE PLAN ──────────────────────────────",
                 f"     Entry (SHORT) : $ {plan['entry']:>14,.6f}",
@@ -875,7 +919,7 @@ def build_report(
             lines += [
                 f"     E[V]         :  {plan['ev_pct']:+.2f}% per trade",
                 "",
-                f"  ⚠️  SHORTING REQUIRES A BINANCE PERP ACCOUNT. Verify margin and",
+                f"  ⚠️  SHORTING REQUIRES A BYBIT PERP ACCOUNT. Verify margin and",
                 f"     liquidation price before entering. Always use isolated margin.",
                 dash,
                 "",
@@ -949,8 +993,12 @@ def run(account_size: float | None = None) -> None:
         regime  = "BEAR"
         min_conv = MACRO["bear_min_conviction"]
 
-    log.info(f"  BTC ${btc_price:,.0f}  |  7d {btc_7d:+.2f}%  |  Regime: {regime}")
+    bear_wave = btc_24h <= MACRO["bear_wave_24h_pct"]
+
+    log.info(f"  BTC ${btc_price:,.0f}  |  7d {btc_7d:+.2f}%  |  24h {btc_24h:+.2f}%  |  Regime: {regime}")
     log.info(f"  Min conviction for shorts: {min_conv}")
+    if bear_wave:
+        log.info(f"  🌊 BEAR WAVE ACTIVE — BTC 24h {btc_24h:+.2f}% — scanning for dump leaders (+20 bonus)")
 
     # ── 2. Binance perp universe ──────────────────────────────────────────────
     log.info("\n[2/5] Fetching Binance perp symbols...")
@@ -1014,7 +1062,10 @@ def run(account_size: float | None = None) -> None:
             funding_rate = fetch_funding_rate(symbol)
 
         # Detect bearish signals
-        signals = detect_short_signals(ohlcv, btc_7d, price, funding_rate)
+        signals = detect_short_signals(
+            ohlcv, btc_7d, price, funding_rate,
+            btc_24h_pct=btc_24h, token_24h_pct=change_24h, bear_wave=bear_wave,
+        )
         if signals is None:
             log.info(f"          → skip (signal computation failed)")
             continue
@@ -1053,7 +1104,7 @@ def run(account_size: float | None = None) -> None:
 
     report = build_report(
         setups, watchlist, btc_price, btc_7d, btc_24h,
-        regime, account_size, min_conv,
+        regime, account_size, min_conv, bear_wave=bear_wave,
     )
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")

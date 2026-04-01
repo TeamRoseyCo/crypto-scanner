@@ -741,26 +741,27 @@ def _vol_expansion(
 # Signal weights — pre-trend signals weighted highest, lagging confirmers lowest.
 # Total weight is computed automatically; conviction = earned / total × 100.
 _WEIGHTS = {
-    # ── Early / pre-trend signals (catch the move before it starts) ──────────
-    "rsi_divergence":     3.5,   # Price lower-low, RSI higher-low — earliest signal
-    "rs_vs_btc":          3.0,   # Token outperforming BTC 7-day (alpha rotation)
-    "macd_turning":       2.5,   # Histogram rising from its bottom before zero cross
-    "stealth_accum":      2.5,   # OBV rising while price flat (smart money)
+    # Auto-calibrated by backtest_signals.py on 2026-04-01 18:03
+    # Backup: master_orchestrator.py.bak  |  Re-run backtest_signals.py to recalibrate.
+    # ── Sorted by weight (highest → lowest) ────────────────────────────────────
+    "whale_candles":      4.5,   # Large bullish candles, close in upper 30% of range
     "funding_neg":        2.0,   # Negative perp funding = shorts paying longs (free carry)
-    "cmf":                2.0,   # Chaikin Money Flow > 0.05 — institutional buying pressure
-    "vol_expansion":      2.0,   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)
-    "bb_squeeze":         2.0,   # Volatility compression — coiling before explosion
-    "higher_lows":        2.0,   # Ascending swing lows: base-building structure
-    "rs_acceleration":    1.5,   # Short-term RS (28h) confirms recent momentum building
-    "declining_sell_vol": 1.5,   # Red-candle volume shrinking — sellers exhausting
-    "rsi_ignition":       1.5,   # RSI leaving oversold zone
-    "whale_candles":      1.5,   # Large BULLISH candles, close in upper 30% of range
-    # ── Trend confirmation (slightly lagging — lower weights) ────────────────
-    "macd_crossover":     1.5,   # MACD histogram just crossed zero from below
-    "vol_velocity":       1.5,   # Volume accelerating (short MA > long MA)
-    "trend_strong":       1.5,   # ADX > threshold and +DI > -DI
+    "rsi_divergence":     1.0,   # Price lower-low, RSI higher-low — earliest signal
+    "rs_vs_btc":          1.0,   # Token outperforming BTC 7-day (alpha rotation)
+    "macd_turning":       1.0,   # Histogram rising from its trough before zero-cross
+    "stealth_accum":      1.0,   # OBV rising while price flat (smart money)
+    "cmf":                1.0,   # Chaikin Money Flow > 0.05 — institutional buying
+    "vol_expansion":      1.0,   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)
+    "bb_squeeze":         1.0,   # Volatility compression — coiling before explosion
+    "higher_lows":        1.0,   # Ascending swing lows: base-building structure
+    "rs_acceleration":    1.0,   # Short-term RS (28h) confirms momentum building
+    "declining_sell_vol": 1.0,   # Red-candle volume shrinking — sellers exhausting
+    "rsi_ignition":       1.0,   # RSI leaving oversold zone
+    "macd_crossover":     1.0,   # MACD histogram just crossed zero from below
+    "vol_velocity":       1.0,   # Volume accelerating (short MA > long MA)
+    "trend_strong":       1.0,   # ADX > threshold and +DI > -DI
     "atr_expanding":      1.0,   # Volatility expanding (energy building)
-    "rsi_in_zone":        0.5,   # RSI in 32–65 sweet-spot (broad filter only)
+    "rsi_in_zone":        1.0,   # RSI in 32–65 sweet-spot (broad filter only)
 }
 _TOTAL_WEIGHT = sum(_WEIGHTS.values())
 

@@ -93,9 +93,9 @@ ACCOUNT = {
 }
 
 SCAN = {
-    "top_n_coins":          300,
+    "top_n_coins":          500,
     "min_rank":               5,      # include top coins — they can break out too
-    "max_rank":             300,
+    "max_rank":             500,
     "min_volume_24h":   500_000,      # lower floor — some alpha plays have moderate vol
     "min_price":          0.0001,
     "cache_max_age_h":        4.0,
