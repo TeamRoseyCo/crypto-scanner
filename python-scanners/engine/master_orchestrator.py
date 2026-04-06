@@ -98,6 +98,9 @@ SCAN = {
     "min_atr_pct":            0.5,    # Reject flatliners — ATR must be ≥ 0.5% of price
     "min_bb_width_pct":       0.5,    # Reject zero-volatility tokens — BB width ≥ 0.5%
     "min_abs_24h_pct":        0.3,    # Reject flatliners early — |24h change| < 0.3% = pegged/dead
+    # ── Speed improvements ──────────────────────────────────────────────────
+    "rs_prefilter_margin": -12.0,   # Skip coins underperforming BTC by >12pp (7d) — no OHLCV fetch
+    "bybit_filter":         True,   # If bybit_symbols.json exists, only scan Bybit-listed perps
 }
 
 SIGNAL = {
@@ -242,17 +245,66 @@ def _check_persistence(coin_id: str, conv: float, history: dict) -> int:
         if now - entry["last_seen"] <= window:
             entry["count"]     += 1
             entry["last_seen"]  = now
+            # Track conviction history (keep last 5 values for trend analysis)
+            ch = entry.setdefault("conviction_history", [entry.get("conviction", conv)])
+            ch.append(conv)
+            if len(ch) > 5:
+                ch[:] = ch[-5:]
             entry["conviction"] = conv
             return entry["count"]
 
     # First sighting or too long a gap — reset
     history[coin_id] = {
-        "count":      1,
-        "first_seen": now,
-        "last_seen":  now,
-        "conviction": conv,
+        "count":            1,
+        "first_seen":       now,
+        "last_seen":        now,
+        "conviction":       conv,
+        "conviction_history": [conv],
     }
     return 1
+
+
+def _track_watchlist_conviction(coin_id: str, conv: float, history: dict) -> None:
+    """
+    Track conviction history for near-miss (watchlist) coins.
+    Does NOT affect the persistence scan count — only updates conviction_history.
+    """
+    now = datetime.now().timestamp()
+    key = f"_wl_{coin_id}"   # prefix to distinguish from qualified candidates
+    if key in history:
+        entry = history[key]
+        ch = entry.setdefault("conviction_history", [entry.get("conviction", conv)])
+        ch.append(conv)
+        if len(ch) > 5:
+            ch[:] = ch[-5:]
+        entry["conviction"] = conv
+        entry["last_seen"]  = now
+    else:
+        history[key] = {
+            "conviction":         conv,
+            "conviction_history": [conv],
+            "first_seen":         now,
+            "last_seen":          now,
+        }
+
+
+def _conviction_trend(coin_id: str, history: dict, is_watchlist: bool = False) -> str:
+    """
+    Return 'up', 'down', or 'flat' based on the last 2+ conviction readings.
+    """
+    key   = f"_wl_{coin_id}" if is_watchlist else coin_id
+    entry = history.get(key)
+    if not entry:
+        return "flat"
+    ch = entry.get("conviction_history", [])
+    if len(ch) < 2:
+        return "flat"
+    delta = ch[-1] - ch[-2]
+    if delta > 2:
+        return "up"
+    if delta < -2:
+        return "down"
+    return "flat"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -260,18 +312,45 @@ def _check_persistence(coin_id: str, conv: float, history: dict) -> int:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def get_market_context() -> dict | None:
-    """Fetch BTC data and classify the current market regime."""
-    log.info("Fetching market context (BTC)...")
+    """Fetch BTC + ETH data + BTC dominance and classify the current market regime."""
+    log.info("Fetching market context (BTC + ETH + dominance)...")
     try:
-        data = _get_with_retry(f"{COINGECKO_API}/coins/bitcoin", {})
-        if data is None:
-            log.warning("Could not fetch BTC context after retries.")
+        # ── BTC + ETH in one call ─────────────────────────────────────────────
+        markets = _get_with_retry(
+            f"{COINGECKO_API}/coins/markets",
+            {
+                "vs_currency":             "usd",
+                "ids":                     "bitcoin,ethereum",
+                "price_change_percentage": "7d",
+                "sparkline":               False,
+            },
+        )
+        if not markets:
+            log.warning("Could not fetch BTC/ETH context after retries.")
             return None
-        md = data["market_data"]
-        btc_7d   = md["price_change_percentage_7d_in_currency"]["usd"]
-        btc_24h  = md["price_change_percentage_24h_in_currency"]["usd"]
-        btc_price = md["current_price"]["usd"]
 
+        btc_7d = btc_24h = btc_price = eth_7d = None
+        for coin in markets:
+            if coin["id"] == "bitcoin":
+                btc_7d    = coin.get("price_change_percentage_7d_in_currency") or 0.0
+                btc_24h   = coin.get("price_change_percentage_24h")            or 0.0
+                btc_price = coin.get("current_price")                          or 0.0
+            elif coin["id"] == "ethereum":
+                eth_7d = coin.get("price_change_percentage_7d_in_currency")    or 0.0
+
+        if btc_7d is None:
+            log.warning("BTC data not found in markets response.")
+            return None
+
+        time.sleep(SCAN["api_delay_s"])
+
+        # ── BTC dominance ─────────────────────────────────────────────────────
+        btc_dominance = None
+        global_data = _get_with_retry(f"{COINGECKO_API}/global", {})
+        if global_data:
+            btc_dominance = global_data.get("data", {}).get("market_cap_percentage", {}).get("btc")
+
+        # ── Regime classification ─────────────────────────────────────────────
         if btc_7d >= MACRO["bull_7d_pct"]:
             regime, icon = "BULL",     "🟢"
         elif btc_7d >= MACRO["neutral_7d_pct"]:
@@ -279,19 +358,33 @@ def get_market_context() -> dict | None:
         else:
             regime, icon = "BEAR",     "🔴"
 
+        # ETH confirmation: if ETH also in bear territory, note it
+        eth_bear = eth_7d is not None and eth_7d < MACRO["neutral_7d_pct"]
+
         ctx = {
-            "btc_price": btc_price,
-            "btc_7d":    btc_7d,
-            "btc_24h":   btc_24h,
-            "regime":    regime,
-            "icon":      icon,
-            "healthy":   btc_7d >= MACRO["neutral_7d_pct"],
+            "btc_price":     btc_price,
+            "btc_7d":        btc_7d,
+            "btc_24h":       btc_24h,
+            "eth_7d":        eth_7d,
+            "btc_dominance": btc_dominance,
+            "eth_bear":      eth_bear,
+            "regime":        regime,
+            "icon":          icon,
+            "healthy":       btc_7d >= MACRO["neutral_7d_pct"],
         }
-        log.info(f"  BTC: ${btc_price:,.0f} | 7d: {btc_7d:+.1f}% | Regime: {icon} {regime}")
+
+        eth_str = f"  ETH 7d: {eth_7d:+.1f}%" if eth_7d is not None else ""
+        dom_str = f"  Dominance: {btc_dominance:.1f}%" if btc_dominance else ""
+        log.info(
+            f"  BTC: ${btc_price:,.0f} | 7d: {btc_7d:+.1f}%{eth_str}{dom_str} | "
+            f"Regime: {icon} {regime}"
+        )
+        if eth_bear and regime != "BEAR":
+            log.warning("  ⚠️  ETH also below -7% 7d — broad weakness, not just BTC")
         return ctx
 
     except Exception as e:
-        log.warning(f"Could not fetch BTC context: {e}")
+        log.warning(f"Could not fetch market context: {e}")
         return None
 
 
@@ -744,27 +837,27 @@ def _vol_expansion(
 # Signal weights — pre-trend signals weighted highest, lagging confirmers lowest.
 # Total weight is computed automatically; conviction = earned / total × 100.
 _WEIGHTS = {
-    # Auto-calibrated by backtest_signals.py on 2026-04-06 22:03
+    # Auto-calibrated by backtest_signals.py on 2026-04-06 22:58
     # Backup: master_orchestrator.py.bak  |  Re-run backtest_signals.py to recalibrate.
     # ── Sorted by weight (highest → lowest) ────────────────────────────────────
-    "rsi_divergence":     2.0,   # Price lower-low, RSI higher-low — earliest signal
-    "rs_vs_btc":          2.0,   # Token outperforming BTC 7-day (alpha rotation)
-    "macd_turning":       2.0,   # Histogram rising from its trough before zero-cross
-    "stealth_accum":      2.0,   # OBV rising while price flat (smart money)
-    "cmf":                2.0,   # Chaikin Money Flow > 0.05 — institutional buying
-    "vol_expansion":      2.0,   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)
-    "bb_squeeze":         2.0,   # Volatility compression — coiling before explosion
-    "higher_lows":        2.0,   # Ascending swing lows: base-building structure
-    "rs_acceleration":    2.0,   # Short-term RS (28h) confirms momentum building
-    "declining_sell_vol": 2.0,   # Red-candle volume shrinking — sellers exhausting
-    "rsi_ignition":       2.0,   # RSI leaving oversold zone
-    "whale_candles":      2.0,   # Large bullish candles, close in upper 30% of range
-    "macd_crossover":     2.0,   # MACD histogram just crossed zero from below
-    "vol_velocity":       2.0,   # Volume accelerating (short MA > long MA)
-    "trend_strong":       2.0,   # ADX > threshold and +DI > -DI
-    "atr_expanding":      2.0,   # Volatility expanding (energy building)
-    "rsi_in_zone":        2.0,   # RSI in 32–65 sweet-spot (broad filter only)
+    "whale_candles":      4.5,   # Large bullish candles, close in upper 30% of range
     "funding_neg":        2.0,   # Negative perp funding = shorts paying longs (free carry)
+    "rsi_divergence":     1.0,   # Price lower-low, RSI higher-low — earliest signal
+    "rs_vs_btc":          1.0,   # Token outperforming BTC 7-day (alpha rotation)
+    "macd_turning":       1.0,   # Histogram rising from its trough before zero-cross
+    "stealth_accum":      1.0,   # OBV rising while price flat (smart money)
+    "cmf":                1.0,   # Chaikin Money Flow > 0.05 — institutional buying
+    "vol_expansion":      1.0,   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)
+    "bb_squeeze":         1.0,   # Volatility compression — coiling before explosion
+    "higher_lows":        1.0,   # Ascending swing lows: base-building structure
+    "rs_acceleration":    1.0,   # Short-term RS (28h) confirms momentum building
+    "declining_sell_vol": 1.0,   # Red-candle volume shrinking — sellers exhausting
+    "rsi_ignition":       1.0,   # RSI leaving oversold zone
+    "macd_crossover":     1.0,   # MACD histogram just crossed zero from below
+    "vol_velocity":       1.0,   # Volume accelerating (short MA > long MA)
+    "trend_strong":       1.0,   # ADX > threshold and +DI > -DI
+    "atr_expanding":      1.0,   # Volatility expanding (energy building)
+    "rsi_in_zone":        1.0,   # RSI in 32–65 sweet-spot (broad filter only)
 }
 _TOTAL_WEIGHT = sum(_WEIGHTS.values())
 
@@ -1123,12 +1216,12 @@ def _append_watchlist(lines: list, watchlist: list | None, sep: str, dash: str) 
         "",
         "WATCHLIST  — tokens building momentum, not ready to enter yet",
         "-" * 40,
-        "  ⏳ = qualified this scan but needs 1 more confirmation scan before entry.",
+        "  ⏳ = needs 1 more confirmation scan  |  ↗ = conviction rising  |  ↘ = fading",
         "  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.",
         "",
         f"  {'#':<4}  {'SYMBOL':<9}  {'RANK':>4}  {'PRICE':>12}  {'7d%':>7}  "
-        f"{'CONV':>5}  {'SIGS':>4}  KEY SIGNALS",
-        f"  {'-'*4}  {'-'*9}  {'-'*4}  {'-'*12}  {'-'*7}  {'-'*5}  {'-'*4}  {'-'*30}",
+        f"{'CONV':>5}  {'SIGS':>4}  {'TREND':>5}  KEY SIGNALS",
+        f"  {'-'*4}  {'-'*9}  {'-'*4}  {'-'*12}  {'-'*7}  {'-'*5}  {'-'*4}  {'-'*5}  {'-'*28}",
     ]
     for i, w in enumerate(watchlist, 1):
         sig      = w["signals"]
@@ -1136,6 +1229,8 @@ def _append_watchlist(lines: list, watchlist: list | None, sep: str, dash: str) 
         nsig     = sig["signal_count"]
         chg7     = w.get("change_7d")
         chg_str  = f"{chg7:+.1f}%" if chg7 is not None else "  N/A"
+        trend    = w.get("trend", "flat")
+        trend_str = " ↗" if trend == "up" else (" ↘" if trend == "down" else "  →")
         # Show the top 3 active signals only to keep the line short
         top_sigs = ", ".join(sig["active_signals"][:3])
         if nsig > 3:
@@ -1143,7 +1238,7 @@ def _append_watchlist(lines: list, watchlist: list | None, sep: str, dash: str) 
         icon = "⏳" if w.get("pending") else ("🔶" if conv >= 38 else "🔹")
         lines.append(
             f"  {i:<4}  {icon}{w['symbol']:<8}  #{w['rank']:>3}  "
-            f"${w['price']:<12.5f}  {chg_str:>7}  {conv:>4.0f}  {nsig:>4}  {top_sigs}"
+            f"${w['price']:<12.5f}  {chg_str:>7}  {conv:>4.0f}  {nsig:>4}  {trend_str:>5}  {top_sigs}"
         )
     lines += ["", dash]
 
@@ -1180,12 +1275,25 @@ def build_report(
     # ── Market context ────────────────────────────────────────────────────────
     lines += ["", "MARKET CONTEXT", "-" * 40]
     if market_ctx:
-        lines += [
+        eth_line = (
+            f"  ETH 7-day    :  {market_ctx['eth_7d']:>+8.2f}%"
+            + ("  ⚠️ ETH also weak" if market_ctx.get("eth_bear") else "")
+        ) if market_ctx.get("eth_7d") is not None else None
+        dom_line = (
+            f"  BTC Dominance:  {market_ctx['btc_dominance']:>8.1f}%"
+        ) if market_ctx.get("btc_dominance") is not None else None
+
+        ctx_lines = [
             f"  BTC Price    :  ${market_ctx['btc_price']:>12,.2f}",
             f"  BTC 7-day    :  {market_ctx['btc_7d']:>+8.2f}%",
             f"  BTC 24-hour  :  {market_ctx['btc_24h']:>+8.2f}%",
-            f"  Regime       :  {market_ctx['icon']} {market_ctx['regime']}",
         ]
+        if eth_line:
+            ctx_lines.append(eth_line)
+        if dom_line:
+            ctx_lines.append(dom_line)
+        ctx_lines.append(f"  Regime       :  {market_ctx['icon']} {market_ctx['regime']}")
+        lines += ctx_lines
         if market_ctx["regime"] == "BEAR":
             lines += [
                 "",
@@ -1434,6 +1542,18 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     # ── Fix 2: Load persistence history ──────────────────────────────────────
     candidate_history = _load_history()
 
+    # ── Bybit universe filter — load symbol set if available ─────────────────
+    _bybit_symbols: set = set()
+    if SCAN.get("bybit_filter"):
+        _sym_file = _CACHE_DIR / "bybit_symbols.json"
+        if _sym_file.exists():
+            try:
+                _sym_data   = json.loads(_sym_file.read_text(encoding="utf-8"))
+                _bybit_symbols = set(_sym_data.get("symbols", []))
+                log.info(f"  Bybit filter active: {len(_bybit_symbols)} perp symbols loaded")
+            except Exception:
+                log.warning("  Could not load bybit_symbols.json — scanning all coins")
+
     raw_candidates = []
     watchlist      = []      # near-miss tokens (conviction 25–59, signals ≥ 3)
     seen_ids       = set()   # deduplication — coin_id → skip if already processed
@@ -1466,6 +1586,24 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         # Pegged tokens / stablecoins missed by the symbol list have near-zero 24h moves.
         if change_24h is not None and abs(change_24h) < SCAN["min_abs_24h_pct"]:
             continue
+
+        # ── Bybit universe filter (saves OHLCV fetch for non-perp coins) ─────
+        if _bybit_symbols and symbol not in _bybit_symbols:
+            log.debug(f"  skip {symbol} — not listed as Bybit perp")
+            continue
+
+        # ── RS pre-filter — skip clear underperformers without OHLCV fetch ───
+        # If a coin is underperforming BTC by more than the margin, it won't pass
+        # enough signals to be a candidate.  Saves 4.5s per skipped coin.
+        if market_ctx and change_7d is not None:
+            _btc_7d    = market_ctx.get("btc_7d", 0.0)
+            _rs_margin = change_7d - _btc_7d
+            if _rs_margin < SCAN["rs_prefilter_margin"]:
+                log.debug(
+                    f"  skip {symbol} — RS pre-filter "
+                    f"({change_7d:+.1f}% vs BTC {_btc_7d:+.1f}%  margin {_rs_margin:+.1f}pp)"
+                )
+                continue
 
         seen_ids.add(coin_id)
         scanned += 1
@@ -1556,6 +1694,8 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                 )
 
         elif conv >= 25 and nsig >= 3:
+            _track_watchlist_conviction(coin_id, conv, candidate_history)
+            _trend = _conviction_trend(coin_id, candidate_history, is_watchlist=True)
             watchlist.append({
                 "symbol":    symbol,
                 "coin_id":   coin_id,
@@ -1564,6 +1704,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                 "change_7d": change_7d,
                 "signals":   signals,
                 "pending":   False,
+                "trend":     _trend,
             })
 
         if not _cache_fresh:
@@ -1664,6 +1805,27 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     # Latest (always overwritten — easy to find)
     latest_txt = _OUTPUT_DIR / "master_trade_plan_LATEST.txt"
     latest_txt.write_text(report_text, encoding="utf-8")
+
+    # ── Telegram alerts for confirmed setups ──────────────────────────────────
+    try:
+        from alerts import alert_setup, alert_watchlist, is_configured
+        if is_configured() and final:
+            _regime = market_ctx["regime"] if market_ctx else "SIDEWAYS"
+            for _c in final:
+                _sig  = _c["signals"]
+                _plan = _c["plan"]
+                alert_setup(
+                    scanner    = "Master",
+                    symbol     = _c["symbol"],
+                    conviction = int(_sig["conviction"]),
+                    entry      = _plan["entry"],
+                    stop       = _plan["stop"],
+                    tp1        = _plan["take_profits"][0]["price"],
+                    regime     = _regime,
+                    signals    = _sig["active_signals"],
+                )
+    except Exception:
+        pass
 
     # JSON (for programmatic access / future dashboard)
     def _serialise(obj):
