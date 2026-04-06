@@ -46,6 +46,9 @@ import os
 import sys
 import argparse
 import requests
+
+# Ensure demo key is always active regardless of launch method (bat, Task Scheduler, direct Python)
+os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
 import pandas as pd
 import numpy as np
 import time

@@ -32,6 +32,9 @@ import os
 import sys
 import argparse
 import requests
+
+# Ensure demo key is always active regardless of launch method (bat, Task Scheduler, direct Python)
+os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
 import pandas as pd
 import numpy as np
 import time
@@ -741,7 +744,7 @@ def _vol_expansion(
 # Signal weights — pre-trend signals weighted highest, lagging confirmers lowest.
 # Total weight is computed automatically; conviction = earned / total × 100.
 _WEIGHTS = {
-    # Auto-calibrated by backtest_signals.py on 2026-04-06 17:31
+    # Auto-calibrated by backtest_signals.py on 2026-04-06 22:03
     # Backup: master_orchestrator.py.bak  |  Re-run backtest_signals.py to recalibrate.
     # ── Sorted by weight (highest → lowest) ────────────────────────────────────
     "rsi_divergence":     2.0,   # Price lower-low, RSI higher-low — earliest signal
