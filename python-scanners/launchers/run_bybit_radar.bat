@@ -5,7 +5,7 @@ color 0A
 echo.
 echo ================================================================================
 echo   BYBIT RADAR v1.0
-echo   OI + Funding velocity scanner — single Bybit API call, no rate limits
+echo   OI + Funding velocity scanner - single Bybit API call, no rate limits
 echo ================================================================================
 echo.
 

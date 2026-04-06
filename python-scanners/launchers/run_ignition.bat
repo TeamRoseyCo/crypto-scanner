@@ -5,7 +5,7 @@ color 0B
 echo.
 echo ================================================================================
 echo   IGNITION RADAR v1.1
-echo   Early volume/breakout watchlist — rank 5-700, 1h candles
+echo   Early volume/breakout watchlist - rank 5-700, 1h candles
 echo ================================================================================
 echo.
 

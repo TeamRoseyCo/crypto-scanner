@@ -1,24 +1,25 @@
 @echo off
-title Alpha Signal Agent — Claude AI
+title Alpha Signal Agent - Claude AI
 color 0A
 
 echo.
 echo ================================================================================
-echo   ALPHA SIGNAL AGENT — Powered by Claude
+echo   ALPHA SIGNAL AGENT - Powered by Claude
 echo   Live scanner data + AI trading analyst
 echo ================================================================================
 echo.
 
-:: ── Activate virtual environment ─────────────────────────────────────────────
-set VENV_ACTIVATE="C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\ankh\.venv\Scripts\activate.bat"
+:: ── Virtual environment Python (direct path) ──────────────────────────────────
+set VENV_PYTHON="C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\ankh\.venv\Scripts\python.exe"
 
-if not exist %VENV_ACTIVATE% (
+if not exist %VENV_PYTHON% (
     echo ERROR: Virtual environment not found.
     pause
     exit /b 1
 )
 
-call %VENV_ACTIVATE%
+echo Virtual environment OK.
+echo.
 
 :: ── Check API key is set ──────────────────────────────────────────────────────
 if "%ANTHROPIC_API_KEY%"=="" (
@@ -30,7 +31,7 @@ if "%ANTHROPIC_API_KEY%"=="" (
 )
 
 :: ── Launch agent ──────────────────────────────────────────────────────────────
-python ..\engine\trade_agent.py
+%VENV_PYTHON% ..\engine\trade_agent.py
 
 echo.
 pause

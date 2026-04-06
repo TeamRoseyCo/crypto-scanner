@@ -5,7 +5,7 @@ color 0E
 echo.
 echo ================================================================================
 echo   FAST SCAN v1.0
-echo   30-minute momentum scan — no OHLCV, pure market data (~15 seconds)
+echo   30-minute momentum scan - no OHLCV, pure market data (~15 seconds)
 echo ================================================================================
 echo.
 
