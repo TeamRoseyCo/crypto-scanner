@@ -1,14 +1,14 @@
 """
 ================================================================================
-ALPHA BREAKOUT SCANNER  v1.1
+ALPHA BREAKOUT SCANNER  v1.2
 ================================================================================
-Finds tokens GENUINELY DECOUPLING UPWARD from BTC — regardless of BTC regime.
+Finds tokens GENUINELY DECOUPLING UPWARD from BTC, with tiered regime gates.
 
 The core idea: when BTC is flat or falling and a token is still climbing,
 that's real alpha. Someone is accumulating. Follow the strength.
 
 Key differences from master_orchestrator (longs):
-  - NO BTC regime gate — runs in BULL, SIDEWAYS, and BEAR
+  - REGIME GATE (tiered, not binary) — thresholds tighten in SIDEWAYS/BEAR
   - RS vs BTC ≥5% over 7 days is REQUIRED (gates entry completely)
   - Smaller risk per trade: 0.75% (half the normal 1.5%)
   - Tighter stops: ATR×1.2, capped 4%–10%
@@ -146,11 +146,38 @@ MACRO = {
     "bull_7d_pct":   3.0,
     "neutral_7d_pct": -7.0,
     # Win rate estimates for alpha breakouts by regime
-    # (RS decoupling is strongest edge in SIDEWAYS/BEAR — that's when alpha shines)
     "win_rates": {
-        "BULL":     0.48,   # good but everyone else is also winning
-        "SIDEWAYS": 0.55,   # best edge — token rising while BTC flat
-        "BEAR":     0.42,   # harder to hold but genuine breakouts still work
+        "BULL":     0.48,
+        "SIDEWAYS": 0.45,   # reduced — April audit showed SIDEWAYS stops out frequently
+        "BEAR":     0.35,
+    },
+}
+
+# ── Regime gate — coordinates alpha scanner with master_orchestrator ──────────
+# Lesson from April 3-5 2026: master said STAY OUT while alpha fired SIDEWAYS
+# signals. All stopped out. This gate enforces a hierarchy: master regime = filter.
+#
+# BULL     : normal operation — conviction ≥ 38, risk 0.75%
+# SIDEWAYS : tightened — conviction ≥ 70, risk halved to 0.375%, RSI max tightened
+# BEAR     : no new longs — scanner runs but outputs watchlist only
+REGIME_GATE = {
+    "BULL": {
+        "min_conviction":    38,     # normal alpha threshold
+        "risk_pct":          0.75,   # normal alpha risk (half of master's 1.5%)
+        "rsi_max":           72,     # normal RSI ceiling
+        "label": "🟢 BULL — Normal alpha parameters.",
+    },
+    "SIDEWAYS": {
+        "min_conviction":    70,     # only the very strongest RS plays
+        "risk_pct":          0.375,  # quarter of normal risk
+        "rsi_max":           65,     # tighter RSI ceiling in chop
+        "label": "🟡 SIDEWAYS — Tightened: conviction ≥ 70, risk halved, RSI ≤ 65.",
+    },
+    "BEAR": {
+        "min_conviction":    999,    # effectively disabled
+        "risk_pct":          0.0,
+        "rsi_max":           65,
+        "label": "🔴 BEAR — No new longs. Watchlist only.",
     },
 }
 
@@ -665,6 +692,7 @@ def build_alpha_plan(
     ohlcv:        pd.DataFrame,
     account_size: float,
     regime:       str = "SIDEWAYS",
+    risk_pct:     float | None = None,
 ) -> dict:
     """
     Build an alpha breakout long trade plan:
@@ -685,8 +713,9 @@ def build_alpha_plan(
     stop          = entry * (1 - stop_pct / 100)   # BELOW entry for longs
     risk_per_unit = entry - stop                    # always positive
 
-    # Position sizing — half the normal risk per trade
-    risk_usd  = account_size * (ACCOUNT["risk_per_trade_pct"] / 100)
+    # Position sizing — regime-adjusted risk
+    effective_risk_pct = risk_pct if risk_pct is not None else ACCOUNT["risk_per_trade_pct"]
+    risk_usd  = account_size * (effective_risk_pct / 100)
     quantity  = risk_usd / risk_per_unit if risk_per_unit > 0 else 0
     pos_value = quantity * entry
     pos_pct   = (pos_value / account_size) * 100
@@ -747,21 +776,20 @@ def build_report(
     btc_24h:      float,
     regime:       str,
     account_size: float,
+    gate:         dict | None = None,
 ) -> str:
     sep  = "=" * 80
     dash = "-" * 40
 
     regime_icon = {"BULL": "🟢 BULL", "SIDEWAYS": "🟡 SIDEWAYS", "BEAR": "🔴 BEAR"}.get(regime, regime)
-    alpha_note  = {
-        "BULL":     "Tokens outperforming in BULL — strongest momentum plays.",
-        "SIDEWAYS": "Tokens rising while BTC is FLAT — purest alpha signal.",
-        "BEAR":     "Tokens DECOUPLING during BTC weakness — exceptional strength.",
-    }.get(regime, "")
+    gate        = gate or REGIME_GATE.get(regime, REGIME_GATE["SIDEWAYS"])
+    active_risk = gate["risk_pct"]
+    active_conv = gate["min_conviction"]
 
     lines = [
         "",
         sep,
-        "  ALPHA BREAKOUT SCANNER v1.1 — RS DECOUPLING PLAYS",
+        "  ALPHA BREAKOUT SCANNER v1.2 — RS DECOUPLING PLAYS",
         f"  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         sep,
         "",
@@ -771,16 +799,16 @@ def build_report(
         f"  BTC 7-day    :  {btc_7d:>+10.2f}%",
         f"  BTC 24-hour  :  {btc_24h:>+10.2f}%",
         f"  Regime       :  {regime_icon}",
-        f"  Edge note    :  {alpha_note}",
         "",
-        "  [NO REGIME GATE] — This scanner runs in all conditions.",
-        "  Tokens must outperform BTC by ≥5% (7d) to qualify at all.",
+        f"  REGIME GATE  :  {gate['label']}",
+        f"  Conviction   :  ≥ {active_conv if active_conv < 999 else 'N/A (BEAR — no longs)'}",
+        f"  RS required  :  ≥ 5% vs BTC (7d)",
         "",
-        "ACCOUNT (alpha sizing — half normal risk)",
+        "ACCOUNT (alpha sizing)",
         dash,
         f"  Balance       : $ {account_size:>12,.2f} USDT",
-        f"  Risk / trade  : {ACCOUNT['risk_per_trade_pct']}%  "
-        f"(${account_size * ACCOUNT['risk_per_trade_pct'] / 100:,.0f} USDT per trade)",
+        f"  Risk / trade  : {active_risk}%  "
+        f"(${account_size * active_risk / 100:,.0f} USDT per trade)",
         f"  Max positions : {ACCOUNT['max_positions']}  (max heat {ACCOUNT['max_heat_pct']}%)",
         "",
     ]
@@ -829,15 +857,25 @@ def build_report(
                 "",
             ]
     else:
-        lines += [
-            sep,
-            "  NO QUALIFYING ALPHA SETUPS FOUND",
-            "",
-            "  No tokens outperforming BTC by ≥5% with sufficient signal stack.",
-            "  This means the market is either fully correlated (no alpha)",
-            "  or the outperformers lack momentum confirmation.",
-            sep,
-        ]
+        if regime == "BEAR":
+            lines += [
+                sep,
+                "  🔴 BEAR REGIME — NO NEW LONGS",
+                "",
+                "  Alpha scanner standing down. Cash is the position.",
+                "  Watchlist below shows tokens to monitor for when regime recovers.",
+                sep,
+            ]
+        else:
+            lines += [
+                sep,
+                "  NO QUALIFYING ALPHA SETUPS FOUND",
+                "",
+                f"  Regime: {regime}  |  Conviction threshold: ≥ {active_conv}",
+                "  No tokens cleared both the RS filter and conviction gate.",
+                "  This is correct behaviour — do not lower the bar.",
+                sep,
+            ]
 
     # Watchlist
     if watchlist:
@@ -896,7 +934,18 @@ def run(account_size: float | None = None) -> None:
         regime = "BEAR"
 
     log.info(f"  BTC ${btc_price:,.0f}  |  7d {btc_7d:+.2f}%  |  Regime: {regime}")
-    log.info(f"  (Note: regime does NOT gate this scanner — RS filter is the gate)")
+
+    gate         = REGIME_GATE[regime]
+    eff_min_conv = gate["min_conviction"]
+    eff_risk_pct = gate["risk_pct"]
+    eff_rsi_max  = gate["rsi_max"]
+
+    log.info(f"  Regime gate  : {gate['label']}")
+    log.info(f"  Min conviction: {eff_min_conv if eff_min_conv < 999 else 'BLOCKED (BEAR)'}  "
+             f"|  Risk/trade: {eff_risk_pct}%  |  RSI max: {eff_rsi_max}")
+
+    if regime == "BEAR":
+        log.warning("  🔴 BEAR regime — no new alpha longs. Watchlist only.")
 
     # ── 2. Market coins ───────────────────────────────────────────────────────
     log.info(f"\n[2/4] Fetching top {SCAN['top_n_coins']} coins from CoinGecko...")
@@ -966,6 +1015,21 @@ def run(account_size: float | None = None) -> None:
             f"  |  RS {rs7d:+.1f}%"
         )
 
+        # RSI ceiling — tighter in SIDEWAYS/BEAR
+        rsi_val = signals.get("rsi_value")
+        if rsi_val and rsi_val > eff_rsi_max:
+            log.info(f"          → skip (RSI {rsi_val:.1f} > {eff_rsi_max} gate for {regime})")
+            if conv >= SIGNAL["watchlist_min_conv"] and nsig >= SIGNAL["min_signals"] - 1:
+                watchlist.append({
+                    "symbol":    symbol,
+                    "rank":      rank,
+                    "price":     price,
+                    "change_7d": change_7d,
+                    "signals":   signals,
+                })
+            time.sleep(SCAN["api_delay_s"])
+            continue
+
         # REQUIRE rs_vs_btc_strong for any entry (the whole point of this scanner)
         if not signals.get("rs_vs_btc_strong", False):
             if conv >= SIGNAL["watchlist_min_conv"] and nsig >= SIGNAL["min_signals"] - 1:
@@ -979,8 +1043,10 @@ def run(account_size: float | None = None) -> None:
             time.sleep(SCAN["api_delay_s"])
             continue
 
-        if conv >= SIGNAL["min_conviction"] and nsig >= SIGNAL["min_signals"]:
-            plan = build_alpha_plan(symbol, rank, price, ohlcv, account_size, regime)
+        # Regime gate — BEAR blocks all longs; SIDEWAYS requires higher conviction
+        if conv >= eff_min_conv and nsig >= SIGNAL["min_signals"]:
+            plan = build_alpha_plan(symbol, rank, price, ohlcv, account_size, regime,
+                                    risk_pct=eff_risk_pct)
             setups.append({
                 "symbol":    symbol,
                 "rank":      rank,
@@ -1010,7 +1076,7 @@ def run(account_size: float | None = None) -> None:
     watchlist.sort(key=lambda x: (-x["signals"].get("rs_7d_value", 0)))
 
     report = build_report(
-        setups, watchlist, btc_price, btc_7d, btc_24h, regime, account_size,
+        setups, watchlist, btc_price, btc_7d, btc_24h, regime, account_size, gate=gate,
     )
 
     ts          = datetime.now().strftime("%Y%m%d_%H%M%S")
