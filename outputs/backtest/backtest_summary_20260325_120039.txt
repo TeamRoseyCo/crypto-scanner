@@ -1,0 +1,78 @@
+================================================================================
+  SIGNAL BACKTEST REPORT  —  master_orchestrator v2.1
+  Generated : 20260325_120039
+  Universe  : 50 coins, rank 50–600
+  History   : 730 days (~4380 4h bars per coin) from Binance
+
+  ⚠️  SURVIVORSHIP BIAS: Universe = coins alive today at rank 50–600.
+  All win rates are inflated vs live trading. Use for RELATIVE ranking.
+================================================================================
+
+INDIVIDUAL SIGNAL PERFORMANCE  (ranked by expectancy)
+--------------------------------------------------------------------------------
+  SIGNAL                      N    WIN%   E[PnL]  AVG_WIN  AVG_LOSS  SHARPE   TP1%   MAX_DD
+--------------------------------------------------------------------------------
+  ❌ rsi_in_zone               0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ rsi_ignition              0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ rsi_divergence            0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ macd_crossover            0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ macd_turning              0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ trend_strong              0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ rs_vs_btc                 0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ rs_acceleration           0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ atr_expanding             0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ bb_squeeze                0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ vol_velocity              0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ vol_expansion             0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ stealth_accum             0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ cmf                       0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ whale_candles             0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ higher_lows               0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+  ❌ declining_sell_vol        0    0.0%    +0.00    +0.00     +0.00    0.00     0%    +0.00
+
+PER-REGIME BREAKDOWN  (expectancy  |  n fires per regime)
+--------------------------------------------------------------------------------
+  SIGNAL                    BULL E   BULL N    SIDE E   SIDE N    BEAR E   BEAR N
+--------------------------------------------------------------------------------
+  rsi_in_zone             ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  rsi_ignition            ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  rsi_divergence          ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  macd_crossover          ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  macd_turning            ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  trend_strong            ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  rs_vs_btc               ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  rs_acceleration         ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  atr_expanding           ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  bb_squeeze              ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  vol_velocity            ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  vol_expansion           ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  stealth_accum           ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  cmf                     ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  whale_candles           ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  higher_lows             ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+  declining_sell_vol      ❌ +0.00        0  ❌ +0.00        0  ❌ +0.00        0
+
+HOW TO USE THESE RESULTS
+--------------------------------------------------------------------------------
+  1. Signals with positive expectancy AND n >= 50 are worth keeping.
+     Signals with negative expectancy should have their weight reduced.
+
+  2. Check the per-regime table — some signals only work in BULL.
+     A signal with E[PnL] = +2% BULL but -1% SIDEWAYS should be
+     weighted more conservatively or gated by regime in the scanner.
+
+  3. Winning combinations reveal which signals have compounding edge.
+     If 'rsi_divergence + rs_vs_btc' shows E[PnL] >> either alone,
+     requiring BOTH before entering is worth the reduced signal count.
+
+  4. Update _WEIGHTS in master_orchestrator.py to reflect reality:
+       High expectancy in SIDEWAYS → increase weight
+       Negative expectancy in SIDEWAYS → reduce weight
+       Only works in BULL → keep weight but be regime-aware
+
+  5. Re-run every 30–60 days. Market regimes shift and so does edge.
+
+  6. These numbers are absolute best-case (survivorship bias,
+     no fees, perfect fills). Discount all expectancies by ~30%
+     for a realistic live-trading estimate.
+================================================================================

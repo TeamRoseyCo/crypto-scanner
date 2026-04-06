@@ -22,8 +22,8 @@ import logging
 
 log = logging.getLogger("alerts")
 
-_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-_CHAT_ID   = os.environ.get("TELEGRAM_CHAT_ID", "")
+_BOT_TOKEN = os.environ.get("7665303397:AAHDXF0giiuTNCfbjdimfTthDp2keTnTGtA", "")
+_CHAT_ID   = os.environ.get("1287299443", "")
 
 _TELEGRAM_API = "https://api.telegram.org"
 _CONFIGURED   = bool(_BOT_TOKEN and _CHAT_ID)

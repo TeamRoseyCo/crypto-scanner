@@ -1,0 +1,73 @@
+{
+  "timestamp": "20260406_230035",
+  "account_size": 96700.0,
+  "market_context": {
+    "btc_price": 69496,
+    "btc_7d": 4.36767,
+    "btc_24h": 2.91943,
+    "regime": "BULL",
+    "icon": "\ud83d\udfe2",
+    "healthy": true
+  },
+  "config": {
+    "account": {
+      "size_usdt": 96700.0,
+      "risk_per_trade_pct": 1.5,
+      "max_positions": 8,
+      "max_heat_pct": 12.0,
+      "max_single_pos_pct": 12.0
+    },
+    "scan": {
+      "top_n_coins": 1000,
+      "min_rank": 50,
+      "max_rank": 600,
+      "min_volume_24h": 500000,
+      "min_price": 0.0001,
+      "min_7d_pct": -25.0,
+      "max_7d_pct": 75.0,
+      "cache_max_age_h": 4.0,
+      "api_delay_s": 4.5,
+      "min_atr_pct": 0.5,
+      "min_bb_width_pct": 0.5,
+      "min_abs_24h_pct": 0.3
+    },
+    "signal": {
+      "rsi_min": 32,
+      "rsi_max": 65,
+      "adx_min": 25,
+      "rs_vs_btc_min": 0.03,
+      "stealth_obv_threshold": 0.015,
+      "cmf_threshold": 0.05,
+      "bb_squeeze_width": 0.038,
+      "rsi_ignition_low": 22,
+      "rsi_ignition_high": 42,
+      "whale_candle_mult": 2.0,
+      "vol_velocity_mult": 1.4,
+      "atr_stop_mult": 1.5,
+      "stop_min_pct": -15.0,
+      "stop_max_pct": -5.0,
+      "tp_rr": [
+        2.0,
+        3.0,
+        5.0
+      ],
+      "tp_exit_pct": [
+        30,
+        40,
+        30
+      ],
+      "min_conviction": 45,
+      "min_signals": 6,
+      "vol_expansion_recent": 6,
+      "vol_expansion_base_start": 7,
+      "vol_expansion_base_end": 42,
+      "vol_expansion_mult": 1.5,
+      "divergence_window": 30,
+      "divergence_price_gap": 0.98,
+      "divergence_rsi_gap": 5.0,
+      "sell_vol_reduction": 0.8,
+      "higher_lows_window": 30
+    }
+  },
+  "candidates": []
+}

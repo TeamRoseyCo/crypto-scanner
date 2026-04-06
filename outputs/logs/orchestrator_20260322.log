@@ -1,0 +1,67 @@
+2026-03-22 10:18:55,964 [INFO] 
+2026-03-22 10:18:55,966 [INFO] ================================================================================
+2026-03-22 10:18:55,966 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.1
+2026-03-22 10:18:55,967 [INFO]   18-signal engine | funding rate | corr filter | volume source tagging
+2026-03-22 10:18:55,967 [INFO] ================================================================================
+2026-03-22 10:18:55,967 [INFO]   Account: $96,700.00 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-03-22 10:18:55,967 [INFO] 
+2026-03-22 10:18:55,968 [INFO] [1/5] Analyzing market regime...
+2026-03-22 10:18:55,968 [INFO] Fetching market context (BTC)...
+2026-03-22 10:18:56,508 [WARNING] Rate-limited — waiting 60s (attempt 1)
+2026-03-22 10:19:56,544 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-22 10:20:02,320 [INFO]   BTC: $68,713 | 7d: -4.3% | Regime: 🟡 SIDEWAYS
+2026-03-22 10:20:02,321 [INFO]   🟡 SIDEWAYS — conviction raised to 60, max position capped at 6.0%, stops tightened to 1.0× ATR
+2026-03-22 10:20:02,322 [INFO] [2/5] Fetching BTC historical data...
+2026-03-22 10:20:03,181 [INFO]   BTC data: OK
+2026-03-22 10:20:09,682 [INFO] [3/5] Fetching top 1000 coins...
+2026-03-22 10:20:09,682 [INFO] Fetching top 1000 coins by market cap...
+2026-03-22 10:20:09,768 [WARNING] Rate-limited — waiting 56s (attempt 1)
+2026-03-22 10:21:05,840 [WARNING] Rate-limited — waiting 0s (attempt 2)
+2026-03-22 10:21:05,905 [WARNING] Rate-limited — waiting 0s (attempt 3)
+2026-03-22 10:21:05,907 [INFO]   Fetched 0 coins
+2026-03-22 10:21:05,908 [INFO]   Fetched 0 coins
+2026-03-22 10:21:05,908 [INFO] [4/5] Scanning for high-conviction setups...
+2026-03-22 10:21:05,909 [INFO]   Filters: Rank 50–600  |  Vol ≥ $500,000  |  Min conviction: 60
+2026-03-22 10:21:05,910 [INFO] 
+2026-03-22 10:21:05,913 [INFO] 
+[5/5] Building trade plan report...
+2026-03-22 10:21:05,920 [INFO]   Raw candidates found: 0
+2026-03-22 10:21:05,920 [INFO] 
+================================================================================
+  CRYPTO MASTER ORCHESTRATOR — TRADE PLAN REPORT
+  Generated: 2026-03-22 10:21:05
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   68,713.00
+  BTC 7-day    :     -4.34%
+  BTC 24-hour  :     -2.64%
+  Regime       :  🟡 SIDEWAYS
+
+  🟡 SIDEWAYS — Thresholds tightened for safety:
+     Conviction ≥ 60  |  Max position 6.0%  |  Stops 1.0× ATR
+     Missing a trade is better than losing capital in chop.
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,700.00 USDT
+  Risk / trade  : 1.5%  ($1,450 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+2026-03-22 10:21:05,931 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.txt
+2026-03-22 10:21:05,939 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.json
+2026-03-22 10:21:05,942 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260322.log
+2026-03-22 10:21:05,944 [INFO] 
+  Done.  0 high-conviction setup(s) found.

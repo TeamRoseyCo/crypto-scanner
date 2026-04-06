@@ -1,0 +1,82 @@
+//@version=6
+
+// ──────────────────────────────────────────────────────────────────────
+// BTC WAVETREND ONLY - PERPETUAL STRATEGY
+// Single Indicator: WaveTrend Oscillator
+// Always in market - flips between Long/Short
+// ──────────────────────────────────────────────────────────────────────
+
+INITIAL_CAPITAL = 10000
+
+strategy("BTC WaveTrend Only",
+     overlay=false,
+     initial_capital=INITIAL_CAPITAL,
+     default_qty_type=strategy.percent_of_equity,
+     default_qty_value=100,
+     pyramiding=0,
+     calc_on_every_tick=false,
+     process_orders_on_close=true)
+
+// ──────────────────────────────────────────────────────────────────────
+// BACKTEST RANGE
+useDateFilter = input.bool(true, "Use Backtest Range", group="Backtest")
+backtestStartDate = input.time(timestamp("1 Jan 2018"), "Start Date", group="Backtest")
+inDateRange = not useDateFilter or (time >= backtestStartDate)
+
+// ──────────────────────────────────────────────────────────────────────
+// COBRA METRICS
+import EliCobra/CobraMetrics/4 as cobra
+var string groupCobra = "Cobra"
+disp_ind = input.string("Equity", "Cobra: Display Curve",
+     options=["Strategy","Equity","Open Profit","Gross Profit","Net Profit","None"], group=groupCobra)
+pos_table = input.string("Middle Right", "Cobra: Table Position",
+     options=["Top Left","Middle Left","Bottom Left","Top Right","Middle Right","Bottom Right","Top Center","Bottom Center"], group=groupCobra)
+type_table = "Full"
+plot(cobra.curve(disp_ind))
+cobra.cobraTable(type_table, pos_table)
+
+// ══════════════════════════════════════════════════════════════════════
+// WAVETREND OSCILLATOR
+// ══════════════════════════════════════════════════════════════════════
+n1 = input.int(35, "Channel Length", group="WaveTrend")
+n2 = input.int(42, "Average Length", group="WaveTrend")
+obLevel1 = input.int(60, "Over Bought Level 1", group="WaveTrend")
+obLevel2 = input.int(60, "Over Bought Level 2", group="WaveTrend")
+osLevel1 = input.int(-60, "Over Sold Level 1", group="WaveTrend")
+osLevel2 = input.int(-60, "Over Sold Level 2", group="WaveTrend")
+
+// WaveTrend Calculation
+ap = hlc3
+esa = ta.ema(ap, n1)
+d = ta.ema(math.abs(ap - esa), n1)
+ci = (ap - esa) / (0.015 * d)
+tci = ta.ema(ci, n2)
+
+wt1 = tci
+wt2 = ta.sma(wt1, 6)
+
+// ──────────────────────────────────────────────────────────────────────
+// SIGNAL LOGIC - EXTREME ZONE REQUIREMENT (MOST SELECTIVE)
+// ──────────────────────────────────────────────────────────────────────
+
+crossover_wt1_wt2 = (wt1 > wt2) and (wt1[1] <= wt2[1])
+long_from_oversold = (wt1 > osLevel2) and (wt1[1] <= osLevel2)
+long_in_neutral_zone = (wt1 > osLevel2) and (wt1 < obLevel2)
+
+longCondition = crossover_wt1_wt2 and (long_from_oversold or long_in_neutral_zone)
+
+crossunder_wt1_wt2 = (wt1 < wt2) and (wt1[1] >= wt2[1])
+short_from_overbought = (wt1 < obLevel2) and (wt1[1] >= obLevel2)
+short_in_neutral_zone = (wt1 < obLevel2) and (wt1 > osLevel2)
+
+shortCondition = crossunder_wt1_wt2 and (short_from_overbought or short_in_neutral_zone)
+
+// ──────────────────────────────────────────────────────────────────────
+//SIGNAL
+
+if longCondition and inDateRange and barstate.isconfirmed
+    strategy.entry("Long", strategy.long)
+
+if shortCondition and inDateRange and barstate.isconfirmed
+    strategy.entry("Short", strategy.short)
+

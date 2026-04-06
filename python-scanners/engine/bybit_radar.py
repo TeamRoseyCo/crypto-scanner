@@ -454,7 +454,8 @@ def run(top_n: int = 20) -> list:
     # Sort by score (then signal_count as tiebreaker)
     results.sort(key=lambda r: (r["score"], r["signal_count"]), reverse=True)
 
-    log.info(f"  Scored {len(results)} symbols  |  Top score: {results[0]['score']:.1f if results else 0}")
+    top_score = results[0]["score"] if results else 0.0
+    log.info(f"  Scored {len(results)} symbols  |  Top score: {top_score:.1f}")
 
     # Build and save report
     report_text = build_report(results, top_n, scan_start)

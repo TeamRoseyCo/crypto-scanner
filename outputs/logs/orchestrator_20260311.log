@@ -1,0 +1,2291 @@
+2026-03-11 09:01:18,995 [INFO] 
+2026-03-11 09:01:18,995 [INFO] ================================================================================
+2026-03-11 09:01:18,995 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.0
+2026-03-11 09:01:18,996 [INFO]   15-signal engine | regime gate | 2-scan persistence | vol expansion
+2026-03-11 09:01:18,996 [INFO] ================================================================================
+2026-03-11 09:01:18,996 [INFO]   Account: $96,700.00 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-03-11 09:01:18,996 [INFO] 
+2026-03-11 09:01:18,996 [INFO] [1/5] Analyzing market regime...
+2026-03-11 09:01:18,997 [INFO] Fetching market context (BTC)...
+2026-03-11 09:01:19,696 [INFO]   BTC: $69,616 | 7d: +0.2% | Regime: 🟡 SIDEWAYS
+2026-03-11 09:01:19,696 [INFO]   🟡 SIDEWAYS — conviction raised to 60, max position capped at 6.0%, stops tightened to 1.0× ATR
+2026-03-11 09:01:19,697 [INFO] [2/5] Fetching BTC historical data...
+2026-03-11 09:01:20,556 [INFO]   BTC data: OK
+2026-03-11 09:01:27,057 [INFO] [3/5] Fetching top 600 coins...
+2026-03-11 09:01:27,057 [INFO] Fetching top 600 coins by market cap...
+2026-03-11 09:01:30,933 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:02:00,993 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:03:02,277 [INFO]   Fetched 600 coins
+2026-03-11 09:03:02,281 [INFO]   Fetched 600 coins
+2026-03-11 09:03:02,282 [INFO] [4/5] Scanning for high-conviction setups...
+2026-03-11 09:03:02,283 [INFO]   Filters: Rank 50–450  |  Vol ≥ $500,000  |  Min conviction: 60
+2026-03-11 09:03:02,283 [INFO] 
+2026-03-11 09:03:02,285 [INFO]   [  1]  AAVE      (# 50)  $109.52000     7d: -2.5%
+2026-03-11 09:03:03,293 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 09:03:09,795 [INFO]   [  2]  NEAR      (# 51)  $1.27000       7d: -6.3%
+2026-03-11 09:03:10,889 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 09:03:17,390 [INFO]   [  3]  ICP       (# 54)  $2.70000       7d: +8.3%
+2026-03-11 09:03:17,457 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:03:47,518 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:04:49,217 [INFO]           → conviction 32/100  |  signals 6/15
+2026-03-11 09:04:55,723 [INFO]   [  4]  USDY      (# 58)  $1.11000       7d: -0.1%
+2026-03-11 09:04:56,740 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:05:03,242 [INFO]   [  5]  ETC       (# 59)  $8.21000       7d: -3.1%
+2026-03-11 09:05:04,397 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:05:10,900 [INFO]   [  6]  ONDO      (# 60)  $0.25284       7d: -2.2%
+2026-03-11 09:05:10,967 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:05:41,025 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:06:42,535 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:06:49,036 [INFO]   [  7]  PUMP      (# 61)  $0.00198       7d: +2.3%
+2026-03-11 09:06:50,265 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 09:06:56,767 [INFO]   [  8]  GT        (# 62)  $7.01000       7d: +0.9%
+2026-03-11 09:06:57,631 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:07:27,691 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:08:29,009 [INFO]           → skip (flatliner: ATR 1.00% / BB 0.45%)
+2026-03-11 09:08:35,510 [INFO]   [  9]  MORPHO    (# 63)  $1.98000       7d: +2.3%
+2026-03-11 09:08:36,870 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:08:43,371 [INFO]   [ 10]  KCS       (# 65)  $7.93000       7d: +1.3%
+2026-03-11 09:08:44,848 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 09:08:51,349 [INFO]   [ 11]  WLD       (# 66)  $0.35319       7d: -10.2%
+2026-03-11 09:08:51,411 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:09:21,472 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:10:21,589 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 09:10:26,706 [INFO]           → skip (insufficient data)
+2026-03-11 09:10:33,231 [INFO]   [ 12]  POL       (# 67)  $0.09610       7d: -5.0%
+2026-03-11 09:10:35,190 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 09:10:41,691 [INFO]   [ 13]  QNT       (# 69)  $62.75000      7d: -0.2%
+2026-03-11 09:10:43,099 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 09:10:49,601 [INFO]   [ 14]  ATOM      (# 70)  $1.82000       7d: -1.3%
+2026-03-11 09:10:50,326 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:11:20,393 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:12:21,363 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 09:12:27,869 [INFO]   [ 15]  NEXO      (# 71)  $0.89187       7d: +3.5%
+2026-03-11 09:12:28,985 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:12:35,491 [INFO]   [ 16]  NIGHT     (# 72)  $0.05192       7d: -13.8%
+2026-03-11 09:12:37,079 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 09:12:43,588 [INFO]   [ 17]  ENA       (# 73)  $0.10139       7d: -9.3%
+2026-03-11 09:12:43,663 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:13:13,721 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:14:15,198 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 09:14:21,702 [INFO]   [ 18]  KAS       (# 75)  $0.03004       7d: -2.7%
+2026-03-11 09:14:22,803 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:14:29,305 [INFO]   [ 19]  RENDER    (# 77)  $1.48000       7d: +9.0%
+2026-03-11 09:14:30,038 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:15:00,121 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:16:01,903 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 09:16:08,405 [INFO]   [ 20]  FLR       (# 78)  $0.00890       7d: -3.3%
+2026-03-11 09:16:09,467 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 09:16:16,002 [INFO]   [ 21]  ALGO      (# 79)  $0.08476       7d: -2.0%
+2026-03-11 09:16:17,056 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:16:23,561 [INFO]   [ 22]  APT       (# 83)  $0.94055       7d: -5.8%
+2026-03-11 09:16:23,622 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:16:53,686 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:17:55,566 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 09:18:02,068 [INFO]   [ 23]  TRUMP     (# 84)  $2.91000       7d: -13.3%
+2026-03-11 09:18:03,237 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 09:18:09,739 [INFO]   [ 24]  FIL       (# 85)  $0.87172       7d: -13.3%
+2026-03-11 09:18:10,736 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 09:18:17,239 [INFO]   [ 25]  XDC       (# 86)  $0.03231       7d: -7.2%
+2026-03-11 09:18:17,303 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:18:47,375 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:19:49,113 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 09:19:55,617 [INFO]   [ 26]  VET       (# 88)  $0.00705       7d: -1.4%
+2026-03-11 09:19:56,567 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 09:20:03,088 [INFO]   [ 27]  ARB       (# 90)  $0.09849       7d: -3.6%
+2026-03-11 09:20:04,225 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:20:10,731 [INFO]   [ 28]  JUP       (# 92)  $0.16368       7d: -10.4%
+2026-03-11 09:20:10,800 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:20:40,862 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:21:42,682 [INFO]           → conviction 25/100  |  signals 5/15
+2026-03-11 09:21:49,187 [INFO]   [ 29]  STABLE    (# 94)  $0.02722       7d: -10.4%
+2026-03-11 09:21:50,197 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:21:56,727 [INFO]   [ 30]  DCR       (# 97)  $28.83000      7d: -5.0%
+2026-03-11 09:21:57,509 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:22:27,575 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:23:28,877 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 09:23:35,380 [INFO]   [ 31]  KITE      (#100)  $0.26582       7d: +14.5%
+2026-03-11 09:23:36,651 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 09:23:43,153 [INFO]   [ 32]  STX       (#102)  $0.25605       7d: -0.7%
+2026-03-11 09:23:44,438 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:23:50,941 [INFO]   [ 33]  JST       (#103)  $0.05197       7d: +6.1%
+2026-03-11 09:23:51,010 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:24:21,074 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:25:23,086 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 09:25:29,590 [INFO]   [ 34]  VIRTUAL   (#105)  $0.69147       7d: -7.4%
+2026-03-11 09:25:30,777 [INFO]           → conviction 36/100  |  signals 6/15
+2026-03-11 09:25:37,279 [INFO]   [ 35]  CAKE      (#106)  $1.37000       7d: +0.3%
+2026-03-11 09:25:38,106 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:26:08,170 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:27:09,097 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:27:15,600 [INFO]   [ 36]  PENGU     (#107)  $0.00693       7d: -1.0%
+2026-03-11 09:27:16,655 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:27:23,161 [INFO]   [ 37]  ETHFI     (#108)  $0.57069       7d: +8.5%
+2026-03-11 09:27:24,519 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 09:27:31,025 [INFO]   [ 38]  SEI       (#109)  $0.06190       7d: -8.0%
+2026-03-11 09:27:31,091 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:28:01,157 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:29:03,157 [INFO]           → conviction 23/100  |  signals 5/15
+2026-03-11 09:29:09,658 [INFO]   [ 39]  ZRO       (#110)  $2.03000       7d: +9.4%
+2026-03-11 09:29:10,578 [INFO]           → conviction 20/100  |  signals 4/15
+2026-03-11 09:29:17,096 [INFO]   [ 40]  DASH      (#111)  $32.06000      7d: -6.0%
+2026-03-11 09:29:17,939 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:29:48,006 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:30:48,985 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:30:55,488 [INFO]   [ 41]  CHZ       (#113)  $0.03860       7d: +6.3%
+2026-03-11 09:30:56,721 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:31:03,223 [INFO]   [ 42]  XTZ       (#114)  $0.36100       7d: -2.8%
+2026-03-11 09:31:04,385 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 09:31:10,893 [INFO]   [ 43]  PIPPIN    (#116)  $0.36503       7d: +7.1%
+2026-03-11 09:31:11,821 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:31:41,885 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:32:43,639 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 09:32:50,142 [INFO]   [ 44]  SIREN     (#118)  $0.49182       7d: +17.8%
+2026-03-11 09:32:51,582 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 09:32:58,084 [INFO]   [ 45]  FET       (#119)  $0.15760       7d: +5.3%
+2026-03-11 09:32:59,065 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 09:33:05,567 [INFO]   [ 46]  CRV       (#120)  $0.23703       7d: -7.1%
+2026-03-11 09:33:06,386 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:33:36,449 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:34:37,662 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 09:34:44,167 [INFO]   [ 47]  GNO       (#122)  $125.36000     7d: -4.5%
+2026-03-11 09:56:26,574 [INFO] 
+2026-03-11 09:56:26,578 [INFO] ================================================================================
+2026-03-11 09:56:26,579 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.0
+2026-03-11 09:56:26,580 [INFO]   15-signal engine | regime gate | 2-scan persistence | vol expansion
+2026-03-11 09:56:26,582 [INFO] ================================================================================
+2026-03-11 09:56:26,582 [INFO]   Account: $96,700.00 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-03-11 09:56:26,583 [INFO] 
+2026-03-11 09:56:26,583 [INFO] [1/5] Analyzing market regime...
+2026-03-11 09:56:26,583 [INFO] Fetching market context (BTC)...
+2026-03-11 09:56:27,612 [INFO]   BTC: $69,607 | 7d: +0.1% | Regime: 🟡 SIDEWAYS
+2026-03-11 09:56:27,613 [INFO]   🟡 SIDEWAYS — conviction raised to 60, max position capped at 6.0%, stops tightened to 1.0× ATR
+2026-03-11 09:56:27,613 [INFO] [2/5] Fetching BTC historical data...
+2026-03-11 09:56:27,669 [INFO]   BTC data: OK
+2026-03-11 09:56:34,171 [INFO] [3/5] Fetching top 600 coins...
+2026-03-11 09:56:34,171 [INFO] Fetching top 600 coins by market cap...
+2026-03-11 09:56:38,527 [INFO]   Fetched 600 coins
+2026-03-11 09:56:38,528 [INFO]   Fetched 600 coins
+2026-03-11 09:56:38,529 [INFO] [4/5] Scanning for high-conviction setups...
+2026-03-11 09:56:38,529 [INFO]   Filters: Rank 50–450  |  Vol ≥ $500,000  |  Min conviction: 60
+2026-03-11 09:56:38,530 [INFO] 
+2026-03-11 09:56:38,532 [INFO]   [  1]  AAVE      (# 50)  $109.71000     7d: -2.4%
+2026-03-11 09:56:38,637 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 09:56:38,637 [INFO]   [  2]  NEAR      (# 51)  $1.27000       7d: -6.4%
+2026-03-11 09:56:38,678 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 09:56:38,678 [INFO]   [  3]  BGB       (# 53)  $2.18000       7d: +2.5%
+2026-03-11 09:56:39,420 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:57:09,473 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 09:58:10,328 [INFO]           → skip (flatliner: ATR 0.55% / BB 0.38%)
+2026-03-11 09:58:16,829 [INFO]   [  4]  ICP       (# 54)  $2.67000       7d: +5.4%
+2026-03-11 09:58:16,847 [INFO]           → conviction 32/100  |  signals 6/15
+2026-03-11 09:58:16,847 [INFO]   [  5]  ETC       (# 59)  $8.21000       7d: -3.0%
+2026-03-11 09:58:16,864 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:58:16,864 [INFO]   [  6]  ONDO      (# 60)  $0.25331       7d: -2.0%
+2026-03-11 09:58:16,881 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:58:16,882 [INFO]   [  7]  PUMP      (# 61)  $0.00198       7d: +2.2%
+2026-03-11 09:58:16,902 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 09:58:16,902 [INFO]   [  8]  GT        (# 62)  $7.02000       7d: +1.0%
+2026-03-11 09:58:16,917 [INFO]           → skip (flatliner: ATR 1.00% / BB 0.45%)
+2026-03-11 09:58:16,918 [INFO]   [  9]  KCS       (# 65)  $7.93000       7d: +1.3%
+2026-03-11 09:58:16,939 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 09:58:16,939 [INFO]   [ 10]  WLD       (# 66)  $0.35305       7d: -10.2%
+2026-03-11 09:58:17,964 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 09:58:24,466 [INFO]   [ 11]  POL       (# 67)  $0.09668       7d: -5.7%
+2026-03-11 09:58:24,485 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 09:58:24,485 [INFO]   [ 12]  QNT       (# 69)  $62.78000      7d: -0.2%
+2026-03-11 09:58:24,501 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 09:58:24,501 [INFO]   [ 13]  ATOM      (# 70)  $1.81000       7d: -1.8%
+2026-03-11 09:58:24,519 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 09:58:24,520 [INFO]   [ 14]  NEXO      (# 71)  $0.89350       7d: +3.7%
+2026-03-11 09:58:24,538 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:58:24,538 [INFO]   [ 15]  ENA       (# 72)  $0.10142       7d: -9.3%
+2026-03-11 09:58:24,554 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 09:58:24,554 [INFO]   [ 16]  NIGHT     (# 73)  $0.05180       7d: -14.0%
+2026-03-11 09:58:24,571 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 09:58:24,571 [INFO]   [ 17]  KAS       (# 75)  $0.03001       7d: -2.8%
+2026-03-11 09:58:24,588 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:58:24,589 [INFO]   [ 18]  RENDER    (# 77)  $1.48000       7d: +9.3%
+2026-03-11 09:58:24,612 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 09:58:24,612 [INFO]   [ 19]  FLR       (# 78)  $0.00890       7d: -3.3%
+2026-03-11 09:58:24,646 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 09:58:24,647 [INFO]   [ 20]  ALGO      (# 79)  $0.08506       7d: -1.7%
+2026-03-11 09:58:24,681 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:58:24,682 [INFO]   [ 21]  APT       (# 83)  $0.94273       7d: -5.6%
+2026-03-11 09:58:24,710 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 09:58:24,710 [INFO]   [ 22]  TRUMP     (# 84)  $2.91000       7d: -13.3%
+2026-03-11 09:58:24,731 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 09:58:24,731 [INFO]   [ 23]  FIL       (# 85)  $0.88084       7d: -12.4%
+2026-03-11 09:58:24,746 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 09:58:24,746 [INFO]   [ 24]  BDX       (# 87)  $0.08000       7d: -0.1%
+2026-03-11 09:58:25,927 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 09:58:32,431 [INFO]   [ 25]  VET       (# 88)  $0.00706       7d: -1.2%
+2026-03-11 09:58:32,460 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 09:58:32,461 [INFO]   [ 26]  ARB       (# 90)  $0.09891       7d: -4.2%
+2026-03-11 09:58:32,480 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:58:32,485 [INFO]   [ 27]  STABLE    (# 92)  $0.02779       7d: -8.6%
+2026-03-11 09:58:32,515 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:58:32,515 [INFO]   [ 28]  JUP       (# 93)  $0.16259       7d: -11.0%
+2026-03-11 09:58:32,544 [INFO]           → conviction 25/100  |  signals 5/15
+2026-03-11 09:58:32,546 [INFO]   [ 29]  DCR       (# 98)  $28.40000      7d: -6.4%
+2026-03-11 09:58:32,563 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 09:58:32,565 [INFO]   [ 30]  KITE      (#100)  $0.26509       7d: +14.2%
+2026-03-11 09:58:32,584 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 09:58:32,585 [INFO]   [ 31]  STX       (#102)  $0.25639       7d: -0.6%
+2026-03-11 09:58:32,601 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 09:58:32,602 [INFO]   [ 32]  JST       (#103)  $0.05188       7d: +5.9%
+2026-03-11 09:58:32,620 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 09:58:32,620 [INFO]   [ 33]  VIRTUAL   (#104)  $0.69313       7d: -7.1%
+2026-03-11 09:58:32,640 [INFO]           → conviction 36/100  |  signals 6/15
+2026-03-11 09:58:32,642 [INFO]   [ 34]  CAKE      (#106)  $1.37000       7d: +0.3%
+2026-03-11 09:58:32,671 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:58:32,671 [INFO]   [ 35]  PENGU     (#107)  $0.00693       7d: -1.0%
+2026-03-11 09:58:32,694 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:58:32,695 [INFO]   [ 36]  ETHFI     (#108)  $0.57189       7d: +7.5%
+2026-03-11 09:58:32,720 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 09:58:32,721 [INFO]   [ 37]  SEI       (#109)  $0.06223       7d: -7.8%
+2026-03-11 09:58:32,756 [INFO]           → conviction 23/100  |  signals 5/15
+2026-03-11 09:58:32,757 [INFO]   [ 38]  ZRO       (#110)  $2.04000       7d: +9.6%
+2026-03-11 09:58:32,787 [INFO]           → conviction 20/100  |  signals 4/15
+2026-03-11 09:58:32,787 [INFO]   [ 39]  DASH      (#111)  $32.04000      7d: -7.7%
+2026-03-11 09:58:32,809 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:58:32,811 [INFO]   [ 40]  CHZ       (#113)  $0.03862       7d: +6.4%
+2026-03-11 09:58:32,835 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 09:58:32,836 [INFO]   [ 41]  XTZ       (#114)  $0.36154       7d: -3.1%
+2026-03-11 09:58:32,861 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 09:58:32,862 [INFO]   [ 42]  SIREN     (#117)  $0.49535       7d: +18.6%
+2026-03-11 09:58:32,885 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 09:58:32,886 [INFO]   [ 43]  FET       (#118)  $0.15687       7d: +4.8%
+2026-03-11 09:58:32,907 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 09:58:32,907 [INFO]   [ 44]  CRV       (#119)  $0.23608       7d: -7.5%
+2026-03-11 09:58:32,928 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 09:58:32,928 [INFO]   [ 45]  PIPPIN    (#120)  $0.34080       7d: +0.0%
+2026-03-11 09:58:32,947 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 09:58:32,947 [INFO]   [ 46]  GNO       (#122)  $125.48000     7d: -4.4%
+2026-03-11 09:58:33,005 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 09:59:03,063 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:00:04,896 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 10:00:11,397 [INFO]   [ 47]  ADI       (#123)  $3.36000       7d: +3.9%
+2026-03-11 10:00:12,587 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 10:00:19,090 [INFO]   [ 48]  AERO      (#128)  $0.33996       7d: -4.3%
+2026-03-11 10:00:19,909 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:00:50,183 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:01:51,142 [INFO]           → conviction 48/100  |  signals 7/15
+2026-03-11 10:01:57,645 [INFO]   [ 49]  BSV       (#129)  $15.37000      7d: +3.5%
+2026-03-11 10:01:58,925 [INFO]           → conviction 38/100  |  signals 6/15
+2026-03-11 10:02:05,439 [INFO]   [ 50]  RIVER     (#131)  $14.90000      7d: -21.1%
+2026-03-11 10:02:06,806 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 10:02:13,310 [INFO]   [ 51]  INJ       (#132)  $2.94000       7d: -3.7%
+2026-03-11 10:02:14,028 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:02:44,084 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:03:45,083 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 10:03:51,596 [INFO]   [ 52]  TIA       (#133)  $0.32776       7d: -3.8%
+2026-03-11 10:03:52,546 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 10:03:59,048 [INFO]   [ 53]  SPX       (#134)  $0.29961       7d: -11.4%
+2026-03-11 10:04:00,224 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 10:04:06,726 [INFO]   [ 54]  JASMY     (#136)  $0.00562       7d: +1.0%
+2026-03-11 10:04:07,543 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:04:37,601 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:05:37,664 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 10:05:42,696 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 10:05:49,197 [INFO]   [ 55]  IP        (#137)  $0.78012       7d: -6.5%
+2026-03-11 10:05:50,639 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 10:05:57,140 [INFO]   [ 56]  IOTA      (#140)  $0.06335       7d: -5.9%
+2026-03-11 10:05:58,217 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 10:06:04,718 [INFO]   [ 57]  2Z        (#142)  $0.07637       7d: +5.2%
+2026-03-11 10:06:05,974 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 10:06:12,477 [INFO]   [ 58]  CFX       (#144)  $0.05086       7d: +4.7%
+2026-03-11 10:06:12,545 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:06:42,609 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:07:44,316 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 10:07:50,818 [INFO]   [ 59]  PYTH      (#145)  $0.04555       7d: -7.0%
+2026-03-11 10:07:51,935 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 10:07:58,440 [INFO]   [ 60]  SYRUP     (#146)  $0.22339       7d: -3.6%
+2026-03-11 10:07:59,264 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:08:29,330 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:09:30,459 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 10:09:36,961 [INFO]   [ 61]  BTSE      (#147)  $1.59000       7d: +0.2%
+2026-03-11 10:09:38,006 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 10:09:44,507 [INFO]   [ 62]  LIT       (#148)  $1.02400       7d: -20.5%
+2026-03-11 10:09:45,649 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 10:09:52,150 [INFO]   [ 63]  OP        (#149)  $0.11925       7d: -6.5%
+2026-03-11 10:09:52,211 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:10:22,271 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:11:23,756 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 10:11:30,256 [INFO]   [ 64]  TEL       (#150)  $0.00260       7d: -2.1%
+2026-03-11 10:11:31,442 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 10:11:37,944 [INFO]   [ 65]  LDO       (#151)  $0.29096       7d: -5.1%
+2026-03-11 10:11:38,685 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:12:08,743 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:13:09,527 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 10:13:16,028 [INFO]   [ 66]  BARD      (#152)  $1.09700       7d: +1.8%
+2026-03-11 10:13:17,056 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 10:13:23,559 [INFO]   [ 67]  H         (#153)  $0.13197       7d: +5.8%
+2026-03-11 10:13:24,903 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 10:13:31,407 [INFO]   [ 68]  VVV       (#154)  $5.24000       7d: -14.8%
+2026-03-11 10:13:31,472 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:14:01,530 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:15:03,110 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:15:09,611 [INFO]   [ 69]  MON       (#156)  $0.02126       7d: +1.1%
+2026-03-11 10:15:10,705 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 10:15:17,207 [INFO]   [ 70]  ENS       (#160)  $5.94000       7d: -2.8%
+2026-03-11 10:15:18,032 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:15:48,093 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:16:48,986 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 10:16:55,488 [INFO]   [ 71]  HNT       (#161)  $1.20000       7d: -5.9%
+2026-03-11 10:16:56,504 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 10:17:03,006 [INFO]   [ 72]  STRK      (#162)  $0.04005       7d: -1.0%
+2026-03-11 10:17:03,925 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 10:17:10,427 [INFO]   [ 73]  XPL       (#163)  $0.09793       7d: -13.1%
+2026-03-11 10:17:11,160 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:17:41,219 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:18:42,271 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 10:18:48,775 [INFO]   [ 74]  SAND      (#164)  $0.08174       7d: -3.4%
+2026-03-11 10:18:49,694 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 10:18:56,198 [INFO]   [ 75]  AB        (#167)  $0.00215       7d: -9.9%
+2026-03-11 10:18:57,449 [INFO]           → conviction 20/100  |  signals 2/15
+2026-03-11 10:19:03,951 [INFO]   [ 76]  PENDLE    (#168)  $1.26000       7d: -1.3%
+2026-03-11 10:19:04,811 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:19:34,868 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:20:36,062 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 10:20:42,565 [INFO]   [ 77]  TWT       (#171)  $0.49198       7d: -1.4%
+2026-03-11 10:20:43,792 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 10:20:50,293 [INFO]   [ 78]  DEXE      (#172)  $4.31000       7d: +22.9%
+2026-03-11 10:20:51,312 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 10:20:57,814 [INFO]   [ 79]  CVX       (#173)  $2.18000       7d: +16.2%
+2026-03-11 10:20:57,878 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:21:27,933 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:22:29,396 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 10:22:35,898 [INFO]   [ 80]  GRASS     (#174)  $0.36585       7d: +26.7%
+2026-03-11 10:22:37,017 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 10:22:43,518 [INFO]   [ 81]  ZBCN      (#175)  $0.00201       7d: -2.6%
+2026-03-11 10:22:44,664 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:23:14,719 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:24:15,649 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 10:24:22,151 [INFO]   [ 82]  B         (#176)  $0.19464       7d: -8.8%
+2026-03-11 10:24:23,186 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 10:24:29,687 [INFO]   [ 83]  9BIT      (#178)  $0.02325       7d: +12.1%
+2026-03-11 10:24:30,911 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 10:24:37,412 [INFO]   [ 84]  VSN       (#181)  $0.05140       7d: -1.5%
+2026-03-11 10:24:37,472 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:25:07,529 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:26:09,565 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 10:26:16,068 [INFO]   [ 85]  THETA     (#182)  $0.18248       7d: -4.8%
+2026-03-11 10:26:17,036 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 10:26:23,539 [INFO]   [ 86]  XCN       (#183)  $0.00483       7d: +3.8%
+2026-03-11 10:26:24,313 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:26:54,363 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:27:54,995 [INFO]           → conviction 41/100  |  signals 6/15
+2026-03-11 10:28:01,496 [INFO]   [ 87]  NEO       (#185)  $2.53000       7d: -0.7%
+2026-03-11 10:28:02,528 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 10:28:09,029 [INFO]   [ 88]  WFI       (#186)  $2.20000       7d: +7.6%
+2026-03-11 10:28:10,089 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 10:28:16,591 [INFO]   [ 89]  MANA      (#187)  $0.09204       7d: -4.4%
+2026-03-11 10:28:17,687 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:28:47,744 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:29:48,455 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 10:29:54,957 [INFO]   [ 90]  REAL      (#188)  $0.05651       7d: +1.7%
+2026-03-11 10:29:56,005 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 10:30:02,519 [INFO]   [ 91]  ZK        (#190)  $0.01897       7d: +2.3%
+2026-03-11 10:30:03,567 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:30:10,069 [INFO]   [ 92]  ULTIMA    (#191)  $4605.15000    7d: -6.2%
+2026-03-11 10:30:10,844 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:30:40,904 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:31:41,917 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 10:31:48,423 [INFO]   [ 93]  FF        (#192)  $0.07368       7d: +0.8%
+2026-03-11 10:31:49,422 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:31:55,923 [INFO]   [ 94]  COMP      (#193)  $17.75000      7d: -0.7%
+2026-03-11 10:31:56,837 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 10:32:03,339 [INFO]   [ 95]  FLUID     (#195)  $2.16000       7d: -0.2%
+2026-03-11 10:32:04,219 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:32:34,268 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:33:35,153 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:33:41,654 [INFO]   [ 96]  WAL       (#196)  $0.07532       7d: -5.7%
+2026-03-11 10:33:42,775 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:33:49,277 [INFO]   [ 97]  SENT      (#199)  $0.02263       7d: +8.4%
+2026-03-11 10:33:50,353 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:33:56,854 [INFO]   [ 98]  WIF       (#200)  $0.16321       7d: -22.3%
+2026-03-11 10:33:56,913 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:34:26,969 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:35:28,315 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 10:35:34,818 [INFO]   [ 99]  GALA      (#202)  $0.00338       7d: -4.8%
+2026-03-11 10:35:35,873 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 10:35:42,375 [INFO]   [100]  RAY       (#203)  $0.59113       7d: -2.1%
+2026-03-11 10:35:43,236 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:36:13,293 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:37:14,020 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 10:37:20,528 [INFO]   [101]  TIBBIR    (#205)  $0.15807       7d: -13.4%
+2026-03-11 10:37:21,600 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 10:37:28,102 [INFO]   [102]  S         (#206)  $0.04170       7d: +0.0%
+2026-03-11 10:37:29,122 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 10:37:35,624 [INFO]   [103]  FARTCOIN  (#208)  $0.15263       7d: -11.2%
+2026-03-11 10:37:35,688 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:38:05,744 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 10:39:07,265 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 10:39:13,768 [INFO]   [104]  RUNE      (#210)  $0.42394       7d: +2.4%
+2026-03-11 10:39:14,802 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 10:39:21,304 [INFO]   [105]  TRAC      (#213)  $0.31011       7d: -0.6%
+2026-03-11 10:39:22,268 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 10:39:52,318 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:09:05,826 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 11:09:10,896 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 11:09:17,399 [INFO]   [106]  IMX       (#214)  $0.16185       7d: +1.3%
+2026-03-11 11:09:18,785 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:09:25,288 [INFO]   [107]  SKR       (#215)  $0.02309       7d: +2.2%
+2026-03-11 11:09:26,440 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-11 11:09:32,946 [INFO]   [108]  SFP       (#216)  $0.27021       7d: -1.5%
+2026-03-11 11:09:33,767 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:10:03,828 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:11:05,129 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 11:11:11,631 [INFO]   [109]  WEMIX     (#217)  $0.29082       7d: +0.8%
+2026-03-11 11:11:12,865 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 11:11:19,369 [INFO]   [110]  1INCH     (#219)  $0.09405       7d: -0.6%
+2026-03-11 11:11:20,571 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:11:27,078 [INFO]   [111]  COW       (#222)  $0.23129       7d: +2.5%
+2026-03-11 11:11:27,150 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:11:57,222 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:12:59,100 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 11:13:05,604 [INFO]   [112]  GLM       (#224)  $0.12627       7d: -3.4%
+2026-03-11 11:13:07,011 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 11:13:13,514 [INFO]   [113]  A         (#227)  $0.07563       7d: -2.1%
+2026-03-11 11:13:14,816 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 11:13:21,318 [INFO]   [114]  EGLD      (#228)  $4.11000       7d: -1.0%
+2026-03-11 11:13:21,382 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:13:51,457 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:14:53,224 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 11:14:59,733 [INFO]   [115]  AKT       (#229)  $0.42085       7d: +22.3%
+2026-03-11 11:15:00,790 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 11:15:07,292 [INFO]   [116]  GOMINING  (#233)  $0.29627       7d: -1.3%
+2026-03-11 11:15:08,671 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 11:15:15,175 [INFO]   [117]  EIGEN     (#235)  $0.18508       7d: -2.7%
+2026-03-11 11:15:15,241 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:15:45,300 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:16:47,073 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:16:53,583 [INFO]   [118]  0G        (#236)  $0.55683       7d: -9.1%
+2026-03-11 11:16:55,040 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 11:17:01,552 [INFO]   [119]  RLB       (#237)  $0.06774       7d: -13.3%
+2026-03-11 11:17:02,895 [INFO]           → conviction 21/100  |  signals 2/15
+2026-03-11 11:17:09,396 [INFO]   [120]  AMP       (#239)  $0.00139       7d: -2.1%
+2026-03-11 11:17:09,461 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:17:39,526 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:18:41,925 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 11:18:48,429 [INFO]   [121]  JTO       (#241)  $0.25931       7d: -3.9%
+2026-03-11 11:18:49,671 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 11:18:56,174 [INFO]   [122]  BMX       (#242)  $0.33783       7d: +7.0%
+2026-03-11 11:18:57,000 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:19:27,058 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:20:28,210 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 11:20:34,711 [INFO]   [123]  BAN       (#244)  $0.11402       7d: +7.7%
+2026-03-11 11:20:35,969 [INFO]           → conviction 34/100  |  signals 6/15
+2026-03-11 11:20:42,470 [INFO]   [124]  LPT       (#245)  $2.28000       7d: -0.4%
+2026-03-11 11:20:43,660 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:20:50,164 [INFO]   [125]  SOSO      (#249)  $0.35296       7d: -7.7%
+2026-03-11 11:20:50,228 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:21:20,285 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:22:22,963 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 11:22:29,465 [INFO]   [126]  AR        (#250)  $1.67000       7d: +1.6%
+2026-03-11 11:22:30,742 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 11:22:37,245 [INFO]   [127]  PMUSD     (#252)  $0.97671       7d: -1.2%
+2026-03-11 11:22:38,076 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:23:08,136 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:24:09,526 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 11:24:16,040 [INFO]   [128]  LION      (#253)  $0.00350       7d: -9.0%
+2026-03-11 11:24:17,269 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 11:24:23,780 [INFO]   [129]  SNX       (#255)  $0.30818       7d: -3.0%
+2026-03-11 11:24:25,033 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:24:31,536 [INFO]   [130]  BEAM      (#257)  $0.00205       7d: +6.8%
+2026-03-11 11:24:31,610 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:25:01,673 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:26:03,352 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 11:26:09,855 [INFO]   [131]  KTA       (#258)  $0.20795       7d: -15.9%
+2026-03-11 11:26:11,202 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 11:26:17,703 [INFO]   [132]  MELANIA   (#259)  $0.10698       7d: -1.2%
+2026-03-11 11:26:18,537 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:26:48,593 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:27:49,651 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 11:27:56,152 [INFO]   [133]  W         (#261)  $0.01836       7d: -1.5%
+2026-03-11 11:27:57,308 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 11:28:03,811 [INFO]   [134]  ATH       (#267)  $0.00574       7d: -5.1%
+2026-03-11 11:28:04,905 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 11:28:11,405 [INFO]   [135]  RSR       (#269)  $0.00160       7d: +2.9%
+2026-03-11 11:28:12,289 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:28:42,349 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:29:42,381 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 11:29:47,455 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 11:29:53,957 [INFO]   [136]  AWE       (#270)  $0.05125       7d: +0.4%
+2026-03-11 11:29:56,281 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 11:30:02,789 [INFO]   [137]  FLOW      (#272)  $0.05905       7d: +58.8%
+2026-03-11 11:30:04,871 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 11:30:11,373 [INFO]   [138]  EURCV     (#276)  $1.16000       7d: -0.3%
+2026-03-11 11:30:12,745 [INFO]           → skip (flatliner: ATR 0.17% / BB 0.35%)
+2026-03-11 11:30:19,249 [INFO]   [139]  PIEVERSE  (#277)  $0.47182       7d: -8.0%
+2026-03-11 11:30:19,317 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:30:49,380 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:31:51,897 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 11:31:58,400 [INFO]   [140]  ZEN       (#278)  $5.40000       7d: -4.1%
+2026-03-11 11:31:59,865 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 11:32:06,370 [INFO]   [141]  SHFL      (#279)  $0.24590       7d: -13.4%
+2026-03-11 11:32:08,264 [INFO]           → conviction 29/100  |  signals 3/15
+2026-03-11 11:32:14,766 [INFO]   [142]  GRX       (#280)  $10.08000      7d: +16.9%
+2026-03-11 11:32:14,834 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:32:44,897 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:33:47,064 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 11:33:53,566 [INFO]   [143]  TFUEL     (#282)  $0.01294       7d: -2.4%
+2026-03-11 11:33:55,067 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 11:34:01,576 [INFO]   [144]  QTUM      (#281)  $0.88733       7d: -2.5%
+2026-03-11 11:34:03,532 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 11:34:10,035 [INFO]   [145]  APE       (#283)  $0.09521       7d: -6.2%
+2026-03-11 11:34:10,104 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:34:40,169 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:35:42,580 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 11:35:49,088 [INFO]   [146]  GWEI      (#284)  $0.05273       7d: +20.7%
+2026-03-11 11:35:50,234 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 11:35:56,745 [INFO]   [147]  YFI       (#285)  $2527.41000    7d: -4.6%
+2026-03-11 11:35:57,671 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:36:27,738 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:37:29,411 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:37:35,919 [INFO]   [148]  ZRX       (#286)  $0.10585       7d: +3.2%
+2026-03-11 11:37:37,242 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 11:37:43,744 [INFO]   [149]  ROSE      (#287)  $0.01186       7d: -3.4%
+2026-03-11 11:37:45,118 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 11:37:51,620 [INFO]   [150]  USDA      (#288)  $0.99677       7d: -0.0%
+2026-03-11 11:37:51,691 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:38:22,301 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:39:24,951 [INFO]           → skip (flatliner: ATR 1.75% / BB 0.41%)
+2026-03-11 11:39:31,465 [INFO]   [151]  ROBO      (#290)  $0.03965       7d: -18.0%
+2026-03-11 11:39:32,428 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 11:39:38,930 [INFO]   [152]  CRCLON    (#291)  $116.77000     7d: +15.5%
+2026-03-11 11:39:39,761 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:40:09,820 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:41:11,718 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 11:41:18,226 [INFO]   [153]  FOGO      (#294)  $0.02307       7d: -0.2%
+2026-03-11 11:41:19,580 [INFO]           → conviction 5/100  |  signals 2/15
+2026-03-11 11:41:26,082 [INFO]   [154]  TOSHI     (#293)  $0.00021       7d: -0.3%
+2026-03-11 11:41:27,442 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 11:41:33,943 [INFO]   [155]  RVN       (#295)  $0.00542       7d: -4.2%
+2026-03-11 11:41:34,013 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:42:04,074 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:43:06,470 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:43:12,971 [INFO]   [156]  ZANO      (#296)  $5.68000       7d: -9.4%
+2026-03-11 11:43:14,060 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 11:43:20,580 [INFO]   [157]  CORE      (#297)  $0.08019       7d: -4.3%
+2026-03-11 11:43:21,435 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:43:51,523 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:44:53,635 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 11:45:00,137 [INFO]   [158]  XVG       (#300)  $0.00512       7d: -6.3%
+2026-03-11 11:45:01,638 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 11:45:08,141 [INFO]   [159]  KAITO     (#302)  $0.34983       7d: -3.5%
+2026-03-11 11:45:09,510 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 11:45:16,013 [INFO]   [160]  ICNT      (#306)  $0.32933       7d: -7.3%
+2026-03-11 11:45:16,880 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:45:46,940 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:46:49,193 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 11:46:55,694 [INFO]   [161]  LUX       (#305)  $0.00083       7d: +3.0%
+2026-03-11 11:46:57,068 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 11:47:03,570 [INFO]   [162]  MAG7.SSI  (#307)  $0.49110       7d: -1.4%
+2026-03-11 11:47:04,888 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 11:47:11,390 [INFO]   [163]  SIGN      (#304)  $0.05061       7d: +72.2%
+2026-03-11 11:47:12,132 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:47:42,199 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:48:43,950 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 11:48:50,452 [INFO]   [164]  SN64      (#309)  $18.04000      7d: -5.2%
+2026-03-11 11:48:51,858 [INFO]           → conviction 20/100  |  signals 4/15
+2026-03-11 11:48:58,359 [INFO]   [165]  HOME      (#310)  $0.02395       7d: -17.9%
+2026-03-11 11:48:59,673 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 11:49:06,180 [INFO]   [166]  EDU       (#311)  $0.09820       7d: -5.8%
+2026-03-11 11:49:07,011 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:49:37,077 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:50:38,550 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 11:50:45,055 [INFO]   [167]  ZIL       (#312)  $0.00410       7d: +1.0%
+2026-03-11 11:50:46,220 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 11:50:52,722 [INFO]   [168]  RON       (#317)  $0.10602       7d: +9.1%
+2026-03-11 11:50:53,957 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 11:51:00,459 [INFO]   [169]  MANTRA    (#313)  $0.01702       7d: +10.2%
+2026-03-11 11:51:00,522 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:51:30,580 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:52:32,692 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 11:52:39,198 [INFO]   [170]  CTC       (#314)  $0.15408       7d: +0.8%
+2026-03-11 11:52:40,680 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 11:52:47,182 [INFO]   [171]  MET       (#316)  $0.15965       7d: -8.5%
+2026-03-11 11:52:48,030 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:53:18,094 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:54:19,710 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 11:54:26,212 [INFO]   [172]  INI       (#318)  $0.10655       7d: +0.4%
+2026-03-11 11:54:27,221 [INFO]           → skip (flatliner: ATR 0.85% / BB 0.38%)
+2026-03-11 11:54:33,727 [INFO]   [173]  KSM       (#319)  $4.51000       7d: -2.1%
+2026-03-11 11:54:34,977 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 11:54:41,485 [INFO]   [174]  AIOZ      (#320)  $0.06485       7d: +3.9%
+2026-03-11 11:54:41,557 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:55:11,622 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:56:13,889 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 11:56:20,392 [INFO]   [175]  UB        (#321)  $0.03178       7d: -5.8%
+2026-03-11 11:56:21,748 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 11:56:28,251 [INFO]   [176]  BANANAS31  (#322)  $0.00791       7d: +31.9%
+2026-03-11 11:56:29,038 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:56:59,106 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 11:58:01,136 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 11:58:07,649 [INFO]   [177]  KMNO      (#325)  $0.01871       7d: -23.3%
+2026-03-11 11:58:08,993 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 11:58:15,513 [INFO]   [178]  DOG       (#326)  $0.00077       7d: -4.6%
+2026-03-11 11:58:22,403 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 11:58:28,907 [INFO]   [179]  ZORA      (#327)  $0.01710       7d: -0.7%
+2026-03-11 11:58:28,978 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 11:58:59,499 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 12:00:03,576 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 12:00:10,081 [INFO]   [180]  LYN       (#330)  $0.36527       7d: +19.4%
+2026-03-11 12:00:11,336 [INFO]           → conviction 30/100  |  signals 4/15
+2026-03-11 12:00:17,839 [INFO]   [181]  DEEP      (#331)  $0.03021       7d: +18.4%
+2026-03-11 12:00:18,645 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 12:00:48,707 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 12:01:50,378 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 12:01:56,883 [INFO]   [182]  DBR       (#332)  $0.01597       7d: +6.4%
+2026-03-11 12:01:58,268 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 12:02:04,770 [INFO]   [183]  LINEA     (#333)  $0.00319       7d: +0.4%
+2026-03-11 12:02:06,164 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 12:02:12,671 [INFO]   [184]  META      (#336)  $3.29000       7d: -23.2%
+2026-03-11 12:02:13,496 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 12:02:43,557 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 12:03:45,290 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 12:03:51,792 [INFO]   [185]  CFG       (#337)  $0.12883       7d: -10.7%
+2026-03-11 12:03:52,813 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 12:03:59,316 [INFO]   [186]  CKB       (#339)  $0.00152       7d: +1.2%
+2026-03-11 12:04:00,617 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 12:04:07,119 [INFO]   [187]  CYS       (#347)  $0.45763       7d: +37.2%
+2026-03-11 12:04:07,854 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 12:04:37,917 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 12:05:39,601 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 12:05:46,104 [INFO]   [188]  DGB       (#340)  $0.00405       7d: -3.1%
+2026-03-11 12:05:47,371 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 12:05:53,877 [INFO]   [189]  SAFE      (#342)  $0.10246       7d: -0.5%
+2026-03-11 12:05:55,082 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 12:06:01,586 [INFO]   [190]  HOT       (#343)  $0.00041       7d: +6.1%
+2026-03-11 12:06:02,483 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 12:06:32,549 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 12:07:34,175 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 12:58:46,171 [INFO]   [191]  MOVE      (#345)  $0.02073       7d: -7.5%
+2026-03-11 12:58:46,653 [WARNING] Request error: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/coins/movement/ohlc?vs_currency=usd&days=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BCB651F440>: Failed to resolve 'api.coingecko.com' ([Errno 11001] getaddrinfo failed)"))
+2026-03-11 13:29:41,205 [WARNING] Request error: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/coins/movement/ohlc?vs_currency=usd&days=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BCB652A240>: Failed to resolve 'api.coingecko.com' ([Errno 11001] getaddrinfo failed)"))
+2026-03-11 13:29:49,883 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 13:29:56,389 [INFO]   [192]  DYDX      (#346)  $0.08747       7d: -8.1%
+2026-03-11 13:29:57,440 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-11 13:30:03,945 [INFO]   [193]  SUPER     (#348)  $0.11365       7d: -2.2%
+2026-03-11 13:30:05,364 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 13:30:11,867 [INFO]   [194]  MINA      (#351)  $0.05541       7d: -1.9%
+2026-03-11 13:30:20,409 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:30:50,479 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:31:53,401 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 13:31:59,905 [INFO]   [195]  METAL     (#350)  $0.13897       7d: +1.0%
+2026-03-11 13:32:01,355 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 13:32:07,858 [INFO]   [196]  BRETT     (#354)  $0.00705       7d: -4.4%
+2026-03-11 13:32:09,204 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 13:32:15,721 [INFO]   [197]  KAVA      (#355)  $0.06418       7d: +8.0%
+2026-03-11 13:32:16,930 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:32:46,995 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:33:48,359 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 13:33:54,862 [INFO]   [198]  SAHARA    (#357)  $0.02363       7d: -17.2%
+2026-03-11 13:33:56,061 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 13:34:02,563 [INFO]   [199]  SOON      (#361)  $0.15403       7d: -3.8%
+2026-03-11 13:34:04,180 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 13:34:10,682 [INFO]   [200]  XPR       (#367)  $0.00231       7d: +5.4%
+2026-03-11 13:34:11,516 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:34:41,576 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:35:43,260 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 13:35:49,769 [INFO]   [201]  ZETA      (#368)  $0.05023       7d: -3.3%
+2026-03-11 13:35:50,954 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 13:35:57,456 [INFO]   [202]  GMX       (#370)  $6.26000       7d: -15.2%
+2026-03-11 13:35:58,713 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 13:36:05,216 [INFO]   [203]  ELF       (#371)  $0.07898       7d: +4.1%
+2026-03-11 13:36:05,999 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:36:36,059 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:37:37,461 [INFO]           → conviction 39/100  |  signals 5/15
+2026-03-11 13:37:43,967 [INFO]   [204]  ALCH      (#372)  $0.07587       7d: -3.6%
+2026-03-11 13:37:45,151 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 13:37:51,656 [INFO]   [205]  币安人生      (#375)  $0.06391       7d: +3.6%
+2026-03-11 13:37:52,971 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 13:37:59,475 [INFO]   [206]  ASTR      (#377)  $0.00740       7d: +5.0%
+2026-03-11 13:37:59,543 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:38:29,604 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:39:31,611 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 13:39:38,115 [INFO]   [207]  WMTX      (#380)  $0.07361       7d: +7.3%
+2026-03-11 13:39:39,093 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 13:39:45,595 [INFO]   [208]  TURBO     (#381)  $0.00090       7d: -10.0%
+2026-03-11 13:39:46,433 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:40:16,495 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:41:17,989 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 13:41:24,492 [INFO]   [209]  PLUME     (#382)  $0.01210       7d: +25.9%
+2026-03-11 13:41:25,754 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 13:41:32,257 [INFO]   [210]  AZTEC     (#383)  $0.02106       7d: -2.1%
+2026-03-11 13:41:33,510 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 13:41:40,011 [INFO]   [211]  VELO      (#384)  $0.00350       7d: +1.5%
+2026-03-11 13:41:40,085 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:47:15,287 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 13:47:21,789 [INFO]   [212]  NPC       (#385)  $0.00762       7d: -10.7%
+2026-03-11 13:47:22,970 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 13:47:29,472 [INFO]   [213]  PYTHIA    (#386)  $0.06139       7d: +1.5%
+2026-03-11 13:47:30,262 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:48:00,322 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:49:00,349 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 13:49:05,421 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 13:49:11,925 [INFO]   [214]  TRIA      (#388)  $0.02823       7d: +58.5%
+2026-03-11 13:49:14,496 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 13:49:21,001 [INFO]   [215]  MBG       (#390)  $0.31770       7d: +7.1%
+2026-03-11 13:49:22,168 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 13:49:28,673 [INFO]   [216]  HSK       (#393)  $0.17342       7d: +8.4%
+2026-03-11 13:49:29,516 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:49:59,578 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:51:01,414 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 13:51:07,916 [INFO]   [217]  AXL       (#394)  $0.05255       7d: -1.3%
+2026-03-11 13:51:09,197 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 13:51:15,703 [INFO]   [218]  ARKM      (#395)  $0.10348       7d: -4.6%
+2026-03-11 13:51:16,690 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 13:51:23,194 [INFO]   [219]  VTHO      (#396)  $0.00059       7d: +1.2%
+2026-03-11 13:51:23,259 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:51:53,324 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:52:55,731 [INFO]           → conviction 41/100  |  signals 7/15
+2026-03-11 13:53:02,235 [INFO]   [220]  OPN       (#397)  $0.29515     
+2026-03-11 13:53:03,228 [INFO]           → conviction 11/100  |  signals 3/15
+2026-03-11 13:53:09,730 [INFO]   [221]  BICO      (#398)  $0.02124       7d: +2.0%
+2026-03-11 13:53:11,010 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 13:53:17,515 [INFO]   [222]  MYX       (#399)  $0.30668       7d: +4.3%
+2026-03-11 13:53:17,576 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:53:47,638 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:54:50,093 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 13:54:56,596 [INFO]   [223]  SXT       (#400)  $0.01964       7d: +5.5%
+2026-03-11 13:54:57,896 [INFO]           → conviction 25/100  |  signals 5/15
+2026-03-11 13:55:04,398 [INFO]   [224]  COAI      (#401)  $0.30911       7d: -2.3%
+2026-03-11 13:55:05,461 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 13:55:11,964 [INFO]   [225]  BEAT      (#402)  $0.41701       7d: +54.6%
+2026-03-11 13:55:12,033 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:55:42,096 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:56:44,413 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 13:56:50,918 [INFO]   [226]  MOCA      (#405)  $0.01436       7d: -6.0%
+2026-03-11 13:56:52,080 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 13:56:58,586 [INFO]   [227]  NIZA      (#408)  $0.04902       7d: +24.3%
+2026-03-11 13:56:59,418 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:57:29,484 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 13:58:31,100 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 13:58:37,606 [INFO]   [228]  XYO       (#411)  $0.00401       7d: -2.7%
+2026-03-11 13:58:38,896 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 13:58:45,401 [INFO]   [229]  ORCA      (#413)  $0.91068       7d: +5.4%
+2026-03-11 13:58:46,690 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 13:58:53,193 [INFO]   [230]  ALEO      (#415)  $0.05758       7d: -16.7%
+2026-03-11 13:58:53,264 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 13:59:23,324 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:00:25,722 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 14:00:32,226 [INFO]   [231]  EURI      (#416)  $1.16000       7d: -0.1%
+2026-03-11 14:00:33,555 [INFO]           → skip (flatliner: ATR 0.34% / BB 0.34%)
+2026-03-11 14:00:40,057 [INFO]   [232]  SUSHI     (#417)  $0.19909       7d: -3.0%
+2026-03-11 14:00:40,918 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:01:10,994 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:02:12,575 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 14:02:19,078 [INFO]   [233]  AIC       (#419)  $0.05389       7d: -7.4%
+2026-03-11 14:02:20,414 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:02:26,916 [INFO]   [234]  UAI       (#420)  $0.22528       7d: +8.6%
+2026-03-11 14:02:28,236 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 14:02:34,739 [INFO]   [235]  NMR       (#421)  $7.60000       7d: +0.6%
+2026-03-11 14:02:34,813 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:03:04,876 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:04:07,075 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 14:04:13,579 [INFO]   [236]  BLUR      (#422)  $0.01947       7d: -1.1%
+2026-03-11 14:04:14,796 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 14:04:21,301 [INFO]   [237]  DRV       (#424)  $0.06224       7d: +53.2%
+2026-03-11 14:04:22,034 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:04:52,105 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:05:52,166 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 14:05:57,214 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 14:06:03,718 [INFO]   [238]  PCI       (#425)  $0.05179       7d: -3.7%
+2026-03-11 14:06:06,104 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 14:06:12,610 [INFO]   [239]  SPK       (#426)  $0.02147       7d: +9.3%
+2026-03-11 14:06:13,887 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 14:06:20,389 [INFO]   [240]  VENOM     (#429)  $0.02435       7d: -2.6%
+2026-03-11 14:06:21,256 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:06:51,318 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:07:52,564 [INFO]           → skip (flatliner: ATR 0.49% / BB 0.41%)
+2026-03-11 14:07:59,069 [INFO]   [241]  MEW       (#430)  $0.00059       7d: -5.5%
+2026-03-11 14:08:00,341 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 14:08:06,842 [INFO]   [242]  ESP       (#432)  $0.09913       7d: -16.3%
+2026-03-11 14:08:08,092 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 14:08:14,594 [INFO]   [243]  SC        (#433)  $0.00104       7d: -1.8%
+2026-03-11 14:08:15,431 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:08:45,493 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:09:47,147 [INFO]           → skip (flatliner: ATR 0.95% / BB 0.47%)
+2026-03-11 14:09:53,649 [INFO]   [244]  TSLAX     (#434)  $397.67000     7d: +2.1%
+2026-03-11 14:09:54,884 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:10:01,388 [INFO]   [245]  ORDI      (#435)  $2.43000       7d: -4.8%
+2026-03-11 14:10:02,818 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:10:09,321 [INFO]   [246]  QAI       (#437)  $63.06000      7d: -7.6%
+2026-03-11 14:10:10,168 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:10:40,233 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:11:41,580 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 14:11:48,082 [INFO]   [247]  GOOGLON   (#436)  $306.04000     7d: +1.9%
+2026-03-11 14:11:49,257 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 14:11:55,759 [INFO]   [248]  POLYX     (#439)  $0.04032       7d: -3.4%
+2026-03-11 14:11:57,057 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 14:12:03,560 [INFO]   [249]  CRCLX     (#440)  $116.78000     7d: +11.3%
+2026-03-11 14:12:04,667 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:12:34,730 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:13:36,113 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 14:13:42,615 [INFO]   [250]  BNKR      (#441)  $0.00050       7d: -4.4%
+2026-03-11 14:13:43,807 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:13:50,310 [INFO]   [251]  XVS       (#442)  $2.99000       7d: +0.5%
+2026-03-11 14:13:51,594 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 14:13:58,097 [INFO]   [252]  PROVE     (#443)  $0.25705       7d: -7.3%
+2026-03-11 14:13:58,159 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:14:28,217 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:15:30,604 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 14:15:37,111 [INFO]   [253]  POPCAT    (#448)  $0.05086       7d: +3.0%
+2026-03-11 14:15:38,148 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 14:15:44,657 [INFO]   [254]  IOTX      (#450)  $0.00511       7d: -1.0%
+2026-03-11 14:15:45,497 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:16:15,557 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:17:17,046 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:17:23,574 [INFO] 
+[5/5] Building trade plan report...
+2026-03-11 14:17:23,580 [INFO]   Raw candidates found: 0
+2026-03-11 14:17:23,599 [INFO] 
+================================================================================
+  CRYPTO MASTER ORCHESTRATOR — TRADE PLAN REPORT
+  Generated: 2026-03-11 14:17:23
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   69,607.00
+  BTC 7-day    :     +0.14%
+  BTC 24-hour  :     -2.08%
+  Regime       :  🟡 SIDEWAYS
+
+  🟡 SIDEWAYS — Thresholds tightened for safety:
+     Conviction ≥ 60  |  Max position 6.0%  |  Stops 1.0× ATR
+     Missing a trade is better than losing capital in chop.
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,700.00 USDT
+  Risk / trade  : 1.5%  ($1,450 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = qualified this scan but needs 1 more confirmation scan before entry.
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  ------------------------------
+  1     🔶AERO      #128  $0.33996         -4.3%    48     7  rs_vs_btc, stealth_accum, vol_expansion +4
+  2     🔶XCN       #183  $0.00483         +3.8%    41     6  rs_vs_btc, stealth_accum, bb_squeeze +3
+  3     🔶VTHO      #396  $0.00059         +1.2%    41     7  rs_vs_btc, vol_expansion, higher_lows +4
+  4     🔶ELF       #371  $0.07898         +4.1%    39     5  rs_vs_btc, stealth_accum, vol_expansion +2
+  5     🔹BSV       #129  $15.37000        +3.5%    38     6  rs_vs_btc, vol_expansion, whale_candles +3
+  6     🔹VIRTUAL   #104  $0.69313         -7.1%    36     6  rs_vs_btc, vol_expansion, higher_lows +3
+  7     🔹XPL       #163  $0.09793        -13.1%    36     5  rs_vs_btc, stealth_accum, bb_squeeze +2
+  8     🔹HOME      #310  $0.02395        -17.9%    36     5  rs_vs_btc, bb_squeeze, higher_lows +2
+  9     🔹CFX       #144  $0.05086         +4.7%    34     5  rs_vs_btc, stealth_accum, higher_lows +2
+  10    🔹STRK      #162  $0.04005         -1.0%    34     5  rs_vs_btc, stealth_accum, higher_lows +2
+
+--------------------------------------------------------------------------------
+2026-03-11 14:17:23,633 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.txt
+2026-03-11 14:17:23,633 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.json
+2026-03-11 14:17:23,633 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260311.log
+2026-03-11 14:17:23,634 [INFO] 
+  Done.  0 high-conviction setup(s) found.
+2026-03-11 14:19:09,383 [INFO] 
+2026-03-11 14:19:09,383 [INFO] ================================================================================
+2026-03-11 14:19:09,383 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.0
+2026-03-11 14:19:09,383 [INFO]   15-signal engine | regime gate | 2-scan persistence | vol expansion
+2026-03-11 14:19:09,383 [INFO] ================================================================================
+2026-03-11 14:19:09,383 [INFO]   Account: $96,700.00 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-03-11 14:19:09,383 [INFO] 
+2026-03-11 14:19:09,383 [INFO] [1/5] Analyzing market regime...
+2026-03-11 14:19:09,383 [INFO] Fetching market context (BTC)...
+2026-03-11 14:19:10,303 [INFO]   BTC: $70,355 | 7d: -1.6% | Regime: 🟡 SIDEWAYS
+2026-03-11 14:19:10,303 [INFO]   🟡 SIDEWAYS — conviction raised to 60, max position capped at 6.0%, stops tightened to 1.0× ATR
+2026-03-11 14:19:10,303 [INFO] [2/5] Fetching BTC historical data...
+2026-03-11 14:19:11,085 [INFO]   BTC data: OK
+2026-03-11 14:19:17,586 [INFO] [3/5] Fetching top 600 coins...
+2026-03-11 14:19:17,586 [INFO] Fetching top 600 coins by market cap...
+2026-03-11 14:19:21,354 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:19:51,413 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:20:52,959 [INFO]   Fetched 600 coins
+2026-03-11 14:20:52,961 [INFO]   Fetched 600 coins
+2026-03-11 14:20:52,962 [INFO] [4/5] Scanning for high-conviction setups...
+2026-03-11 14:20:52,965 [INFO]   Filters: Rank 50–450  |  Vol ≥ $500,000  |  Min conviction: 60
+2026-03-11 14:20:52,966 [INFO] 
+2026-03-11 14:20:52,970 [INFO]   [  1]  NEAR      (# 51)  $1.31000       7d: -2.3%
+2026-03-11 14:20:54,193 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 14:21:00,694 [INFO]   [  2]  BGB       (# 53)  $2.18000       7d: +1.4%
+2026-03-11 14:21:01,746 [INFO]           → skip (flatliner: ATR 0.55% / BB 0.40%)
+2026-03-11 14:21:08,248 [INFO]   [  3]  ICP       (# 54)  $2.76000       7d: +7.6%
+2026-03-11 14:21:08,988 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:21:39,051 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:22:40,599 [INFO]           → conviction 38/100  |  signals 6/15
+2026-03-11 14:22:47,101 [INFO]   [  4]  ETC       (# 58)  $8.36000       7d: -2.6%
+2026-03-11 14:22:48,111 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:22:54,615 [INFO]   [  5]  USDY      (# 59)  $1.11000       7d: +0.3%
+2026-03-11 14:22:55,890 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 14:23:02,392 [INFO]   [  6]  ONDO      (# 60)  $0.25833       7d: -3.7%
+2026-03-11 14:23:03,143 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:23:33,205 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:24:34,631 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 14:24:41,132 [INFO]   [  7]  PUMP      (# 61)  $0.00205       7d: +2.4%
+2026-03-11 14:24:43,910 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 14:24:50,413 [INFO]   [  8]  GT        (# 62)  $7.04000       7d: -0.8%
+2026-03-11 14:24:51,693 [INFO]           → skip (flatliner: ATR 0.94% / BB 0.40%)
+2026-03-11 14:24:58,195 [INFO]   [  9]  WLD       (# 66)  $0.36091       7d: -11.3%
+2026-03-11 14:24:58,257 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:25:28,318 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:26:30,515 [INFO]           → conviction 30/100  |  signals 4/15
+2026-03-11 14:26:37,018 [INFO]   [ 10]  POL       (# 67)  $0.09755       7d: -5.1%
+2026-03-11 14:26:37,988 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 14:26:44,489 [INFO]   [ 11]  ATOM      (# 70)  $1.83000       7d: -1.6%
+2026-03-11 14:26:45,231 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:27:15,293 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:28:16,870 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 14:28:23,372 [INFO]   [ 12]  ENA       (# 72)  $0.10561       7d: -9.4%
+2026-03-11 14:28:24,436 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 14:28:30,938 [INFO]   [ 13]  NIGHT     (# 73)  $0.05320       7d: -13.8%
+2026-03-11 14:28:32,260 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 14:28:38,761 [INFO]   [ 14]  KAS       (# 75)  $0.03060       7d: -0.8%
+2026-03-11 14:28:38,824 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:29:08,885 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:30:10,935 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 14:30:17,437 [INFO]   [ 15]  RENDER    (# 76)  $1.54000       7d: +9.5%
+2026-03-11 14:30:18,414 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 14:30:24,917 [INFO]   [ 16]  ALGO      (# 78)  $0.08683       7d: -0.8%
+2026-03-11 14:30:25,664 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:30:55,729 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:31:57,252 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:32:03,754 [INFO]   [ 17]  FLR       (# 79)  $0.00902       7d: -3.8%
+2026-03-11 14:32:04,839 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 14:32:11,341 [INFO]   [ 18]  APT       (# 80)  $0.96205       7d: -3.7%
+2026-03-11 14:32:12,576 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 14:32:19,079 [INFO]   [ 19]  FIL       (# 83)  $0.90232       7d: -10.6%
+2026-03-11 14:32:19,815 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:32:49,874 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:33:51,380 [INFO]           → conviction 30/100  |  signals 4/15
+2026-03-11 14:33:57,882 [INFO]   [ 20]  TRUMP     (# 84)  $2.95000       7d: -13.4%
+2026-03-11 14:33:58,976 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 14:34:05,478 [INFO]   [ 21]  XDC       (# 85)  $0.03229       7d: -8.3%
+2026-03-11 14:34:06,777 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:34:13,279 [INFO]   [ 22]  VET       (# 86)  $0.00714       7d: -2.9%
+2026-03-11 14:34:14,137 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:34:44,204 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:35:45,539 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:35:52,041 [INFO]   [ 23]  ARB       (# 87)  $0.10182       7d: -1.0%
+2026-03-11 14:35:53,126 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 14:35:59,628 [INFO]   [ 24]  BDX       (# 88)  $0.07981       7d: -0.3%
+2026-03-11 14:36:00,772 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 14:36:07,277 [INFO]   [ 25]  STABLE    (# 90)  $0.02853       7d: -5.1%
+2026-03-11 14:36:08,145 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:36:38,206 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:37:39,910 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 14:37:46,416 [INFO]   [ 26]  JUP       (# 91)  $0.16737       7d: -11.5%
+2026-03-11 14:37:47,534 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 14:37:54,038 [INFO]   [ 27]  DCR       (# 96)  $28.67000      7d: -7.1%
+2026-03-11 14:37:55,301 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 14:38:01,802 [INFO]   [ 28]  KITE      (# 97)  $0.27326       7d: +18.6%
+2026-03-11 14:38:02,548 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:38:32,612 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:39:32,664 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 14:39:37,728 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 14:39:44,230 [INFO]   [ 29]  VIRTUAL   (#102)  $0.70699       7d: -7.6%
+2026-03-11 14:39:46,642 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 14:39:53,144 [INFO]   [ 30]  JST       (#103)  $0.05220       7d: +8.1%
+2026-03-11 14:39:54,670 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 14:40:01,171 [INFO]   [ 31]  CAKE      (#104)  $1.38000       7d: -0.8%
+2026-03-11 14:40:03,638 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 14:40:10,139 [INFO]   [ 32]  PENGU     (#105)  $0.00714       7d: +1.2%
+2026-03-11 14:40:10,278 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:40:40,343 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:41:42,745 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 14:41:49,248 [INFO]   [ 33]  ETHFI     (#107)  $0.57800       7d: +8.9%
+2026-03-11 14:41:50,385 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 14:41:56,891 [INFO]   [ 34]  SEI       (#108)  $0.06283       7d: -9.3%
+2026-03-11 14:41:57,623 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 14:42:27,684 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 14:43:29,200 [INFO]           → conviction 16/100  |  signals 4/15
+2026-03-11 14:43:35,702 [INFO]   [ 35]  ZRO       (#109)  $2.06000       7d: +9.7%
+2026-03-11 14:43:36,936 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 14:43:43,437 [INFO]   [ 36]  DASH      (#111)  $32.36000      7d: -7.4%
+2026-03-11 14:43:44,564 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 16:21:56,923 [INFO]   [ 37]  CHZ       (#113)  $0.03840       7d: +4.9%
+2026-03-11 16:22:01,682 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 16:22:08,184 [INFO]   [ 38]  XTZ       (#114)  $0.36606       7d: -2.8%
+2026-03-11 16:22:10,291 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 16:22:16,887 [INFO]   [ 39]  SIREN     (#116)  $0.50665       7d: +36.5%
+2026-03-11 16:22:17,751 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:22:47,942 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:23:50,740 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 16:23:57,307 [INFO]   [ 40]  FET       (#118)  $0.16108       7d: +6.4%
+2026-03-11 16:23:58,332 [INFO]           → conviction 39/100  |  signals 6/15
+2026-03-11 16:24:04,835 [INFO]   [ 41]  CRV       (#119)  $0.24288       7d: -4.9%
+2026-03-11 16:24:06,234 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 16:24:12,738 [INFO]   [ 42]  PIPPIN    (#120)  $0.34990       7d: +7.8%
+2026-03-11 16:24:13,621 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:24:43,688 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:25:45,068 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 16:25:51,572 [INFO]   [ 43]  KAIA      (#125)  $0.05536       7d: +2.1%
+2026-03-11 16:25:52,726 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 16:25:59,237 [INFO]   [ 44]  AERO      (#128)  $0.34144       7d: -6.5%
+2026-03-11 16:26:00,618 [INFO]           → conviction 43/100  |  signals 6/15
+2026-03-11 16:26:07,124 [INFO]   [ 45]  SUN       (#130)  $0.01597       7d: -0.0%
+2026-03-11 16:26:07,972 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:26:38,043 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:27:39,746 [INFO]           → skip (flatliner: ATR 0.46% / BB 1.11%)
+2026-03-11 16:27:46,248 [INFO]   [ 46]  BSV       (#129)  $15.30000      7d: +1.0%
+2026-03-11 16:27:47,528 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 16:27:54,030 [INFO]   [ 47]  TIA       (#131)  $0.33955       7d: +1.2%
+2026-03-11 16:27:55,052 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 16:28:01,557 [INFO]   [ 48]  INJ       (#132)  $2.99000       7d: -1.9%
+2026-03-11 16:28:02,412 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:28:32,477 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:29:33,753 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 16:29:40,260 [INFO]   [ 49]  RIVER     (#133)  $15.08000      7d: -12.4%
+2026-03-11 16:29:41,379 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 16:29:47,886 [INFO]   [ 50]  SPX       (#135)  $0.30390       7d: -17.3%
+2026-03-11 16:29:48,975 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 16:29:55,483 [INFO]   [ 51]  JASMY     (#136)  $0.00568       7d: -0.9%
+2026-03-11 16:29:55,554 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:30:25,614 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:31:27,079 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 16:31:33,584 [INFO]   [ 52]  GRT       (#137)  $0.02593       7d: -1.1%
+2026-03-11 16:31:34,526 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 16:31:41,029 [INFO]   [ 53]  IP        (#139)  $0.77849       7d: -8.7%
+2026-03-11 16:31:41,808 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:32:11,880 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:33:13,060 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 16:33:19,561 [INFO]   [ 54]  2Z        (#141)  $0.07786       7d: +4.9%
+2026-03-11 16:33:20,861 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 16:33:27,362 [INFO]   [ 55]  PYTH      (#143)  $0.04671       7d: -7.0%
+2026-03-11 16:33:28,515 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 16:33:35,017 [INFO]   [ 56]  CFX       (#144)  $0.05163       7d: +3.2%
+2026-03-11 16:33:35,077 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:34:05,136 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:35:06,836 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 16:35:13,338 [INFO]   [ 57]  SYRUP     (#146)  $0.22687       7d: -3.9%
+2026-03-11 16:35:14,535 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 16:35:21,039 [INFO]   [ 58]  BTSE      (#147)  $1.61000       7d: +1.6%
+2026-03-11 16:35:21,879 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:35:51,941 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:36:52,696 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 16:36:59,200 [INFO]   [ 59]  LIT       (#148)  $1.04000       7d: -19.2%
+2026-03-11 16:37:00,239 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 16:37:06,740 [INFO]   [ 60]  OP        (#149)  $0.12140       7d: -5.8%
+2026-03-11 16:37:07,857 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 16:37:14,371 [INFO]   [ 61]  LDO       (#150)  $0.29744       7d: -4.8%
+2026-03-11 16:37:15,194 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:37:45,253 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:38:46,169 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 16:38:52,671 [INFO]   [ 62]  VVV       (#151)  $5.62000       7d: -8.3%
+2026-03-11 16:38:53,662 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 16:39:00,164 [INFO]   [ 63]  BARD      (#153)  $1.11000       7d: +1.5%
+2026-03-11 16:39:01,506 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 16:39:08,008 [INFO]   [ 64]  TEL       (#152)  $0.00261       7d: -2.4%
+2026-03-11 16:39:08,882 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:39:38,941 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:40:39,989 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 16:40:46,493 [INFO]   [ 65]  H         (#154)  $0.13069       7d: +5.4%
+2026-03-11 16:40:47,797 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 16:40:54,299 [INFO]   [ 66]  MON       (#155)  $0.02142       7d: -2.5%
+2026-03-11 16:40:55,324 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 16:41:01,881 [INFO]   [ 67]  ENS       (#157)  $6.05000       7d: -0.8%
+2026-03-11 16:41:02,861 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:41:32,918 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:42:33,801 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 16:42:40,303 [INFO]   [ 68]  XPL       (#161)  $0.10106       7d: -9.6%
+2026-03-11 16:42:41,655 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 16:42:48,174 [INFO]   [ 69]  HNT       (#162)  $1.22000       7d: -2.7%
+2026-03-11 16:42:49,746 [INFO]           → conviction 43/100  |  signals 7/15
+2026-03-11 16:42:56,247 [INFO]   [ 70]  SAND      (#163)  $0.08307       7d: -2.8%
+2026-03-11 16:42:56,311 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:43:26,376 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:44:28,644 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 16:44:35,151 [INFO]   [ 71]  STRK      (#164)  $0.04019       7d: -0.2%
+2026-03-11 16:44:36,546 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 16:44:43,049 [INFO]   [ 72]  AB        (#167)  $0.00216       7d: -10.2%
+2026-03-11 16:44:43,891 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:45:13,950 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:46:13,996 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 16:46:19,040 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-11 16:46:25,544 [INFO]   [ 73]  PENDLE    (#168)  $1.28000       7d: -0.6%
+2026-03-11 16:46:27,224 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 16:46:33,727 [INFO]   [ 74]  TWT       (#171)  $0.49160       7d: +0.0%
+2026-03-11 16:46:35,010 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 16:46:41,513 [INFO]   [ 75]  CVX       (#172)  $2.22000       7d: +12.4%
+2026-03-11 16:46:42,536 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:47:12,597 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:48:13,684 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 16:48:20,187 [INFO]   [ 76]  DEXE      (#173)  $4.35000       7d: +22.8%
+2026-03-11 16:48:21,504 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 16:48:28,005 [INFO]   [ 77]  ZBCN      (#174)  $0.00203       7d: -2.3%
+2026-03-11 16:48:29,269 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 16:48:35,771 [INFO]   [ 78]  AXS       (#176)  $1.16000       7d: -3.8%
+2026-03-11 16:48:35,831 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:49:05,895 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:50:05,935 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 16:50:10,936 [INFO]           → skip (insufficient data)
+2026-03-11 16:50:17,450 [INFO]   [ 79]  9BIT      (#178)  $0.02326       7d: +13.0%
+2026-03-11 16:50:19,158 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-11 16:50:25,661 [INFO]   [ 80]  B         (#180)  $0.18641       7d: -10.7%
+2026-03-11 16:50:26,993 [INFO]           → conviction 4/100  |  signals 1/15
+2026-03-11 16:50:33,494 [INFO]   [ 81]  THETA     (#181)  $0.18578       7d: -5.6%
+2026-03-11 16:50:34,349 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:51:04,403 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:52:05,355 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 16:52:11,871 [INFO]   [ 82]  VSN       (#182)  $0.05132       7d: -3.7%
+2026-03-11 16:52:13,180 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 16:52:19,684 [INFO]   [ 83]  XCN       (#183)  $0.00488       7d: +3.2%
+2026-03-11 16:52:20,896 [INFO]           → conviction 43/100  |  signals 7/15
+2026-03-11 16:52:27,401 [INFO]   [ 84]  NEO       (#185)  $2.57000       7d: -1.9%
+2026-03-11 16:52:27,472 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:52:57,534 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:53:58,974 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 16:54:05,476 [INFO]   [ 85]  MANA      (#187)  $0.09273       7d: -4.6%
+2026-03-11 16:54:06,595 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 16:54:13,099 [INFO]   [ 86]  COMP      (#184)  $18.56000      7d: +2.8%
+2026-03-11 16:54:14,134 [INFO]           → conviction 38/100  |  signals 6/15
+2026-03-11 16:54:20,636 [INFO]   [ 87]  REAL      (#186)  $0.05711       7d: -0.9%
+2026-03-11 16:54:20,779 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:54:50,834 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:55:52,568 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 16:55:59,070 [INFO]   [ 88]  WFI       (#191)  $2.17000       7d: +4.5%
+2026-03-11 16:56:00,390 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 16:56:06,891 [INFO]   [ 89]  ZK        (#192)  $0.01894       7d: +1.3%
+2026-03-11 16:56:08,444 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 16:56:14,945 [INFO]   [ 90]  FF        (#193)  $0.07417       7d: +1.6%
+2026-03-11 16:56:15,019 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:56:45,079 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:57:46,877 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 16:57:53,378 [INFO]   [ 91]  WAL       (#194)  $0.07740       7d: -3.1%
+2026-03-11 16:57:54,678 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 16:58:01,179 [INFO]   [ 92]  ULTIMA    (#195)  $4563.69000    7d: -6.9%
+2026-03-11 16:58:02,482 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 16:58:08,983 [INFO]   [ 93]  FLUID     (#196)  $2.19000       7d: -1.0%
+2026-03-11 16:58:09,041 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 16:58:39,098 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 16:59:40,692 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 16:59:47,441 [INFO]   [ 94]  WIF       (#197)  $0.16970       7d: -19.1%
+2026-03-11 16:59:48,563 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 16:59:55,066 [INFO]   [ 95]  SENT      (#199)  $0.02283       7d: +9.1%
+2026-03-11 16:59:55,896 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 17:00:25,952 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 17:01:26,908 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 17:01:33,413 [INFO]   [ 96]  GALA      (#201)  $0.00346       7d: -2.5%
+2026-03-11 17:01:34,492 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 17:01:40,993 [INFO]   [ 97]  TIBBIR    (#202)  $0.16173       7d: -14.9%
+2026-03-11 17:01:42,086 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 17:01:48,589 [INFO]   [ 98]  RAY       (#203)  $0.60177       7d: -1.0%
+2026-03-11 17:01:48,654 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 17:02:18,743 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 17:03:20,706 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 17:03:27,211 [INFO]   [ 99]  S         (#205)  $0.04215       7d: +0.7%
+2026-03-11 17:03:28,486 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 17:03:34,988 [INFO]   [100]  FARTCOIN  (#207)  $0.15586       7d: -9.7%
+2026-03-11 17:03:35,809 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 17:04:05,870 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 17:05:06,959 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 17:05:13,463 [INFO]   [101]  RUNE      (#209)  $0.42917       7d: +1.1%
+2026-03-11 17:05:14,704 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 17:05:21,206 [INFO]   [102]  BAT       (#211)  $0.09802       7d: -6.1%
+2026-03-11 17:05:22,276 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 17:05:28,778 [INFO]   [103]  IMX       (#213)  $0.16312       7d: +3.7%
+2026-03-11 17:05:28,839 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 17:05:58,901 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 18:55:09,867 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 18:55:16,381 [INFO]   [104]  TRAC      (#214)  $0.30958       7d: -5.7%
+2026-03-11 18:55:18,969 [INFO]           → conviction 18/100  |  signals 2/15
+2026-03-11 18:55:25,489 [INFO]   [105]  SKR       (#215)  $0.02313       7d: +0.7%
+2026-03-11 18:56:30,030 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 18:56:36,533 [INFO]   [106]  1INCH     (#216)  $0.09606       7d: -0.5%
+2026-03-11 18:56:58,312 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 18:57:04,850 [INFO]   [107]  WEMIX     (#218)  $0.28993       7d: +2.2%
+2026-03-11 18:57:06,166 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 18:57:12,675 [INFO]   [108]  SFP       (#219)  $0.26685       7d: -4.1%
+2026-03-11 18:57:12,975 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 18:57:43,079 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 18:58:45,940 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 18:58:52,445 [INFO]   [109]  COW       (#220)  $0.23706       7d: -3.1%
+2026-03-11 18:58:53,625 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 18:59:00,133 [INFO]   [110]  BERA      (#223)  $0.56592       7d: +4.2%
+2026-03-11 18:59:00,976 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 18:59:31,039 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:00:32,762 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 19:00:39,265 [INFO]   [111]  GLM       (#225)  $0.12705       7d: -3.0%
+2026-03-11 19:00:40,586 [INFO]           → conviction 41/100  |  signals 6/15
+2026-03-11 19:00:47,088 [INFO]   [112]  AKT       (#226)  $0.43906       7d: +32.5%
+2026-03-11 19:00:48,217 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 19:00:54,720 [INFO]   [113]  A         (#227)  $0.07732       7d: -2.1%
+2026-03-11 19:00:54,790 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:01:24,854 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:02:27,422 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 19:02:33,926 [INFO]   [114]  EIGEN     (#230)  $0.18880       7d: -1.7%
+2026-03-11 19:02:35,272 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 19:02:41,783 [INFO]   [115]  0G        (#235)  $0.55899       7d: -9.7%
+2026-03-11 19:02:42,644 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:03:12,709 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:04:14,400 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 19:04:20,903 [INFO]   [116]  GOMINING  (#237)  $0.29419       7d: -0.8%
+2026-03-11 19:04:22,284 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 19:04:28,787 [INFO]   [117]  JTO       (#238)  $0.26451       7d: -3.2%
+2026-03-11 19:04:30,099 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 19:04:36,603 [INFO]   [118]  RLB       (#239)  $0.06743       7d: -14.3%
+2026-03-11 19:04:36,679 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:05:06,747 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:06:09,003 [INFO]           → conviction 38/100  |  signals 4/15
+2026-03-11 19:06:15,509 [INFO]   [119]  BAN       (#244)  $0.11336       7d: +6.2%
+2026-03-11 19:06:16,858 [INFO]           → conviction 38/100  |  signals 5/15
+2026-03-11 19:06:23,360 [INFO]   [120]  LPT       (#245)  $2.28000       7d: -2.3%
+2026-03-11 19:06:24,161 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:06:54,222 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:07:55,731 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 19:08:02,235 [INFO]   [121]  BMX       (#247)  $0.32959       7d: +4.3%
+2026-03-11 19:08:04,041 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 19:08:10,544 [INFO]   [122]  AR        (#249)  $1.70000       7d: +1.9%
+2026-03-11 19:08:11,860 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 19:08:18,363 [INFO]   [123]  SOSO      (#248)  $0.35540       7d: -10.9%
+2026-03-11 19:08:19,470 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:08:50,098 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:09:53,065 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 19:09:59,570 [INFO]   [124]  KTA       (#253)  $0.21700       7d: -13.8%
+2026-03-11 19:10:01,064 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 19:10:07,567 [INFO]   [125]  PMUSD     (#252)  $0.98370       7d: +0.2%
+2026-03-11 19:10:08,680 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 19:10:15,182 [INFO]   [126]  BEAM      (#256)  $0.00208       7d: +8.2%
+2026-03-11 19:10:15,268 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:10:45,334 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:11:47,290 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 19:11:53,794 [INFO]   [127]  ATH       (#259)  $0.00588       7d: -4.5%
+2026-03-11 19:11:55,046 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 19:12:01,551 [INFO]   [128]  RSR       (#260)  $0.00164       7d: +4.5%
+2026-03-11 19:12:02,648 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 19:12:09,151 [INFO]   [129]  W         (#261)  $0.01843       7d: -2.4%
+2026-03-11 19:12:09,218 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 19:12:39,280 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 19:13:41,128 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 19:13:47,630 [INFO]   [130]  FORM      (#263)  $0.26478       7d: -20.6%
+2026-03-11 19:13:48,728 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 19:13:55,232 [INFO]   [131]  GAS       (#266)  $1.55000       7d: -5.0%
+2026-03-11 19:13:56,019 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 20:29:39,257 [WARNING] Request error: HTTPSConnectionPool(host='api.coingecko.com', port=443): Max retries exceeded with url: /api/v3/coins/gas/market_chart?vs_currency=usd&days=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001F5DA85D130>: Failed to resolve 'api.coingecko.com' ([Errno 11001] getaddrinfo failed)"))
+2026-03-11 20:54:52,381 [INFO]           → conviction 45/100  |  signals 6/15
+2026-03-11 20:54:58,891 [INFO]   [132]  GWEI      (#271)  $0.05674       7d: +33.7%
+2026-03-11 20:55:00,339 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 20:55:06,845 [INFO]   [133]  GRX       (#276)  $10.38000      7d: +15.2%
+2026-03-11 20:55:08,254 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 20:55:14,758 [INFO]   [134]  PIEVERSE  (#274)  $0.48115       7d: -8.1%
+2026-03-11 20:55:15,696 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 20:55:45,754 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 20:56:45,795 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 20:56:51,015 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 20:56:57,517 [INFO]   [135]  AWE       (#273)  $0.05080       7d: -1.5%
+2026-03-11 20:56:59,662 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 20:57:06,178 [INFO]   [136]  ZEN       (#278)  $5.42000       7d: -6.8%
+2026-03-11 20:57:07,475 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 20:57:13,977 [INFO]   [137]  EURCV     (#279)  $1.16000       7d: -0.3%
+2026-03-11 20:57:15,307 [INFO]           → skip (flatliner: ATR 0.17% / BB 0.35%)
+2026-03-11 20:57:21,813 [INFO]   [138]  FLOW      (#280)  $0.05826       7d: +56.0%
+2026-03-11 20:57:21,934 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 20:57:52,005 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 20:58:53,745 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 20:59:00,248 [INFO]   [139]  APE       (#281)  $0.09691       7d: -5.7%
+2026-03-11 20:59:01,512 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 20:59:08,015 [INFO]   [140]  TFUEL     (#282)  $0.01304       7d: -4.0%
+2026-03-11 20:59:10,545 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 20:59:17,048 [INFO]   [141]  QTUM      (#283)  $0.89176       7d: -3.0%
+2026-03-11 20:59:17,129 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 20:59:47,191 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:00:49,442 [INFO]           → conviction 41/100  |  signals 6/15
+2026-03-11 21:00:55,944 [INFO]   [142]  SHFL      (#284)  $0.23537       7d: -17.3%
+2026-03-11 21:00:57,133 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 21:01:03,638 [INFO]   [143]  ROSE      (#285)  $0.01201       7d: -1.1%
+2026-03-11 21:01:04,961 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 21:01:11,464 [INFO]   [144]  YFI       (#286)  $2524.86000    7d: -7.4%
+2026-03-11 21:01:11,540 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:01:41,607 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:02:41,623 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 21:02:46,626 [INFO]           → skip (insufficient data)
+2026-03-11 21:02:53,132 [INFO]   [145]  ZRX       (#287)  $0.10557       7d: +0.8%
+2026-03-11 21:02:55,246 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 21:03:01,747 [INFO]   [146]  ROBO      (#289)  $0.03993       7d: -5.0%
+2026-03-11 21:03:02,927 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 21:03:09,429 [INFO]   [147]  USDA      (#290)  $0.98324       7d: -1.6%
+2026-03-11 21:03:10,413 [INFO]           → skip (flatliner: ATR 1.76% / BB 0.41%)
+2026-03-11 21:03:16,918 [INFO]   [148]  CRCLON    (#291)  $115.23000     7d: +12.0%
+2026-03-11 21:03:16,989 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:03:47,050 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:04:49,487 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 21:04:55,990 [INFO]   [149]  FOGO      (#293)  $0.02329       7d: +3.0%
+2026-03-11 21:04:57,367 [INFO]           → conviction 9/100  |  signals 1/15
+2026-03-11 21:05:03,881 [INFO]   [150]  RVN       (#294)  $0.00548       7d: -1.8%
+2026-03-11 21:05:04,982 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 21:05:11,485 [INFO]   [151]  TOSHI     (#295)  $0.00021       7d: -1.5%
+2026-03-11 21:05:11,561 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:05:41,628 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:06:43,905 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 21:06:50,406 [INFO]   [152]  LYN       (#296)  $0.43058       7d: +40.4%
+2026-03-11 21:06:52,473 [INFO]           → conviction 30/100  |  signals 6/15
+2026-03-11 21:06:58,977 [INFO]   [153]  ZANO      (#301)  $5.63000       7d: -14.9%
+2026-03-11 21:06:59,771 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:07:29,835 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:08:31,274 [INFO]           → conviction 34/100  |  signals 4/15
+2026-03-11 21:08:37,777 [INFO]   [154]  KAITO     (#304)  $0.35009       7d: -4.6%
+2026-03-11 21:08:39,091 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 21:08:45,595 [INFO]   [155]  HOME      (#307)  $0.02431       7d: -17.6%
+2026-03-11 21:08:46,983 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 21:08:53,487 [INFO]   [156]  MAG7.SSI  (#305)  $0.49670       7d: -1.2%
+2026-03-11 21:08:53,563 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:09:23,629 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:10:26,195 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 21:10:32,703 [INFO]   [157]  ICNT      (#310)  $0.33143       7d: -0.8%
+2026-03-11 21:10:34,048 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 21:10:40,553 [INFO]   [158]  ZIL       (#312)  $0.00418       7d: -2.3%
+2026-03-11 21:10:41,352 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:11:11,416 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:12:13,087 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:21:08,310 [INFO]   [159]  EDU       (#313)  $0.09922       7d: -5.2%
+2026-03-11 21:21:11,582 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:21:18,091 [INFO]   [160]  RON       (#300)  $0.10765       7d: +9.3%
+2026-03-11 21:21:19,209 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:21:25,721 [INFO]   [161]  MET       (#320)  $0.16059       7d: -10.1%
+2026-03-11 21:21:26,562 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:21:56,628 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:22:58,193 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:23:04,697 [INFO]   [162]  ZORA      (#326)  $0.01727       7d: -1.6%
+2026-03-11 21:23:05,970 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 21:23:12,472 [INFO]   [163]  DOG       (#327)  $0.00077       7d: -4.6%
+2026-03-11 21:23:13,830 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 21:23:20,334 [INFO]   [164]  DEEP      (#329)  $0.03065       7d: +17.8%
+2026-03-11 21:23:21,171 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:23:51,245 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:24:52,949 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:24:59,454 [INFO]   [165]  CFG       (#332)  $0.13180       7d: -4.9%
+2026-03-11 21:25:00,683 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 21:25:07,189 [INFO]   [166]  BANANAS31  (#333)  $0.00762       7d: +49.8%
+2026-03-11 21:25:08,394 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 21:25:14,895 [INFO]   [167]  DBR       (#334)  $0.01601       7d: +4.9%
+2026-03-11 21:25:15,743 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:25:45,807 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:26:47,489 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 21:26:53,990 [INFO]   [168]  META      (#335)  $3.30000       7d: -21.2%
+2026-03-11 21:26:55,376 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 21:27:01,878 [INFO]   [169]  DGB       (#339)  $0.00407       7d: -3.5%
+2026-03-11 21:27:03,000 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 21:27:09,502 [INFO]   [170]  CKB       (#338)  $0.00153       7d: -0.8%
+2026-03-11 21:27:10,343 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:27:40,407 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:28:42,060 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 21:28:48,566 [INFO]   [171]  T         (#340)  $0.00661       7d: -0.4%
+2026-03-11 21:28:49,603 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 21:28:56,104 [INFO]   [172]  DYDX      (#342)  $0.08875       7d: -7.6%
+2026-03-11 21:28:57,307 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 21:29:03,809 [INFO]   [173]  SAFE      (#344)  $0.10313       7d: -3.3%
+2026-03-11 21:29:04,548 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:29:34,621 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:30:36,119 [INFO]           → conviction 30/100  |  signals 4/15
+2026-03-11 21:30:42,622 [INFO]   [174]  MOVE      (#341)  $0.02097       7d: -7.0%
+2026-03-11 21:30:43,771 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 21:30:50,274 [INFO]   [175]  SUPER     (#345)  $0.11467       7d: -2.5%
+2026-03-11 21:30:51,396 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 21:30:57,899 [INFO]   [176]  HOT       (#346)  $0.00041       7d: +5.5%
+2026-03-11 21:30:57,987 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:31:28,059 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:32:30,473 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 21:32:36,976 [INFO]   [177]  BRETT     (#349)  $0.00725       7d: -6.5%
+2026-03-11 21:32:38,070 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:32:44,573 [INFO]   [178]  MINA      (#350)  $0.05562       7d: -2.8%
+2026-03-11 21:32:45,410 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:33:15,476 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:34:17,103 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:34:23,607 [INFO]   [179]  KAVA      (#353)  $0.06456       7d: +6.8%
+2026-03-11 21:34:24,922 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 21:34:31,425 [INFO]   [180]  CYS       (#356)  $0.43343       7d: +17.4%
+2026-03-11 21:34:32,679 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 21:34:39,181 [INFO]   [181]  SAHARA    (#355)  $0.02377       7d: -18.4%
+2026-03-11 21:34:39,257 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:35:09,347 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:36:11,838 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 21:36:18,341 [INFO]   [182]  SOON      (#359)  $0.15601       7d: -3.8%
+2026-03-11 21:36:19,608 [INFO]           → conviction 39/100  |  signals 5/15
+2026-03-11 21:36:26,114 [INFO]   [183]  XPR       (#364)  $0.00233       7d: +4.4%
+2026-03-11 21:36:26,966 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:36:57,030 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:37:58,641 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 21:38:05,143 [INFO]   [184]  ZETA      (#365)  $0.05054       7d: -2.9%
+2026-03-11 21:38:06,455 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 21:38:12,959 [INFO]   [185]  GMX       (#369)  $6.31000       7d: -15.1%
+2026-03-11 21:38:14,117 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-11 21:38:20,619 [INFO]   [186]  ASTR      (#373)  $0.00767       7d: +6.8%
+2026-03-11 21:38:21,466 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:38:51,533 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:39:53,015 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 21:39:59,516 [INFO]   [187]  ALCH      (#371)  $0.07702       7d: -2.1%
+2026-03-11 21:40:00,702 [INFO]           → conviction 39/100  |  signals 6/15
+2026-03-11 21:40:07,207 [INFO]   [188]  币安人生      (#368)  $0.06564       7d: +4.4%
+2026-03-11 21:40:08,356 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 21:40:14,857 [INFO]   [189]  TURBO     (#378)  $0.00092       7d: -8.0%
+2026-03-11 21:40:15,709 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:40:45,773 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:41:47,582 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 21:41:54,085 [INFO]   [190]  ELF       (#379)  $0.07751       7d: +0.7%
+2026-03-11 21:41:55,427 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 21:42:01,937 [INFO]   [191]  PLUME     (#384)  $0.01232       7d: +25.3%
+2026-03-11 21:42:03,219 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 21:42:09,721 [INFO]   [192]  WMTX      (#383)  $0.07383       7d: +7.9%
+2026-03-11 21:42:10,463 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:42:40,527 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:43:41,847 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 21:43:48,351 [INFO]   [193]  NPC       (#381)  $0.00780       7d: -8.3%
+2026-03-11 21:43:49,685 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 21:43:56,188 [INFO]   [194]  VELO      (#386)  $0.00352       7d: -0.3%
+2026-03-11 21:43:57,512 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 21:44:04,017 [INFO]   [195]  PYTHIA    (#388)  $0.06161       7d: +1.4%
+2026-03-11 21:44:04,877 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:44:34,947 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:45:36,657 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 21:45:43,164 [INFO]   [196]  AXL       (#390)  $0.05340       7d: -2.4%
+2026-03-11 21:45:44,593 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 21:45:51,097 [INFO]   [197]  ARKM      (#391)  $0.10581       7d: -3.4%
+2026-03-11 21:45:52,117 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 21:45:58,620 [INFO]   [198]  OPN       (#394)  $0.30158     
+2026-03-11 21:45:58,697 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:46:28,766 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:47:30,874 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 21:47:37,378 [INFO]   [199]  TRIA      (#400)  $0.02783       7d: +59.7%
+2026-03-11 21:47:38,733 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 21:47:45,236 [INFO]   [200]  MBG       (#396)  $0.31280       7d: +6.3%
+2026-03-11 21:47:46,078 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:48:16,140 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:49:17,284 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 21:49:23,787 [INFO]   [201]  MYX       (#395)  $0.31132       7d: +4.4%
+2026-03-11 21:49:24,971 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 21:49:31,473 [INFO]   [202]  COAI      (#398)  $0.31308       7d: -3.1%
+2026-03-11 21:49:32,490 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 21:49:38,992 [INFO]   [203]  VTHO      (#397)  $0.00060       7d: +0.7%
+2026-03-11 21:49:39,072 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:50:09,131 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:51:11,130 [INFO]           → conviction 41/100  |  signals 7/15
+2026-03-11 21:51:17,632 [INFO]   [204]  HSK       (#399)  $0.17032       7d: -2.8%
+2026-03-11 21:51:18,913 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 21:51:25,416 [INFO]   [205]  BICO      (#401)  $0.02151       7d: +3.6%
+2026-03-11 21:51:26,272 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:51:56,387 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:52:57,437 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 21:53:03,940 [INFO]   [206]  SXT       (#402)  $0.01977       7d: +8.4%
+2026-03-11 21:53:05,372 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 21:53:11,875 [INFO]   [207]  BEAT      (#404)  $0.40999       7d: +44.7%
+2026-03-11 21:53:13,197 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-11 21:53:19,701 [INFO]   [208]  MOCA      (#406)  $0.01432       7d: -5.1%
+2026-03-11 21:53:20,532 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:53:50,593 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:54:52,086 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 21:54:58,589 [INFO]   [209]  XYO       (#408)  $0.00403       7d: -4.1%
+2026-03-11 21:54:59,895 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 21:55:06,398 [INFO]   [210]  UAI       (#413)  $0.23216       7d: +13.0%
+2026-03-11 21:55:07,736 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 21:55:14,238 [INFO]   [211]  SUSHI     (#411)  $0.20378       7d: -1.0%
+2026-03-11 21:55:15,166 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:55:45,230 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:56:46,875 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 21:56:53,376 [INFO]   [212]  ORCA      (#412)  $0.92229       7d: +4.2%
+2026-03-11 21:56:54,675 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 21:57:01,177 [INFO]   [213]  DRV       (#417)  $0.06317       7d: +49.6%
+2026-03-11 21:57:02,253 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 21:57:08,755 [INFO]   [214]  EURI      (#416)  $1.16000       7d: -0.4%
+2026-03-11 21:57:09,616 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:57:39,678 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 21:58:41,226 [INFO]           → skip (flatliner: ATR 0.34% / BB 0.34%)
+2026-03-11 21:58:47,729 [INFO]   [215]  NIZA      (#418)  $0.04754       7d: +19.8%
+2026-03-11 21:58:48,952 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 21:58:55,455 [INFO]   [216]  SPK       (#419)  $0.02199       7d: +8.9%
+2026-03-11 21:58:56,831 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 21:59:03,334 [INFO]   [217]  ALEO      (#421)  $0.05708       7d: -16.8%
+2026-03-11 21:59:04,178 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 21:59:34,243 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:00:35,653 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 22:00:42,161 [INFO]   [218]  BLUR      (#424)  $0.01947       7d: -2.1%
+2026-03-11 22:00:43,398 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 22:00:49,901 [INFO]   [219]  NMR       (#426)  $7.57000       7d: -0.5%
+2026-03-11 22:00:51,212 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 22:00:57,714 [INFO]   [220]  PCI       (#425)  $0.05235       7d: -5.2%
+2026-03-11 22:00:57,786 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:01:27,852 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:02:30,120 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 22:02:36,624 [INFO]   [221]  TSLAX     (#428)  $412.20000     7d: +3.0%
+2026-03-11 22:02:37,995 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 22:02:44,498 [INFO]   [222]  AIC       (#430)  $0.05274       7d: -13.9%
+2026-03-11 22:02:45,392 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:03:15,454 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:04:17,058 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 22:04:23,559 [INFO]   [223]  ORDI      (#432)  $2.50000       7d: -1.7%
+2026-03-11 22:04:24,873 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 22:04:31,377 [INFO]   [224]  VENOM     (#433)  $0.02442       7d: -2.5%
+2026-03-11 22:04:32,767 [INFO]           → skip (flatliner: ATR 0.47% / BB 0.47%)
+2026-03-11 22:04:39,269 [INFO]   [225]  SC        (#435)  $0.00105       7d: -3.6%
+2026-03-11 22:04:39,333 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:05:09,403 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:06:11,577 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 22:06:18,083 [INFO]   [226]  ESP       (#434)  $0.10002       7d: -15.7%
+2026-03-11 22:06:19,479 [INFO]           → conviction 4/100  |  signals 1/15
+2026-03-11 22:06:25,982 [INFO]   [227]  BNKR      (#437)  $0.00051       7d: -3.1%
+2026-03-11 22:06:26,995 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:06:57,073 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:07:58,736 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 22:08:05,240 [INFO]   [228]  GOOGLON   (#438)  $310.33000     7d: +2.6%
+2026-03-11 22:08:06,640 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 22:08:13,142 [INFO]   [229]  QAI       (#439)  $63.68000      7d: -11.6%
+2026-03-11 22:08:14,399 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 22:08:20,901 [INFO]   [230]  POLYX     (#442)  $0.04071       7d: -2.6%
+2026-03-11 22:08:21,752 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:08:51,817 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:09:53,589 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 22:10:00,093 [INFO]   [231]  POPCAT    (#441)  $0.05182       7d: +2.8%
+2026-03-11 22:10:01,096 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 22:10:07,597 [INFO]   [232]  PROVE     (#444)  $0.25859       7d: -7.9%
+2026-03-11 22:10:08,954 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 22:10:15,460 [INFO]   [233]  CRCLX     (#445)  $115.99000     7d: +12.6%
+2026-03-11 22:10:16,312 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:10:46,380 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:11:48,135 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 22:11:54,638 [INFO]   [234]  XVS       (#449)  $2.95000       7d: -2.6%
+2026-03-11 22:11:55,756 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 22:12:02,257 [INFO]   [235]  PURR      (#450)  $0.08282       7d: +8.6%
+2026-03-11 22:12:03,614 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 22:12:10,134 [INFO]   [236]  LION      (#255)  $0.00349       7d: -10.1%
+2026-03-11 22:12:10,978 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:12:41,043 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:13:42,845 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 22:13:49,368 [INFO] 
+[5/5] Building trade plan report...
+2026-03-11 22:13:49,368 [INFO]   Raw candidates found: 0
+2026-03-11 22:13:49,405 [INFO] 
+================================================================================
+  CRYPTO MASTER ORCHESTRATOR — TRADE PLAN REPORT
+  Generated: 2026-03-11 22:13:49
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   70,355.00
+  BTC 7-day    :     -1.57%
+  BTC 24-hour  :     +1.38%
+  Regime       :  🟡 SIDEWAYS
+
+  🟡 SIDEWAYS — Thresholds tightened for safety:
+     Conviction ≥ 60  |  Max position 6.0%  |  Stops 1.0× ATR
+     Missing a trade is better than losing capital in chop.
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,700.00 USDT
+  Risk / trade  : 1.5%  ($1,450 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = qualified this scan but needs 1 more confirmation scan before entry.
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  ------------------------------
+  1     🔶GAS       #266  $1.55000         -5.0%    45     6  rs_vs_btc, stealth_accum, vol_expansion +3
+  2     🔶AERO      #128  $0.34144         -6.5%    43     6  rs_vs_btc, stealth_accum, vol_expansion +3
+  3     🔶HNT       #162  $1.22000         -2.7%    43     7  rs_vs_btc, stealth_accum, vol_expansion +4
+  4     🔶XCN       #183  $0.00488         +3.2%    43     7  rs_vs_btc, stealth_accum, higher_lows +4
+  5     🔶GLM       #225  $0.12705         -3.0%    41     6  rs_vs_btc, stealth_accum, bb_squeeze +3
+  6     🔶QTUM      #283  $0.89176         -3.0%    41     6  rs_vs_btc, stealth_accum, bb_squeeze +3
+  7     🔶VTHO      #397  $0.00060         +0.7%    41     7  rs_vs_btc, vol_expansion, higher_lows +4
+  8     🔶FET       #118  $0.16108         +6.4%    39     6  rs_vs_btc, vol_expansion, higher_lows +3
+  9     🔶SOON      #359  $0.15601         -3.8%    39     5  rs_vs_btc, macd_turning, vol_expansion +2
+  10    🔶ALCH      #371  $0.07702         -2.1%    39     6  rs_vs_btc, stealth_accum, bb_squeeze +3
+
+--------------------------------------------------------------------------------
+2026-03-11 22:13:49,435 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.txt
+2026-03-11 22:13:49,436 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.json
+2026-03-11 22:13:49,437 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260311.log
+2026-03-11 22:13:49,438 [INFO] 
+  Done.  0 high-conviction setup(s) found.
+2026-03-11 22:30:08,955 [INFO] 
+2026-03-11 22:30:08,959 [INFO] ================================================================================
+2026-03-11 22:30:08,961 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.0
+2026-03-11 22:30:08,961 [INFO]   15-signal engine | regime gate | 2-scan persistence | vol expansion
+2026-03-11 22:30:08,962 [INFO] ================================================================================
+2026-03-11 22:30:08,963 [INFO]   Account: $96,700.00 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-03-11 22:30:08,964 [INFO] 
+2026-03-11 22:30:08,965 [INFO] [1/5] Analyzing market regime...
+2026-03-11 22:30:08,966 [INFO] Fetching market context (BTC)...
+2026-03-11 22:30:09,899 [INFO]   BTC: $70,581 | 7d: -3.8% | Regime: 🟡 SIDEWAYS
+2026-03-11 22:30:09,899 [INFO]   🟡 SIDEWAYS — conviction raised to 60, max position capped at 6.0%, stops tightened to 1.0× ATR
+2026-03-11 22:30:09,901 [INFO] [2/5] Fetching BTC historical data...
+2026-03-11 22:30:10,854 [INFO]   BTC data: OK
+2026-03-11 22:30:17,360 [INFO] [3/5] Fetching top 600 coins...
+2026-03-11 22:30:17,362 [INFO] Fetching top 600 coins by market cap...
+2026-03-11 22:30:20,999 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:30:51,060 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:31:51,976 [INFO]   Fetched 600 coins
+2026-03-11 22:31:51,977 [INFO]   Fetched 600 coins
+2026-03-11 22:31:51,979 [INFO] [4/5] Scanning for high-conviction setups...
+2026-03-11 22:31:51,979 [INFO]   Filters: Rank 50–450  |  Vol ≥ $500,000  |  Min conviction: 60
+2026-03-11 22:31:51,979 [INFO] 
+2026-03-11 22:31:51,981 [INFO]   [  1]  AAVE      (# 50)  $111.43000     7d: -4.8%
+2026-03-11 22:31:53,029 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:31:59,530 [INFO]   [  2]  NEAR      (# 51)  $1.30000       7d: -1.4%
+2026-03-11 22:32:00,637 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:32:07,139 [INFO]   [  3]  ICP       (# 55)  $2.66000       7d: +4.6%
+2026-03-11 22:32:07,901 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:32:37,962 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:33:38,914 [INFO]           → conviction 38/100  |  signals 6/15
+2026-03-11 22:33:45,416 [INFO]   [  4]  ETC       (# 59)  $8.33000       7d: -6.4%
+2026-03-11 22:33:46,494 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:33:52,995 [INFO]   [  5]  ONDO      (# 60)  $0.25757       7d: -5.0%
+2026-03-11 22:33:53,944 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:34:00,446 [INFO]   [  6]  PUMP      (# 61)  $0.00203       7d: -2.4%
+2026-03-11 22:34:00,509 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:34:30,572 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:35:32,417 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:35:38,920 [INFO]   [  7]  GT        (# 62)  $7.04000       7d: -4.5%
+2026-03-11 22:35:40,173 [INFO]           → skip (flatliner: ATR 0.84% / BB 0.42%)
+2026-03-11 22:35:46,675 [INFO]   [  8]  MORPHO    (# 63)  $1.95000       7d: +2.5%
+2026-03-11 22:35:47,407 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:36:17,469 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:37:18,756 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 22:37:25,258 [INFO]   [  9]  POL       (# 66)  $0.09841       7d: -6.1%
+2026-03-11 22:37:26,237 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 22:37:32,739 [INFO]   [ 10]  WLD       (# 67)  $0.35681       7d: -16.6%
+2026-03-11 22:37:33,885 [INFO]           → conviction 36/100  |  signals 5/15
+2026-03-11 22:37:40,387 [INFO]   [ 11]  ATOM      (# 69)  $1.83000       7d: -3.5%
+2026-03-11 22:37:40,451 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:38:10,516 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:39:12,723 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 22:39:19,225 [INFO]   [ 12]  NEXO      (# 71)  $0.90860       7d: +0.5%
+2026-03-11 22:39:20,227 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 22:39:26,731 [INFO]   [ 13]  ENA       (# 72)  $0.10524       7d: -11.1%
+2026-03-11 22:39:27,470 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:39:57,535 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:40:59,114 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 22:41:05,616 [INFO]   [ 14]  KAS       (# 74)  $0.03053       7d: -4.4%
+2026-03-11 22:41:07,670 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 22:41:14,172 [INFO]   [ 15]  NIGHT     (# 75)  $0.04835       7d: -22.4%
+2026-03-11 22:41:15,449 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:41:21,952 [INFO]   [ 16]  RENDER    (# 76)  $1.53000       7d: +6.8%
+2026-03-11 22:41:22,783 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:41:52,860 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:42:54,276 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 22:43:00,778 [INFO]   [ 17]  ALGO      (# 78)  $0.08650       7d: -3.4%
+2026-03-11 22:43:01,779 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 22:43:08,280 [INFO]   [ 18]  APT       (# 82)  $0.94677       7d: -7.0%
+2026-03-11 22:43:09,260 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 22:43:15,761 [INFO]   [ 19]  TRUMP     (# 83)  $2.91000       7d: -15.7%
+2026-03-11 22:43:16,596 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:43:46,657 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:44:48,353 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 22:44:54,854 [INFO]   [ 20]  FIL       (# 84)  $0.88354       7d: -14.3%
+2026-03-11 22:44:55,999 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 22:45:02,500 [INFO]   [ 21]  XDC       (# 85)  $0.03226       7d: -9.6%
+2026-03-11 22:45:03,609 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 22:45:10,111 [INFO]   [ 22]  BDX       (# 86)  $0.08164       7d: +1.8%
+2026-03-11 22:45:10,954 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:45:41,028 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:46:42,502 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 22:46:49,004 [INFO]   [ 23]  VET       (# 88)  $0.00714       7d: -5.1%
+2026-03-11 22:46:50,133 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 22:46:56,635 [INFO]   [ 24]  ARB       (# 89)  $0.10053       7d: -5.2%
+2026-03-11 22:46:58,000 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 22:47:04,503 [INFO]   [ 25]  JUP       (# 92)  $0.16616       7d: -13.5%
+2026-03-11 22:47:05,328 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:47:35,392 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:48:36,802 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 22:48:43,306 [INFO]   [ 26]  DCR       (# 98)  $28.27000      7d: -10.7%
+2026-03-11 22:48:44,695 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 22:48:51,198 [INFO]   [ 27]  KITE      (#100)  $0.26210       7d: +15.5%
+2026-03-11 22:48:52,603 [INFO]           → conviction 9/100  |  signals 1/15
+2026-03-11 22:48:59,105 [INFO]   [ 28]  STX       (#102)  $0.25665       7d: -4.7%
+2026-03-11 22:48:59,174 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:49:29,246 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:50:29,284 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 22:50:34,287 [INFO]           → skip (insufficient data)
+2026-03-11 22:50:40,789 [INFO]   [ 29]  JST       (#101)  $0.05332       7d: +15.4%
+2026-03-11 22:50:42,990 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 22:50:49,491 [INFO]   [ 30]  VIRTUAL   (#103)  $0.70415       7d: -7.4%
+2026-03-11 22:50:50,632 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 22:50:57,134 [INFO]   [ 31]  CAKE      (#104)  $1.39000       7d: -2.5%
+2026-03-11 22:50:57,967 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:51:28,030 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:52:29,695 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 22:52:36,198 [INFO]   [ 32]  PENGU     (#105)  $0.00717       7d: -2.0%
+2026-03-11 22:52:37,391 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 22:52:43,893 [INFO]   [ 33]  ZRO       (#107)  $2.12000       7d: +6.2%
+2026-03-11 22:52:45,264 [INFO]           → conviction 30/100  |  signals 4/15
+2026-03-11 22:52:51,767 [INFO]   [ 34]  SEI       (#108)  $0.06294       7d: -10.4%
+2026-03-11 22:52:51,837 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:53:21,898 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:54:23,716 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 22:54:30,218 [INFO]   [ 35]  ETHFI     (#109)  $0.56672       7d: +3.7%
+2026-03-11 22:54:31,487 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 22:54:37,989 [INFO]   [ 36]  DASH      (#111)  $32.66000      7d: -8.0%
+2026-03-11 22:54:38,834 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:55:08,896 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:56:10,208 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 22:56:16,712 [INFO]   [ 37]  XTZ       (#114)  $0.36556       7d: -6.1%
+2026-03-11 22:56:17,633 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 22:56:24,136 [INFO]   [ 38]  SIREN     (#116)  $0.50624       7d: +34.9%
+2026-03-11 22:56:25,452 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 22:56:31,956 [INFO]   [ 39]  FET       (#118)  $0.16132       7d: +3.2%
+2026-03-11 22:56:32,025 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:57:02,096 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:58:04,017 [INFO]           → conviction 39/100  |  signals 6/15
+2026-03-11 22:58:10,522 [INFO]   [ 40]  PIPPIN    (#119)  $0.35736       7d: -6.2%
+2026-03-11 22:58:11,879 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 22:58:18,387 [INFO]   [ 41]  CRV       (#120)  $0.23466       7d: -10.2%
+2026-03-11 22:58:19,223 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 22:58:49,289 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 22:59:50,730 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 22:59:57,232 [INFO]   [ 42]  GNO       (#121)  $129.20000     7d: -5.9%
+2026-03-11 22:59:58,602 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 23:00:05,103 [INFO]   [ 43]  KAIA      (#125)  $0.05514       7d: +0.6%
+2026-03-11 23:00:06,721 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 23:00:13,225 [INFO]   [ 44]  AERO      (#128)  $0.34330       7d: -6.7%
+2026-03-11 23:00:14,040 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:00:44,104 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:01:45,637 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 23:01:52,140 [INFO]   [ 45]  SUN       (#129)  $0.01604       7d: +0.2%
+2026-03-11 23:01:53,388 [INFO]           → skip (flatliner: ATR 0.44% / BB 1.12%)
+2026-03-11 23:01:59,889 [INFO]   [ 46]  BSV       (#130)  $15.21000      7d: -2.1%
+2026-03-11 23:02:00,905 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:02:07,407 [INFO]   [ 47]  INJ       (#131)  $3.01000       7d: -4.6%
+2026-03-11 23:02:08,139 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:02:38,202 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:03:38,987 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:03:45,488 [INFO]   [ 48]  TIA       (#132)  $0.33717       7d: -0.7%
+2026-03-11 23:03:46,578 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:03:53,079 [INFO]   [ 49]  SPX       (#133)  $0.31076       7d: -13.1%
+2026-03-11 23:03:54,257 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-11 23:04:00,761 [INFO]   [ 50]  JASMY     (#134)  $0.00578       7d: -1.5%
+2026-03-11 23:04:00,829 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:04:30,893 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:05:32,644 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:05:39,148 [INFO]   [ 51]  GRT       (#136)  $0.02595       7d: -3.3%
+2026-03-11 23:05:40,242 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 23:05:46,744 [INFO]   [ 52]  IP        (#137)  $0.77762       7d: -11.0%
+2026-03-11 23:05:47,583 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:06:17,645 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:07:19,444 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 23:07:25,947 [INFO]   [ 53]  IOTA      (#140)  $0.06320       7d: -8.5%
+2026-03-11 23:07:26,980 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 23:07:33,481 [INFO]   [ 54]  CFX       (#141)  $0.05222       7d: +1.9%
+2026-03-11 23:07:34,802 [INFO]           → conviction 32/100  |  signals 4/15
+2026-03-11 23:07:41,308 [INFO]   [ 55]  PYTH      (#142)  $0.04696       7d: -8.1%
+2026-03-11 23:07:41,377 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:08:11,440 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:09:13,591 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 23:09:20,092 [INFO]   [ 56]  2Z        (#143)  $0.07760       7d: +4.9%
+2026-03-11 23:09:21,328 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:09:27,834 [INFO]   [ 57]  SYRUP     (#145)  $0.22996       7d: -7.4%
+2026-03-11 23:09:28,570 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:09:58,633 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:11:00,146 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 23:11:06,648 [INFO]   [ 58]  LIT       (#147)  $1.05400       7d: -22.5%
+2026-03-11 23:11:07,620 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:11:14,122 [INFO]   [ 59]  VVV       (#148)  $5.90000       7d: -8.6%
+2026-03-11 23:11:15,124 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 23:11:21,626 [INFO]   [ 60]  OP        (#150)  $0.12070       7d: -7.1%
+2026-03-11 23:11:22,363 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:11:52,432 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:12:53,955 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 23:13:00,456 [INFO]   [ 61]  LDO       (#151)  $0.29963       7d: -6.6%
+2026-03-11 23:13:01,437 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 23:13:07,938 [INFO]   [ 62]  TEL       (#152)  $0.00257       7d: -7.0%
+2026-03-11 23:13:09,185 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 23:13:15,686 [INFO]   [ 63]  BARD      (#153)  $1.08500       7d: +0.3%
+2026-03-11 23:13:16,427 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:13:46,492 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:14:47,889 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 23:14:54,395 [INFO]   [ 64]  H         (#154)  $0.12981       7d: +4.0%
+2026-03-11 23:14:55,378 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 23:15:01,880 [INFO]   [ 65]  MON       (#155)  $0.02140       7d: -7.1%
+2026-03-11 23:15:03,022 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 23:15:09,525 [INFO]   [ 66]  ENS       (#156)  $6.04000       7d: -4.9%
+2026-03-11 23:15:10,268 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:15:40,333 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:16:40,427 [WARNING] Request error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-03-11 23:16:45,523 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-11 23:16:52,031 [INFO]   [ 67]  XPL       (#161)  $0.09996       7d: -13.0%
+2026-03-11 23:16:54,204 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-11 23:17:00,711 [INFO]   [ 68]  STRK      (#163)  $0.04035       7d: -2.3%
+2026-03-11 23:17:01,873 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-11 23:17:08,376 [INFO]   [ 69]  SAND      (#162)  $0.08293       7d: -5.1%
+2026-03-11 23:17:09,678 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:17:16,180 [INFO]   [ 70]  HNT       (#164)  $1.17000       7d: -6.3%
+2026-03-11 23:17:16,248 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:17:46,310 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:18:48,555 [INFO]           → conviction 34/100  |  signals 6/15
+2026-03-11 23:18:55,058 [INFO]   [ 71]  PENDLE    (#167)  $1.29000       7d: -1.7%
+2026-03-11 23:18:56,051 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:19:02,556 [INFO]   [ 72]  TWT       (#170)  $0.49483       7d: -2.3%
+2026-03-11 23:19:03,644 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 23:19:10,149 [INFO]   [ 73]  CVX       (#172)  $2.17000       7d: +10.5%
+2026-03-11 23:19:10,212 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:19:40,280 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:20:42,627 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 23:20:49,131 [INFO]   [ 74]  ZBCN      (#173)  $0.00203       7d: -7.1%
+2026-03-11 23:20:50,357 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 23:20:56,858 [INFO]   [ 75]  GRASS     (#175)  $0.36423       7d: +24.6%
+2026-03-11 23:20:57,610 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:21:27,677 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:22:29,198 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-11 23:22:35,700 [INFO]   [ 76]  DEXE      (#176)  $4.21000       7d: +16.9%
+2026-03-11 23:22:36,961 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 23:22:43,462 [INFO]   [ 77]  AXS       (#177)  $1.13000       7d: -8.0%
+2026-03-11 23:22:44,682 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:22:51,187 [INFO]   [ 78]  XCN       (#180)  $0.00504       7d: +4.8%
+2026-03-11 23:22:51,263 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:23:21,327 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:24:23,704 [INFO]           → conviction 45/100  |  signals 7/15
+2026-03-11 23:24:30,206 [INFO]   [ 79]  VSN       (#182)  $0.05140       7d: -3.1%
+2026-03-11 23:24:31,588 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 23:24:38,090 [INFO]   [ 80]  THETA     (#181)  $0.18488       7d: -7.3%
+2026-03-11 23:24:38,953 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:25:09,027 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:26:10,727 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 23:26:17,231 [INFO]   [ 81]  NEO       (#184)  $2.58000       7d: -4.6%
+2026-03-11 23:26:18,420 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-11 23:26:24,922 [INFO]   [ 82]  WFI       (#183)  $2.24000       7d: +5.2%
+2026-03-11 23:26:26,326 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 23:26:32,831 [INFO]   [ 83]  B         (#185)  $0.18113       7d: -18.5%
+2026-03-11 23:26:32,912 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:27:02,984 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:28:05,379 [INFO]           → conviction 4/100  |  signals 1/15
+2026-03-11 23:28:11,887 [INFO]   [ 84]  REAL      (#187)  $0.05745       7d: -3.7%
+2026-03-11 23:28:13,289 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 23:28:19,791 [INFO]   [ 85]  MANA      (#188)  $0.09285       7d: -7.5%
+2026-03-11 23:28:20,659 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:28:50,731 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:29:52,289 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:29:58,792 [INFO]   [ 86]  COMP      (#191)  $18.43000      7d: +1.1%
+2026-03-11 23:29:59,807 [INFO]           → conviction 38/100  |  signals 6/15
+2026-03-11 23:30:06,308 [INFO]   [ 87]  WAL       (#192)  $0.07837       7d: -3.3%
+2026-03-11 23:30:07,742 [INFO]           → conviction 39/100  |  signals 6/15
+2026-03-11 23:30:14,245 [INFO]   [ 88]  ZK        (#193)  $0.01890       7d: -1.0%
+2026-03-11 23:30:15,092 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:30:45,174 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:31:46,757 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-11 23:31:53,261 [INFO]   [ 89]  FLUID     (#194)  $2.22000       7d: -4.5%
+2026-03-11 23:31:54,498 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 23:32:01,000 [INFO]   [ 90]  FF        (#195)  $0.07393       7d: +0.4%
+2026-03-11 23:32:02,161 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:32:08,662 [INFO]   [ 91]  ULTIMA    (#197)  $4536.55000    7d: -8.6%
+2026-03-11 23:32:09,506 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:32:39,600 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:33:41,353 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 23:33:47,856 [INFO]   [ 92]  WIF       (#198)  $0.16685       7d: -23.0%
+2026-03-11 23:33:48,966 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-11 23:33:55,467 [INFO]   [ 93]  SENT      (#200)  $0.02247       7d: +5.5%
+2026-03-11 23:33:56,569 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 23:34:03,073 [INFO]   [ 94]  GALA      (#201)  $0.00343       7d: -6.3%
+2026-03-11 23:34:03,907 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:34:33,976 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:35:35,420 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:35:41,921 [INFO]   [ 95]  RAY       (#202)  $0.60329       7d: -4.3%
+2026-03-11 23:35:43,028 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 23:35:49,529 [INFO]   [ 96]  TIBBIR    (#204)  $0.16038       7d: -17.8%
+2026-03-11 23:35:50,614 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-11 23:35:57,116 [INFO]   [ 97]  S         (#205)  $0.04211       7d: -1.4%
+2026-03-11 23:35:57,185 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:36:27,282 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:37:29,733 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:37:36,237 [INFO]   [ 98]  FARTCOIN  (#207)  $0.15493       7d: -12.1%
+2026-03-11 23:37:37,344 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:37:43,849 [INFO]   [ 99]  RUNE      (#209)  $0.43363       7d: -1.5%
+2026-03-11 23:37:44,683 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:38:14,748 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:39:16,363 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 23:39:22,865 [INFO]   [100]  BAT       (#211)  $0.09755       7d: -7.1%
+2026-03-11 23:39:24,112 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:39:30,613 [INFO]   [101]  IMX       (#212)  $0.16725       7d: +3.7%
+2026-03-11 23:39:31,706 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-11 23:39:38,207 [INFO]   [102]  TRAC      (#215)  $0.31301       7d: -5.5%
+2026-03-11 23:39:38,279 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:40:08,342 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:41:10,688 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 23:41:17,190 [INFO]   [103]  SKR       (#214)  $0.02360       7d: +5.1%
+2026-03-11 23:41:18,516 [INFO]           → conviction 9/100  |  signals 1/15
+2026-03-11 23:41:25,021 [INFO]   [104]  SFP       (#216)  $0.27207       7d: -2.4%
+2026-03-11 23:41:25,868 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:41:55,937 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:42:57,546 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-11 23:43:04,050 [INFO]   [105]  1INCH     (#217)  $0.09609       7d: -4.5%
+2026-03-11 23:43:05,316 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:43:11,817 [INFO]   [106]  WEMIX     (#218)  $0.29146       7d: +2.5%
+2026-03-11 23:43:12,990 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-11 23:43:19,492 [INFO]   [107]  COW       (#219)  $0.23914       7d: -2.1%
+2026-03-11 23:43:20,333 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:43:50,394 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:44:51,943 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 23:44:58,445 [INFO]   [108]  BERA      (#221)  $0.58010       7d: +4.1%
+2026-03-11 23:44:59,494 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-11 23:45:05,996 [INFO]   [109]  GLM       (#225)  $0.12766       7d: -4.2%
+2026-03-11 23:45:07,134 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-11 23:45:13,636 [INFO]   [110]  A         (#226)  $0.07703       7d: -3.7%
+2026-03-11 23:45:14,472 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:45:44,531 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:46:46,101 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:46:52,603 [INFO]   [111]  EGLD      (#228)  $4.20000       7d: -2.0%
+2026-03-11 23:46:53,714 [INFO]           → conviction 11/100  |  signals 2/15
+2026-03-11 23:47:00,217 [INFO]   [112]  0G        (#229)  $0.57572       7d: -6.9%
+2026-03-11 23:47:01,483 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:47:07,985 [INFO]   [113]  AKT       (#230)  $0.42336       7d: +24.5%
+2026-03-11 23:47:08,836 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:47:38,899 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:48:40,433 [INFO]           → conviction 16/100  |  signals 4/15
+2026-03-11 23:48:46,935 [INFO]   [114]  JTO       (#232)  $0.27371       7d: -1.8%
+2026-03-11 23:48:47,982 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-11 23:48:54,484 [INFO]   [115]  EIGEN     (#233)  $0.18752       7d: -5.1%
+2026-03-11 23:48:55,689 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:49:02,191 [INFO]   [116]  GOMINING  (#235)  $0.29576       7d: -2.7%
+2026-03-11 23:49:03,038 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:49:33,101 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:50:34,644 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 23:50:41,149 [INFO]   [117]  AR        (#236)  $1.81000       7d: +6.8%
+2026-03-11 23:50:42,294 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 23:50:48,800 [INFO]   [118]  BAN       (#246)  $0.11335       7d: +3.1%
+2026-03-11 23:50:50,075 [INFO]           → conviction 52/100  |  signals 7/15
+2026-03-11 23:50:56,577 [INFO]   [119]  LPT       (#245)  $2.27000       7d: -5.4%
+2026-03-11 23:50:56,644 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:51:26,713 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:52:29,119 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-11 23:52:35,620 [INFO]   [120]  BMX       (#248)  $0.32987       7d: +2.9%
+2026-03-11 23:52:37,410 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 23:52:43,912 [INFO]   [121]  KTA       (#249)  $0.22190       7d: -13.7%
+2026-03-11 23:52:44,749 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:53:14,810 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:54:16,417 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 23:54:22,918 [INFO]   [122]  SNX       (#250)  $0.31795       7d: -4.6%
+2026-03-11 23:54:23,986 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 23:54:30,489 [INFO]   [123]  SOSO      (#252)  $0.35025       7d: -9.5%
+2026-03-11 23:54:31,770 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-11 23:54:38,272 [INFO]   [124]  BEAM      (#254)  $0.00212       7d: +8.0%
+2026-03-11 23:54:38,344 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:55:08,410 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:56:10,459 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-11 23:56:16,961 [INFO]   [125]  PMUSD     (#253)  $0.99025       7d: +1.3%
+2026-03-11 23:56:18,228 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-11 23:56:24,732 [INFO]   [126]  LION      (#256)  $0.00350       7d: -11.8%
+2026-03-11 23:56:24,857 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-11 23:56:24,859 [INFO]   [127]  GRX       (#258)  $11.14000      7d: +11.7%
+2026-03-11 23:56:24,913 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-11 23:56:24,914 [INFO]   [128]  ATH       (#259)  $0.00604       7d: -8.3%
+2026-03-11 23:56:25,747 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:56:55,808 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:57:57,142 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-11 23:58:03,644 [INFO]   [129]  FORM      (#261)  $0.27350       7d: -13.6%
+2026-03-11 23:58:04,766 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-11 23:58:11,268 [INFO]   [130]  MELANIA   (#262)  $0.10811       7d: -2.6%
+2026-03-11 23:58:12,372 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-11 23:58:18,874 [INFO]   [131]  GAS       (#263)  $1.56000       7d: -6.0%
+2026-03-11 23:58:18,931 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-11 23:58:18,931 [INFO]   [132]  RSR       (#264)  $0.00161       7d: -1.7%
+2026-03-11 23:58:19,761 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-11 23:58:49,824 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-11 23:59:51,268 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-11 23:59:57,769 [INFO]   [133]  CRCLON    (#269)  $112.17000     7d: +6.3%
+2026-03-11 23:59:57,828 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-11 23:59:57,829 [INFO]   [134]  AWE       (#271)  $0.05150       7d: -0.3%
+2026-03-11 23:59:57,883 [INFO]           → conviction 20/100  |  signals 4/15
+2026-03-11 23:59:57,886 [INFO]   [135]  W         (#274)  $0.01784       7d: -6.6%
+2026-03-11 23:59:58,900 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-12 00:00:05,403 [INFO]   [136]  GWEI      (#276)  $0.05642       7d: +35.7%
+2026-03-12 00:00:05,454 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-12 00:00:05,455 [INFO]   [137]  ZEN       (#277)  $5.46000       7d: -6.9%
+2026-03-12 00:00:05,504 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-12 00:00:05,505 [INFO]   [138]  FLOW      (#278)  $0.05894       7d: +59.5%
+2026-03-12 00:00:05,551 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-12 00:00:05,553 [INFO]   [139]  PIEVERSE  (#281)  $0.46768       7d: -13.6%
+2026-03-12 00:00:05,602 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-12 00:00:05,603 [INFO]   [140]  APE       (#282)  $0.09680       7d: -8.2%
+2026-03-12 00:00:05,669 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:00:05,670 [INFO]   [141]  TFUEL     (#283)  $0.01311       7d: -5.6%
+2026-03-12 00:00:05,725 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-12 00:00:05,726 [INFO]   [142]  QTUM      (#284)  $0.89648       7d: -5.6%
+2026-03-12 00:00:05,871 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-12 00:00:05,873 [INFO]   [143]  ZANO      (#285)  $6.11000       7d: -5.5%
+2026-03-12 00:00:05,927 [INFO]           → conviction 34/100  |  signals 4/15
+2026-03-12 00:00:05,929 [INFO]   [144]  SHFL      (#286)  $0.23624       7d: -20.2%
+2026-03-12 00:00:05,980 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-12 00:00:05,981 [INFO]   [145]  YFI       (#287)  $2539.24000    7d: -8.0%
+2026-03-12 00:00:07,271 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:00:13,773 [INFO]   [146]  ROSE      (#288)  $0.01202       7d: -2.0%
+2026-03-12 00:00:13,826 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:00:13,827 [INFO]   [147]  ROBO      (#289)  $0.04053       7d: -9.8%
+2026-03-12 00:00:13,882 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-12 00:00:13,882 [INFO]   [148]  RVN       (#290)  $0.00557       7d: -3.8%
+2026-03-12 00:00:13,943 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:00:13,944 [INFO]   [149]  ZRX       (#291)  $0.10523       7d: -2.6%
+2026-03-12 00:00:14,004 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-12 00:00:14,006 [INFO]   [150]  FOGO      (#295)  $0.02333       7d: +1.1%
+2026-03-12 00:00:14,063 [INFO]           → conviction 9/100  |  signals 1/15
+2026-03-12 00:00:14,065 [INFO]   [151]  TOSHI     (#296)  $0.00021       7d: -3.1%
+2026-03-12 00:00:14,118 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:00:14,119 [INFO]   [152]  XVG       (#300)  $0.00518       7d: -9.2%
+2026-03-12 00:00:15,158 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-12 00:00:45,219 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-12 00:01:46,774 [INFO]           → conviction 2/100  |  signals 1/15
+2026-03-12 00:01:53,275 [INFO]   [153]  LUX       (#299)  $0.00086       7d: +0.4%
+2026-03-12 00:01:54,457 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:02:00,959 [INFO]   [154]  MAG7.SSI  (#303)  $0.50322       7d: -4.1%
+2026-03-12 00:02:01,012 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-12 00:02:01,014 [INFO]   [155]  SN64      (#302)  $18.52000      7d: -5.8%
+2026-03-12 00:02:02,868 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-12 00:02:09,374 [INFO]   [156]  KAITO     (#305)  $0.34839       7d: -3.5%
+2026-03-12 00:02:09,430 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-12 00:02:09,433 [INFO]   [157]  EDU       (#307)  $0.09945       7d: -3.7%
+2026-03-12 00:02:09,493 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:02:09,494 [INFO]   [158]  ZIL       (#308)  $0.00416       7d: -4.9%
+2026-03-12 00:02:09,557 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:02:09,558 [INFO]   [159]  ICNT      (#309)  $0.32702       7d: -2.6%
+2026-03-12 00:02:09,615 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:02:09,616 [INFO]   [160]  SIGN      (#312)  $0.05020       7d: +64.5%
+2026-03-12 00:02:10,468 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-12 00:02:40,532 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-12 00:03:42,211 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-12 00:03:48,716 [INFO]   [161]  CTC       (#311)  $0.15679       7d: -2.3%
+2026-03-12 00:03:49,888 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:03:56,391 [INFO]   [162]  MET       (#313)  $0.16211       7d: -8.8%
+2026-03-12 00:03:56,445 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:03:56,446 [INFO]   [163]  KSM       (#315)  $4.59000       7d: -5.6%
+2026-03-12 00:03:57,739 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-12 00:04:04,240 [INFO]   [164]  AIOZ      (#316)  $0.06562       7d: -0.8%
+2026-03-12 00:04:05,071 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-12 00:04:35,133 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-12 00:05:36,756 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-12 00:05:43,258 [INFO]   [165]  UB        (#317)  $0.03256       7d: -2.9%
+2026-03-12 00:05:44,596 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-12 00:05:51,101 [INFO]   [166]  DEEP      (#320)  $0.03165       7d: +14.4%
+2026-03-12 00:05:51,167 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:05:51,171 [INFO]   [167]  RON       (#322)  $0.10176       7d: +2.3%
+2026-03-12 00:05:51,226 [INFO]           → conviction 34/100  |  signals 5/15
+2026-03-12 00:05:51,227 [INFO]   [168]  LINEA     (#323)  $0.00330       7d: +0.6%
+2026-03-12 00:05:52,388 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-12 00:05:58,889 [INFO]   [169]  HOME      (#324)  $0.02255       7d: -22.8%
+2026-03-12 00:05:58,941 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-12 00:05:58,942 [INFO]   [170]  CFG       (#328)  $0.13243       7d: -4.8%
+2026-03-12 00:05:58,990 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-12 00:05:58,991 [INFO]   [171]  KMNO      (#330)  $0.01843       7d: -22.6%
+2026-03-12 00:05:59,061 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-12 00:06:29,131 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-12 00:07:31,388 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:07:37,893 [INFO]   [172]  META      (#332)  $3.34000       7d: -18.7%
+2026-03-12 00:07:37,950 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-12 00:07:37,952 [INFO]   [173]  DBR       (#334)  $0.01585       7d: +4.0%
+2026-03-12 00:07:38,008 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-12 00:07:38,010 [INFO]   [174]  FEUSD     (#336)  $0.99437       7d: -0.2%
+2026-03-12 00:07:39,068 [INFO]           → skip (flatliner: ATR 0.51% / BB 0.13%)
+2026-03-12 00:07:45,569 [INFO]   [175]  MOVE      (#337)  $0.02124       7d: -6.6%
+2026-03-12 00:07:45,641 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:07:45,642 [INFO]   [176]  T         (#339)  $0.00666       7d: +0.8%
+2026-03-12 00:07:45,693 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-12 00:07:45,694 [INFO]   [177]  CKB       (#341)  $0.00152       7d: -2.6%
+2026-03-12 00:07:45,749 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-12 00:07:45,750 [INFO]   [178]  SAFE      (#343)  $0.10319       7d: -4.1%
+2026-03-12 00:07:45,798 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-12 00:07:45,799 [INFO]   [179]  BANANAS31  (#344)  $0.00734       7d: +41.3%
+2026-03-12 00:07:45,847 [INFO]           → conviction 30/100  |  signals 5/15
+2026-03-12 00:07:45,848 [INFO]   [180]  DYDX      (#346)  $0.08728       7d: -12.4%
+2026-03-12 00:07:45,897 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-12 00:07:45,898 [INFO]   [181]  BRETT     (#348)  $0.00724       7d: -6.4%
+2026-03-12 00:07:45,954 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:07:45,955 [INFO]   [182]  METAL     (#352)  $0.14119       7d: +1.5%
+2026-03-12 00:07:46,800 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-12 00:08:16,873 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-12 00:09:18,374 [INFO]           → conviction 18/100  |  signals 4/15
+2026-03-12 00:09:24,875 [INFO]   [183]  CYS       (#349)  $0.44332       7d: +17.5%
+2026-03-12 00:09:24,934 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-12 00:09:24,935 [INFO]   [184]  MINA      (#351)  $0.05550       7d: -4.9%
+2026-03-12 00:09:24,988 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:09:24,990 [INFO]   [185]  KAVA      (#357)  $0.06371       7d: +7.5%
+2026-03-12 00:09:25,044 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-12 00:09:25,045 [INFO]   [186]  SAHARA    (#358)  $0.02368       7d: -18.8%
+2026-03-12 00:09:25,095 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-12 00:09:25,097 [INFO]   [187]  SOON      (#361)  $0.15610       7d: -4.6%
+2026-03-12 00:09:25,147 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-12 00:09:25,148 [INFO]   [188]  ZETA      (#364)  $0.05062       7d: -5.0%
+2026-03-12 00:09:25,200 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:09:25,202 [INFO]   [189]  GMX       (#367)  $6.35000       7d: -15.1%
+2026-03-12 00:09:25,253 [INFO]           → conviction 12/100  |  signals 2/15
+2026-03-12 00:09:25,254 [INFO]   [190]  ALCH      (#368)  $0.07724       7d: -2.9%
+2026-03-12 00:09:25,307 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-12 00:09:25,308 [INFO]   [191]  ASTR      (#369)  $0.00761       7d: +2.9%
+2026-03-12 00:09:25,360 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:09:25,362 [INFO]   [192]  WMTX      (#375)  $0.07587       7d: +11.8%
+2026-03-12 00:09:25,415 [INFO]           → conviction 29/100  |  signals 4/15
+2026-03-12 00:09:25,416 [INFO]   [193]  PLUME     (#374)  $0.01250       7d: +27.8%
+2026-03-12 00:09:25,477 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-12 00:09:25,478 [INFO]   [194]  TURBO     (#376)  $0.00093       7d: -9.2%
+2026-03-12 00:09:25,539 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:09:25,540 [INFO]   [195]  AZTEC     (#377)  $0.02197       7d: -7.0%
+2026-03-12 00:09:26,818 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-12 00:09:33,320 [INFO]   [196]  NPC       (#382)  $0.00789       7d: -12.8%
+2026-03-12 00:09:33,382 [INFO]           → conviction 16/100  |  signals 2/15
+2026-03-12 00:09:33,382 [INFO]   [197]  ELF       (#381)  $0.07746       7d: -0.3%
+2026-03-12 00:09:33,436 [INFO]           → conviction 21/100  |  signals 4/15
+2026-03-12 00:09:33,440 [INFO]   [198]  TRIA      (#386)  $0.02885       7d: +60.5%
+2026-03-12 00:09:33,494 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-12 00:09:33,495 [INFO]   [199]  AXL       (#389)  $0.05436       7d: -1.4%
+2026-03-12 00:09:33,551 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-12 00:09:33,552 [INFO]   [200]  ARKM      (#393)  $0.10638       7d: -4.8%
+2026-03-12 00:09:33,605 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-12 00:09:33,605 [INFO]   [201]  OPN       (#395)  $0.29986     
+2026-03-12 00:09:33,657 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-12 00:09:33,658 [INFO]   [202]  COAI      (#396)  $0.31720       7d: -2.7%
+2026-03-12 00:09:33,719 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:09:33,720 [INFO]   [203]  HSK       (#397)  $0.17082       7d: -3.3%
+2026-03-12 00:09:33,770 [INFO]           → conviction 5/100  |  signals 1/15
+2026-03-12 00:09:33,771 [INFO]   [204]  VTHO      (#398)  $0.00060       7d: -1.3%
+2026-03-12 00:09:33,825 [INFO]           → conviction 30/100  |  signals 6/15
+2026-03-12 00:09:33,826 [INFO]   [205]  BICO      (#399)  $0.02223       7d: +5.1%
+2026-03-12 00:09:33,877 [INFO]           → conviction 23/100  |  signals 3/15
+2026-03-12 00:09:33,878 [INFO]   [206]  MYX       (#400)  $0.30195       7d: -6.6%
+2026-03-12 00:09:33,931 [INFO]           → conviction 9/100  |  signals 2/15
+2026-03-12 00:09:33,932 [INFO]   [207]  MBG       (#401)  $0.30009       7d: -0.2%
+2026-03-12 00:09:33,986 [INFO]           → conviction 7/100  |  signals 1/15
+2026-03-12 00:09:33,987 [INFO]   [208]  SXT       (#402)  $0.01926       7d: +3.2%
+2026-03-12 00:09:34,039 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-12 00:09:34,040 [INFO]   [209]  BEAT      (#403)  $0.40730       7d: +46.6%
+2026-03-12 00:09:34,091 [INFO]           → conviction 27/100  |  signals 5/15
+2026-03-12 00:09:34,092 [INFO]   [210]  MOCA      (#404)  $0.01432       7d: -8.2%
+2026-03-12 00:09:34,144 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-12 00:09:34,144 [INFO]   [211]  SPK       (#406)  $0.02280       7d: +13.4%
+2026-03-12 00:09:34,195 [INFO]           → conviction 32/100  |  signals 5/15
+2026-03-12 00:09:34,196 [INFO]   [212]  XYO       (#405)  $0.00403       7d: -5.8%
+2026-03-12 00:09:34,251 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:09:34,252 [INFO]   [213]  SUSHI     (#410)  $0.20358       7d: -3.3%
+2026-03-12 00:09:34,302 [INFO]           → conviction 27/100  |  signals 4/15
+2026-03-12 00:09:34,303 [INFO]   [214]  AIC       (#411)  $0.05457       7d: -10.4%
+2026-03-12 00:09:34,353 [INFO]           → conviction 20/100  |  signals 4/15
+2026-03-12 00:09:34,354 [INFO]   [215]  EURI      (#417)  $1.16000       7d: -0.6%
+2026-03-12 00:09:34,402 [INFO]           → skip (flatliner: ATR 0.34% / BB 0.34%)
+2026-03-12 00:09:34,403 [INFO]   [216]  MEW       (#416)  $0.00061       7d: -5.4%
+2026-03-12 00:09:35,598 [INFO]           → conviction 14/100  |  signals 3/15
+2026-03-12 00:09:42,101 [INFO]   [217]  NIZA      (#418)  $0.04720       7d: +19.3%
+2026-03-12 00:09:42,157 [INFO]           → conviction 16/100  |  signals 3/15
+2026-03-12 00:09:42,158 [INFO]   [218]  NMR       (#419)  $7.67000       7d: -2.3%
+2026-03-12 00:09:42,215 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-12 00:09:42,216 [INFO]   [219]  AVNT      (#425)  $0.16776       7d: -4.1%
+2026-03-12 00:09:42,290 [WARNING] Rate-limited — waiting 30s (attempt 1)
+2026-03-12 00:10:12,352 [WARNING] Rate-limited — waiting 60s (attempt 2)
+2026-03-12 00:11:14,685 [INFO]           → conviction 45/100  |  signals 6/15
+2026-03-12 00:11:21,188 [INFO]   [220]  BLUR      (#424)  $0.01950       7d: -3.2%
+2026-03-12 00:11:21,247 [INFO]           → conviction 21/100  |  signals 3/15
+2026-03-12 00:11:21,248 [INFO]   [221]  ORDI      (#427)  $2.55000       7d: -0.8%
+2026-03-12 00:11:21,307 [INFO]           → conviction 25/100  |  signals 3/15
+2026-03-12 00:11:21,310 [INFO]   [222]  UAI       (#428)  $0.22243       7d: +10.6%
+2026-03-12 00:11:21,362 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-12 00:11:21,363 [INFO]   [223]  ALEO      (#429)  $0.05543       7d: -19.5%
+2026-03-12 00:11:21,414 [INFO]           → conviction 0/100  |  signals 0/15
+2026-03-12 00:11:21,415 [INFO]   [224]  ESP       (#434)  $0.10093       7d: -15.3%
+2026-03-12 00:11:21,464 [INFO]           → conviction 4/100  |  signals 1/15
+2026-03-12 00:11:21,465 [INFO]   [225]  TSLAX     (#432)  $407.05000     7d: +0.7%
+2026-03-12 00:11:21,515 [INFO]           → conviction 14/100  |  signals 2/15
+2026-03-12 00:11:21,516 [INFO]   [226]  VENOM     (#435)  $0.02437       7d: -2.5%
+2026-03-12 00:11:21,568 [INFO]           → skip (flatliner: ATR 0.47% / BB 0.47%)
+2026-03-12 00:11:21,569 [INFO]   [227]  SC        (#436)  $0.00105       7d: -4.7%
+2026-03-12 00:11:21,623 [INFO]           → conviction 25/100  |  signals 4/15
+2026-03-12 00:11:21,624 [INFO]   [228]  QAI       (#438)  $63.95000      7d: -5.9%
+2026-03-12 00:11:21,676 [INFO]           → conviction 7/100  |  signals 2/15
+2026-03-12 00:11:21,677 [INFO]   [229]  PROVE     (#439)  $0.26276       7d: -7.2%
+2026-03-12 00:11:21,730 [INFO]           → conviction 20/100  |  signals 3/15
+2026-03-12 00:11:21,731 [INFO]   [230]  POPCAT    (#442)  $0.05154       7d: -1.5%
+2026-03-12 00:11:21,782 [INFO]           → conviction 23/100  |  signals 4/15
+2026-03-12 00:11:21,783 [INFO]   [231]  IOTX      (#445)  $0.00529       7d: -0.9%
+2026-03-12 00:11:22,968 [INFO]           → conviction 29/100  |  signals 5/15
+2026-03-12 00:11:29,470 [INFO]   [232]  XVS       (#448)  $2.95000       7d: -5.7%
+2026-03-12 00:11:29,522 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-12 00:11:29,524 [INFO]   [233]  BNKR      (#449)  $0.00049       7d: -9.8%
+2026-03-12 00:11:29,578 [INFO]           → conviction 12/100  |  signals 3/15
+2026-03-12 00:11:29,579 [INFO]   [234]  PURR      (#450)  $0.08196       7d: +2.3%
+2026-03-12 00:11:29,634 [INFO]           → conviction 18/100  |  signals 3/15
+2026-03-12 00:11:29,638 [INFO]   [235]  EURCV     (#280)  $1.16000       7d: -0.7%
+2026-03-12 00:11:29,694 [INFO]           → skip (flatliner: ATR 0.17% / BB 0.35%)
+2026-03-12 00:11:29,704 [INFO] 
+[5/5] Building trade plan report...
+2026-03-12 00:11:29,705 [INFO]   Raw candidates found: 0
+2026-03-12 00:11:29,707 [INFO] 
+================================================================================
+  CRYPTO MASTER ORCHESTRATOR — TRADE PLAN REPORT
+  Generated: 2026-03-12 00:11:29
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   70,581.00
+  BTC 7-day    :     -3.75%
+  BTC 24-hour  :     +1.26%
+  Regime       :  🟡 SIDEWAYS
+
+  🟡 SIDEWAYS — Thresholds tightened for safety:
+     Conviction ≥ 60  |  Max position 6.0%  |  Stops 1.0× ATR
+     Missing a trade is better than losing capital in chop.
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,700.00 USDT
+  Risk / trade  : 1.5%  ($1,450 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = qualified this scan but needs 1 more confirmation scan before entry.
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  ------------------------------
+  1     🔶BAN       #246  $0.11335         +3.1%    52     7  rsi_divergence, rs_vs_btc, stealth_accum +4
+  2     🔶XCN       #180  $0.00504         +4.8%    45     7  rs_vs_btc, vol_expansion, higher_lows +4
+  3     🔶AVNT      #425  $0.16776         -4.1%    45     6  rsi_divergence, rs_vs_btc, vol_expansion +3
+  4     🔶FET       #118  $0.16132         +3.2%    39     6  rs_vs_btc, vol_expansion, higher_lows +3
+  5     🔶WAL       #192  $0.07837         -3.3%    39     6  rs_vs_btc, stealth_accum, higher_lows +3
+  6     🔹ICP       # 55  $2.66000         +4.6%    38     6  rs_vs_btc, vol_expansion, whale_candles +3
+  7     🔹COMP      #191  $18.43000        +1.1%    38     6  rs_vs_btc, vol_expansion, whale_candles +3
+  8     🔹WLD       # 67  $0.35681        -16.6%    36     5  rsi_divergence, stealth_accum, bb_squeeze +2
+  9     🔹FIL       # 84  $0.88354        -14.3%    34     5  macd_turning, stealth_accum, vol_expansion +2
+  10    🔹AERO      #128  $0.34330         -6.7%    34     5  rs_vs_btc, vol_expansion, higher_lows +2
+
+--------------------------------------------------------------------------------
+2026-03-12 00:11:29,722 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.txt
+2026-03-12 00:11:29,723 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\master_trade_plan_LATEST.json
+2026-03-12 00:11:29,723 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260311.log
+2026-03-12 00:11:29,723 [INFO] 
+  Done.  0 high-conviction setup(s) found.

@@ -1,0 +1,95 @@
+//@version=6
+
+// ──────────────────────────────────────────────────────────────────────
+// BTC 1-INDICATOR STRATEGY V2
+// Indicator: ATR HEMA (SeerQuant)
+// Logic: Color Change Reversals
+// Type: Perpetual (Always in Market)
+// ──────────────────────────────────────────────────────────────────────
+
+INITIAL_CAPITAL = 10000
+
+strategy("BTC 1-Indicator V2 - ATRHEMA",
+     overlay=true,
+     initial_capital=INITIAL_CAPITAL,
+     default_qty_type=strategy.percent_of_equity,
+     default_qty_value=100,
+     pyramiding=0,
+     calc_on_every_tick=false,
+     process_orders_on_close=true)
+
+// ──────────────────────────────────────────────────────────────────────
+// BACKTEST RANGE
+useDateFilter = input.bool(true, "Use Backtest Range", group="Backtest")
+backtestStartDate = input.time(timestamp("1 Jan 2018"), "Start Date", group="Backtest")
+inDateRange = not useDateFilter or (time >= backtestStartDate)
+
+// ──────────────────────────────────────────────────────────────────────
+// COBRA METRICS
+import EliCobra/CobraMetrics/4 as cobra
+var string groupCobra = "Cobra"
+disp_ind = input.string("Equity", "Cobra: Display Curve",
+     options=["Strategy","Equity","Open Profit","Gross Profit","Net Profit","None"], group=groupCobra)
+pos_table = input.string("Middle Right", "Cobra: Table Position",
+     options=["Top Left","Middle Left","Bottom Left","Top Right","Middle Right","Bottom Right","Top Center","Bottom Center"], group=groupCobra)
+type_table = "Full"
+plot(cobra.curve(disp_ind))
+cobra.cobraTable(type_table, pos_table)
+
+// ══════════════════════════════════════════════════════════════════════
+// ATR HEMA (SeerQuant - Alpha/Gamma Smoothing with ATR Neutral Zone)
+// ══════════════════════════════════════════════════════════════════════
+alphaL = input.int(32, "Alpha Length", group="ATR HEMA")
+gammaL = input.int(30, "Gamma Length", group="ATR HEMA")
+atrMult = input.float(0.04, "Neutral Zone Multiplier (ATR)", step=0.01, group="ATR HEMA")
+atrleng = input.int(25, "ATR Length", group="ATR HEMA")
+src = input.source(hl2, "Source", group="ATR HEMA")
+
+// Alpha/Gamma HEMA Calculation
+alpha = 2 / (alphaL + 1)
+gamma = 2 / (gammaL + 1)
+
+var float b = 0.0
+var float hema = 0.0
+
+hema := (1 - alpha) * (nz(hema[1]) + nz(b[1], src)) + alpha * src
+b := (1 - gamma) * nz(b[1]) + gamma * (hema - nz(hema[1]))
+
+// ATR Neutral Zone
+atrValue = ta.atr(atrleng)
+neutralThreshold = atrValue * atrMult
+hemaChange = hema - hema[1]
+inNeutralZone = math.abs(hemaChange) < neutralThreshold
+
+// HEMA Color Logic
+hemaColor = hema > hema[1] ? 1 : -1  // 1 = bull, -1 = bear
+prevColor = hemaColor[1]
+
+// ──────────────────────────────────────────────────────────────────────
+// SIGNAL LOGIC - COLOR CHANGE
+// ──────────────────────────────────────────────────────────────────────
+
+// LONG: HEMA changes from bear to bull
+longCondition = (hemaColor == 1) and (prevColor == -1)
+
+// SHORT: HEMA changes from bull to bear
+shortCondition = (hemaColor == -1) and (prevColor == 1)
+
+// ──────────────────────────────────────────────────────────────────────
+// POSITION SIZING
+// ──────────────────────────────────────────────────────────────────────
+qty = strategy.equity / close
+qty := math.max(qty, 0.000001)
+
+// ──────────────────────────────────────────────────────────────────────
+// EXECUTION - PERPETUAL (ALWAYS IN MARKET)
+// ──────────────────────────────────────────────────────────────────────
+
+// LONG: Enter when HEMA turns bullish
+if longCondition and inDateRange and barstate.isconfirmed and strategy.position_size <= 0
+    strategy.entry("Long", strategy.long, qty=qty, comment="HEMA Long")
+
+// SHORT: Enter when HEMA turns bearish
+if shortCondition and inDateRange and barstate.isconfirmed and strategy.position_size >= 0
+    strategy.entry("Short", strategy.short, qty=qty, comment="HEMA Short")
+

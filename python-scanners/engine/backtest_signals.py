@@ -8,9 +8,7 @@ per regime, and in pairs/triplets against 2 years of Binance 4h OHLCV data.
 What it produces:
   outputs/backtest/backtest_trades_{ts}.csv    — every simulated trade
   outputs/backtest/backtest_summary_{ts}.txt   — ranked signal stats
-  outputs/backtest/backtest_summary_LATEST.txt — always the most recent run
-
-What it answers:
+  outputs/backtest/backtest_summary_LATEST.txt — always the most recent runcommiso
   - Which signals have positive real expectancy on rank 50–600 alts?
   - Do signals work differently in BULL vs SIDEWAYS vs BEAR regimes?
   - Which signal combinations (pairs/triplets) produce the best outcomes?

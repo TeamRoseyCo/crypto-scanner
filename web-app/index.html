@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Trading Bot</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Crypto Trading Assistant</h1>
+        </header>
+        <main>
+            <div id="trading-panel">
+                <div class="sheets-input">
+                    <h2>Google Sheets Configuration</h2>
+                    <input type="text" id="sheets-url" placeholder="Enter Google Sheets URL">
+                    <button id="connect-sheets">Connect</button>
+                </div>
+                <div id="trading-status">
+                    <h2>Trading Status</h2>
+                    <div id="status-display"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>

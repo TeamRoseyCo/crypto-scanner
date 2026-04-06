@@ -1,0 +1,192 @@
+// This Pine Script(r) code is subject to the terms of the Mozilla Public License 2.0
+// (c) Custom build - implemented from published methodology description only
+
+//@version=5
+indicator("GainzAlgo Suite [Custom Build]", overlay=true)
+
+// ---------- Inputs ----------
+cfg        = input.string("Standard", "Configuration", options=["Standard", "Pro", "V2 Essential", "V2 Proficient", "V2 Alpha"])
+bullCol    = input.color(color.new(color.aqua, 0),    "Bull Color")
+bearCol    = input.color(color.new(color.red,  0),    "Bear Color")
+showLabels = input.bool(true,  "Show Labels")
+showRibbon = input.bool(true,  "Show EMA Ribbon")
+showBg     = input.bool(false, "Signal Background Tint")
+
+// ---------- Utilities ----------
+percentileRank(series float src, simple int length) =>
+    int count = 0
+    for i = 1 to length
+        if src[i] < src
+            count += 1
+    math.round(count / length * 100)
+
+// ---------- Price structure ----------
+bodySize   = math.abs(close - open)
+totalRange = high - low
+upperWick  = high  - math.max(close, open)
+lowerWick  = math.min(close, open) - low
+bodyRatio  = totalRange > 0 ? bodySize / totalRange : 0.0
+
+// ---------- Volatility ----------
+atr7   = ta.atr(7)
+atr14  = ta.atr(14)
+atr50  = ta.atr(50)
+
+// ---------- Momentum ----------
+rsi7   = ta.rsi(close, 7)
+rsi10  = ta.rsi(close, 10)
+rsi14  = ta.rsi(close, 14)
+rsi21  = ta.rsi(close, 21)
+[macdLine, sigLine, histLine] = ta.macd(close, 12, 26, 9)
+
+// ---------- EMAs ----------
+ema5   = ta.ema(close, 5)
+ema8   = ta.ema(close, 8)
+ema13  = ta.ema(close, 13)
+ema21  = ta.ema(close, 21)
+ema34  = ta.ema(close, 34)
+ema50  = ta.ema(close, 50)
+ema100 = ta.ema(close, 100)
+ema200 = ta.ema(close, 200)
+
+// ---------- Volume ----------
+volSma20 = ta.sma(volume, 20)
+volSpike = volume > volSma20 * 1.3
+
+// ============================================================
+// STANDARD - 4-Layer Sequential Confirmation Model
+// ============================================================
+std_bullHammer    = lowerWick > bodySize * 1.5 and bodyRatio < 0.5 and close > open
+std_bullEngulf    = close > open and close > open[1] and open <= close[1] and bodySize > bodySize[1] * 0.8
+std_bullPierce    = close[1] < open[1] and close > open and close > (open[1] + close[1]) / 2 and open < close[1]
+std_bullCandle    = std_bullHammer or std_bullEngulf or std_bullPierce
+
+std_bearShooter   = upperWick > bodySize * 1.5 and bodyRatio < 0.5 and close < open
+std_bearEngulf    = close < open and close < open[1] and open >= close[1] and bodySize > bodySize[1] * 0.8
+std_bearDarkCloud = close[1] > open[1] and close < open and close < (open[1] + close[1]) / 2 and open > close[1]
+std_bearCandle    = std_bearShooter or std_bearEngulf or std_bearDarkCloud
+
+std_volValid  = atr14 >= atr50 * 0.75 and totalRange > ta.sma(totalRange, 14) * 0.8
+std_rsiSlope  = rsi14 - rsi14[2]
+std_bullMom   = std_rsiSlope > 0 and rsi14 > 38 and rsi14 < 68 and macdLine > sigLine
+std_bearMom   = std_rsiSlope < 0 and rsi14 < 62 and rsi14 > 32 and macdLine < sigLine
+std_bullTrend = ema8 > ema21 and close > ema50
+std_bearTrend = ema8 < ema21 and close < ema50
+
+stdBull = std_bullCandle and std_volValid and std_bullMom and std_bullTrend
+stdBear = std_bearCandle and std_volValid and std_bearMom and std_bearTrend
+
+// ============================================================
+// PRO - Multi-Layer Confidence-Scoring Engine
+// ============================================================
+pro_atrPct     = percentileRank(atr14, 100)
+pro_volScore   = pro_atrPct > 60 ? 3 : pro_atrPct > 40 ? 2 : pro_atrPct > 20 ? 1 : 0
+pro_bullCsmrm  = lowerWick > totalRange * 0.38 and close > open and bodyRatio > 0.1
+pro_bearCsmrm  = upperWick > totalRange * 0.38 and close < open and bodyRatio > 0.1
+pro_csmrmBull  = pro_bullCsmrm ? 2 : 0
+pro_csmrmBear  = pro_bearCsmrm ? 2 : 0
+pro_ema21Slope = ema21 - ema21[4]
+pro_ema50Slope = ema50 - ema50[7]
+pro_bullCsta   = pro_ema21Slope > 0 and pro_ema50Slope > 0
+pro_bearCsta   = pro_ema21Slope < 0 and pro_ema50Slope < 0
+pro_rsiAccel   = (rsi14 - rsi14[1]) - (rsi14[1] - rsi14[2])
+pro_bullSamsm  = pro_rsiAccel > 0 and rsi14 > 42 and rsi14 < 68
+pro_bearSamsm  = pro_rsiAccel < 0 and rsi14 < 58 and rsi14 > 32
+pro_samsmBull  = pro_bullSamsm ? 2 : 0
+pro_samsmBear  = pro_bearSamsm ? 2 : 0
+pro_adaptThresh = pro_atrPct > 65 ? 5 : pro_atrPct > 40 ? 6 : 7
+pro_bullScore  = pro_volScore + pro_csmrmBull + (pro_bullCsta ? 2 : 0) + pro_samsmBull
+pro_bearScore  = pro_volScore + pro_csmrmBear + (pro_bearCsta ? 2 : 0) + pro_samsmBear
+proBull = pro_bullScore >= pro_adaptThresh and rsi14 < 68 and close > ema21
+proBear = pro_bearScore >= pro_adaptThresh and rsi14 > 32 and close < ema21
+
+// ============================================================
+// V2 ESSENTIAL - Expanded Structural Evaluation Model
+// ============================================================
+ess_macroUp    = close > ema100 and ema50 > ema100 and ema21 > ema50
+ess_macroDown  = close < ema100 and ema50 < ema100 and ema21 < ema50
+ess_bullStruct = low > low[5] and low[2] > low[6] and close > ta.highest(high, 5)[1]
+ess_bearStruct = high < high[5] and high[2] < high[6] and close < ta.lowest(low, 5)[1]
+ess_rangeOk    = totalRange > ta.sma(totalRange, 30) * 1.1
+ess_bullMom    = rsi21 > 48 and rsi21 < 65 and rsi21 > rsi21[3]
+ess_bearMom    = rsi21 < 52 and rsi21 > 35 and rsi21 < rsi21[3]
+[ess_m1, ess_m2, ess_slowHist] = ta.macd(close, 21, 55, 9)
+ess_macdBull   = ess_slowHist > ess_slowHist[1] and ess_slowHist[1] > ess_slowHist[2]
+ess_macdBear   = ess_slowHist < ess_slowHist[1] and ess_slowHist[1] < ess_slowHist[2]
+essentialBull  = ess_bullStruct and ess_macroUp   and ess_bullMom and ess_macdBull and ess_rangeOk
+essentialBear  = ess_bearStruct and ess_macroDown and ess_bearMom and ess_macdBear and ess_rangeOk
+
+// ============================================================
+// V2 PROFICIENT - Balanced Adaptive Filtering Framework
+// ============================================================
+prf_bullAlign  = close > ema34 and close[1] <= ema34[1]
+prf_bearAlign  = close < ema34 and close[1] >= ema34[1]
+prf_bullMShift = rsi10 > 50 and rsi10[1] <= 50 and rsi10[2] <= 50
+prf_bearMShift = rsi10 < 50 and rsi10[1] >= 50 and rsi10[2] >= 50
+prf_macdBull   = macdLine > sigLine and histLine > histLine[1]
+prf_macdBear   = macdLine < sigLine and histLine < histLine[1]
+prf_volOk      = ta.atr(10) > ta.atr(30) * 0.65
+proficientBull = (prf_bullAlign or prf_bullMShift) and prf_macdBull and prf_volOk and close > ema50 and rsi10 < 70
+proficientBear = (prf_bearAlign or prf_bearMShift) and prf_macdBear and prf_volOk and close < ema50 and rsi10 > 30
+
+// ============================================================
+// V2 ALPHA - Multi-Phase Micro-Cycle Evaluation Model
+// ============================================================
+alp_bullShift  = ema5 > ema13 and ema5[1] <= ema13[1] and close > open
+alp_bearShift  = ema5 < ema13 and ema5[1] >= ema13[1] and close < open
+alp_bullBurst  = rsi7 > 55 and rsi7[1] <= 52 and rsi7[2] <= 52
+alp_bearBurst  = rsi7 < 45 and rsi7[1] >= 48 and rsi7[2] >= 48
+alp_bullVol    = volSpike and close > open
+alp_bearVol    = volSpike and close < open
+alp_bullWick   = lowerWick > totalRange * 0.28 and close > (high + low) / 2
+alp_bearWick   = upperWick > totalRange * 0.28 and close < (high + low) / 2
+alp_bullPhases = (alp_bullShift ? 1 : 0) + (alp_bullBurst ? 1 : 0) + ((alp_bullVol or alp_bullWick) ? 1 : 0)
+alp_bearPhases = (alp_bearShift ? 1 : 0) + (alp_bearBurst ? 1 : 0) + ((alp_bearVol or alp_bearWick) ? 1 : 0)
+alphaBull = alp_bullPhases >= 2 and rsi7 < 75 and close > ema21
+alphaBear = alp_bearPhases >= 2 and rsi7 > 25 and close < ema21
+
+// ============================================================
+// SIGNAL ROUTER
+// ============================================================
+bullSignal = switch cfg
+    "Standard"      => stdBull
+    "Pro"           => proBull
+    "V2 Essential"  => essentialBull
+    "V2 Proficient" => proficientBull
+    "V2 Alpha"      => alphaBull
+    => false
+
+bearSignal = switch cfg
+    "Standard"      => stdBear
+    "Pro"           => proBear
+    "V2 Essential"  => essentialBear
+    "V2 Proficient" => proficientBear
+    "V2 Alpha"      => alphaBear
+    => false
+
+// ============================================================
+// VISUALS
+// ============================================================
+plotshape(bullSignal, "Bull Signal", shape.labelup,   location.belowbar, bullCol, size=size.small)
+plotshape(bearSignal, "Bear Signal", shape.labeldown, location.abovebar, bearCol, size=size.small)
+
+if showLabels
+    if bullSignal
+        label.new(bar_index, low - atr14 * 1.5, "Bull " + cfg, color=bullCol, textcolor=color.black, style=label.style_label_up, size=size.small)
+    if bearSignal
+        label.new(bar_index, high + atr14 * 1.5, "Bear " + cfg, color=bearCol, textcolor=color.white, style=label.style_label_down, size=size.small)
+
+p1 = plot(showRibbon ? ema8  : na, "EMA 8",  color=color.new(color.blue, 75), linewidth=1)
+p2 = plot(showRibbon ? ema21 : na, "EMA 21", color=color.new(color.blue, 55), linewidth=1)
+plot(showRibbon ? ema50  : na, "EMA 50",  color=color.new(color.gray,   65), linewidth=1)
+plot(showRibbon ? ema200 : na, "EMA 200", color=color.new(color.orange, 55), linewidth=2)
+fill(p1, p2, color = close > ema21 ? color.new(color.teal, 88) : color.new(color.red, 88))
+
+bgcolor(showBg and bullSignal ? color.new(bullCol, 92) : showBg and bearSignal ? color.new(bearCol, 92) : na, title="Signal Tint")
+
+// ============================================================
+// ALERTS
+// ============================================================
+alertcondition(bullSignal, "Bull Signal", "GainzAlgo Custom: Bull signal - {{ticker}} {{interval}}")
+alertcondition(bearSignal, "Bear Signal", "GainzAlgo Custom: Bear signal - {{ticker}} {{interval}}")
+alertcondition(bullSignal or bearSignal,  "Any Signal", "GainzAlgo Custom: Signal - {{ticker}} {{interval}}")

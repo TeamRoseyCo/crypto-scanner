@@ -1,0 +1,108 @@
+================================================================================
+  SIGNAL BACKTEST REPORT  —  master_orchestrator v2.1
+  Generated : 20260404_060011
+  Universe  : 50 coins, rank 50–600
+  History   : 730 days (~4380 4h bars per coin) from Binance
+
+  ⚠️  SURVIVORSHIP BIAS: Universe = coins alive today at rank 50–600.
+  All win rates are inflated vs live trading. Use for RELATIVE ranking.
+================================================================================
+
+INDIVIDUAL SIGNAL PERFORMANCE  (ranked by expectancy)
+--------------------------------------------------------------------------------
+  SIGNAL                      N    WIN%   E[PnL]  AVG_WIN  AVG_LOSS  SHARPE   TP1%   MAX_DD
+--------------------------------------------------------------------------------
+  ✅ whale_candles          1634   34.8%    +0.04    +9.60     -5.06    0.21    31%  -379.56
+  ❌ vol_velocity           4702   33.3%    -0.46    +8.62     -5.00   -4.17    28%  -2259.95
+  ❌ vol_expansion         16636   33.0%    -0.69    +9.14     -5.53  -11.20    26%  -12498.93
+  ❌ rsi_ignition           4865   31.8%    -0.78    +8.78     -5.24   -7.36    25%  -4008.18
+  ❌ macd_crossover         3980   29.6%    -1.01    +8.49     -5.00   -9.15    24%  -4014.35
+  ❌ trend_strong          39195   29.7%    -1.01    +8.72     -5.12  -27.99    26%  -39808.40
+  ❌ rs_acceleration        9227   30.1%    -1.01    +9.33     -5.46  -12.99    28%  -9908.40
+  ❌ rsi_divergence         8009   29.9%    -1.03    +8.86     -5.25  -12.92    26%  -8617.60
+  ❌ atr_expanding         32714   29.3%    -1.05   +10.02     -5.62  -23.78    27%  -34502.12
+  ❌ cmf                   34054   29.8%    -1.05    +8.22     -4.99  -28.14    23%  -36355.59
+  ❌ rsi_in_zone           55484   29.9%    -1.08    +8.28     -5.08  -36.47    23%  -60597.60
+  ❌ stealth_accum         15866   30.2%    -1.08    +6.99     -4.56  -22.04    20%  -17143.83
+  ❌ bb_squeeze            29025   29.1%    -1.09    +7.97     -4.81  -29.07    24%  -31925.62
+  ❌ macd_turning          10452   29.6%    -1.10    +8.63     -5.18  -15.73    23%  -11929.15
+  ❌ declining_sell_vol    39359   29.1%    -1.19    +8.45     -5.15  -33.65    23%  -47165.34
+  ❌ rs_vs_btc             27129   27.2%    -1.39    +9.32     -5.40  -30.61    24%  -38011.66
+  ❌ higher_lows           15110   24.5%    -1.81    +8.66     -5.22  -33.54    22%  -28456.08
+
+PER-REGIME BREAKDOWN  (expectancy  |  n fires per regime)
+--------------------------------------------------------------------------------
+  SIGNAL                    BULL E   BULL N    SIDE E   SIDE N    BEAR E   BEAR N
+--------------------------------------------------------------------------------
+  whale_candles           ❌ -0.25      698  ❌ -0.37      811  ✅ +4.33      125
+  vol_velocity            ❌ -0.51     1142  ❌ -0.98     2844  ✅ +1.69      716
+  vol_expansion           ❌ -0.75     6353  ❌ -1.22     8281  ✅ +1.66     2002
+  rsi_ignition            ❌ -2.04      551  ❌ -1.01     3527  ✅ +1.14      787
+  macd_crossover          ❌ -1.28     1054  ❌ -0.93     2506  ❌ -0.81      420
+  trend_strong            ❌ -1.09    15267  ❌ -0.97    21564  ❌ -0.83     2364
+  rs_acceleration         ❌ -0.15     2591  ❌ -1.43     5236  ❌ -1.05     1400
+  rsi_divergence          ✅ +0.16      758  ❌ -1.34     5702  ❌ -0.50     1549
+  atr_expanding           ❌ -0.76     9394  ❌ -1.56    18855  ✅ +0.55     4465
+  cmf                     ❌ -0.92    13268  ❌ -1.21    18091  ❌ -0.66     2695
+  rsi_in_zone             ❌ -1.43    15367  ❌ -1.09    34420  ❌ -0.11     5697
+  stealth_accum           ❌ -1.35     4413  ❌ -0.98    10141  ❌ -0.88     1312
+  bb_squeeze              ❌ -1.46     8237  ❌ -1.00    18071  ❌ -0.58     2717
+  macd_turning            ❌ -0.84     2068  ❌ -1.40     7353  ✅ +0.53     1031
+  declining_sell_vol      ❌ -1.39    10496  ❌ -1.27    24803  ❌ -0.19     4060
+  rs_vs_btc               ❌ -1.52    10743  ❌ -1.35    14342  ❌ -1.02     2044
+  higher_lows             ❌ -1.79     5987  ❌ -1.76     8208  ❌ -2.41      915
+
+TOP 25 SIGNAL COMBINATIONS  (pairs + triplets | min 20 fires | ranked by expectancy)
+--------------------------------------------------------------------------------
+  COMBINATION                                               N    WIN%   E[PnL]  SHARPE
+--------------------------------------------------------------------------------
+  ✅ rsi_ignition + vol_expansion + whale_candles           36   72.2%    +6.24    4.19
+  ✅ rsi_divergence + vol_expansion + whale_candles         27   59.3%    +6.16    2.74
+  ✅ rsi_ignition + vol_velocity + whale_candles            21   71.4%    +5.56    2.78
+  ✅ rsi_ignition + whale_candles                           49   61.2%    +4.65    3.50
+  ✅ rs_vs_btc + rsi_divergence + vol_velocity              31   54.8%    +3.75    2.03
+  ✅ rsi_divergence + stealth_accum + vol_expansion         58   55.2%    +3.43    3.14
+  ✅ macd_crossover + rs_acceleration + vol_velocity        31   51.6%    +3.28    1.96
+  ✅ cmf + rsi_divergence + vol_velocity                    66   53.0%    +3.15    2.75
+  ✅ bb_squeeze + rsi_divergence + vol_expansion           117   55.6%    +2.91    4.04
+  ✅ rs_acceleration + rsi_divergence + vol_velocity        55   49.1%    +2.82    2.19
+  ✅ cmf + rsi_divergence + vol_expansion                  194   56.2%    +2.78    4.42
+  ✅ rsi_divergence + trend_strong + vol_velocity           85   49.4%    +2.66    2.68
+  ✅ macd_turning + rsi_ignition + stealth_accum            37   48.6%    +2.14    1.80
+  ✅ rs_acceleration + rsi_divergence + vol_expansion      165   50.9%    +2.03    2.98
+  ✅ macd_turning + stealth_accum + vol_expansion           89   56.2%    +1.98    2.67
+  ✅ rs_acceleration + rsi_divergence + whale_candles       36   41.7%    +1.92    1.28
+  ✅ macd_crossover + stealth_accum + vol_expansion        110   49.1%    +1.74    2.61
+  ✅ cmf + rsi_divergence + whale_candles                   43   39.5%    +1.67    1.24
+  ✅ bb_squeeze + higher_lows + rsi_ignition                40   50.0%    +1.65    1.48
+  ✅ macd_crossover + vol_expansion + vol_velocity          65   46.2%    +1.64    1.61
+  ✅ cmf + rsi_divergence + rsi_ignition                    27   59.3%    +1.60    1.21
+  ✅ macd_crossover + rsi_divergence + vol_expansion        43   46.5%    +1.58    1.15
+  ✅ rs_acceleration + vol_expansion + whale_candles       227   43.2%    +1.36    2.53
+  ✅ declining_sell_vol + vol_expansion + whale_candles    221   38.9%    +1.24    2.03
+  ✅ bb_squeeze + macd_turning + rs_acceleration            38   42.1%    +1.17    0.90
+
+HOW TO USE THESE RESULTS
+--------------------------------------------------------------------------------
+  1. Signals with positive expectancy AND n >= 50 are worth keeping.
+     Signals with negative expectancy should have their weight reduced.
+
+  2. Check the per-regime table — some signals only work in BULL.
+     A signal with E[PnL] = +2% BULL but -1% SIDEWAYS should be
+     weighted more conservatively or gated by regime in the scanner.
+
+  3. Winning combinations reveal which signals have compounding edge.
+     If 'rsi_divergence + rs_vs_btc' shows E[PnL] >> either alone,
+     requiring BOTH before entering is worth the reduced signal count.
+
+  4. Update _WEIGHTS in master_orchestrator.py to reflect reality:
+       High expectancy in SIDEWAYS → increase weight
+       Negative expectancy in SIDEWAYS → reduce weight
+       Only works in BULL → keep weight but be regime-aware
+
+  5. Re-run every 30–60 days. Market regimes shift and so does edge.
+
+  6. These numbers are absolute best-case (survivorship bias,
+     no fees, perfect fills). Discount all expectancies by ~30%
+     for a realistic live-trading estimate.
+================================================================================
