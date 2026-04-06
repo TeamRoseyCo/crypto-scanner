@@ -1,6 +1,6 @@
 """
 ================================================================================
-IGNITION RADAR  v1.0
+IGNITION RADAR  v1.1
 ================================================================================
 Early warning scanner — catches volume spikes BEFORE RS has had time to
 accumulate (the "ONT problem": alpha_scanner fires AFTER a 30-50% move because
@@ -77,13 +77,19 @@ CG_PRO  = bool(os.environ.get("CG_API_KEY"))
 CG_DEMO = bool(os.environ.get("CG_DEMO_KEY"))
 
 SCAN = {
-    "top_n_coins":     500,
+    "top_n_coins":     700,
     "min_rank":          5,
-    "max_rank":        500,
-    "min_volume_24h":  200_000,   # lower floor to catch smaller caps early
+    "max_rank":        700,
+    "min_volume_24h":  150_000,   # lower floor — catches rank 500-700 small caps
     "min_price":       0.0001,
     "cache_max_age_h": 1.5,       # 1h data must be fresh
     "api_delay_s":     (1.2 if CG_PRO else 4.5 if CG_DEMO else 6.5),
+}
+
+ACCOUNT = {
+    "size_usdt":   96_700.0,
+    "pos_pct":          4.0,   # 4% per ignition play — small, speculative entry
+    "stop_pct":         3.0,   # tight stop — momentum play, bail fast if wrong
 }
 
 SIGNAL = {
@@ -484,16 +490,65 @@ def detect_ignition_signals(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# IGNITION TRADE PLAN BUILDER
+# ─────────────────────────────────────────────────────────────────────────────
+
+def build_ignition_plan(price: float, account_size: float) -> dict:
+    """
+    Tight intraday trade plan for WATCH NOW ignition plays.
+    Uses flat % stop (not ATR-based) — these are fast momentum moves.
+      Position : 4% of account (small, speculative early entry)
+      Stop     : -3% (tight — bail fast if the pump fails)
+      TP1/2/3  : +5% / +10% / +18%  (1.67R / 3.33R / 6R)
+      Splits   : 40% / 35% / 25%
+    """
+    stop_pct  = ACCOUNT["stop_pct"]
+    pos_pct   = ACCOUNT["pos_pct"]
+    tp_gains  = [5.0, 10.0, 18.0]
+    tp_splits = [40,   35,   25]
+
+    pos_value  = account_size * (pos_pct / 100)
+    quantity   = pos_value / price if price > 0 else 0
+    stop_price = price * (1 - stop_pct / 100)
+    risk_usd   = pos_value * (stop_pct / 100)
+
+    tps = []
+    for gain, split in zip(tp_gains, tp_splits):
+        tp_price = price * (1 + gain / 100)
+        tp_usdt  = quantity * (split / 100) * tp_price
+        tps.append({
+            "price":    round(tp_price, 8),
+            "gain_pct": gain,
+            "rr":       round(gain / stop_pct, 1),
+            "sell_pct": split,
+            "usdt":     round(tp_usdt, 2),
+        })
+
+    return {
+        "entry":        round(price,      8),
+        "stop":         round(stop_price, 8),
+        "stop_pct":     stop_pct,
+        "pos_value":    round(pos_value,  2),
+        "pos_pct":      pos_pct,
+        "quantity":     round(quantity,   4),
+        "risk_usd":     round(risk_usd,   2),
+        "risk_pct":     round((risk_usd / account_size) * 100, 2),
+        "take_profits": tps,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # REPORT BUILDER
 # ─────────────────────────────────────────────────────────────────────────────
 
 def build_report(
-    watch_now:  list[dict],
-    on_radar:   list[dict],
-    btc_price:  float,
-    btc_6h:     float,
-    btc_24h:    float,
-    regime:     str,
+    watch_now:    list[dict],
+    on_radar:     list[dict],
+    btc_price:    float,
+    btc_6h:       float,
+    btc_24h:      float,
+    regime:       str,
+    account_size: float,
 ) -> str:
     """Build plain-text ignition radar report."""
     sep  = "=" * 80
@@ -502,15 +557,15 @@ def build_report(
     lines = [
         "",
         sep,
-        "  IGNITION RADAR v1.0 -- EARLY VOLUME / BREAKOUT WATCHLIST",
+        "  IGNITION RADAR v1.1 -- EARLY VOLUME / BREAKOUT WATCHLIST",
         f"  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}  |  Regime: {regime}",
         sep,
         "",
         "MARKET CONTEXT",
         f"  BTC Price: ${btc_price:,.0f}  |  BTC 6h: {btc_6h:+.2f}%  |  BTC 24h: {btc_24h:+.2f}%",
         "",
-        "  NOTE: Watchlist only. No position sizing. These are early warnings.",
-        "  Confirm with alpha_scanner once RS builds (7d outperformance >=5%).",
+        "  WATCH NOW  — trade plan included. Tight intraday plays: stop -3%, TP +5/10/18%.",
+        "  ON RADAR   — watchlist only. Confirm with alpha_scanner once RS builds.",
         "",
     ]
 
@@ -519,14 +574,34 @@ def build_report(
         for i, w in enumerate(watch_now, 1):
             sig        = w["signals"]
             active_str = ", ".join(sig["active_signals"])
-            vol_str    = f"vol_spike {sig.get('vol_spike_ratio', 0):.1f}x" if sig.get("vol_spike_6h") else ""
-            extras     = f"   {vol_str}" if vol_str else ""
-            lines.append(
-                f"  #{i:<3} {w['symbol']:<6}  rank {w['rank']:<5} "
-                f"price {w['price']:<12.6g}"
-                f"{extras}  signals: {active_str}   conv: {sig['conviction']:.0f}"
-            )
-        lines.append("")
+            vol_str    = f"  vol_spike {sig.get('vol_spike_ratio', 0):.1f}x" if sig.get("vol_spike_6h") else ""
+            plan       = build_ignition_plan(w["price"], account_size)
+
+            lines += [
+                f"  #{i}  {w['symbol']}  (rank #{w['rank']})",
+                f"     Conv: {sig['conviction']:.0f}  |  Signals: {sig['signal_count']}/{len(_IGNITION_WEIGHTS)}{vol_str}",
+                f"     Active : {active_str}",
+                f"     RSI    : {sig.get('rsi_value', 'N/A')}",
+                "",
+                f"     ── IGNITION TRADE PLAN ───────────────────────────",
+                f"     Entry (BUY) : $ {plan['entry']:>14,.6f}",
+                f"     Stop (SELL) : $ {plan['stop']:>14,.6f}  (-{plan['stop_pct']:.1f}%)",
+                f"     Position    : $ {plan['pos_value']:>10,.2f}  ({plan['pos_pct']:.1f}% of account)",
+                f"     Risk        : $ {plan['risk_usd']:>10,.2f}  ({plan['risk_pct']:.2f}% of account)",
+                f"     Quantity    :   {plan['quantity']:>10,.4f}  {w['symbol']}",
+                "",
+            ]
+            for j, tp in enumerate(plan["take_profits"], 1):
+                lines.append(
+                    f"     TP{j} ({tp['rr']:.1f}R) : $ {tp['price']:>14,.6f}"
+                    f"  (+{tp['gain_pct']:.1f}%)  → sell {tp['sell_pct']}% = ${tp['usdt']:,.0f}"
+                )
+            lines += [
+                "",
+                f"  ⚡ Intraday play — monitor closely. Move stop to breakeven at TP1.",
+                dash,
+                "",
+            ]
     else:
         lines += ["[WATCH NOW -- 0 coins]", "  No coins reached the 3-signal threshold.", ""]
 
@@ -558,7 +633,7 @@ def run(account_size: float | None = None) -> None:
 
     log.info("")
     log.info("=" * 80)
-    log.info("  IGNITION RADAR v1.0")
+    log.info("  IGNITION RADAR v1.1")
     log.info("  Early volume/breakout watchlist — catches moves before RS builds")
     log.info("=" * 80)
 
@@ -664,7 +739,7 @@ def run(account_size: float | None = None) -> None:
     watch_now.sort(key=lambda x: -x["signals"]["conviction"])
     on_radar.sort(key=lambda x: -x["signals"]["conviction"])
 
-    report = build_report(watch_now, on_radar, btc_price, btc_6h_ret, btc_24h_ret, regime)
+    report = build_report(watch_now, on_radar, btc_price, btc_6h_ret, btc_24h_ret, regime, ACCOUNT["size_usdt"])
 
     ts          = datetime.now().strftime("%Y%m%d_%H%M")
     report_path = _OUTPUT_DIR / f"ignition_radar_{ts}.txt"

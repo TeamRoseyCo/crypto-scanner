@@ -1,6 +1,6 @@
 """
 ================================================================================
-ALPHA BREAKOUT SCANNER  v1.0
+ALPHA BREAKOUT SCANNER  v1.1
 ================================================================================
 Finds tokens GENUINELY DECOUPLING UPWARD from BTC — regardless of BTC regime.
 
@@ -15,7 +15,7 @@ Key differences from master_orchestrator (longs):
   - Scans rank 5–300 (needs liquidity, but alpha can appear anywhere)
   - Uses shared OHLCV cache with master_orchestrator
 
-10 bullish signals:
+11 bullish signals:
   RS / relative strength (core edge):
     rs_vs_btc_strong  — 7d token outperformance vs BTC ≥ 5%  ← REQUIRED
     rs_accel          — 1-day RS better than 7-day baseline (accelerating)
@@ -33,6 +33,7 @@ Key differences from master_orchestrator (longs):
   Broad confirmation (lagging):
     rsi_range         — RSI 45–72 (healthy momentum, room to run)
     adx_bullish       — ADX > 20 with +DI > -DI (trend confirmed)
+    supertrend_bull   — price above SuperTrend line (trend direction confirmed)
 
 Usage:
   python alpha_scanner.py
@@ -93,9 +94,9 @@ ACCOUNT = {
 }
 
 SCAN = {
-    "top_n_coins":          500,
+    "top_n_coins":          700,
     "min_rank":               5,      # include top coins — they can break out too
-    "max_rank":             500,
+    "max_rank":             700,
     "min_volume_24h":   500_000,      # lower floor — some alpha plays have moderate vol
     "min_price":          0.0001,
     "cache_max_age_h":        4.0,
@@ -120,6 +121,10 @@ SIGNAL = {
     "adx_min":                20,     # lower than short scanner — early trend
     "rsi_min":                45,
     "rsi_max":                72,
+
+    # ── SuperTrend ────────────────────────────────────────────────────────────
+    "supertrend_period":      10,     # ATR period for SuperTrend calculation
+    "supertrend_mult":       3.0,     # ATR multiplier (3.0 = standard)
 
     # ── MACD ──────────────────────────────────────────────────────────────────
     "macd_rising_bars":        3,     # histogram must rise for N bars
@@ -176,7 +181,8 @@ _ALPHA_WEIGHTS = {
     "stealth_accum":     1.5,   # OBV rising during consolidation
     # ── Broad confirmation (lagging) ──────────────────────────────────────────
     "rsi_range":         1.0,   # healthy momentum zone
-    "adx_bullish":       1.0,   # trend strengthening
+    "adx_bullish":       1.0,   # trend strengthening with +DI > -DI
+    "supertrend_bull":   1.5,   # price above SuperTrend line
 }
 _TOTAL_ALPHA_WEIGHT = sum(_ALPHA_WEIGHTS.values())
 
@@ -270,6 +276,77 @@ def _higher_lows(lows: pd.Series, window: int = 30) -> bool:
         if float(recent.iloc[i]) == float(recent.iloc[i-3:i+4].min())
     ]
     return len(swings) >= 3 and swings[-1] > swings[-2] > swings[-3]
+
+
+def _supertrend(
+    highs: pd.Series,
+    lows: pd.Series,
+    closes: pd.Series,
+    period: int = 10,
+    multiplier: float = 3.0,
+) -> tuple[bool, float]:
+    """
+    SuperTrend indicator.
+    Returns (is_bullish, supertrend_line_value).
+    is_bullish = True when price is above the SuperTrend line (uptrend confirmed).
+    Uses numpy arrays for performance and to avoid pandas SettingWithCopyWarning.
+    """
+    n = len(closes)
+    if n < period * 2:
+        return False, np.nan
+
+    h = highs.values.astype(float)
+    l = lows.values.astype(float)
+    c = closes.values.astype(float)
+
+    # True Range
+    tr = np.zeros(n)
+    for i in range(1, n):
+        tr[i] = max(h[i] - l[i], abs(h[i] - c[i - 1]), abs(l[i] - c[i - 1]))
+
+    # ATR (simple rolling mean)
+    atr = np.zeros(n)
+    for i in range(period, n):
+        atr[i] = tr[i - period + 1 : i + 1].mean()
+
+    hl2          = (h + l) / 2.0
+    upper_basic  = hl2 + multiplier * atr
+    lower_basic  = hl2 - multiplier * atr
+
+    upper = upper_basic.copy()
+    lower = lower_basic.copy()
+
+    # Carry-forward bands: tighten over time, never widen while trend holds
+    for i in range(1, n):
+        upper[i] = (
+            upper_basic[i]
+            if (upper_basic[i] < upper[i - 1] or c[i - 1] > upper[i - 1])
+            else upper[i - 1]
+        )
+        lower[i] = (
+            lower_basic[i]
+            if (lower_basic[i] > lower[i - 1] or c[i - 1] < lower[i - 1])
+            else lower[i - 1]
+        )
+
+    # Determine SuperTrend line and trend direction
+    st = np.zeros(n)
+    in_uptrend = True
+    for i in range(period, n):
+        if atr[i] == 0:
+            continue
+        if c[i] > upper[i - 1]:
+            in_uptrend = True
+        elif c[i] < lower[i - 1]:
+            in_uptrend = False
+        st[i] = lower[i] if in_uptrend else upper[i]
+
+    last_st = st[-1]
+    if last_st == 0 or np.isnan(last_st):
+        return False, np.nan
+
+    is_bullish = float(c[-1]) > last_st
+    return is_bullish, round(float(last_st), 8)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -545,7 +622,18 @@ def detect_alpha_signals(
             and adx_val > SIGNAL["adx_min"]
             and plus_di > minus_di
         )
-        s["adx_value"]  = round(adx_val, 1) if not np.isnan(adx_val) else None
+        s["adx_value"]   = round(adx_val,  1) if not np.isnan(adx_val)  else None
+        s["plus_di"]     = round(plus_di,  1) if not np.isnan(plus_di)  else None
+        s["minus_di"]    = round(minus_di, 1) if not np.isnan(minus_di) else None
+
+        # ── 11. SuperTrend bullish (price above SuperTrend line) ──────────────
+        st_bull, st_val = _supertrend(
+            highs, lows, closes,
+            period=SIGNAL["supertrend_period"],
+            multiplier=SIGNAL["supertrend_mult"],
+        )
+        s["supertrend_bull"]  = st_bull
+        s["supertrend_value"] = st_val
 
     except Exception as e:
         log.debug(f"Signal error: {e}")
@@ -673,7 +761,7 @@ def build_report(
     lines = [
         "",
         sep,
-        "  ALPHA BREAKOUT SCANNER v1.0 — RS DECOUPLING PLAYS",
+        "  ALPHA BREAKOUT SCANNER v1.1 — RS DECOUPLING PLAYS",
         f"  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         sep,
         "",
@@ -714,7 +802,10 @@ def build_report(
                 f"     RS vs BTC 7d : {sig.get('rs_7d_value', 'N/A'):>+.2f}%  "
                 f"(1d: {sig.get('rs_1d_value', 'N/A'):>+.2f}%  3d: {sig.get('rs_3d_value', 'N/A'):>+.2f}%)",
                 f"     RSI          : {sig.get('rsi_value', 'N/A')}",
-                f"     ADX          : {sig.get('adx_value', 'N/A')}",
+                f"     ADX          : {sig.get('adx_value', 'N/A')}  "
+                f"(+DI {sig.get('plus_di', 'N/A')} / -DI {sig.get('minus_di', 'N/A')})",
+                f"     SuperTrend   : {'▲ BULLISH' if sig.get('supertrend_bull') else '▼ BEARISH'}  "
+                f"(line: {sig.get('supertrend_value', 'N/A')})",
                 "",
                 "     ── ALPHA TRADE PLAN ──────────────────────────────",
                 f"     Entry (BUY)  : $ {plan['entry']:>14,.6f}",
@@ -782,7 +873,7 @@ def run(account_size: float | None = None) -> None:
 
     log.info("")
     log.info("=" * 80)
-    log.info("  ALPHA BREAKOUT SCANNER v1.0")
+    log.info("  ALPHA BREAKOUT SCANNER v1.1")
     log.info("  Tokens decoupling upward from BTC — no regime gate")
     log.info("=" * 80)
 
