@@ -33,7 +33,7 @@ Key design differences from master_orchestrator (longs):
 
 Usage:
   python short_scanner.py
-  python short_scanner.py --account 96700
+  python short_scanner.py --account 95255
   python short_scanner.py --top 200
 ================================================================================
 """
@@ -47,6 +47,15 @@ import requests
 os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
 import pandas as pd
 import numpy as np
+
+# Shared indicator implementations (single source of truth across all scanners)
+try:
+    import sys as _sys
+    import os as _os
+    _sys.path.insert(0, _os.path.dirname(__file__))
+    from indicators import compute_rsi, compute_atr, compute_macd, compute_adx, compute_obv, compute_supertrend, compute_cmf, compute_bb
+except ImportError:
+    pass  # indicators.py not found — local fallback functions remain active
 import time
 import json
 import logging
@@ -85,7 +94,7 @@ log = logging.getLogger("short_scanner")
 # ─────────────────────────────────────────────────────────────────────────────
 
 ACCOUNT = {
-    "size_usdt":          96_700.0,
+    "size_usdt":          95_255.0,
     "risk_per_trade_pct":      1.5,   # % of account risked per trade
     "max_positions":             6,   # fewer simultaneous shorts than longs
     "max_heat_pct":            9.0,   # tighter total heat for shorts
@@ -104,12 +113,13 @@ SCAN = {
     "api_delay_s":    (1.2 if os.environ.get("CG_API_KEY") else
                        4.5 if os.environ.get("CG_DEMO_KEY") else 6.5),
     "min_atr_pct":            0.5,    # need volatility to make the trade worthwhile
+    "quiet_hours_utc":     (0, 6),    # raise conviction bar during 00:00–06:00 UTC (low liquidity)
 }
 
 SIGNAL = {
     # ── RSI ──────────────────────────────────────────────────────────────────
     "rsi_overbought":        68,      # RSI above this = entering distribution zone
-    "divergence_window":     30,      # bars to scan for bearish divergence
+    "divergence_window":     60,      # bars to scan for bearish divergence (60 = ~10 days @ 4h)
     "divergence_price_gap":  1.02,    # price-high-2 must be ≥ 1.02 × price-high-1
     "divergence_rsi_gap":    5.0,     # RSI at recent high must be N pts BELOW prior high
 
@@ -140,7 +150,7 @@ SIGNAL = {
     # ── Qualification ─────────────────────────────────────────────────────────
     "min_signals":            4,      # raw signal count floor
     "whale_candle_mult":      2.0,
-    "higher_lows_window":    30,
+    "lower_highs_window":    30,     # bars to look back for descending swing highs
 }
 
 MACRO = {
@@ -154,6 +164,14 @@ MACRO = {
     "bear_wave_24h_pct":         -1.5,  # BTC 24h below this → activate bear wave mode
     "bear_wave_excess_pct":      -1.0,  # token must be ≥1% weaker than BTC (24h) to lead
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NAMED CONSTANTS
+# ─────────────────────────────────────────────────────────────────────────────
+STOP_MAX_PCT              = 15.0    # Stop never wider than 15% above entry (shorts)
+STOP_MIN_PCT              = 5.0     # Stop never tighter than 5% above entry (shorts)
+ATR_STOP_MULTIPLIER       = 1.5     # ATR multiplier for short stop
+FUNDING_CROWDED_THRESHOLD = 0.001   # Funding > 0.1%/8h = crowded long = short fuel
 
 STABLECOINS = {
     "USDT", "USDC", "DAI", "BUSD", "TUSD", "USDD", "FDUSD", "PYUSD",
@@ -294,7 +312,17 @@ def _rsi_bearish_divergence(
     if any(np.isnan(v) for v in (p_hi1, p_hi2, r_hi1, r_hi2)):
         return False
     # Price made a higher high BUT RSI is lower — divergence confirmed
-    return p_hi2 >= p_hi1 * price_gap and r_hi2 <= r_hi1 - rsi_gap
+    if not (p_hi2 >= p_hi1 * price_gap and r_hi2 <= r_hi1 - rsi_gap):
+        return False
+
+    # 3-bar confirmation: RSI must fall on 3 consecutive bars (filters noise)
+    rsi_s_recent = rsi_s.dropna()
+    if len(rsi_s_recent) < 3:
+        return False
+    return (
+        float(rsi_s_recent.iloc[-1]) < float(rsi_s_recent.iloc[-2])
+        and float(rsi_s_recent.iloc[-2]) < float(rsi_s_recent.iloc[-3])
+    )
 
 
 def _lower_highs(highs: pd.Series, window: int = 30) -> bool:
@@ -536,6 +564,42 @@ def fetch_ohlcv(coin_id: str, symbol: str) -> pd.DataFrame | None:
     return None
 
 
+def _fetch_all_bybit_funding() -> dict[str, float]:
+    """
+    Fetch all Bybit perpetual funding rates in a single API call.
+    Returns dict: {base_symbol: funding_rate} e.g. {"BTC": 0.0001, "ETH": -0.0002}.
+    Falls back to empty dict on failure — per-coin fetch skipped gracefully.
+    """
+    _BYBIT_API = "https://api.bybit.com"
+    try:
+        r = _BN_SESSION.get(
+            f"{_BYBIT_API}/v5/market/tickers",
+            params={"category": "linear"},
+            timeout=15,
+        )
+        if r.status_code != 200:
+            log.warning(f"Bybit tickers failed: HTTP {r.status_code}")
+            return {}
+        data = r.json()
+        if data.get("retCode") != 0:
+            log.warning(f"Bybit API error: {data.get('retMsg')}")
+            return {}
+        result = {}
+        for t in data["result"]["list"]:
+            sym = t.get("symbol", "")
+            if sym.endswith("USDT"):
+                base = sym[:-4]
+                try:
+                    result[base] = float(t.get("fundingRate", 0) or 0)
+                except (ValueError, TypeError):
+                    pass
+        log.info(f"  Bybit funding rates fetched: {len(result)} symbols")
+        return result
+    except Exception as e:
+        log.warning(f"Could not fetch Bybit funding rates: {e}")
+        return {}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # BEARISH SIGNAL DETECTION
 # ─────────────────────────────────────────────────────────────────────────────
@@ -682,7 +746,7 @@ def detect_short_signals(
         )
 
         # ── 12. Lower highs ───────────────────────────────────────────────────
-        s["lower_highs"] = _lower_highs(highs, window=SIGNAL["higher_lows_window"])
+        s["lower_highs"] = _lower_highs(highs, window=SIGNAL.get("lower_highs_window", 30))
 
         # ── 13. Funding rate — crowded long ───────────────────────────────────
         if funding_rate is not None:
@@ -966,8 +1030,13 @@ def build_report(
 # ─────────────────────────────────────────────────────────────────────────────
 
 def run(account_size: float | None = None) -> None:
-    account_size = account_size or ACCOUNT["size_usdt"]
-    t0           = datetime.now()
+    if not account_size:
+        try:
+            from bybit_auth import fetch_live_balance_with_fallback
+            account_size = fetch_live_balance_with_fallback(ACCOUNT["size_usdt"])
+        except ImportError:
+            account_size = ACCOUNT["size_usdt"]
+    t0 = datetime.now()
 
     log.info("")
     log.info("=" * 80)
@@ -999,6 +1068,18 @@ def run(account_size: float | None = None) -> None:
     bear_wave = btc_24h <= MACRO["bear_wave_24h_pct"]
 
     log.info(f"  BTC ${btc_price:,.0f}  |  7d {btc_7d:+.2f}%  |  24h {btc_24h:+.2f}%  |  Regime: {regime}")
+
+    # A4 — Time-of-day filter: raise bar during low-liquidity quiet hours
+    _qh = SCAN.get("quiet_hours_utc")
+    if _qh:
+        _utc_h = datetime.utcnow().hour
+        if _qh[0] <= _utc_h < _qh[1]:
+            min_conv += 10
+            log.warning(
+                f"  🌙 Quiet hours {_qh[0]:02d}:00–{_qh[1]:02d}:00 UTC — "
+                f"low liquidity filter: conviction threshold raised to {min_conv}"
+            )
+
     log.info(f"  Min conviction for shorts: {min_conv}")
     if bear_wave:
         log.info(f"  🌊 BEAR WAVE ACTIVE — BTC 24h {btc_24h:+.2f}% — scanning for dump leaders (+20 bonus)")
@@ -1015,6 +1096,10 @@ def run(account_size: float | None = None) -> None:
 
     # ── 4. Scan ───────────────────────────────────────────────────────────────
     log.info(f"\n[4/5] Scanning for bearish setups (min conviction {min_conv})...\n")
+
+    # Fetch all Bybit funding rates in a single call (avoids per-coin API requests)
+    log.info("  Pre-fetching Bybit funding rates (single batch call)...")
+    all_funding_rates = _fetch_all_bybit_funding()
 
     setups    = []
     watchlist = []
@@ -1059,9 +1144,10 @@ def run(account_size: float | None = None) -> None:
             log.info(f"          → skip (flatliner: ATR {atr_pct:.2f}%)")
             continue
 
-        # Funding rate
-        funding_rate = None
-        if symbol in perp_symbols:
+        # Funding rate — use batch dict (no per-coin API call needed)
+        funding_rate = all_funding_rates.get(symbol) if all_funding_rates else None
+        if funding_rate is None and symbol in perp_symbols:
+            # Fallback to per-coin fetch only if batch call failed entirely
             funding_rate = fetch_funding_rate(symbol)
 
         # Detect bearish signals

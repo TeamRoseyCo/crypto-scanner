@@ -8,8 +8,8 @@ Setup (one-time):
   1. Create a bot via @BotFather → get TELEGRAM_BOT_TOKEN
   2. Send /start to your bot or add it to a group → get TELEGRAM_CHAT_ID
   3. Set env vars (or add to your .bat launcher):
-       set TELEGRAM_BOT_TOKEN=123456:ABCdefGHI...
-       set TELEGRAM_CHAT_ID=-1001234567890   (or your personal chat id)
+       set TELEGRAM_BOT_TOKEN=
+       set TELEGRAM_CHAT_ID=-
 
 If vars are not set, all functions silently no-op — scanners still work fine.
 ================================================================================
@@ -22,8 +22,8 @@ import logging
 
 log = logging.getLogger("alerts")
 
-_BOT_TOKEN = os.environ.get("7665303397:AAHDXF0giiuTNCfbjdimfTthDp2keTnTGtA", "")
-_CHAT_ID   = os.environ.get("1287299443", "")
+_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+_CHAT_ID   = os.environ.get("TELEGRAM_CHAT_ID", "")
 
 _TELEGRAM_API = "https://api.telegram.org"
 _CONFIGURED   = bool(_BOT_TOKEN and _CHAT_ID)
@@ -34,6 +34,9 @@ def send_alert(message: str, parse_mode: str = "HTML") -> bool:
     Send a Telegram message.  Returns True on success, False on failure.
     Silent no-op if TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not configured.
     """
+    if not _BOT_TOKEN:
+        logging.warning("Telegram alerts not configured — TELEGRAM_BOT_TOKEN is not set")
+        return False
     if not _CONFIGURED:
         return False
 
@@ -110,6 +113,20 @@ def alert_regime(regime: str, btc_7d: float, btc_price: float) -> bool:
 def is_configured() -> bool:
     """Return True if Telegram credentials are available."""
     return _CONFIGURED
+
+
+def send_heartbeat(scanner_name: str, coins_scanned: int,
+                   top_setup: str | None = None) -> bool:
+    """
+    Send a heartbeat Telegram message confirming the scanner is alive.
+    Silent no-op if Telegram is not configured.
+    """
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    msg = f"✅ {scanner_name} alive | {now} | {coins_scanned} coins scanned"
+    if top_setup:
+        msg += f" | Top: {top_setup}"
+    return send_alert(msg)
 
 
 # ── CLI test ──────────────────────────────────────────────────────────────────

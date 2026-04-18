@@ -19,7 +19,7 @@ Key limitations (read before acting on results):
     Coins that crashed to zero are excluded. All numbers are inflated.
     Use results for RELATIVE ranking (which signals beat others),
     not ABSOLUTE win rates (actual 45% win rate in live trading will be lower).
-  - No slippage, spread, or exchange fees modelled.
+  - Round-trip slippage (rank-based) and Bybit taker fees (0.055% × 2 = 0.11%) modelled.
   - funding_neg excluded (real-time only, no historical perp funding data in cache).
 
 Usage:
@@ -102,6 +102,10 @@ CONFIG = {
     # Cache freshness
     "cache_max_age_h":  12,
 }
+
+# Bybit taker fee: 0.055% per side = 0.11% round-trip.
+# Applied to every simulated trade on top of slippage.
+BYBIT_TAKER_FEE_RT = 0.0011
 
 # Signals included in combination analysis (exclude noisy single-check ones)
 _COMBO_SIGNALS = [
@@ -497,11 +501,27 @@ def classify_regime(btc_close: pd.Series) -> pd.Series:
 # TRADE SIMULATION
 # ─────────────────────────────────────────────────────────────────────────────
 
-def simulate_trade(ohlcv: pd.DataFrame, entry_bar: int, atr_val: float) -> dict:
+def _slippage_pct(rank: int) -> float:
+    """
+    Estimated round-trip spread + slippage by market cap rank.
+    Applied to simulate realistic fill costs in backtests.
+    """
+    if rank <= 50:
+        return 0.002   # 0.2% (liquid large caps)
+    if rank <= 150:
+        return 0.004   # 0.4%
+    if rank <= 300:
+        return 0.008   # 0.8%
+    return 0.015        # 1.5% (illiquid small caps)
+
+
+def simulate_trade(ohlcv: pd.DataFrame, entry_bar: int, atr_val: float,
+                   rank: int = 200) -> dict:
     """
     Simulate a trade entered at the close of `entry_bar`.
     Scans forward bar-by-bar for ATR-based stop or R:R take-profit hits.
     Exits at timeout (max_hold_bars) if neither triggers.
+    Subtracts estimated round-trip slippage based on market cap rank.
     """
     entry = float(ohlcv["close"].iloc[entry_bar])
 
@@ -549,17 +569,28 @@ def simulate_trade(ohlcv: pd.DataFrame, entry_bar: int, atr_val: float) -> dict:
         # Timeout — exit at close of last bar
         realized_pnl += remaining * (float(ohlcv["close"].iloc[last_bar]) / entry - 1) * 100
 
+    # Apply round-trip slippage cost (rank-based) + Bybit taker fee — deduct from gross P&L
+    slip_pct        = _slippage_pct(rank) * 100   # convert to % for consistency
+    fee_pct         = BYBIT_TAKER_FEE_RT   * 100  # 0.11% round-trip taker fee
+    net_pnl         = realized_pnl - slip_pct - fee_pct
+    pnl_before_slip = realized_pnl
+
     return {
-        "entry":       round(entry,        8),
-        "stop":        round(stop,         8),
-        "stop_pct":    round(raw_stop_pct, 2),
-        "pnl_pct":     round(realized_pnl, 4),
-        "win":         realized_pnl > 0,
-        "tp1_hit":     tp_hit[0],
-        "tp2_hit":     tp_hit[1],
-        "tp3_hit":     tp_hit[2],
-        "exit_reason": exit_reason,
-        "hold_bars":   last_bar - entry_bar,
+        "entry":          round(entry,           8),
+        "stop":           round(stop,            8),
+        "stop_pct":       round(raw_stop_pct,    2),
+        "pnl_pct":        round(net_pnl,         4),
+        "pnl_gross_pct":  round(pnl_before_slip, 4),
+        "slippage_pct":   round(slip_pct,        4),
+        "fee_pct":        round(fee_pct,         4),
+        "win":            net_pnl > 0,
+        "win_gross":      pnl_before_slip > 0,
+        "tp1_hit":        tp_hit[0],
+        "tp2_hit":        tp_hit[1],
+        "tp3_hit":        tp_hit[2],
+        "exit_reason":    exit_reason,
+        "hold_bars":      last_bar - entry_bar,
+        "rank":           rank,
     }
 
 
@@ -720,9 +751,23 @@ def _build_report(
         "",
         "  5. Re-run every 30–60 days. Market regimes shift and so does edge.",
         "",
-        "  6. These numbers are absolute best-case (survivorship bias,",
-        "     no fees, perfect fills). Discount all expectancies by ~30%",
-        "     for a realistic live-trading estimate.",
+        "  6. These numbers include rank-based slippage + Bybit taker fees (0.11% RT).",
+        "     Survivorship bias and perfect fills still inflate results.",
+        "     Discount all expectancies by ~20% for a realistic live-trading estimate.",
+        "",
+        "SURVIVORSHIP BIAS — WIN RATE ADJUSTMENT",
+        dash,
+        "  Win rates above are BEFORE survivorship adjustment.",
+        "  Universe = coins alive today at rank 50–600. Coins that crashed to",
+        "  zero or delisted are excluded — this inflates all reported win rates.",
+        "",
+        "  Apply these corrections to reported win rates by market cap rank:",
+        "    Rank  50–150 :  subtract  3pp  (large-mid caps, modest bias)",
+        "    Rank 150–300 :  subtract  7pp  (mid caps, moderate bias)",
+        "    Rank 300–600 :  subtract 12pp  (small caps, severe bias)",
+        "",
+        "  Example: signal shows 52% win rate on rank 300–600 coins",
+        "    → adjusted estimate: 52% - 12% = ~40% — marginally positive at best.",
         sep,
     ]
 
@@ -1087,10 +1132,11 @@ def run_backtest(
     processed = 0
 
     for coin in coins:
-        symbol = coin["symbol"].upper()
-        rank   = coin.get("market_cap_rank", "?")
+        symbol   = coin["symbol"].upper()
+        rank     = coin.get("market_cap_rank") or 300
+        rank_int = int(rank) if str(rank).isdigit() else 300
         processed += 1
-        print(f"  [{processed}/{len(coins)}] {symbol:<10} (#{rank})")
+        print(f"  [{processed}/{len(coins)}] {symbol:<10} (#{rank_int})")
 
         ohlcv = fetch_binance_ohlcv(symbol, days)
         if ohlcv is None or len(ohlcv) < CONFIG["min_bars"]:
@@ -1119,8 +1165,8 @@ def run_backtest(
             if not fired:
                 continue
 
-            # Simulate the trade once per bar
-            trade = simulate_trade(ohlcv, bar_i, atr_val)
+            # Simulate the trade once per bar (pass rank for slippage model)
+            trade = simulate_trade(ohlcv, bar_i, atr_val, rank=rank_int)
             trade["symbol"]  = symbol
             trade["bar_ts"]  = str(ohlcv.index[bar_i])
             trade["regime"]  = regime
@@ -1184,6 +1230,9 @@ def run_backtest(
 
     # Save signal stats CSV
     stats_df  = pd.DataFrame(signal_stats)
+    stats_df["survivorship_bias_note"] = (
+        "rank50-150: -3pp | rank150-300: -7pp | rank300-600: -12pp"
+    )
     stats_csv = _OUTPUT_DIR / f"backtest_stats_{ts_str}.csv"
     stats_df.to_csv(stats_csv, index=False)
     print(f"  Stats CSV   → {stats_csv}")
@@ -1200,6 +1249,23 @@ def run_backtest(
 
     print(f"  Report      → {report_path}\n")
     print(report)
+    print("⚠️  SURVIVORSHIP BIAS WARNING: These results use coins alive today (rank 50-600).")
+    print("   Coins that crashed to zero are excluded.")
+    print("   Win rate adjustments: -3pp (rank 50-150) | -7pp (150-300) | -12pp (300-600)")
+
+    # ── Slippage impact summary ───────────────────────────────────────────────
+    if all_rows:
+        n_profitable_gross = sum(1 for t in all_rows if t.get("win_gross", False))
+        n_profitable_net   = sum(1 for t in all_rows if t.get("win", False))
+        total_trades       = len(all_rows)
+        print(
+            f"\n  SLIPPAGE MODEL IMPACT:"
+            f"\n    Before slippage: {n_profitable_gross}/{total_trades} trades profitable"
+            f" ({n_profitable_gross/total_trades*100:.1f}%)"
+            f"\n    After  slippage: {n_profitable_net}/{total_trades} trades profitable"
+            f" ({n_profitable_net/total_trades*100:.1f}%)"
+            f"\n    Slippage model: 0.2% (rank≤50) | 0.4% (≤150) | 0.8% (≤300) | 1.5% (>300) — round-trip"
+        )
 
     # ── Auto-calibration ──────────────────────────────────────────────────────
     # Skipped when --signal is set (partial run — not enough data to recalibrate).

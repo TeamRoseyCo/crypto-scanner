@@ -252,11 +252,11 @@ def score_ticker(ticker: dict, prev_oi: float | None, prev_funding: float | None
     warnings = []
 
     # Bullish signals
-    if oi_change_pct >= THRESHOLDS["oi_build_pct"]:
+    if oi_change_pct >= THRESHOLDS["oi_build_pct"] and oi_value >= THRESHOLDS["min_oi_value_usd"]:
         active.append(f"oi_building(+{oi_change_pct*100:.1f}%)")
         score += WEIGHTS["oi_building"]
 
-    if oi_change_pct >= 0.10:
+    if oi_change_pct >= 0.10 and oi_value >= THRESHOLDS["min_oi_value_usd"]:
         active.append(f"oi_spike(+{oi_change_pct*100:.1f}%)")
         score += WEIGHTS["oi_spike"]
 

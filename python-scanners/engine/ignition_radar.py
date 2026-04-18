@@ -26,7 +26,7 @@ Two watchlist tiers:
 Usage:
   python ignition_radar.py
   python ignition_radar.py --top 300
-  python ignition_radar.py --account 96700
+  python ignition_radar.py --account 95255
 ================================================================================
 """
 
@@ -39,6 +39,15 @@ import requests
 os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
 import pandas as pd
 import numpy as np
+
+# Shared indicator implementations (single source of truth across all scanners)
+try:
+    import sys as _sys
+    import os as _os
+    _sys.path.insert(0, _os.path.dirname(__file__))
+    from indicators import compute_rsi, compute_atr, compute_macd, compute_adx, compute_obv, compute_supertrend, compute_cmf, compute_bb
+except ImportError:
+    pass  # indicators.py not found — local fallback functions remain active
 import time
 import json
 import logging
@@ -87,10 +96,11 @@ SCAN = {
     "min_price":       0.0001,
     "cache_max_age_h": 1.5,       # 1h data must be fresh
     "api_delay_s":     (1.2 if CG_PRO else 4.5 if CG_DEMO else 6.5),
+    "quiet_hours_utc": (0, 6),    # raise signal bar during 00:00–06:00 UTC (low liquidity)
 }
 
 ACCOUNT = {
-    "size_usdt":   96_700.0,
+    "size_usdt":   95_255.0,
     "pos_pct":          4.0,   # 4% per ignition play — small, speculative entry
     "stop_pct":         3.0,   # tight stop — momentum play, bail fast if wrong
 }
@@ -357,7 +367,7 @@ def detect_ignition_signals(
     Returns dict with boolean flags, scalar values, and conviction score.
     Returns None if data is insufficient.
     """
-    if ohlcv is None or len(ohlcv) < 30:
+    if ohlcv is None or len(ohlcv) < 168:
         return None
 
     closes  = ohlcv["close"]
@@ -632,6 +642,12 @@ def build_report(
 # ─────────────────────────────────────────────────────────────────────────────
 
 def run(account_size: float | None = None) -> None:
+    if not account_size:
+        try:
+            from bybit_auth import fetch_live_balance_with_fallback
+            account_size = fetch_live_balance_with_fallback(ACCOUNT["size_usdt"])
+        except ImportError:
+            account_size = ACCOUNT["size_usdt"]
     t0 = datetime.now()
 
     log.info("")
@@ -666,6 +682,18 @@ def run(account_size: float | None = None) -> None:
         regime = "BEAR"
 
     log.info(f"  BTC ${btc_price:,.0f}  |  6h {btc_6h_ret:+.2f}%  |  24h {btc_24h_ret:+.2f}%  |  Regime: {regime}")
+
+    # A4 — Time-of-day filter: raise min_signals_watch during low-liquidity quiet hours
+    _qh = SCAN.get("quiet_hours_utc")
+    _min_signals_watch = SIGNAL["min_signals_watch"]
+    if _qh:
+        _utc_h = datetime.utcnow().hour
+        if _qh[0] <= _utc_h < _qh[1]:
+            _min_signals_watch = _min_signals_watch + 1
+            log.warning(
+                f"  🌙 Quiet hours {_qh[0]:02d}:00–{_qh[1]:02d}:00 UTC — "
+                f"low liquidity filter: min signals raised to {_min_signals_watch}"
+            )
 
     # ── 2. Market coins ───────────────────────────────────────────────────────
     log.info(f"\n[2/4] Fetching top {SCAN['top_n_coins']} coins from CoinGecko...")
@@ -702,9 +730,15 @@ def run(account_size: float | None = None) -> None:
         log.info(f"  [{i}]  {symbol:<10} (#{rank})  ${price:.5g}  24h: {change_24h:+.1f}%")
 
         ohlcv = fetch_ohlcv_1h(coin_id, symbol)
-        if ohlcv is None or len(ohlcv) < 30:
-            log.info(f"          -> skip (no 1h Binance data)")
+        if ohlcv is None or len(ohlcv) < 168:
+            log.info(f"          -> skip (insufficient 1h data — need 168 bars)")
             time.sleep(SCAN["api_delay_s"])
+            continue
+
+        # Data quality check — skip illiquid coins with >10% zero-volume bars
+        zero_vol_pct = (ohlcv["volume"] == 0).mean()
+        if zero_vol_pct > 0.10:
+            log.info(f"          -> skip ({zero_vol_pct:.0%} zero-volume bars — illiquid)")
             continue
 
         signals = detect_ignition_signals(ohlcv, btc_6h_ret, change_24h, change_7d)
@@ -726,7 +760,7 @@ def run(account_size: float | None = None) -> None:
             "signals":    signals,
         }
 
-        if nsig >= SIGNAL["min_signals_watch"]:
+        if nsig >= _min_signals_watch:
             watch_now.append(entry)
         elif nsig >= SIGNAL["min_signals_radar"]:
             on_radar.append(entry)

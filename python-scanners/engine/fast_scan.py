@@ -139,6 +139,23 @@ def _get_cg(url: str, params: dict) -> dict | list | None:
     return None
 
 
+def _fetch_btc_from_binance() -> dict | None:
+    """Fallback: fetch BTC 24h stats from Binance public API."""
+    try:
+        r = requests.get(
+            "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT",
+            timeout=10,
+        )
+        if r.status_code == 200:
+            d = r.json()
+            price     = float(d.get("lastPrice", 0))
+            change_24h = float(d.get("priceChangePercent", 0))
+            return {"btc_price": price, "btc_24h": change_24h}
+    except Exception:
+        pass
+    return None
+
+
 def fetch_market_context() -> dict:
     """Fetch BTC + ETH market context."""
     log.info("Fetching market context (BTC + ETH)...")
@@ -421,6 +438,21 @@ def run(top_n: int = 15, min_signals: int = 3) -> list:
 
     # Step 1: Market context
     ctx = fetch_market_context()
+    if ctx["btc_price"] == 0.0:
+        # CoinGecko failed — try Binance as fallback
+        log.warning("CoinGecko BTC context failed — trying Binance fallback...")
+        bn_ctx = _fetch_btc_from_binance()
+        if bn_ctx:
+            ctx["btc_price"] = bn_ctx["btc_price"]
+            ctx["btc_24h"]   = bn_ctx["btc_24h"]
+            # 7d change unavailable from Binance 24h ticker — leave at 0.0
+            log.info(
+                f"  Binance fallback OK: BTC ${ctx['btc_price']:,.0f}  "
+                f"24h: {ctx['btc_24h']:+.1f}%  (7d unavailable)"
+            )
+        else:
+            logging.error("Both CoinGecko and Binance BTC context failed — aborting scan")
+            return []
 
     # Step 2: Coin list
     coins = fetch_coins(SCAN["top_n_coins"])

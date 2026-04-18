@@ -9,7 +9,7 @@ Stage 2  — master_orchestrator deep analysis    → trade plan (A ∪ B only)
 Benefit: ~66% fewer OHLCV API calls. ~130 min → ~50 min.
 Usage:
   python pipeline.py
-  python pipeline.py --account 96700
+  python pipeline.py --account 95255
 ================================================================================
 """
 

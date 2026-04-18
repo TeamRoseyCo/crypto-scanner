@@ -24,7 +24,7 @@ Key design principles:
 
 Usage:
   python master_orchestrator.py
-  python master_orchestrator.py --account 96700
+  python master_orchestrator.py --account 95255
 ================================================================================
 """
 
@@ -37,6 +37,15 @@ import requests
 os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
 import pandas as pd
 import numpy as np
+
+# Shared indicator implementations (single source of truth across all scanners)
+try:
+    import sys as _sys
+    import os as _os
+    _sys.path.insert(0, _os.path.dirname(__file__))
+    from indicators import compute_rsi, compute_atr, compute_macd, compute_adx, compute_obv, compute_supertrend, compute_cmf, compute_bb, compute_keltner
+except ImportError:
+    pass  # indicators.py not found — local fallback functions remain active
 import time
 import json
 import logging
@@ -77,7 +86,7 @@ log = logging.getLogger("orchestrator")
 # ─────────────────────────────────────────────────────────────────────────────
 
 ACCOUNT = {
-    "size_usdt":          96_700.0,   # Your trading balance
+    "size_usdt":          95_255.0,   # Your trading balance
     "risk_per_trade_pct":      1.5,   # % of account risked per trade
     "max_positions":             8,   # Max simultaneous open positions
     "max_heat_pct":           12.0,   # Max total risk across all open positions
@@ -101,6 +110,7 @@ SCAN = {
     # ── Speed improvements ──────────────────────────────────────────────────
     "rs_prefilter_margin": -12.0,   # Skip coins underperforming BTC by >12pp (7d) — no OHLCV fetch
     "bybit_filter":         True,   # If bybit_symbols.json exists, only scan Bybit-listed perps
+    "quiet_hours_utc":     (0, 6),  # Skip high-conviction entries 00:00–06:00 UTC (low liquidity)
 }
 
 SIGNAL = {
@@ -136,7 +146,7 @@ SIGNAL = {
     "vol_expansion_mult":    1.5,     # Recent vol must be ≥ 1.5× baseline
 
     # ── New pre-trend signal parameters ────────────────────────────────────
-    "divergence_window":     30,      # Bars to scan for RSI bullish divergence
+    "divergence_window":     60,      # Bars to scan for RSI bullish divergence (60 = ~10 days @ 4h)
     "divergence_price_gap":  0.98,    # Price-low-2 must be ≤ this × price-low-1
     "divergence_rsi_gap":    5.0,     # RSI at recent low must be N pts above prior low
     "sell_vol_reduction":    0.80,    # Recent red-candle vol ≤ this × earlier red-candle vol
@@ -155,6 +165,16 @@ MACRO = {
     "persistence_window_h":       24.0,  # Qualifying scans must be within 24h of each other
     "persistence_min_scans":       2,    # Must qualify on N consecutive scans before entry
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NAMED CONSTANTS  (replace raw magic numbers throughout)
+# ─────────────────────────────────────────────────────────────────────────────
+STOP_MAX_PCT            = -15.0    # Stop never wider than 15% below entry
+STOP_MIN_PCT            = -5.0     # Stop never tighter than 5% below entry
+ATR_STOP_MULTIPLIER     = 1.5      # Default ATR multiplier for stop calculation
+CONVICTION_DISABLED     = 999      # Effective min conviction when regime blocks trading
+MIN_COMBO_FIRES         = 20       # Discard signal combos with fewer fires (backtest)
+FUNDING_CROWDED_THRESHOLD = 0.001  # Funding rate above this = crowded long
 
 STABLECOINS = {
     "USDT", "USDC", "DAI", "BUSD", "TUSD", "USDD", "FDUSD", "PYUSD",
@@ -264,13 +284,14 @@ def _check_persistence(coin_id: str, conv: float, history: dict) -> int:
     return 1
 
 
-def _track_watchlist_conviction(coin_id: str, conv: float, history: dict) -> None:
+def _track_watchlist_conviction(coin_id: str, conv: float, history: dict) -> int:
     """
-    Track conviction history for near-miss (watchlist) coins.
-    Does NOT affect the persistence scan count — only updates conviction_history.
+    Track conviction history and consecutive scan count for near-miss (watchlist) coins.
+    Returns the updated consecutive count.
     """
-    now = datetime.now().timestamp()
-    key = f"_wl_{coin_id}"   # prefix to distinguish from qualified candidates
+    now    = datetime.now().timestamp()
+    window = MACRO["persistence_window_h"] * 3600
+    key    = f"_wl_{coin_id}"   # prefix to distinguish from qualified candidates
     if key in history:
         entry = history[key]
         ch = entry.setdefault("conviction_history", [entry.get("conviction", conv)])
@@ -279,13 +300,22 @@ def _track_watchlist_conviction(coin_id: str, conv: float, history: dict) -> Non
             ch[:] = ch[-5:]
         entry["conviction"] = conv
         entry["last_seen"]  = now
+        if now - entry.get("last_seen_prev", 0) <= window:
+            entry["count"] = entry.get("count", 1) + 1
+        else:
+            entry["count"] = 1
+        entry["last_seen_prev"] = now
+        return entry["count"]
     else:
         history[key] = {
             "conviction":         conv,
             "conviction_history": [conv],
             "first_seen":         now,
             "last_seen":          now,
+            "last_seen_prev":     now,
+            "count":              1,
         }
+        return 1
 
 
 def _conviction_trend(coin_id: str, history: dict, is_watchlist: bool = False) -> str:
@@ -305,6 +335,92 @@ def _conviction_trend(coin_id: str, history: dict, is_watchlist: bool = False) -
     if delta < -2:
         return "down"
     return "flat"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CORRELATION FILTER — block new entries correlated ≥ 0.85 with open positions
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _check_correlation(
+    new_sym:   str,
+    open_syms: list[str],
+    threshold: float = 0.85,
+) -> tuple[bool, str]:
+    """
+    Check whether `new_sym` is highly correlated with any of `open_syms`.
+    Reads 30d OHLCV from the shared cache (keyed by coin_id, same as open_syms).
+
+    Returns (allowed, blocking_symbol).
+      allowed=True  → entry permitted
+      allowed=False → blocked; blocking_symbol is the open position causing the block
+    If OHLCV is unavailable for a pair, that pair is skipped (don't block).
+    """
+    if not open_syms:
+        return True, ""
+
+    def _load_closes(coin_id: str) -> pd.Series | None:
+        cache_file = _CACHE_DIR / f"{coin_id}_30d.csv"
+        if not cache_file.exists():
+            return None
+        try:
+            df = pd.read_csv(cache_file, index_col=0, parse_dates=True)
+            if "close" in df.columns and len(df) >= 30:
+                return df["close"].pct_change().dropna().tail(30)
+        except Exception:
+            pass
+        return None
+
+    new_returns = _load_closes(new_sym)
+    if new_returns is None:
+        return True, ""  # can't check — allow
+
+    for sym in open_syms:
+        other_returns = _load_closes(sym)
+        if other_returns is None:
+            continue
+        aligned = pd.concat([new_returns, other_returns], axis=1).dropna()
+        if len(aligned) < 20:
+            continue
+        corr = float(aligned.iloc[:, 0].corr(aligned.iloc[:, 1]))
+        if corr >= threshold:
+            return False, sym
+
+    return True, ""
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SIGNAL COOLDOWN — prevent re-evaluating watchlist coins within 24h
+# ─────────────────────────────────────────────────────────────────────────────
+
+_COOLDOWN_FILE        = _CACHE_DIR / "signal_cooldowns.json"
+SIGNAL_COOLDOWN_HOURS = 24.0
+
+def _load_cooldowns() -> dict[str, float]:
+    """Load cooldown dict from disk, pruning expired entries."""
+    if not _COOLDOWN_FILE.exists():
+        return {}
+    try:
+        data    = json.loads(_COOLDOWN_FILE.read_text(encoding="utf-8"))
+        cutoff  = time.time() - SIGNAL_COOLDOWN_HOURS * 3600
+        return {k: v for k, v in data.items() if v > cutoff}
+    except Exception:
+        return {}
+
+
+def _save_cooldowns(cooldowns: dict[str, float]) -> None:
+    try:
+        _COOLDOWN_FILE.write_text(json.dumps(cooldowns, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+
+def _is_on_cooldown(symbol: str, cooldowns: dict[str, float]) -> bool:
+    last = cooldowns.get(symbol, 0)
+    return (time.time() - last) < SIGNAL_COOLDOWN_HOURS * 3600
+
+
+def _set_cooldown(symbol: str, cooldowns: dict[str, float]) -> None:
+    cooldowns[symbol] = time.time()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -485,14 +601,22 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
     """
     cache_file = _CACHE_DIR / f"{coin_id}_{days}d.csv"
 
-    # ── Cache hit ──
+    # ── Cache hit (prefer Binance-sourced cache) ──
     if cache_file.exists():
         age_h = (time.time() - cache_file.stat().st_mtime) / 3600
         if age_h < SCAN["cache_max_age_h"]:
-            try:
-                df = pd.read_csv(cache_file, index_col=0, parse_dates=True)
-                if len(df) >= 20:
-                    # Source unknown from cached file — probe Binance if symbol given
+            # Only trust cache if it came from Binance (real intraday volume)
+            if _DATA_SOURCES.get(coin_id) == "binance":
+                try:
+                    df = pd.read_csv(cache_file, index_col=0, parse_dates=True)
+                    if len(df) >= 20:
+                        return df
+                except Exception:
+                    pass
+            else:
+                # CoinGecko or unknown source — try to use cache, probe Binance if needed
+                try:
+                    df = pd.read_csv(cache_file, index_col=0, parse_dates=True)
                     if coin_id not in _DATA_SOURCES and symbol:
                         probe = _fetch_binance_ohlcv(symbol, 1)
                         _DATA_SOURCES[coin_id] = "binance" if probe is not None else "coingecko"
@@ -500,8 +624,8 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
                     elif coin_id not in _DATA_SOURCES:
                         _DATA_SOURCES[coin_id] = "coingecko"
                     return df
-            except Exception:
-                pass  # corrupt cache → re-fetch
+                except Exception:
+                    pass  # corrupt cache → re-fetch
 
     # ── Binance (primary — no rate limits) ──
     if symbol:
@@ -555,6 +679,41 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
         pass  # non-fatal if cache write fails
 
     return df
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DATA FRESHNESS CHECK
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _check_data_freshness(df: pd.DataFrame, interval_hours: float = 4.0) -> bool:
+    """
+    Returns True if OHLCV data is fresh, False if the latest candle is stale.
+
+    Staleness criteria:
+      - Latest candle is more than 2 × interval_hours old (missed candles)
+      - Index contains duplicate timestamps (data corruption indicator)
+
+    If the index is not a DatetimeIndex, assumes data is ok (returns True).
+    """
+    if not isinstance(df.index, pd.DatetimeIndex) or len(df) == 0:
+        return True  # can't check, assume ok
+
+    latest_ts = df.index[-1]
+    if latest_ts.tzinfo is None:
+        latest_ts = latest_ts.tz_localize("UTC")
+
+    from datetime import datetime as _dt, timezone as _tz
+    now       = _dt.now(_tz.utc)
+    age_hours = (now - latest_ts).total_seconds() / 3600
+
+    if age_hours > interval_hours * 2:
+        return False   # stale — latest candle is more than 2 intervals old
+
+    # Duplicate timestamps = data quality issue
+    if df.index.duplicated().any():
+        return False
+
+    return True
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -635,6 +794,30 @@ def _bb_width(closes: pd.Series, window: int = 20) -> tuple[float, float]:
     w_now   = float(width.iloc[-1])  if len(width) > 0  else np.nan
     w_avg   = float(avg_w.iloc[-1])  if len(avg_w) > 0  else np.nan
     return w_now, w_avg
+
+
+def _keltner(
+    highs: pd.Series,
+    lows: pd.Series,
+    closes: pd.Series,
+    period: int = 20,
+    atr_period: int = 10,
+    multiplier: float = 1.5,
+) -> tuple[float, float]:
+    """Keltner Channel upper and lower bands at last bar. Used for BB squeeze confirmation."""
+    mid  = closes.ewm(span=period, adjust=False).mean()
+    tr   = pd.concat(
+        [highs - lows,
+         (highs - closes.shift(1)).abs(),
+         (lows  - closes.shift(1)).abs()],
+        axis=1,
+    ).max(axis=1)
+    atr  = tr.rolling(atr_period).mean()
+    kc_u = (mid + multiplier * atr).dropna()
+    kc_l = (mid - multiplier * atr).dropna()
+    kc_upper = float(kc_u.iloc[-1]) if len(kc_u) > 0 else np.nan
+    kc_lower = float(kc_l.iloc[-1]) if len(kc_l) > 0 else np.nan
+    return kc_upper, kc_lower
 
 
 def _obv(closes: pd.Series, volumes: pd.Series) -> pd.Series:
@@ -743,7 +926,17 @@ def _rsi_divergence(
     if any(np.isnan(v) for v in (p_low1, p_low2, r_low1, r_low2)):
         return False
 
-    return p_low2 <= p_low1 * price_gap and r_low2 >= r_low1 + rsi_gap
+    if not (p_low2 <= p_low1 * price_gap and r_low2 >= r_low1 + rsi_gap):
+        return False
+
+    # 3-bar confirmation: RSI must rise on 3 consecutive bars (filters noise)
+    rsi_s_recent = rsi_s.dropna()
+    if len(rsi_s_recent) < 3:
+        return False
+    return (
+        float(rsi_s_recent.iloc[-1]) > float(rsi_s_recent.iloc[-2])
+        and float(rsi_s_recent.iloc[-2]) > float(rsi_s_recent.iloc[-3])
+    )
 
 
 def _higher_lows(lows: pd.Series, window: int = 20) -> bool:
@@ -828,6 +1021,42 @@ def _vol_expansion(
     recent   = float(v.iloc[-recent_bars:].mean())
     baseline = float(v.iloc[-baseline_end:-baseline_start].mean())
     return baseline > 0 and recent >= baseline * multiplier
+
+
+def _vol_expansion_dow_normalized(
+    ohlcv:       pd.DataFrame,
+    recent_bars: int   = 6,
+    multiplier:  float = 1.5,
+) -> bool:
+    """
+    Day-of-week normalized volume expansion.
+    Compares recent volume against the average volume for the SAME day of week
+    over the past 6 weeks.  Prevents Monday volume appearing as a breakout
+    simply because it is normally lower than Sunday.
+
+    Falls back to _vol_expansion() if the index is not a DatetimeIndex or there
+    are fewer than 4 same-DOW historical bars available.
+    """
+    if "volume" not in ohlcv.columns:
+        return False
+    vols = ohlcv["volume"].dropna()
+    if len(vols) < 20:
+        return False
+
+    if not isinstance(ohlcv.index, pd.DatetimeIndex):
+        # No datetime index — use standard baseline
+        return _vol_expansion(vols, recent_bars=recent_bars, multiplier=multiplier)
+
+    current_dow = ohlcv.index[-1].dayofweek
+    dow_vols    = vols[vols.index.dayofweek == current_dow]
+
+    if len(dow_vols) < 4:
+        # Not enough same-DOW bars — fall back to standard baseline
+        return _vol_expansion(vols, recent_bars=recent_bars, multiplier=multiplier)
+
+    dow_baseline = float(dow_vols.iloc[:-1].mean())  # exclude current bar
+    recent_vol   = float(vols.iloc[-recent_bars:].mean())
+    return dow_baseline > 0 and recent_vol >= dow_baseline * multiplier
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -970,12 +1199,28 @@ def detect_signals(
         s["atr_value"] = float(atr_val)          if not np.isnan(atr_val) else None
         s["atr_pct"]   = round(atr_pct * 100, 2) if not np.isnan(atr_pct) else None
 
-        # ── 8. Bollinger squeeze ──────────────────────────────────────────────
-        bb_w, bb_avg   = _bb_width(closes)
+        # ── 8. Bollinger squeeze with Keltner Channel confirmation (A9 — TTM squeeze) ──
+        # True squeeze: BB is narrow AND BB bands are inside Keltner bands.
+        # This filters out fake compressions and confirms a real coiling setup.
+        bb_w, bb_avg = _bb_width(closes)
+        kc_upper, kc_lower = _keltner(highs, lows, closes)
+
+        # Compute BB upper/lower at the last bar for KC comparison
+        _bb_sma = closes.rolling(20).mean()
+        _bb_std = closes.rolling(20).std()
+        _bb_u_s = (_bb_sma + 2.0 * _bb_std).dropna()
+        _bb_l_s = (_bb_sma - 2.0 * _bb_std).dropna()
+        _bb_u   = float(_bb_u_s.iloc[-1]) if len(_bb_u_s) > 0 else np.nan
+        _bb_l   = float(_bb_l_s.iloc[-1]) if len(_bb_l_s) > 0 else np.nan
+        _bb_inside_kc = (
+            not any(np.isnan(x) for x in [kc_upper, kc_lower, _bb_u, _bb_l])
+            and _bb_u < kc_upper and _bb_l > kc_lower
+        )
         s["bb_squeeze"] = (
             not np.isnan(bb_w) and not np.isnan(bb_avg)
             and bb_w < SIGNAL["bb_squeeze_width"]
             and bb_w < bb_avg * 0.8
+            and _bb_inside_kc   # BB must be inside Keltner bands (TTM squeeze)
         )
         s["bb_width"] = round(bb_w * 100, 2) if not np.isnan(bb_w) else None
 
@@ -997,13 +1242,13 @@ def detect_signals(
         s["vol_velocity"] = vol_accel
 
         # ── 9b. Volume expansion — fresh capital flowing in (Fix 4) ──────────
+        # Uses day-of-week normalisation when possible to avoid false signals
+        # from daily volume seasonality (e.g. Monday always lower than Sunday).
         s["vol_expansion"] = (
-            _vol_expansion(
-                vols,
-                recent_bars    = SIGNAL["vol_expansion_recent"],
-                baseline_start = SIGNAL["vol_expansion_base_start"],
-                baseline_end   = SIGNAL["vol_expansion_base_end"],
-                multiplier     = SIGNAL["vol_expansion_mult"],
+            _vol_expansion_dow_normalized(
+                ohlcv,
+                recent_bars = SIGNAL["vol_expansion_recent"],
+                multiplier  = SIGNAL["vol_expansion_mult"],
             )
             if has_vol else False
         )
@@ -1120,18 +1365,21 @@ def build_trade_plan(
     signals:      dict,
     account_size: float,
     regime:       str = "SIDEWAYS",
-) -> dict:
+) -> dict | None:
     """
     Generate a specific, actionable trade plan.
 
     Stop loss: ATR-based (entry − ATR × multiplier), bounded within [5%, 15%].
     Take profits: 3 levels at configurable R:R ratios.
     Position size: risk-pct / stop-distance, capped at max single position %.
+    Returns None if ATR is invalid or stop >= entry (safety guard).
     """
     atr_val = signals.get("atr_value") or 0.0
-    if atr_val <= 0:
+    if np.isnan(atr_val) or atr_val <= 0:
         # Fallback: derive from ATR%
         atr_pct_fallback = (signals.get("atr_pct") or 5.0) / 100
+        if np.isnan(atr_pct_fallback) or atr_pct_fallback <= 0:
+            atr_pct_fallback = 0.05
         atr_val = price * atr_pct_fallback
 
     entry = price
@@ -1149,17 +1397,37 @@ def build_trade_plan(
         stop_pct = raw_stop_pct
 
     stop           = entry * (1 + stop_pct / 100)
+    if stop >= entry:
+        logging.warning(
+            f"Invalid stop for {symbol}: stop={stop:.6f} >= entry={entry:.6f}, skipping"
+        )
+        return None
     risk_per_unit  = entry - stop          # always positive
 
-    # ── Position sizing ──────────────────────────────────────────────────────
-    risk_usd    = account_size * (ACCOUNT["risk_per_trade_pct"] / 100)
-    quantity    = risk_usd / risk_per_unit if risk_per_unit > 0 else 0
-    pos_value   = quantity * entry
-    pos_pct     = (pos_value / account_size) * 100
+    # ── Position sizing (ATR-volatility-scaled) ──────────────────────────────
+    # Base formula: risk_usdt / stop_distance gives the risk-based position.
+    # ATR scalar: 3% ATR is the reference (1.0×). Higher ATR = smaller position
+    # (already high volatility, don't compound by sizing large). Lower ATR =
+    # allow slightly larger position, capped at 1.5× to avoid concentration.
+    atr_pct_val  = signals.get("atr_pct") or 3.0       # ATR as % of price
+    if not atr_pct_val or np.isnan(atr_pct_val):
+        atr_pct_val = 3.0
+    ATR_REFERENCE_PCT = 3.0
+    atr_scalar   = ATR_REFERENCE_PCT / max(atr_pct_val, 1.0)
+    atr_scalar   = min(atr_scalar, 1.5)   # cap upside at 1.5×
+    atr_scalar   = max(atr_scalar, 0.5)   # floor at 0.5×
 
-    # Cap at max single position size
-    if pos_pct > ACCOUNT["max_single_pos_pct"]:
-        pos_pct   = ACCOUNT["max_single_pos_pct"]
+    risk_usd     = account_size * (ACCOUNT["risk_per_trade_pct"] / 100)
+    quantity     = risk_usd / risk_per_unit if risk_per_unit > 0 else 0
+    pos_value    = quantity * entry
+    pos_pct      = (pos_value / account_size) * 100
+
+    # ATR-scaled cap: volatile coins get smaller max position
+    max_pos_pct_scaled = ACCOUNT["max_single_pos_pct"] * atr_scalar
+
+    # Cap at ATR-scaled max single position size
+    if pos_pct > max_pos_pct_scaled:
+        pos_pct   = max_pos_pct_scaled
         pos_value = account_size * (pos_pct / 100)
         quantity  = pos_value / entry
         risk_usd  = quantity * risk_per_unit   # recalculate actual risk
@@ -1235,12 +1503,79 @@ def _append_watchlist(lines: list, watchlist: list | None, sep: str, dash: str) 
         top_sigs = ", ".join(sig["active_signals"][:3])
         if nsig > 3:
             top_sigs += f" +{nsig - 3}"
-        icon = "⏳" if w.get("pending") else ("🔶" if conv >= 38 else "🔹")
+        wl_count = w.get("wl_count", 1)
+        count_str = f" ×{wl_count}" if wl_count > 1 else ""
+        if w.get("rsi_overbought"):
+            icon = "🔴"
+            rsi_note = f"  ⚠️ RSI {w['signals'].get('rsi_value', '?'):.0f} — wait for cooldown <65"
+        else:
+            icon = "⏳" if w.get("pending") else ("🔶" if conv >= 38 else "🔹")
+            rsi_note = ""
         lines.append(
             f"  {i:<4}  {icon}{w['symbol']:<8}  #{w['rank']:>3}  "
-            f"${w['price']:<12.5f}  {chg_str:>7}  {conv:>4.0f}  {nsig:>4}  {trend_str:>5}  {top_sigs}"
+            f"${w['price']:<12.5f}  {chg_str:>7}  {conv:>4.0f}  {nsig:>4}  {trend_str:>5}  {top_sigs}{count_str}{rsi_note}"
         )
     lines += ["", dash]
+
+
+def _rsi_zone_label(rsi: float | None) -> str:
+    """Return a short entry-timing label based on RSI value."""
+    if rsi is None:
+        return ""
+    if rsi < 45:
+        return "[IDEAL — room to run]"
+    if rsi < 55:
+        return "[GOOD — momentum zone]"
+    if rsi < 65:
+        return "[OK — getting extended]"
+    return "[EXTENDED — wait for pullback <55]"
+
+
+def _rsi_entry_note(rsi: float | None) -> str:
+    """Return entry action note for the trade plan entry line."""
+    if rsi is None:
+        return "<- buy at market"
+    if rsi < 55:
+        return "<- buy at market"
+    if rsi < 65:
+        return "<- consider limit or wait for dip"
+    return "<- WAIT — RSI extended, target pullback to 50-55"
+
+
+def _load_cross_scanner_symbols() -> tuple[set[str], set[str]]:
+    """
+    Parse fast_scan_LATEST.txt and bybit_radar_LATEST.txt to extract symbol sets.
+    Returns (fast_symbols, bybit_symbols).  Fails silently if files are missing.
+    """
+    fast_syms:  set[str] = set()
+    bybit_syms: set[str] = set()
+
+    fast_file  = _OUTPUT_DIR / "fast_scan_LATEST.txt"
+    bybit_file = _OUTPUT_DIR / "bybit_radar_LATEST.txt"
+
+    # Fast scan: lines like "    1  FF    9   +32.4  ..."
+    if fast_file.exists():
+        try:
+            import re as _re
+            for line in fast_file.read_text(encoding="utf-8").splitlines():
+                m = _re.match(r"^\s+\d+\s+([A-Z0-9]+)\s+\d+", line)
+                if m:
+                    fast_syms.add(m.group(1))
+        except Exception:
+            pass
+
+    # Bybit radar: lines like "  [ 1] TRU   Score: 12.0  ..."
+    if bybit_file.exists():
+        try:
+            import re as _re
+            for line in bybit_file.read_text(encoding="utf-8").splitlines():
+                m = _re.match(r"^\s+\[\s*\d+\]\s+([A-Z0-9]+)\s+", line)
+                if m:
+                    bybit_syms.add(m.group(1))
+        except Exception:
+            pass
+
+    return fast_syms, bybit_syms
 
 
 def build_report(
@@ -1253,6 +1588,8 @@ def build_report(
     ts   = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sep  = "=" * 80
     dash = "-" * 80
+
+    fast_syms, bybit_syms = _load_cross_scanner_symbols()
 
     lines = [
         sep,
@@ -1361,15 +1698,26 @@ def build_report(
         icon = "🔥" if sig["conviction"] >= 70 else "⚡" if sig["conviction"] >= 55 else "💡"
         active_str = "  |  ".join(sig["active_signals"])
 
+        # Cross-scanner detection
+        sym = c["symbol"]
+        in_fast  = sym in fast_syms
+        in_bybit = sym in bybit_syms
+        cross_parts = []
+        if in_fast:
+            cross_parts.append("Fast")
+        if in_bybit:
+            cross_parts.append("Bybit")
+        cross_badge = f"  🔥 CROSS-SIGNAL ({' + '.join(cross_parts)})" if cross_parts else ""
+
         lines += [
             "",
-            f"[{i}] {icon}  {c['symbol']}  (Rank #{c['rank']})",
+            f"[{i}] {icon}  {c['symbol']}  (Rank #{c['rank']}){cross_badge}",
             f"     Conviction  : {sig['conviction']:.0f} / 100",
             f"     Signals     : {sig['signal_count']} / {len(_WEIGHTS)} active",
             f"     Active      : {active_str}",
             "",
             "     ┌─ TRADE PLAN ──────────────────────────────────────────────",
-            f"     │  Entry price  : ${plan['entry']:.6f}   ← buy at market",
+            f"     │  Entry price  : ${plan['entry']:.6f}   {_rsi_entry_note(sig.get('rsi_value'))}",
             f"     │  STOP LOSS    : ${plan['stop']:.6f}   ({plan['stop_pct']:.1f}%)"
             "   ← EXIT HARD — no exceptions",
             f"     │",
@@ -1394,11 +1742,12 @@ def build_report(
             "     └──────────────────────────────────────────────────────────",
             "",
             "     ── INDICATORS ──────────────────────────────────────────────",
-            f"     RSI = {sig.get('rsi_value', 'N/A')}  |  "
+            f"     RSI = {sig.get('rsi_value', 'N/A')}  {_rsi_zone_label(sig.get('rsi_value'))}  |  "
             f"ADX = {sig.get('adx_value', 'N/A')}  |  "
             f"ATR = {sig.get('atr_pct', 'N/A')}%  |  "
             f"RS vs BTC = {sig.get('rs_value', 'N/A')}%  |  "
             f"BB width = {sig.get('bb_width', 'N/A')}%",
+            "     ⚠️  RSI above is 14-period on 4h candles.  Always confirm on 1h RSI7 before entry.",
             dash,
         ]
 
@@ -1460,7 +1809,23 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     Returns the list of final candidates with their trade plans.
     """
     if account_size is None:
-        account_size = ACCOUNT["size_usdt"]
+        try:
+            from bybit_auth import fetch_live_balance_with_fallback
+            account_size = fetch_live_balance_with_fallback(ACCOUNT["size_usdt"])
+        except ImportError:
+            account_size = ACCOUNT["size_usdt"]
+
+    # Spot balance warning — if free USDT is far below configured default,
+    # it likely means capital is tied up in spot positions (not a real loss).
+    _configured_default = ACCOUNT["size_usdt"]
+    if account_size < _configured_default * 0.70:
+        _diff = _configured_default - account_size
+        print(
+            f"\n  ⚠️  BALANCE WARNING: Free USDT is ${account_size:,.0f} "
+            f"(${_diff:,.0f} below configured ${_configured_default:,.0f}).\n"
+            f"  This usually means capital is locked in open spot positions.\n"
+            f"  Risk sizing below is based on available USDT only.\n"
+        )
 
     log.info("")
     log.info("=" * 80)
@@ -1473,6 +1838,22 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     log.info("")
 
     scan_start = datetime.now()   # track for staleness warning in report
+
+    # ── Circuit breaker — halt new entries after -5% daily loss ──────────────
+    _CIRCUIT_BREAKER_ACTIVE = False
+    try:
+        from trade_journal import get_today_pnl
+        today_pnl     = get_today_pnl()
+        today_pnl_pct = today_pnl / account_size * 100
+        if today_pnl_pct <= -5.0:
+            print(f"\n  ⛔  CIRCUIT BREAKER TRIGGERED")
+            print(f"  Today's P&L: {today_pnl_pct:.1f}% — exceeds -5% daily loss limit.")
+            print(f"  No new entries until tomorrow UTC.\n")
+            _CIRCUIT_BREAKER_ACTIVE = True
+        else:
+            _CIRCUIT_BREAKER_ACTIVE = False
+    except Exception:
+        _CIRCUIT_BREAKER_ACTIVE = False
 
     # ── Step 1: Market context ────────────────────────────────────────────────
     log.info("[1/5] Analyzing market regime...")
@@ -1514,6 +1895,17 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                 f"conviction threshold raised by +{extra} to {SIGNAL['min_conviction']}"
             )
 
+        # A4 — Time-of-day filter: raise bar during low-liquidity quiet hours
+        _qh = SCAN.get("quiet_hours_utc")
+        if _qh:
+            _utc_h = datetime.utcnow().hour
+            if _qh[0] <= _utc_h < _qh[1]:
+                SIGNAL["min_conviction"] += 10
+                log.warning(
+                    f"  🌙 Quiet hours {_qh[0]:02d}:00–{_qh[1]:02d}:00 UTC — "
+                    f"low liquidity filter: conviction threshold raised +10 to {SIGNAL['min_conviction']}"
+                )
+
     # ── Step 2: BTC OHLCV (for relative strength) ────────────────────────────
     log.info("[2/5] Fetching BTC historical data...")
     btc_ohlcv  = fetch_ohlcv("bitcoin", 30)
@@ -1541,6 +1933,9 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
 
     # ── Fix 2: Load persistence history ──────────────────────────────────────
     candidate_history = _load_history()
+
+    # ── A6: Load signal cooldowns ─────────────────────────────────────────────
+    _cooldowns = _load_cooldowns()
 
     # ── Bybit universe filter — load symbol set if available ─────────────────
     _bybit_symbols: set = set()
@@ -1605,6 +2000,11 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                 )
                 continue
 
+        # ── A6: Skip coins on 24h signal cooldown ──────────────────────────
+        if _is_on_cooldown(symbol, _cooldowns):
+            log.debug(f"  skip {symbol} — on 24h signal cooldown")
+            continue
+
         seen_ids.add(coin_id)
         scanned += 1
         log.info(
@@ -1617,6 +2017,13 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         _cf = _CACHE_DIR / f"{coin_id}_30d.csv"
         _cache_fresh = _cf.exists() and (time.time() - _cf.stat().st_mtime) / 3600 < SCAN["cache_max_age_h"]
         ohlcv = fetch_ohlcv(coin_id, 30, symbol)
+
+        # ── A12: Data staleness check ─────────────────────────────────────────
+        if ohlcv is not None and not _check_data_freshness(ohlcv):
+            log.warning(f"          → skip {symbol}: OHLCV data is stale (>8h old or duplicates)")
+            if not _cache_fresh:
+                time.sleep(SCAN["api_delay_s"])
+            continue
 
         # ── Fetch funding rate (Binance perps, no key needed) ────────────────
         funding_rate = _fetch_funding_rate(symbol)
@@ -1634,6 +2041,29 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         # ── Run signals ───────────────────────────────────────────────────────
         signals = detect_signals(ohlcv, btc_closes, price,
                                  binance_source=is_binance, funding_rate=funding_rate)
+
+        # ── A7: MACD suppression in SIDEWAYS/BEAR — excessive whipsaws ────────
+        # MACD crossovers produce false signals in ranging markets.
+        # Only count MACD signals in BULL regime.
+        # After suppressing, recalculate conviction to keep score consistent.
+        if signals is not None and market_ctx:
+            _regime_for_macd = market_ctx.get("regime", "SIDEWAYS")
+            if _regime_for_macd != "BULL":
+                signals["macd_crossover"] = False
+                signals["macd_bullish"]   = False
+                # Recalculate conviction without suppressed MACD signals
+                _eff = 0.0
+                for _sk, _w in _WEIGHTS.items():
+                    if not signals.get(_sk, False):
+                        continue
+                    if not is_binance and _sk in _VOLUME_SIGNAL_KEYS:
+                        _eff += _w * 0.5
+                    else:
+                        _eff += _w
+                _crowded_pen = 10.0 if signals.get("funding_crowded", False) else 0.0
+                signals["conviction"]     = max(0.0, round((_eff / _TOTAL_WEIGHT) * 100 - _crowded_pen, 1))
+                signals["active_signals"] = [k for k in _WEIGHTS if signals.get(k, False)]
+                signals["signal_count"]   = len(signals["active_signals"])
 
         if signals is None:
             log.info("          → skip (insufficient data)")
@@ -1676,8 +2106,60 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                     "pending":   True,
                 })
             else:
+                # ── A2: Circuit breaker — skip new entries if daily loss limit hit ──
+                if _CIRCUIT_BREAKER_ACTIVE:
+                    log.info(
+                        f"          ⛔ CIRCUIT BREAKER ACTIVE — {symbol} blocked (daily loss limit)"
+                    )
+                    continue
+
+                # ── RSI overbought gate — demote if 4h RSI > 70 ──────────────────
+                _rsi_val = signals.get("rsi_value") or 0.0
+                if _rsi_val > 70:
+                    log.info(
+                        f"          ⚠️  RSI OVERBOUGHT ({_rsi_val:.1f}) — "
+                        f"demoting to watchlist, wait for cooldown below 65"
+                    )
+                    watchlist.append({
+                        "symbol":        symbol,
+                        "coin_id":       coin_id,
+                        "rank":          rank,
+                        "price":         price,
+                        "change_7d":     change_7d,
+                        "signals":       signals,
+                        "pending":       False,
+                        "trend":         "flat",
+                        "rsi_overbought": True,
+                        "blocked_reason": f"RSI overbought ({_rsi_val:.1f}) — wait for cooldown to <65",
+                    })
+                    continue
+
                 _regime = market_ctx["regime"] if market_ctx else "SIDEWAYS"
                 plan = build_trade_plan(symbol, rank, price, signals, account_size, regime=_regime)
+                if plan is None:
+                    log.warning(f"  {symbol}: invalid stop/ATR — skipping from candidates")
+                    continue
+
+                # ── A1: Correlation filter — block if ≥ 0.85 corr with open positions ──
+                _open_coin_ids = [c["coin_id"] for c in raw_candidates]
+                _corr_ok, _corr_blocker = _check_correlation(coin_id, _open_coin_ids)
+                if not _corr_ok:
+                    log.info(
+                        f"          BLOCKED: correlation >= 0.85 with {_corr_blocker} — skipping"
+                    )
+                    watchlist.append({
+                        "symbol":    symbol,
+                        "coin_id":   coin_id,
+                        "rank":      rank,
+                        "price":     price,
+                        "change_7d": change_7d,
+                        "signals":   signals,
+                        "pending":   False,
+                        "trend":     "flat",
+                        "blocked_reason": f"correlation >= 0.85 with {_corr_blocker}",
+                    })
+                    continue
+
                 raw_candidates.append({
                     "symbol":    symbol,
                     "coin_id":   coin_id,
@@ -1694,7 +2176,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                 )
 
         elif conv >= 25 and nsig >= 3:
-            _track_watchlist_conviction(coin_id, conv, candidate_history)
+            _wl_count = _track_watchlist_conviction(coin_id, conv, candidate_history)
             _trend = _conviction_trend(coin_id, candidate_history, is_watchlist=True)
             watchlist.append({
                 "symbol":    symbol,
@@ -1705,13 +2187,20 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                 "signals":   signals,
                 "pending":   False,
                 "trend":     _trend,
+                "wl_count":  _wl_count,
             })
+            # A6: Set 24h cooldown so the same coin doesn't re-accumulate conviction
+            # during the next scan before a genuine signal change occurs.
+            _set_cooldown(symbol, _cooldowns)
 
         if not _cache_fresh:
             time.sleep(SCAN["api_delay_s"])
 
     # ── Save persistence history ──────────────────────────────────────────────
     _save_history(candidate_history)
+
+    # ── Save signal cooldowns ─────────────────────────────────────────────────
+    _save_cooldowns(_cooldowns)
 
     # ── Step 5: Rank, correlation filter, heat limit, generate report ────────
     log.info(f"\n[5/5] Building trade plan report...")
@@ -1808,22 +2297,26 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
 
     # ── Telegram alerts for confirmed setups ──────────────────────────────────
     try:
-        from alerts import alert_setup, alert_watchlist, is_configured
-        if is_configured() and final:
+        from alerts import alert_setup, alert_watchlist, is_configured, send_heartbeat
+        if is_configured():
             _regime = market_ctx["regime"] if market_ctx else "SIDEWAYS"
-            for _c in final:
-                _sig  = _c["signals"]
-                _plan = _c["plan"]
-                alert_setup(
-                    scanner    = "Master",
-                    symbol     = _c["symbol"],
-                    conviction = int(_sig["conviction"]),
-                    entry      = _plan["entry"],
-                    stop       = _plan["stop"],
-                    tp1        = _plan["take_profits"][0]["price"],
-                    regime     = _regime,
-                    signals    = _sig["active_signals"],
-                )
+            if final:
+                for _c in final:
+                    _sig  = _c["signals"]
+                    _plan = _c["plan"]
+                    alert_setup(
+                        scanner    = "Master",
+                        symbol     = _c["symbol"],
+                        conviction = int(_sig["conviction"]),
+                        entry      = _plan["entry"],
+                        stop       = _plan["stop"],
+                        tp1        = _plan["take_profits"][0]["price"],
+                        regime     = _regime,
+                        signals    = _sig["active_signals"],
+                    )
+            # A11: Heartbeat — confirms scanner ran successfully
+            _top_sym = final[0]["symbol"] if final else None
+            send_heartbeat("Master Scanner", coins_scanned=scanned, top_setup=_top_sym)
     except Exception:
         pass
 

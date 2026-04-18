@@ -57,7 +57,7 @@ _JOURNAL_DIR  = _PROJECT_ROOT / "outputs" / "journal"
 _JOURNAL_DIR.mkdir(parents=True, exist_ok=True)
 JOURNAL_FILE  = _JOURNAL_DIR / "trade_journal.csv"
 
-ACCOUNT_START = 96_700.0   # starting capital USDT
+ACCOUNT_START = 95_255.0   # starting capital USDT
 
 COLUMNS = [
     "id",
@@ -111,6 +111,35 @@ def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# CIRCUIT BREAKER HELPER
+# ─────────────────────────────────────────────────────────────────────────────
+
+def get_today_pnl() -> float:
+    """
+    Returns the sum of all closed trade P&L (pnl_usdt) for today (UTC).
+    Used by master_orchestrator's daily circuit breaker (-5% daily loss limit).
+    Returns 0.0 if no trades exist or the journal file is missing.
+    """
+    rows  = _load()
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    total = 0.0
+    for r in rows:
+        if r.get("date_closed", "").startswith(today) and r.get("pnl_usdt"):
+            try:
+                total += float(r["pnl_usdt"])
+            except (ValueError, TypeError):
+                pass
+    return total
+
+
+def _sanitize_csv(value: str) -> str:
+    """Prevent CSV injection by escaping formula-starting characters."""
+    if value and value[0] in ('=', '+', '-', '@', '\t', '\r'):
+        return "'" + value
+    return value
+
+
 def _float(val: str | None, default: float = 0.0) -> float:
     try:
         return float(val) if val not in (None, "", "None") else default
@@ -147,7 +176,7 @@ def cmd_log(args) -> None:
         "scanner":       args.scanner.lower(),
         "regime":        args.regime.lower() if args.regime else "",
         "conviction":    args.conviction if args.conviction else "",
-        "signals":       args.signals if args.signals else "",
+        "signals":       _sanitize_csv(args.signals) if args.signals else "",
         "entry_price":   round(entry, 8) if entry else "",
         "stop_price":    round(stop, 8) if stop else "",
         "tp1_price":     round(args.tp1, 8) if args.tp1 else "",
@@ -159,7 +188,7 @@ def cmd_log(args) -> None:
         "exit_reason":   "",
         "pnl_usdt":      "",
         "r_multiple":    "",
-        "notes":         args.notes if args.notes else "",
+        "notes":         _sanitize_csv(args.notes) if args.notes else "",
     }
 
     rows.append(row)
@@ -195,7 +224,7 @@ def cmd_close(args) -> None:
     else:
         pnl = 0.0
 
-    r_mult = round(pnl / risk, 2) if risk > 0 else 0.0
+    r_mult = round(pnl / risk, 2) if risk and risk > 0 else None
 
     row["date_closed"]  = _now()
     row["exit_price"]   = round(exit_p, 8)
@@ -208,7 +237,8 @@ def cmd_close(args) -> None:
     _save(rows)
 
     pnl_str = f"+${pnl:,.2f}" if pnl >= 0 else f"-${abs(pnl):,.2f}"
-    r_str   = f"+{r_mult:.2f}R" if r_mult >= 0 else f"{r_mult:.2f}R"
+    r_str   = ("N/A" if r_mult is None else
+               f"+{r_mult:.2f}R" if r_mult >= 0 else f"{r_mult:.2f}R")
     print(f"\n  Trade #{args.id} closed.  {row['symbol']}  @{exit_p}  [{reason}]")
     print(f"  P&L: {pnl_str}   R: {r_str}\n")
 
@@ -315,15 +345,17 @@ def cmd_stats(args) -> None:
         return
 
     # ── Core metrics ──────────────────────────────────────────────────────────
-    r_vals   = [_float(r["r_multiple"]) for r in closed]
+    r_vals_raw = [_float(r["r_multiple"]) if r["r_multiple"] not in (None, "", "None") else None
+                  for r in closed]
+    r_vals   = [r for r in r_vals_raw if r is not None]
     pnl_vals = [_float(r["pnl_usdt"])   for r in closed]
     wins     = [r for r in r_vals if r > 0]
     losses   = [r for r in r_vals if r <= 0]
 
-    win_rate   = len(wins) / len(closed) * 100
+    win_rate   = len(wins) / len(r_vals) * 100 if r_vals else 0.0
     avg_win    = sum(wins)   / len(wins)   if wins   else 0.0
     avg_loss   = sum(losses) / len(losses) if losses else 0.0
-    expectancy = sum(r_vals) / len(r_vals)
+    expectancy = sum(r_vals) / len(r_vals) if r_vals else 0.0
     total_pnl  = sum(pnl_vals)
     total_risk = sum(_float(r["risk_usdt"]) for r in closed)
     best_trade = max(closed, key=lambda r: _float(r["r_multiple"]))

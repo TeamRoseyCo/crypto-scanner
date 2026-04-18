@@ -37,7 +37,7 @@ Key differences from master_orchestrator (longs):
 
 Usage:
   python alpha_scanner.py
-  python alpha_scanner.py --account 96700
+  python alpha_scanner.py --account 95255
   python alpha_scanner.py --top 200
 ================================================================================
 """
@@ -51,6 +51,15 @@ import requests
 os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
 import pandas as pd
 import numpy as np
+
+# Shared indicator implementations (single source of truth across all scanners)
+try:
+    import sys as _sys
+    import os as _os
+    _sys.path.insert(0, _os.path.dirname(__file__))
+    from indicators import compute_rsi, compute_atr, compute_macd, compute_adx, compute_obv, compute_supertrend, compute_cmf, compute_bb
+except ImportError:
+    pass  # indicators.py not found — local fallback functions remain active
 import time
 import json
 import logging
@@ -89,7 +98,7 @@ log = logging.getLogger("alpha_scanner")
 # ─────────────────────────────────────────────────────────────────────────────
 
 ACCOUNT = {
-    "size_usdt":          96_700.0,
+    "size_usdt":          95_255.0,
     "risk_per_trade_pct":      0.75,  # HALF normal — alpha plays are higher risk/reward
     "max_positions":              6,
     "max_heat_pct":             4.5,  # 6 × 0.75% = 4.5% max total heat
@@ -106,6 +115,7 @@ SCAN = {
     "api_delay_s":    (1.2 if os.environ.get("CG_API_KEY") else
                        4.5 if os.environ.get("CG_DEMO_KEY") else 6.5),
     "min_atr_pct":            0.3,    # only need modest volatility
+    "quiet_hours_utc":     (0, 6),    # raise conviction bar during 00:00–06:00 UTC (low liquidity)
 }
 
 SIGNAL = {
@@ -121,7 +131,7 @@ SIGNAL = {
 
     # ── Structural ────────────────────────────────────────────────────────────
     "higher_lows_window":     30,
-    "adx_min":                20,     # lower than short scanner — early trend
+    "adx_min":                25,     # minimum ADX for trend strength confirmation
     "rsi_min":                45,
     "rsi_max":                72,
 
@@ -183,6 +193,14 @@ REGIME_GATE = {
         "label": "🔴 BEAR — No new longs. Watchlist only.",
     },
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NAMED CONSTANTS
+# ─────────────────────────────────────────────────────────────────────────────
+STOP_MAX_PCT        = 10.0    # Stop never wider than 10% below entry (alpha plays)
+STOP_MIN_PCT        = 4.0     # Stop never tighter than 4% below entry (alpha plays)
+ATR_STOP_MULTIPLIER = 1.2     # ATR multiplier for alpha stop (tighter than master)
+CONVICTION_DISABLED = 999     # Effective min conviction when BEAR regime blocks trading
 
 STABLECOINS = {
     "USDT", "USDC", "DAI", "BUSD", "TUSD", "USDD", "FDUSD", "PYUSD",
@@ -530,6 +548,7 @@ def detect_alpha_signals(
     ohlcv:       pd.DataFrame,
     btc_7d_pct:  float,
     price:       float,
+    btc_1d_pct:  float | None = None,
 ) -> dict | None:
     """
     Run all 10 alpha breakout signal layers.
@@ -561,7 +580,9 @@ def detect_alpha_signals(
         # ── 2. RS acceleration (1-day RS vs 7-day baseline) ───────────────────
         # Measures: is the token picking up speed vs BTC right NOW?
         token_1d = float((closes.iloc[-1] / closes.iloc[max(-6, -len(closes))] - 1) * 100)
-        btc_1d   = btc_7d_pct * (6 / 42)          # approx BTC 1-day from 7d data
+        # btc_1d_pct is passed in from CoinGecko market data (actual 24h change)
+        # If not available fall back to approximation
+        btc_1d   = btc_1d_pct if btc_1d_pct is not None else btc_7d_pct * (6 / 42)
         rs_1d    = token_1d - btc_1d               # 1-day RS
         # Accelerating if 1d RS is materially better than 7d RS on a per-day basis
         rs_7d_daily = rs_7d / 7 if rs_7d != 0 else 0
@@ -575,20 +596,45 @@ def detect_alpha_signals(
         s["rs_sustained"]  = rs_3d >= SIGNAL["rs_3d_min"]
         s["rs_3d_value"]   = round(rs_3d, 2)
 
-        # ── 4. Volume breakout ────────────────────────────────────────────────
+        # ── 4. Volume breakout (day-of-week normalized) ──────────────────────
         vol_breakout = False
         if has_vol:
             valid_vol = vols.dropna()
             if len(valid_vol) >= 14:
-                recent_6  = float(valid_vol.iloc[-6:].mean())    # last 24h (6×4h bars)
-                baseline  = float(valid_vol.iloc[-42:-6].mean())  # prior 6 days
-                # Also confirm price is going up in the recent period
-                recent_green = int((closes.iloc[-6:] > opens.iloc[-6:]).sum())
-                vol_breakout = (
-                    baseline > 0
-                    and recent_6 >= baseline * SIGNAL["vol_breakout_mult"]
-                    and recent_green >= 4   # at least 4 of 6 recent bars are green
-                )
+                # Day-of-week normalisation: compare recent vol against same-DOW
+                # historical average to avoid Monday/Sunday volume artefacts.
+                if isinstance(ohlcv.index, pd.DatetimeIndex) and len(valid_vol) >= 28:
+                    current_dow  = ohlcv.index[-1].dayofweek
+                    dow_vols     = valid_vol[valid_vol.index.dayofweek == current_dow]
+                    if len(dow_vols) >= 4:
+                        dow_baseline = float(dow_vols.iloc[:-1].mean())  # exclude current
+                        recent_6     = float(valid_vol.iloc[-6:].mean())
+                        recent_green = int((closes.iloc[-6:] > opens.iloc[-6:]).sum())
+                        vol_breakout = (
+                            dow_baseline > 0
+                            and recent_6 >= dow_baseline * SIGNAL["vol_breakout_mult"]
+                            and recent_green >= 4
+                        )
+                    else:
+                        # Not enough same-DOW bars — fall back to simple baseline
+                        recent_6  = float(valid_vol.iloc[-6:].mean())
+                        baseline  = float(valid_vol.iloc[-42:-6].mean())
+                        recent_green = int((closes.iloc[-6:] > opens.iloc[-6:]).sum())
+                        vol_breakout = (
+                            baseline > 0
+                            and recent_6 >= baseline * SIGNAL["vol_breakout_mult"]
+                            and recent_green >= 4
+                        )
+                else:
+                    # No DatetimeIndex — fall back to simple baseline
+                    recent_6  = float(valid_vol.iloc[-6:].mean())
+                    baseline  = float(valid_vol.iloc[-42:-6].mean())
+                    recent_green = int((closes.iloc[-6:] > opens.iloc[-6:]).sum())
+                    vol_breakout = (
+                        baseline > 0
+                        and recent_6 >= baseline * SIGNAL["vol_breakout_mult"]
+                        and recent_green >= 4
+                    )
         s["vol_breakout"] = vol_breakout
 
         # ── 5. MACD bullish (histogram rising and positive) ───────────────────
@@ -771,6 +817,30 @@ def build_alpha_plan(
 # REPORT BUILDER
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _rsi_zone_label(rsi: float | None) -> str:
+    """Return a short entry-timing label based on RSI value."""
+    if rsi is None:
+        return ""
+    if rsi < 45:
+        return "[IDEAL — room to run]"
+    if rsi < 55:
+        return "[GOOD — momentum zone]"
+    if rsi < 65:
+        return "[OK — getting extended]"
+    return "[EXTENDED — wait for pullback <55]"
+
+
+def _rsi_entry_note(rsi: float | None) -> str:
+    """Return entry action note for the trade plan entry line."""
+    if rsi is None:
+        return ""
+    if rsi < 55:
+        return ""
+    if rsi < 65:
+        return "  <- consider limit or wait for dip"
+    return "  <- WAIT — RSI extended, target pullback to 50-55"
+
+
 def build_report(
     setups:       list[dict],
     watchlist:    list[dict],
@@ -832,14 +902,14 @@ def build_report(
                 f"     Active       : {active_str}",
                 f"     RS vs BTC 7d : {sig.get('rs_7d_value', 'N/A'):>+.2f}%  "
                 f"(1d: {sig.get('rs_1d_value', 'N/A'):>+.2f}%  3d: {sig.get('rs_3d_value', 'N/A'):>+.2f}%)",
-                f"     RSI          : {sig.get('rsi_value', 'N/A')}",
+                f"     RSI          : {sig.get('rsi_value', 'N/A')}  {_rsi_zone_label(sig.get('rsi_value'))}",
                 f"     ADX          : {sig.get('adx_value', 'N/A')}  "
                 f"(+DI {sig.get('plus_di', 'N/A')} / -DI {sig.get('minus_di', 'N/A')})",
                 f"     SuperTrend   : {'▲ BULLISH' if sig.get('supertrend_bull') else '▼ BEARISH'}  "
                 f"(line: {sig.get('supertrend_value', 'N/A')})",
                 "",
                 "     ── ALPHA TRADE PLAN ──────────────────────────────",
-                f"     Entry (BUY)  : $ {plan['entry']:>14,.6f}",
+                f"     Entry (BUY)  : $ {plan['entry']:>14,.6f}{_rsi_entry_note(sig.get('rsi_value'))}",
                 f"     Stop (SELL)  : $ {plan['stop']:>14,.6f}  (-{plan['stop_pct']:.1f}%)",
                 f"     Risk         : $ {plan['risk_usd']:>10,.2f}  ({plan['risk_pct']:.2f}% of account)",
                 f"     Position     : $ {plan['pos_value']:>10,.2f}  ({plan['pos_pct']:.1f}% of account)",
@@ -856,6 +926,7 @@ def build_report(
                 "",
                 f"  Note: Alpha plays use 0.75% risk (half normal). The RS edge is the",
                 f"  primary filter — these tokens have genuine buyers vs BTC flatness.",
+                f"  ⚠️  RSI above is 14-period on 4h candles.  Always confirm on 1h RSI7 before entry.",
                 dash,
                 "",
             ]
@@ -882,7 +953,14 @@ def build_report(
 
     # Watchlist
     if watchlist:
-        lines += [
+        bear_warning = []
+        if regime == "BEAR":
+            bear_warning = [
+                "",
+                "  ⚠️  BEAR REGIME — All entries blocked. Watchlist shown for monitoring only.",
+                "  Do NOT trade these setups until regime recovers to SIDEWAYS or BULL.",
+            ]
+        lines += bear_warning + [
             "",
             "ALPHA WATCHLIST — strong RS, building signal stack",
             dash,
@@ -909,8 +987,13 @@ def build_report(
 # ─────────────────────────────────────────────────────────────────────────────
 
 def run(account_size: float | None = None) -> None:
-    account_size = account_size or ACCOUNT["size_usdt"]
-    t0           = datetime.now()
+    if not account_size:
+        try:
+            from bybit_auth import fetch_live_balance_with_fallback
+            account_size = fetch_live_balance_with_fallback(ACCOUNT["size_usdt"])
+        except ImportError:
+            account_size = ACCOUNT["size_usdt"]
+    t0 = datetime.now()
 
     log.info("")
     log.info("=" * 80)
@@ -942,6 +1025,17 @@ def run(account_size: float | None = None) -> None:
     eff_min_conv = gate["min_conviction"]
     eff_risk_pct = gate["risk_pct"]
     eff_rsi_max  = gate["rsi_max"]
+
+    # A4 — Time-of-day filter: raise bar during low-liquidity quiet hours
+    _qh = SCAN.get("quiet_hours_utc")
+    if _qh and eff_min_conv < 999:
+        _utc_h = datetime.utcnow().hour
+        if _qh[0] <= _utc_h < _qh[1]:
+            eff_min_conv = min(eff_min_conv + 10, 998)
+            log.warning(
+                f"  🌙 Quiet hours {_qh[0]:02d}:00–{_qh[1]:02d}:00 UTC — "
+                f"low liquidity filter: conviction threshold raised to {eff_min_conv}"
+            )
 
     log.info(f"  Regime gate  : {gate['label']}")
     log.info(f"  Min conviction: {eff_min_conv if eff_min_conv < 999 else 'BLOCKED (BEAR)'}  "
@@ -1004,11 +1098,20 @@ def run(account_size: float | None = None) -> None:
             log.info(f"          → skip (flatliner: ATR {atr_pct:.2f}%)")
             continue
 
-        # Detect alpha signals
-        signals = detect_alpha_signals(ohlcv, btc_7d, price)
+        # Detect alpha signals — pass btc_24h for accurate 1d RS calculation
+        signals = detect_alpha_signals(ohlcv, btc_7d, price, btc_1d_pct=btc_24h)
         if signals is None:
             log.info(f"          → skip (signal computation failed)")
             continue
+
+        # A7: Suppress MACD signals in non-BULL regime — too many whipsaws in chop
+        if regime != "BULL":
+            signals["macd_bullish"] = False
+            # Recalculate conviction without MACD contribution
+            _score = sum(w for k, w in _ALPHA_WEIGHTS.items() if signals.get(k, False))
+            signals["conviction"]     = max(0.0, round((_score / _TOTAL_ALPHA_WEIGHT) * 100, 1))
+            signals["active_signals"] = [k for k in _ALPHA_WEIGHTS if signals.get(k, False)]
+            signals["signal_count"]   = len(signals["active_signals"])
 
         conv = signals["conviction"]
         nsig = signals["signal_count"]
@@ -1077,6 +1180,11 @@ def run(account_size: float | None = None) -> None:
 
     setups.sort(key=lambda x: -x["signals"]["conviction"])
     watchlist.sort(key=lambda x: (-x["signals"].get("rs_7d_value", 0)))
+
+    if regime == "BEAR":
+        # In BEAR regime, block all entries but preserve watchlist for monitoring
+        log.warning("  BEAR REGIME — All entries blocked. Watchlist shown for monitoring only.")
+        setups = []   # no actionable setups in bear — entries blocked
 
     report = build_report(
         setups, watchlist, btc_price, btc_7d, btc_24h, regime, account_size, gate=gate,

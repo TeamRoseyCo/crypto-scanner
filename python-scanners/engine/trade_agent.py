@@ -11,6 +11,7 @@ Usage:
 
 import os
 import sys
+import time
 from pathlib import Path
 import anthropic
 
@@ -37,7 +38,7 @@ conviction scores, RS vs BTC, volume structure, momentum signals.
 You never guess. If the data doesn't support a trade, you say so clearly.
 
 ACCOUNT
-Balance: $96,700 USDT. All cash, no open positions at session start.
+Balance: $95,255 USDT. All cash, no open positions at session start.
 
 MARKET REGIMES
 - BULL  (BTC 7d > +5%):  Conviction ≥ 55, full risk
@@ -136,12 +137,24 @@ def main():
 
     print("Analysing setups...\n")
 
-    response = client.messages.create(
-        model="claude-opus-4-6",
-        max_tokens=2048,
-        system=SYSTEM_PROMPT,
-        messages=messages,
-    )
+    for attempt in range(3):
+        try:
+            response = client.messages.create(
+                model="claude-opus-4-6",
+                max_tokens=2048,
+                system=SYSTEM_PROMPT,
+                messages=messages,
+            )
+            break
+        except anthropic.RateLimitError:
+            wait = 30 * (2 ** attempt)
+            print(f"Rate limited. Waiting {wait}s...")
+            time.sleep(wait)
+        except Exception as e:
+            print(f"API error: {e}")
+            if attempt == 2:
+                raise
+            time.sleep(5)
     reply = response.content[0].text
     messages.append({"role": "assistant", "content": reply})
 
@@ -174,12 +187,24 @@ def main():
 
         messages.append({"role": "user", "content": user_input})
 
-        response = client.messages.create(
-            model="claude-opus-4-6",
-            max_tokens=2048,
-            system=SYSTEM_PROMPT,
-            messages=messages,
-        )
+        for attempt in range(3):
+            try:
+                response = client.messages.create(
+                    model="claude-opus-4-6",
+                    max_tokens=2048,
+                    system=SYSTEM_PROMPT,
+                    messages=messages,
+                )
+                break
+            except anthropic.RateLimitError:
+                wait = 30 * (2 ** attempt)
+                print(f"Rate limited. Waiting {wait}s...")
+                time.sleep(wait)
+            except Exception as e:
+                print(f"API error: {e}")
+                if attempt == 2:
+                    raise
+                time.sleep(5)
         reply = response.content[0].text
         messages.append({"role": "assistant", "content": reply})
 
