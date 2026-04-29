@@ -1,11 +1,15 @@
 @echo off
-title Ignition Radar v1.1
+title Enhanced Scan v2.1
 color 0B
 
 echo.
 echo ================================================================================
-echo   IGNITION RADAR v1.1
-echo   Early volume/breakout watchlist - rank 5-700, 1h candles
+echo   ENHANCED SCAN v2.1
+echo   19 indicators x 6 timeframes (1H/2H/4H/6H/12H/1D) - Bybit data
+echo   SuperTrend, EMA, RSI, MACD, ADX, BB, Aroon, ATS, B-Trend, PctST,
+echo   StochRSI, Ichimoku, CMF, OBV, MFI, CCI, Hull MA, PSAR, Volume Surge
+echo   A11: 1D RSI<78 gate  |  A12: Vol Surge signal  |  A13: RS vs BTC bonus
+echo   ~5-8 minutes runtime
 echo ================================================================================
 echo.
 
@@ -22,23 +26,20 @@ if not exist %VENV_PYTHON% (
 echo Virtual environment OK.
 echo.
 
-:: ── CoinGecko Demo API key ────────────────────────────────────────────────────
-set CG_DEMO_KEY=CG-oEG3MATjJ1ShQN3xnkJDcGVS
-
-:: ── Run ignition radar ────────────────────────────────────────────────────────
-%VENV_PYTHON% ..\engine\ignition_radar.py --account 96700
+:: ── Run Enhanced Scan ─────────────────────────────────────────────────────────
+%VENV_PYTHON% ..\tradingview\enhanced_scan.py %*
 
 if %errorlevel% neq 0 (
     echo.
     echo ================================================================================
-    echo   ERROR: Ignition radar exited with an error (code %errorlevel%).
-    echo   Check outputs/logs/ for details.
+    echo   ERROR: Enhanced Scan exited with an error (code %errorlevel%).
     echo ================================================================================
 )
 
 echo.
 echo ================================================================================
-echo   Done. Check outputs/scanner-results/ignition_radar_LATEST.txt
+echo   Done.
+echo   Tip: STRONG signals = 5+/6 TFs aligned + DMI bull + score 120+
 echo ================================================================================
 echo.
 pause

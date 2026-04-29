@@ -36,7 +36,7 @@ import argparse
 import requests
 
 # Ensure demo key is always active regardless of launch method (bat, Task Scheduler, direct Python)
-os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
+os.environ.setdefault("CG_DEMO_KEY", "CG-VMU55ZMLpBrBeQBKfPwknWTa")
 import pandas as pd
 import numpy as np
 
@@ -277,7 +277,9 @@ def fetch_market_coins(top_n: int = 500) -> list[dict]:
     coins = []
     page  = 1
     while len(coins) < top_n:
-        for attempt in range(3):
+        errors = 0
+        rate_limit_attempt = 0
+        while errors < 5:
             try:
                 r = _CG_SESSION.get(
                     f"{_CG_BASE}/coins/markets",
@@ -291,10 +293,11 @@ def fetch_market_coins(top_n: int = 500) -> list[dict]:
                     timeout=20,
                 )
                 if r.status_code == 429:
-                    wait = int(r.headers.get("Retry-After", 60))
-                    log.warning(f"Rate-limited — waiting {wait}s")
+                    wait = int(r.headers.get("Retry-After", 60 * (2 ** rate_limit_attempt)))
+                    log.warning(f"Rate-limited — waiting {wait}s (rate-limit #{rate_limit_attempt + 1})")
                     time.sleep(wait)
-                    continue
+                    rate_limit_attempt += 1
+                    continue  # does NOT increment errors
                 if r.status_code != 200:
                     return coins
                 data = r.json()
@@ -302,8 +305,17 @@ def fetch_market_coins(top_n: int = 500) -> list[dict]:
                     return coins
                 coins.extend(data)
                 break
-            except Exception:
+            except requests.exceptions.ConnectionError as e:
+                errors += 1
+                log.warning(f"Connection/DNS error fetching page {page} (attempt {errors}/5): {e}")
+                _CG_SESSION.close()
+                time.sleep(30)
+            except Exception as e:
+                errors += 1
+                log.warning(f"Request error fetching page {page} (attempt {errors}/5): {e}")
                 time.sleep(5)
+        else:
+            return coins  # exhausted retries
         page += 1
         if len(coins) >= top_n:
             break

@@ -36,7 +36,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Ensure demo key regardless of launch method
-os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
+os.environ.setdefault("CG_DEMO_KEY", "CG-VMU55ZMLpBrBeQBKfPwknWTa")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 _ENGINE_DIR   = Path(__file__).resolve().parent
@@ -404,7 +404,7 @@ def build_report(results: list, top_n: int, scan_start: datetime) -> str:
 # MAIN
 # ─────────────────────────────────────────────────────────────────────────────
 
-def run(top_n: int = 20) -> list:
+def run(top_n: int = 20, telegram: bool = True) -> list:
     scan_start = datetime.now()
     log.info("=" * 64)
     log.info("BYBIT RADAR v1.0")
@@ -470,17 +470,18 @@ def run(top_n: int = 20) -> list:
     log.info(f"  Saved → {lat_file.name}")
 
     # Send Telegram alert for top setups if configured
-    try:
-        from alerts import alert_watchlist, is_configured
-        if is_configured():
-            top_entries = [
-                {"symbol": r["base"], "conviction": r["score"] * 10, "trend": "up"}
-                for r in results[:5] if r["signal_count"] >= 3
-            ]
-            if top_entries:
-                alert_watchlist("Bybit Radar", top_entries)
-    except Exception:
-        pass
+    if telegram:
+        try:
+            from alerts import alert_watchlist, is_configured
+            if is_configured():
+                top_entries = [
+                    {"symbol": r["base"], "conviction": r["score"] * 10, "trend": "up"}
+                    for r in results[:5] if r["signal_count"] >= 3
+                ]
+                if top_entries:
+                    alert_watchlist("Bybit Radar", top_entries)
+        except Exception:
+            pass
 
     return results
 

@@ -256,8 +256,8 @@ def sig_obv_divergence(df: pd.DataFrame) -> bool:
         n   = CFG["obv_lookback"]
         obv = compute_obv(df)
         price_chg = (df["close"].iloc[-1] - df["close"].iloc[-n]) / (df["close"].iloc[-n] + 1e-9)
-        obv_base  = abs(obv.iloc[-n]) + 1e-9
-        obv_chg   = (obv.iloc[-1] - obv.iloc[-n]) / obv_base
+        avg_vol   = float(df["volume"].mean())
+        obv_chg   = (obv.iloc[-1] - obv.iloc[-n]) / (avg_vol * n + 1)
         # Price flat or down, OBV rising > 2%
         return price_chg <= CFG["price_flat_threshold"] and obv_chg > 0.02
     except Exception:
@@ -341,6 +341,37 @@ def sig_higher_lows(df: pd.DataFrame) -> bool:
         return False
 
 
+def sig_whale_candles(df: pd.DataFrame) -> bool:
+    """
+    Large bullish candles closing in upper 30% of range = smart money entering.
+    Backported from spot_scanner (weight 4.5 — heaviest signal there).
+    Requires: large range vs 20-bar avg AND green candle AND close in upper 30%.
+    """
+    try:
+        if len(df) < 20:
+            return False
+        highs  = df["high"]
+        lows   = df["low"]
+        opens  = df["open"]
+        closes = df["close"]
+        ranges    = highs - lows
+        avg_range = ranges.rolling(20).mean()
+        rng5 = ranges.iloc[-5:]
+        avg5 = avg_range.iloc[-5:]
+        o5   = opens.iloc[-5:]
+        c5   = closes.iloc[-5:]
+        l5   = lows.iloc[-5:]
+        pos5 = (c5 - l5) / rng5.clip(lower=1e-12)
+        bullish_whale = (
+            (rng5 > avg5 * 2.0) &   # large range (>2× avg)
+            (c5   > o5) &            # green candle
+            (pos5 >= 0.70)           # close in upper 30%
+        )
+        return bool(bullish_whale.any())
+    except Exception:
+        return False
+
+
 def sig_funding_negative(symbol: str, funding_rates: dict) -> bool:
     """Funding rate negative = shorts piling in = squeeze fuel for longs."""
     rate = funding_rates.get(symbol)
@@ -380,6 +411,7 @@ _SIGNAL_LABELS = {
     "atr_contraction": "ATR coiling",
     "higher_lows":     "higher lows",
     "funding_neg":     "funding neg",
+    "whale_candles":   "whale candles",
 }
 
 
@@ -402,6 +434,7 @@ def scan_coin(coin: dict, funding_rates: dict) -> dict | None:
         "atr_contraction": sig_atr_contraction(df),
         "higher_lows":     sig_higher_lows(df),
         "funding_neg":     sig_funding_negative(symbol, funding_rates),
+        "whale_candles":   sig_whale_candles(df),
     }
 
     fired = [k for k, v in signals.items() if v]

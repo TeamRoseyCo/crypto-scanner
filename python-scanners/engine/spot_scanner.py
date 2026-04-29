@@ -34,7 +34,7 @@ import argparse
 import requests
 
 # Ensure demo key is always active regardless of launch method (bat, Task Scheduler, direct Python)
-os.environ.setdefault("CG_DEMO_KEY", "CG-oEG3MATjJ1ShQN3xnkJDcGVS")
+os.environ.setdefault("CG_DEMO_KEY", "CG-VMU55ZMLpBrBeQBKfPwknWTa")
 import pandas as pd
 import numpy as np
 
@@ -62,7 +62,7 @@ _CACHE_DIR    = _PROJECT_ROOT / "cache"    / "shared_ohlcv"
 _OUTPUT_DIR   = _PROJECT_ROOT / "outputs"  / "scanner-results"
 _LOG_DIR      = _PROJECT_ROOT / "outputs"  / "logs"
 
-_PERSISTENCE_FILE = _CACHE_DIR / "candidate_history.json"
+_PERSISTENCE_FILE = _CACHE_DIR / "spot_candidate_history.json"
 
 for d in (_CACHE_DIR, _OUTPUT_DIR, _LOG_DIR):
     d.mkdir(parents=True, exist_ok=True)
@@ -95,8 +95,8 @@ ACCOUNT = {
 
 SCAN = {
     "top_n_coins":           1000,     # How many coins to fetch
-    "min_rank":               50,     # Skip the largest (less volatile)
-    "max_rank":              600,     # Skip illiquid micro-caps
+    "min_rank":               20,     # Skip the very largest (less volatile)
+    "max_rank":              800,     # Skip illiquid micro-caps
     "min_volume_24h":    500_000,     # Minimum 24h volume in USD
     "min_price":          0.0001,     # Reject dust tokens
     "min_7d_pct":           -25.0,    # Reject free-falling tokens
@@ -109,7 +109,7 @@ SCAN = {
     "min_abs_24h_pct":        0.3,    # Reject flatliners early — |24h change| < 0.3% = pegged/dead
     # ── Speed improvements ──────────────────────────────────────────────────
     "rs_prefilter_margin": -12.0,   # Skip coins underperforming BTC by >12pp (7d) — no OHLCV fetch
-    "bybit_filter":         True,   # If bybit_symbols.json exists, only scan Bybit-listed perps
+    "bybit_filter":         False,  # SPOT SCANNER — scan all CoinGecko top coins, no perp filter  #, only scan Bybit-listed perps
     "quiet_hours_utc":     (0, 6),  # Skip high-conviction entries 00:00–06:00 UTC (low liquidity)
 }
 
@@ -164,6 +164,35 @@ MACRO = {
     # Persistence — 2-scan confirmation rule
     "persistence_window_h":       24.0,  # Qualifying scans must be within 24h of each other
     "persistence_min_scans":       2,    # Must qualify on N consecutive scans before entry
+}
+
+MAJOR_LEVERAGE = {
+    # Macro gate — BTC must be in a sustained bull move
+    "btc_7d_min_2x":      5.0,   # BTC 7d above this → 2x leverage eligible
+    "btc_7d_min_3x":      8.0,   # BTC 7d above this → 3x leverage eligible
+    "btc_24h_min":        0.0,   # BTC 24h must be positive (still rising)
+    # Technical conditions per coin (4h candles)
+    "adx_min":           22.0,   # Trend must be established
+    "rsi_min":           42.0,   # Not oversold / recovering
+    "rsi_max":           72.0,   # Not overbought — don't chase
+    "di_bull_required":  True,   # +DI must be above -DI
+    # Trade management
+    "atr_stop_mult":      2.5,   # Wider stop for majors (2.5× ATR)
+    "stop_min_pct":      -8.0,   # Stop never wider than 8% (majors less volatile)
+    "stop_max_pct":      -3.0,   # Stop never tighter than 3%
+    "tp_rr":       [2.0, 3.0],   # R:R for TP1, TP2
+    "tp_exit_pct": [  50,  50],  # % of position at each TP
+    # Coins to check (CoinGecko ID → display symbol)
+    "coins": {
+        "bitcoin":    "BTC",
+        "ethereum":   "ETH",
+        "solana":     "SOL",
+        "ripple":     "XRP",
+        "binancecoin":"BNB",
+        "chainlink":  "LINK",
+        "sui":        "SUI",
+        "aave":       "AAVE",
+    },
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -508,25 +537,41 @@ def get_market_context() -> dict | None:
 # DATA FETCHING  (rate-limit-aware, with caching)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _get_with_retry(url: str, params: dict, max_attempts: int = 3) -> dict | list | None:
-    """GET with exponential backoff on 429 and transient errors."""
-    for attempt in range(max_attempts):
+def _get_with_retry(url: str, params: dict, max_attempts: int = 5) -> dict | list | None:
+    """GET with exponential backoff on 429 and transient errors.
+
+    Rate-limit waits (429) do not consume an attempt — only genuine errors do.
+    DNS / ConnectionError gets a 30s recovery sleep and a connection-pool flush.
+    """
+    errors = 0
+    rate_limit_attempt = 0
+    while errors < max_attempts:
         try:
             r = _CG_SESSION.get(url, params=params, timeout=20)
             if r.status_code == 429:
-                wait = int(r.headers.get("Retry-After", 30 * (2 ** attempt)))
-                log.warning(f"Rate-limited — waiting {wait}s (attempt {attempt+1})")
+                retry_after = r.headers.get("Retry-After")
+                wait = int(retry_after) if retry_after else min(60, 15 * (2 ** rate_limit_attempt))
+                log.warning(f"Rate-limited — waiting {wait}s (rate-limit #{rate_limit_attempt + 1})")
                 time.sleep(wait)
-                continue
+                rate_limit_attempt += 1
+                continue  # does NOT increment errors
             if r.status_code == 200:
                 return r.json()
             log.debug(f"HTTP {r.status_code} for {url}")
             return None
+        except requests.exceptions.ConnectionError as e:
+            errors += 1
+            log.warning(f"Connection/DNS error (attempt {errors}/{max_attempts}): {e}")
+            # Flush stale connections so the next attempt opens a fresh socket
+            _CG_SESSION.close()
+            time.sleep(30)
         except requests.exceptions.Timeout:
-            log.warning(f"Timeout on attempt {attempt+1} — {url}")
+            errors += 1
+            log.warning(f"Timeout (attempt {errors}/{max_attempts}) — {url}")
             time.sleep(5)
         except Exception as e:
-            log.warning(f"Request error: {e}")
+            errors += 1
+            log.warning(f"Request error (attempt {errors}/{max_attempts}): {e}")
             time.sleep(5)
     return None
 
@@ -1066,19 +1111,20 @@ def _vol_expansion_dow_normalized(
 # Signal weights — pre-trend signals weighted highest, lagging confirmers lowest.
 # Total weight is computed automatically; conviction = earned / total × 100.
 _WEIGHTS = {
-    # Auto-calibrated by backtest_signals.py on 2026-04-06 22:58
-    # Backup: master_orchestrator.py.bak  |  Re-run backtest_signals.py to recalibrate.
+    # Pre-pump sequencing weights: early signals weighted highest, lagging confirmers lowest.
+    # Sequence: RSI/MACD divergence → stealth OBV → BB squeeze → CMF/higher_lows → vol/trend
     # ── Sorted by weight (highest → lowest) ────────────────────────────────────
     "whale_candles":      4.5,   # Large bullish candles, close in upper 30% of range
     "funding_neg":        2.0,   # Negative perp funding = shorts paying longs (free carry)
-    "rsi_divergence":     1.0,   # Price lower-low, RSI higher-low — earliest signal
+    "rsi_divergence":     3.0,   # Price lower-low, RSI higher-low — EARLIEST signal (was 1.0)
+    "macd_divergence":    2.0,   # Price lower-low, MACD histogram higher-low — dual divergence
+    "macd_turning":       2.5,   # Histogram rising from its trough before zero-cross (was 1.0)
+    "stealth_accum":      2.0,   # OBV rising while price flat (smart money) (was 1.0)
+    "bb_squeeze":         2.0,   # Volatility compression — coiling before explosion (was 1.0)
+    "cmf":                1.5,   # Chaikin Money Flow > 0.05 — institutional buying (was 1.0)
+    "higher_lows":        1.5,   # Ascending swing lows: base-building structure (was 1.0)
     "rs_vs_btc":          1.0,   # Token outperforming BTC 7-day (alpha rotation)
-    "macd_turning":       1.0,   # Histogram rising from its trough before zero-cross
-    "stealth_accum":      1.0,   # OBV rising while price flat (smart money)
-    "cmf":                1.0,   # Chaikin Money Flow > 0.05 — institutional buying
     "vol_expansion":      1.0,   # Recent 24h vol ≥ 1.5× 1-week baseline (fresh capital)
-    "bb_squeeze":         1.0,   # Volatility compression — coiling before explosion
-    "higher_lows":        1.0,   # Ascending swing lows: base-building structure
     "rs_acceleration":    1.0,   # Short-term RS (28h) confirms momentum building
     "declining_sell_vol": 1.0,   # Red-candle volume shrinking — sellers exhausting
     "rsi_ignition":       1.0,   # RSI leaving oversold zone
@@ -1163,6 +1209,25 @@ def detect_signals(
         else:
             s["macd_crossover"] = False
             s["macd_turning"]   = False
+
+        # ── 4b. MACD histogram divergence (new — dual divergence = strongest pre-pump) ──
+        # Price makes a lower low while MACD histogram makes a higher low.
+        # When this fires alongside rsi_divergence, hit rate is significantly higher.
+        macd_div = False
+        if len(macd_vals) >= SIGNAL["divergence_window"]:
+            win = SIGNAL["divergence_window"]
+            hist_window = macd_vals.iloc[-win:]
+            price_window = closes.iloc[-win:]
+            # Find two troughs in price and histogram
+            price_lows = price_window[price_window == price_window.rolling(5, center=True).min()]
+            hist_lows  = hist_window[hist_window == hist_window.rolling(5, center=True).min()]
+            if len(price_lows) >= 2 and len(hist_lows) >= 2:
+                p1, p2 = float(price_lows.iloc[-2]), float(price_lows.iloc[-1])
+                h1_, h2_ = float(hist_lows.iloc[-2]), float(hist_lows.iloc[-1])
+                # Price lower-low, MACD histogram higher-low = bullish divergence
+                macd_div = (p2 < p1 * (1 - SIGNAL["divergence_price_gap"])
+                            and h2_ > h1_ * (1 + SIGNAL["divergence_rsi_gap"]))
+        s["macd_divergence"] = macd_div
 
         # ── 5. ADX / trend strength ───────────────────────────────────────────
         plus_di, minus_di, adx = _adx(highs, lows, closes)
@@ -1578,12 +1643,127 @@ def _load_cross_scanner_symbols() -> tuple[set[str], set[str]]:
     return fast_syms, bybit_syms
 
 
+def check_major_leverage_signal(market_ctx: dict | None, account_size: float) -> list:
+    """
+    Check BTC, ETH, SOL for leveraged long opportunities during confirmed bull regimes.
+    Returns list of dicts with trade plan for each qualifying major.
+    """
+    results = []
+    if not market_ctx or market_ctx.get("regime") != "BULL":
+        return results
+
+    btc_7d  = market_ctx.get("btc_7d", 0.0)
+    btc_24h = market_ctx.get("btc_24h", 0.0)
+
+    # Macro gate: BTC must be in sustained uptrend and still rising today
+    if btc_7d < MAJOR_LEVERAGE["btc_7d_min_2x"] or btc_24h < MAJOR_LEVERAGE["btc_24h_min"]:
+        return results
+
+    # Determine max leverage based on BTC 7d strength
+    max_lev = 3 if btc_7d >= MAJOR_LEVERAGE["btc_7d_min_3x"] else 2
+
+    cfg = MAJOR_LEVERAGE
+
+    for coin_id, symbol in cfg["coins"].items():
+        try:
+            ohlcv = fetch_ohlcv(coin_id, 30)
+            if ohlcv is None or len(ohlcv) < 30:
+                continue
+            time.sleep(SCAN["api_delay_s"])
+
+            closes = ohlcv["close"]
+            highs  = ohlcv["high"]
+            lows   = ohlcv["low"]
+            price  = float(closes.iloc[-1])
+
+            rsi_val              = _rsi(closes, window=14)
+            plus_di, minus_di, adx_val = _adx(highs, lows, closes, window=14)
+            atr_val, _           = _atr(highs, lows, closes, window=14)
+
+            # Skip if indicators unavailable
+            if any(np.isnan(v) for v in [rsi_val, plus_di, minus_di, adx_val, atr_val]):
+                continue
+
+            # Technical conditions
+            rsi_ok  = cfg["rsi_min"] <= rsi_val <= cfg["rsi_max"]
+            adx_ok  = adx_val >= cfg["adx_min"]
+            di_ok   = plus_di > minus_di
+
+            conditions_met = sum([rsi_ok, adx_ok, di_ok])
+            if conditions_met < 2:  # need at least 2 of 3
+                continue
+
+            # Recommend leverage: 3x only if all 3 conditions + strong BTC 7d
+            leverage = max_lev if (conditions_met == 3 and max_lev == 3) else min(max_lev, 2)
+
+            # Stop loss
+            raw_stop_dist = atr_val * cfg["atr_stop_mult"]
+            stop_pct      = max(cfg["stop_max_pct"], min(cfg["stop_min_pct"],
+                                -(raw_stop_dist / price) * 100))
+            stop_price    = price * (1 + stop_pct / 100)
+            stop_dist     = price - stop_price
+
+            if stop_dist <= 0:
+                continue
+
+            # Position sizing — same 1.5% risk rule on notional
+            risk_usd      = account_size * ACCOUNT["risk_per_trade_pct"] / 100
+            notional      = risk_usd / (stop_dist / price)
+            margin_req    = notional / leverage
+            pos_pct       = (margin_req / account_size) * 100
+
+            # Take profits
+            take_profits = []
+            for rr, exit_pct in zip(cfg["tp_rr"], cfg["tp_exit_pct"]):
+                tp_price    = price + stop_dist * rr
+                gain_pct    = (tp_price / price - 1) * 100
+                lev_gain    = gain_pct * leverage
+                tp_usdt     = notional * (gain_pct / 100) * (exit_pct / 100)
+                take_profits.append({
+                    "price":    round(tp_price, 6),
+                    "gain_pct": round(gain_pct, 1),
+                    "lev_gain": round(lev_gain, 1),
+                    "sell_pct": exit_pct,
+                    "usdt":     round(tp_usdt, 0),
+                    "rr":       rr,
+                })
+
+            results.append({
+                "symbol":    symbol,
+                "coin_id":   coin_id,
+                "price":     price,
+                "leverage":  leverage,
+                "rsi":       round(rsi_val, 1),
+                "adx":       round(adx_val, 1),
+                "plus_di":   round(plus_di, 1),
+                "minus_di":  round(minus_di, 1),
+                "atr_pct":   round((atr_val / price) * 100, 2),
+                "conditions": conditions_met,
+                "plan": {
+                    "entry":       round(price, 6),
+                    "stop":        round(stop_price, 6),
+                    "stop_pct":    round(stop_pct, 1),
+                    "notional":    round(notional, 0),
+                    "margin_req":  round(margin_req, 0),
+                    "pos_pct":     round(pos_pct, 1),
+                    "risk_usd":    round(risk_usd, 0),
+                    "take_profits": take_profits,
+                },
+            })
+
+        except Exception:
+            continue
+
+    return results
+
+
 def build_report(
-    market_ctx:   dict | None,
-    candidates:   list,
-    account_size: float,
-    watchlist:    list | None = None,
-    scan_start:   datetime | None = None,
+    market_ctx:        dict | None,
+    candidates:        list,
+    account_size:      float,
+    watchlist:         list | None = None,
+    scan_start:        datetime | None = None,
+    major_leverage:    list | None = None,
 ) -> str:
     ts   = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sep  = "=" * 80
@@ -1593,7 +1773,7 @@ def build_report(
 
     lines = [
         sep,
-        "  CRYPTO MASTER ORCHESTRATOR — TRADE PLAN REPORT",
+        "  CRYPTO SPOT SCANNER — TRADE PLAN REPORT",
         f"  Generated: {ts}",
         sep,
     ]
@@ -1667,6 +1847,51 @@ def build_report(
         f"  Max heat      : {ACCOUNT['max_heat_pct']}%",
     ]
 
+    def _append_major_leverage(lines: list, majors: list | None) -> None:
+        if not majors:
+            return
+        lines += [
+            "",
+            sep,
+            "  ⚡ MAJOR LEVERAGE OPPORTUNITY",
+            "  BTC in confirmed BULL trend — conditions met for leveraged long on majors.",
+            "  These are lower-risk leverage plays (2-3×) on BTC / ETH / SOL.",
+            sep,
+        ]
+        for m in majors:
+            plan = m["plan"]
+            lev  = m["leverage"]
+            lev_icon = "🔥🔥🔥" if lev == 3 else "🔥🔥"
+            lines += [
+                "",
+                f"  {lev_icon}  {m['symbol']} — {lev}× LEVERAGED LONG",
+                f"  Conditions: RSI {m['rsi']} | ADX {m['adx']} | "
+                f"+DI {m['plus_di']} / -DI {m['minus_di']} | ATR {m['atr_pct']}%",
+                "",
+                f"  ┌─ TRADE PLAN ({lev}× leverage) ───────────────────────────────",
+                f"  │  Entry        : ${plan['entry']:.4f}   [LIMIT BUY]",
+                f"  │  Stop Loss    : ${plan['stop']:.4f}   ({plan['stop_pct']:.1f}%)"
+                "   ← STOP-MARKET — no exceptions",
+                f"  │",
+                f"  │  Notional     : ${plan['notional']:>10,.0f} USDT",
+                f"  │  Margin req   : ${plan['margin_req']:>10,.0f} USDT  ({plan['pos_pct']:.1f}% of account)",
+                f"  │  Risk         : ${plan['risk_usd']:>10,.0f} USDT  (1.5%)",
+                f"  │",
+            ]
+            for j, tp in enumerate(plan["take_profits"], 1):
+                lines.append(
+                    f"  │  TP{j}  ${tp['price']:.4f}  "
+                    f"(+{tp['gain_pct']:.1f}% spot / +{tp['lev_gain']:.1f}% leveraged)  "
+                    f"Sell {tp['sell_pct']}%  ≈ ${tp['usdt']:,.0f} USDT  R:R 1:{tp['rr']:.0f}"
+                )
+            lines += [
+                "  └──────────────────────────────────────────────────────────",
+                "",
+                f"  ⚠️  Set leverage to {lev}× on Bybit before placing order.",
+                f"  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.",
+                dash,
+            ]
+
     if not candidates:
         lines += [
             "",
@@ -1680,6 +1905,7 @@ def build_report(
             "  Patience is a trading edge. Forcing trades loses money.",
             sep,
         ]
+        _append_major_leverage(lines, major_leverage)
         _append_watchlist(lines, watchlist, sep, dash)
         return "\n".join(lines)
 
@@ -1770,6 +1996,9 @@ def build_report(
             f"\n  ⚠️  Portfolio heat {heat_pct:.1f}% exceeds max "
             f"{ACCOUNT['max_heat_pct']}%.  Skip lower-conviction setups."
         )
+
+    # ── Major leverage ────────────────────────────────────────────────────────
+    _append_major_leverage(lines, major_leverage)
 
     # ── Watchlist ─────────────────────────────────────────────────────────────
     _append_watchlist(lines, watchlist, sep, dash)
@@ -1864,11 +2093,12 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         if market_ctx["regime"] == "BEAR":
             log.warning("  ⛔ BEAR market — NO new longs. Standing down to protect capital.")
             report_text = build_report(market_ctx, [], account_size,
-                                        watchlist=[], scan_start=scan_start)
+                                        watchlist=[], scan_start=scan_start,
+                                        major_leverage=[])
             log.info("\n" + report_text)
             ts_str     = datetime.now().strftime("%Y%m%d_%H%M%S")
-            ts_file    = _OUTPUT_DIR / f"master_trade_plan_{ts_str}.txt"
-            latest_txt = _OUTPUT_DIR / "master_trade_plan_LATEST.txt"
+            ts_file    = _OUTPUT_DIR / f"spot_trade_plan_{ts_str}.txt"
+            latest_txt = _OUTPUT_DIR / "spot_trade_plan_LATEST.txt"
             ts_file.write_text(report_text, encoding="utf-8")
             latest_txt.write_text(report_text, encoding="utf-8")
             log.info(f"\n  Done.  Bear market — no new longs.")
@@ -2090,6 +2320,21 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         if conv >= SIGNAL["min_conviction"] and nsig >= SIGNAL["min_signals"]:
             scan_count = _check_persistence(coin_id, conv, candidate_history)
             active_str = ", ".join(signals["active_signals"])
+            # ⚡ Fast-entry bypass: exceptional setups skip the 2-scan rule.
+            # Requires: 9+ signals firing AND funding_neg (shorts squeezable) AND
+            # rsi_divergence (price lower-low + RSI higher-low = early reversal structure).
+            # This is the rarest setup — all three together almost never false-fire.
+            fast_entry = (
+                nsig >= 9
+                and signals.get("funding_neg", False)
+                and signals.get("rsi_divergence", False)
+            )
+            if fast_entry and scan_count < MACRO["persistence_min_scans"]:
+                scan_count = MACRO["persistence_min_scans"]
+                log.info(
+                    f"          ⚡ FAST ENTRY — {nsig} signals + funding_neg + rsi_divergence"
+                    f" — bypassing ⏳ rule"
+                )
             if scan_count < MACRO["persistence_min_scans"]:
                 log.info(
                     f"          ⏳ FIRST SIGHTING (scan {scan_count}/{MACRO['persistence_min_scans']}) "
@@ -2281,18 +2526,23 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         cum_heat += heat_add
 
     # ── Output ────────────────────────────────────────────────────────────────
+    log.info("[5/5] Checking major leverage opportunities (BTC/ETH/SOL)...")
+    major_lev = check_major_leverage_signal(market_ctx, account_size)
+    log.info(f"  Major leverage: {len(major_lev)} opportunity(s) found")
+
     report_text = build_report(market_ctx, final, account_size,
-                               watchlist=watchlist, scan_start=scan_start)
+                               watchlist=watchlist, scan_start=scan_start,
+                               major_leverage=major_lev)
     log.info("\n" + report_text)
 
     ts_str = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Timestamped copy
-    ts_file = _OUTPUT_DIR / f"master_trade_plan_{ts_str}.txt"
+    ts_file = _OUTPUT_DIR / f"spot_trade_plan_{ts_str}.txt"
     ts_file.write_text(report_text, encoding="utf-8")
 
     # Latest (always overwritten — easy to find)
-    latest_txt = _OUTPUT_DIR / "master_trade_plan_LATEST.txt"
+    latest_txt = _OUTPUT_DIR / "spot_trade_plan_LATEST.txt"
     latest_txt.write_text(report_text, encoding="utf-8")
 
     # ── Telegram alerts for confirmed setups ──────────────────────────────────
@@ -2305,7 +2555,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                     _sig  = _c["signals"]
                     _plan = _c["plan"]
                     alert_setup(
-                        scanner    = "Master",
+                        scanner    = "Spot",
                         symbol     = _c["symbol"],
                         conviction = int(_sig["conviction"]),
                         entry      = _plan["entry"],
@@ -2316,7 +2566,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                     )
             # A11: Heartbeat — confirms scanner ran successfully
             _top_sym = final[0]["symbol"] if final else None
-            send_heartbeat("Master Scanner", coins_scanned=scanned, top_setup=_top_sym)
+            send_heartbeat("Spot Scanner", coins_scanned=scanned, top_setup=_top_sym)
     except Exception:
         pass
 
@@ -2356,7 +2606,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
             for c in final
         ],
     }
-    latest_json = _OUTPUT_DIR / "master_trade_plan_LATEST.json"
+    latest_json = _OUTPUT_DIR / "spot_trade_plan_LATEST.json"
     with open(latest_json, "w", encoding="utf-8") as f:
         json.dump(json_payload, f, indent=2, default=_serialise)
 
