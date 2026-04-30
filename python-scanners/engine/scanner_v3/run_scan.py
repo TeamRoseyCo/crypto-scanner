@@ -183,6 +183,43 @@ def _load_json(path: Path, label: str) -> tuple[Optional[dict], Optional[str]]:
     return data, warning
 
 
+def _load_previous_convictions(json_path: Path) -> dict[str, float]:
+    """
+    Read the previous master_radar JSON to grab per-coin conviction values.
+    Used to compute trajectory arrows (rising/falling/flat) on the fresh scan.
+    Returns {} if the file doesn't exist or fails to parse.
+    """
+    if not json_path.exists():
+        return {}
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+    prev: dict[str, float] = {}
+    for bucket in ("convergence", "strong_setup", "single_scanner", "extended"):
+        for entry in data.get(bucket, []) or []:
+            base = entry.get("base")
+            conf = entry.get("confluence")
+            if base and conf is not None:
+                prev[base] = conf
+    return prev
+
+
+def _trajectory_arrow(current: float, previous: Optional[float]) -> str:
+    """
+    Compare current conviction to previous-scan conviction.
+    ↗ = rising, ↘ = falling, → = flat, blank = new (not in previous scan).
+    Threshold of 0.5 ignores trivial fluctuations.
+    """
+    if previous is None:
+        return "  "      # new pick — no previous reading to compare
+    diff = current - previous
+    if abs(diff) < 0.5:
+        return "→ "      # flat
+    return "↗ " if diff > 0 else "↘ "
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # PER-SCANNER PARSERS  — extract symbol → tier mapping from each JSON shape
 # ─────────────────────────────────────────────────────────────────────────────
@@ -502,7 +539,13 @@ def build_text_report(
     context:      dict,
     warnings:     list[str],
     elapsed_s:    float,
+    prev_convs:   Optional[dict[str, float]] = None,
 ) -> str:
+    prev_convs = prev_convs or {}
+    # Regime gating: when spot scanner says STAY IN USDT, hide entry plans
+    # so the user can't accidentally treat a STRONG SETUP as entry-ready.
+    # The pick info is still shown — just labeled WATCH ONLY.
+    regime_locked = bool(context.get("spot_says_stay_out"))
     sep  = "═" * 80
     dash = "─" * 80
     ts   = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -545,14 +588,15 @@ def build_text_report(
 
     lines.append(f"  Regime    : {regime_label}    {btc_str}")
 
-    # Spot 'stay out' banner
+    # Spot 'stay out' banner — and trade plans below get hidden
     if context.get("spot_says_stay_out"):
         lines += [
             "",
             "  ┌──────────────────────────────────────────────────────────────────┐",
-            "  │  ⚠️  SPOT SCANNER SAYS STAY IN USDT                                │",
-            "  │     0 setups passed spot's regime-aware filter.                  │",
-            "  │     Trend coins below may still be valid, but reduce aggression. │",
+            "  │  🚫  REGIME LOCK — NO ENTRIES                                      │",
+            "  │     Spot scanner: STAY IN USDT (0 setups passed filter)          │",
+            "  │     Picks below shown for WATCHLIST only.                        │",
+            "  │     Trade plans hidden until regime clears.                      │",
             "  └──────────────────────────────────────────────────────────────────┘",
         ]
     elif context.get("spot_qualified_count", 0) > 0:
@@ -580,7 +624,9 @@ def build_text_report(
         lines.append("  (none — no high-confluence agreement across scanners today)")
     else:
         for i, v in enumerate(convergence, 1):
-            _render_full_view(lines, i, v)
+            _render_full_view(lines, i, v,
+                              prev_conv=prev_convs.get(v.base),
+                              regime_locked=regime_locked)
 
     # ── STRONG SETUP — full detail ──────────────────────────────────────────
     lines.append("")
@@ -592,7 +638,9 @@ def build_text_report(
         lines.append("  (none)")
     else:
         for i, v in enumerate(strong_setups, 1):
-            _render_full_view(lines, i, v)
+            _render_full_view(lines, i, v,
+                              prev_conv=prev_convs.get(v.base),
+                              regime_locked=regime_locked)
 
     # ── SINGLE SCANNER — table ──────────────────────────────────────────────
     lines.append("")
@@ -601,10 +649,10 @@ def build_text_report(
                  "(only one scanner surfaced — early but unconfirmed)")
     lines.append(dash)
     lines.append(
-        f"  {'#':<3} {'Symbol':<10} {'Conf':>5}  {'IGN':<3} {'PRP':<3} {'SPT':<3} {'TRD':<3}  "
+        f"  {'#':<3} {'Symbol':<10} {'Conf':>5} {'Δ':<2} {'IGN':<3} {'PRP':<3} {'SPT':<3} {'TRD':<3}  "
         f"{'Price':>12} {'24h%':>7}  Signals snapshot"
     )
-    lines.append("  " + "-" * 78)
+    lines.append("  " + "-" * 80)
     for i, v in enumerate(single_scanner[:30], 1):     # cap at 30
         ign  = _tier_badge("ignition", v.ignition_tier).strip() or "—"
         prp  = _tier_badge("perp",     v.perp_tier).strip()     or "—"
@@ -612,6 +660,7 @@ def build_text_report(
         trd  = _tier_badge("trend",    v.trend_tier).strip()    or "—"
         price_str = f"${v.price:>10.6f}" if v.price else "          —"
         chg_str   = f"{v.price_24h_pct:>+6.2f}%" if v.price_24h_pct is not None else "      —"
+        arrow     = _trajectory_arrow(v.confluence, prev_convs.get(v.base))
         # Compact signal text (just first scanner that fired)
         snip = ""
         if v.ignition_signals:   snip = "I:" + ",".join(v.ignition_signals[:2])
@@ -619,7 +668,7 @@ def build_text_report(
         elif v.spot_signals:     snip = "S:" + ",".join(v.spot_signals[:2])
         elif v.trend_score:      snip = f"T:score={v.trend_score:.0f}"
         lines.append(
-            f"  {i:>3} {v.base:<10} {v.confluence:>5.1f}  {ign:<3} {prp:<3} {spt:<3} {trd:<3}  "
+            f"  {i:>3} {v.base:<10} {v.confluence:>5.1f} {arrow:<2} {ign:<3} {prp:<3} {spt:<3} {trd:<3}  "
             f"{price_str:>12} {chg_str:>7}  {snip}"
         )
     if len(single_scanner) > 30:
@@ -641,10 +690,10 @@ def build_text_report(
         lines.append("  (none — no coins above 24h move threshold)")
     else:
         lines.append(
-            f"  {'#':<3} {'Symbol':<10} {'Conf':>5}  {'IGN':<3} {'PRP':<3} {'SPT':<3} {'TRD':<3}  "
+            f"  {'#':<3} {'Symbol':<10} {'Conf':>5} {'Δ':<2} {'IGN':<3} {'PRP':<3} {'SPT':<3} {'TRD':<3}  "
             f"{'Price':>12} {'24h%':>7}  Original bucket / Signals"
         )
-        lines.append("  " + "-" * 78)
+        lines.append("  " + "-" * 80)
         for i, v in enumerate(extended_sorted[:30], 1):
             ign  = _tier_badge("ignition", v.ignition_tier).strip() or "—"
             prp  = _tier_badge("perp",     v.perp_tier).strip()     or "—"
@@ -652,11 +701,12 @@ def build_text_report(
             trd  = _tier_badge("trend",    v.trend_tier).strip()    or "—"
             price_str = f"${v.price:>10.6f}" if v.price else "          —"
             chg_str   = f"{v.price_24h_pct:>+6.2f}%" if v.price_24h_pct is not None else "      —"
+            arrow     = _trajectory_arrow(v.confluence, prev_convs.get(v.base))
             # Tag with what bucket they WOULD have been in
             would_be = _what_bucket_without_extended(v.confluence, v.scanner_count)
             snip = f"would-be: {would_be.upper()}"
             lines.append(
-                f"  {i:>3} {v.base:<10} {v.confluence:>5.1f}  {ign:<3} {prp:<3} {spt:<3} {trd:<3}  "
+                f"  {i:>3} {v.base:<10} {v.confluence:>5.1f} {arrow:<2} {ign:<3} {prp:<3} {spt:<3} {trd:<3}  "
                 f"{price_str:>12} {chg_str:>7}  {snip}"
             )
         if len(extended_sorted) > 30:
@@ -679,8 +729,20 @@ def _what_bucket_without_extended(score: float, scanner_count: int) -> str:
     return "below"
 
 
-def _render_full_view(lines: list[str], idx: int, v: CoinView) -> None:
-    """Append a rich-format entry for CONVERGENCE/STRONG SETUP coin."""
+def _render_full_view(
+    lines:         list[str],
+    idx:           int,
+    v:             CoinView,
+    *,
+    prev_conv:     Optional[float] = None,
+    regime_locked: bool             = False,
+) -> None:
+    """
+    Append a rich-format entry for CONVERGENCE/STRONG SETUP coin.
+
+    prev_conv:     conviction from the previous scan, used for trajectory arrow
+    regime_locked: when True (spot scanner says stay out), trade plan is hidden
+    """
     badges = "  ".join([
         _tier_badge("ignition", v.ignition_tier),
         _tier_badge("perp",     v.perp_tier),
@@ -690,20 +752,27 @@ def _render_full_view(lines: list[str], idx: int, v: CoinView) -> None:
     price_str = f"${v.price:,.6f}" if v.price is not None else "—"
     chg_str   = f"{v.price_24h_pct:+.2f}%" if v.price_24h_pct is not None else "—"
     vol_str   = f"${(v.volume_24h or 0)/1e6:.1f}M"
+    arrow     = _trajectory_arrow(v.confluence, prev_conv)
 
     lines.append("")
     lines.append(
-        f"  [{idx:>2}] {v.base:<10}  conf={v.confluence:>5.1f}  "
+        f"  [{idx:>2}] {v.base:<10}  conf={v.confluence:>5.1f} {arrow} "
         f"scanners={v.scanner_count}/4   "
         f"{badges}    {price_str}  24h={chg_str}  vol={vol_str}"
     )
     lines.append(f"       → {_signals_summary(v)}")
 
-    # Trade plan if present
-    if v.trade_plan:
-        tp = v.trade_plan
-        src = v.trade_plan_source or "?"
-        if isinstance(tp, dict):
+    # Trade plan rendering — gated by regime_locked
+    if v.trade_plan and isinstance(v.trade_plan, dict):
+        if regime_locked:
+            # Show that a plan exists but suppress the actionable numbers
+            lines.append(
+                "       [WATCH ONLY] — trade plan suppressed by regime filter "
+                "(spot says STAY IN USDT)"
+            )
+        else:
+            tp = v.trade_plan
+            src = v.trade_plan_source or "?"
             entry = tp.get("entry")
             stop  = tp.get("stop")
             stop_pct = tp.get("stop_pct")
@@ -947,8 +1016,14 @@ def run(
 
     elapsed_s = time.time() - orchestrate_start
 
-    # Step 8: build report + write outputs
-    report_text = build_text_report(views_sorted, context, warnings, elapsed_s)
+    # Step 8: load previous scan's convictions (for trajectory arrows) BEFORE we overwrite the file
+    json_latest = _OUTPUT_DIR / "master_radar_LATEST.json"
+    prev_convictions = _load_previous_convictions(json_latest)
+    log.info(f"  Trajectory: {len(prev_convictions)} prev coins loaded for ↗/↘/→ arrows")
+
+    # Step 9: build report + write outputs
+    report_text = build_text_report(views_sorted, context, warnings, elapsed_s,
+                                    prev_convs=prev_convictions)
     log.info("\n" + report_text)
 
     payload = build_json_payload(views_sorted, context, warnings, elapsed_s)
@@ -956,7 +1031,6 @@ def run(
     ts_file     = datetime.now().strftime("%Y%m%d_%H%M%S")
     txt_ts      = _OUTPUT_DIR / f"master_radar_{ts_file}.txt"
     txt_latest  = _OUTPUT_DIR / "master_radar_LATEST.txt"
-    json_latest = _OUTPUT_DIR / "master_radar_LATEST.json"
 
     txt_ts.write_text(report_text, encoding="utf-8")
     txt_latest.write_text(report_text, encoding="utf-8")
