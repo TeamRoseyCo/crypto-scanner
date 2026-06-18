@@ -5,11 +5,13 @@ BYBIT AUTHENTICATED API  — shared utility
 Provides authenticated calls to Bybit's private API endpoints.
 
 Setup (one-time):
-  Set environment variables before running any scanner:
-    set BYBIT_API_KEY=1GECtl5qxu33yvHbnQ
-    set BYBIT_API_SECRET=HJ54DDAyCDbyQSaHr65HVaGvx4gChopA4jgp
+  Set environment variables persistently:
+    [System.Environment]::SetEnvironmentVariable("BYBIT_API_KEY",    "...", "User")
+    [System.Environment]::SetEnvironmentVariable("BYBIT_API_SECRET", "...", "User")
+  Then restart your terminal.
 
-  Or add them to a .env file and load with python-dotenv.
+  NEVER hardcode credentials in source files. NEVER store in JSON files
+  that sync to cloud (OneDrive, Dropbox, git repos).
 
 Functions:
   fetch_live_balance(coin="USDT") -> float | None
@@ -57,6 +59,17 @@ def _sign(api_key: str, api_secret: str, timestamp: str, params: str) -> dict:
     }
 
 
+def _get_credentials() -> tuple[str, str]:
+    """
+    Read API credentials from environment variables.
+    Returns ("", "") if either is missing — caller decides whether to fail or
+    fall back to public-data mode.
+    """
+    api_key    = os.environ.get("BYBIT_API_KEY",    "").strip()
+    api_secret = os.environ.get("BYBIT_API_SECRET", "").strip()
+    return api_key, api_secret
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # PUBLIC
 # ─────────────────────────────────────────────────────────────────────────────
@@ -75,8 +88,7 @@ def fetch_live_balance(coin: str = "USDT") -> float | None:
     Returns:
         float balance, or None on failure
     """
-    api_key    = os.environ.get("BYBIT_API_KEY",    "1GECtl5qxu33yvHbnQ")
-    api_secret = os.environ.get("BYBIT_API_SECRET", "HJ54DDAyCDbyQSaHr65HVaGvx4gChopA4jgp")
+    api_key, api_secret = _get_credentials()
 
     if not api_key or not api_secret:
         log.debug("BYBIT_API_KEY / BYBIT_API_SECRET not set — skipping live balance fetch")
@@ -155,7 +167,8 @@ def fetch_live_balance_with_fallback(fallback: float, coin: str = "USDT") -> flo
     live = fetch_live_balance(coin)
     if live is not None and live > 0:
         return live
-    if not (os.environ.get("BYBIT_API_KEY") and os.environ.get("BYBIT_API_SECRET")):
+    api_key, _ = _get_credentials()
+    if not api_key:
         log.debug(f"  No Bybit credentials — using config balance: ${fallback:,.2f}")
     else:
         log.warning(f"  Live balance unavailable — using config balance: ${fallback:,.2f}")

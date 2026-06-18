@@ -1,0 +1,6641 @@
+{
+  "scanner": "master_radar",
+  "version": "3.0",
+  "generated_at": "2026-06-15T15:39:20.376726",
+  "elapsed_s": 118.46,
+  "warnings": [],
+  "context": {
+    "regime": "bull",
+    "btc_7d_pct": 3.81,
+    "btc_24h_pct": 2.0,
+    "spot_says_stay_out": true,
+    "spot_qualified_count": 0
+  },
+  "tier_points": {
+    "ignition": {
+      "watch_now": 6.0,
+      "on_radar": 3.0
+    },
+    "perp": {
+      "watch_now": 6.0,
+      "on_radar": 3.0
+    },
+    "spot": {
+      "qualified": 6.0
+    },
+    "trend": {
+      "strong": 5.0,
+      "long": 3.0,
+      "watch": 1.0
+    }
+  },
+  "buckets_config": {
+    "convergence": {
+      "min_score": 10.0,
+      "min_scanners": 3
+    },
+    "strong_setup": {
+      "min_score": 6.0,
+      "min_scanners": 2
+    },
+    "single_scanner": {
+      "min_score": 0.0,
+      "min_scanners": 1
+    }
+  },
+  "extended_threshold_24h_pct": 15.0,
+  "convergence": [],
+  "strong_setup": [
+    {
+      "base": "ATOM",
+      "confluence": 11.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 2.0059,
+      "price_24h_pct": 2.8746,
+      "volume_24h": 11918669.5062,
+      "trade_plan": {
+        "entry": 2.0059,
+        "stop": 1.81185357,
+        "stop_pct": -9.67,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 15505.83,
+        "pos_pct": 15.51,
+        "quantity": 7730.108774,
+        "take_profits": [
+          {
+            "price": 2.29696964,
+            "gain_pct": 14.51,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 2.58803929,
+            "gain_pct": 29.02,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 2.97613214,
+            "gain_pct": 48.37,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 138.9,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "VIRTUAL",
+      "confluence": 8.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.6416,
+      "price_24h_pct": 8.7716,
+      "volume_24h": 21955842.225,
+      "trade_plan": {
+        "entry": 0.6416,
+        "stop": 0.54779643,
+        "stop_pct": -14.62,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10259.74,
+        "pos_pct": 10.26,
+        "quantity": 15990.862364,
+        "take_profits": [
+          {
+            "price": 0.78230536,
+            "gain_pct": 21.93,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.92301071,
+            "gain_pct": 43.86,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.11061786,
+            "gain_pct": 73.1,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 133.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "APEX",
+      "confluence": 8.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.2982,
+      "price_24h_pct": 12.926499999999999,
+      "volume_24h": 1482430.9442,
+      "trade_plan": {
+        "entry": 0.2982,
+        "stop": 0.269025,
+        "stop_pct": -9.78,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 15331.62,
+        "pos_pct": 15.33,
+        "quantity": 51413.881748,
+        "take_profits": [
+          {
+            "price": 0.3419625,
+            "gain_pct": 14.68,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.385725,
+            "gain_pct": 29.35,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.444075,
+            "gain_pct": 48.92,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 133.7,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "ETHBTC",
+      "confluence": 7.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.026259,
+      "price_24h_pct": 5.127000000000001,
+      "volume_24h": 1508058.7241,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 99.3,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "TRUMP",
+      "confluence": 6.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 2.069,
+      "price_24h_pct": 0.553,
+      "volume_24h": 66926955.9042,
+      "trade_plan": {
+        "entry": 2.069,
+        "stop": 1.77864286,
+        "stop_pct": -14.03,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10688.56,
+        "pos_pct": 10.69,
+        "quantity": 5166.051661,
+        "take_profits": [
+          {
+            "price": 2.50453571,
+            "gain_pct": 21.05,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 2.94007143,
+            "gain_pct": 42.1,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 3.52078571,
+            "gain_pct": 70.17,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": 121.6,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "VVV",
+      "confluence": 6.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 16.776,
+      "price_24h_pct": 5.1826,
+      "volume_24h": 19753032.0257,
+      "trade_plan": {
+        "entry": 16.776,
+        "stop": 14.2596,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 596.089652,
+        "take_profits": [
+          {
+            "price": 20.5506,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 24.3252,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 29.358,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 118.7,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "OPG",
+      "confluence": 6.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "on_radar",
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.1893,
+      "price_24h_pct": -11.1164,
+      "volume_24h": 86437249.50941,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "funding_negative"
+      ],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "XRP",
+      "confluence": 6.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.1852,
+      "price_24h_pct": 9.6614,
+      "volume_24h": 394620492.9373,
+      "trade_plan": {
+        "entry": 1.1852,
+        "stop": 1.08871786,
+        "stop_pct": -8.14,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 18426.21,
+        "pos_pct": 18.43,
+        "quantity": 15546.918379,
+        "take_profits": [
+          {
+            "price": 1.32992321,
+            "gain_pct": 12.21,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.47464643,
+            "gain_pct": 24.42,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.66761071,
+            "gain_pct": 40.7,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.5,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "H",
+      "confluence": 6.0,
+      "scanner_count": 2,
+      "bucket": "strong_setup",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.47776,
+      "price_24h_pct": 5.4675,
+      "volume_24h": 347966595.5075,
+      "trade_plan": {
+        "entry": 0.47776,
+        "stop": 0.406096,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 20931.011386,
+        "take_profits": [
+          {
+            "price": 0.585256,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.692752,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.83608,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": 122.6,
+      "trend_st_aligned": 3
+    }
+  ],
+  "single_scanner": [
+    {
+      "base": "TWT",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.4071,
+      "price_24h_pct": 8.235,
+      "volume_24h": 668887.0269,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "BOND",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 2.152,
+      "price_24h_pct": 4.415,
+      "volume_24h": 704422.82223,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "rsi_divergence",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "TIA",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.3745,
+      "price_24h_pct": 14.909,
+      "volume_24h": 10380660.8444,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "COIN",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 171.84,
+      "price_24h_pct": 6.0762,
+      "volume_24h": 549347.0572,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "TOMO",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1.3819,
+      "price_24h_pct": 3.219,
+      "volume_24h": 1094187.90188,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "PLUME",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.011764,
+      "price_24h_pct": 14.4326,
+      "volume_24h": 3359030.6817,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_divergence",
+        "rsi_divergence",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "BLUAI",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.014084,
+      "price_24h_pct": 0.384,
+      "volume_24h": 1762448.641,
+      "trade_plan": {
+        "entry": 0.014084,
+        "stop": 0.0119714,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 710025.56092,
+        "take_profits": [
+          {
+            "price": 0.0172529,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0204218,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.024647,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 130.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "MEGA",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.06287,
+      "price_24h_pct": 10.3937,
+      "volume_24h": 17338212.9596,
+      "trade_plan": {
+        "entry": 0.06287,
+        "stop": 0.0534395,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 159058.374423,
+        "take_profits": [
+          {
+            "price": 0.07701575,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0911615,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.1100225,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 138.3,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "KAITO",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.474,
+      "price_24h_pct": 2.9057,
+      "volume_24h": 2486956.4514,
+      "trade_plan": {
+        "entry": 0.474,
+        "stop": 0.42125357,
+        "stop_pct": -11.13,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13479.59,
+        "pos_pct": 13.48,
+        "quantity": 28437.944343,
+        "take_profits": [
+          {
+            "price": 0.55311964,
+            "gain_pct": 16.69,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.63223929,
+            "gain_pct": 33.38,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.73773214,
+            "gain_pct": 55.64,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 134.7,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "CRV",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.2357,
+      "price_24h_pct": 3.2285,
+      "volume_24h": 8232269.3264,
+      "trade_plan": {
+        "entry": 0.2357,
+        "stop": 0.20706071,
+        "stop_pct": -12.15,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 12344.93,
+        "pos_pct": 12.34,
+        "quantity": 52375.607931,
+        "take_profits": [
+          {
+            "price": 0.27865893,
+            "gain_pct": 18.23,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.32161786,
+            "gain_pct": 36.45,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.37889643,
+            "gain_pct": 60.75,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 135.2,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "CC",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.16142,
+      "price_24h_pct": 4.6392999999999995,
+      "volume_24h": 2183156.2128,
+      "trade_plan": {
+        "entry": 0.16142,
+        "stop": 0.14519321,
+        "stop_pct": -10.05,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14921.62,
+        "pos_pct": 14.92,
+        "quantity": 92439.749092,
+        "take_profits": [
+          {
+            "price": 0.18576018,
+            "gain_pct": 15.08,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.21010036,
+            "gain_pct": 30.16,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.24255393,
+            "gain_pct": 50.26,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 134.9,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "KAS",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.03227,
+      "price_24h_pct": 6.1898,
+      "volume_24h": 3790683.3586,
+      "trade_plan": {
+        "entry": 0.03227,
+        "stop": 0.02883393,
+        "stop_pct": -10.65,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14087.31,
+        "pos_pct": 14.09,
+        "quantity": 436545.057686,
+        "take_profits": [
+          {
+            "price": 0.03742411,
+            "gain_pct": 15.97,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.04257821,
+            "gain_pct": 31.94,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.04945036,
+            "gain_pct": 53.24,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 131.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "TAO",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 270.84,
+      "price_24h_pct": 6.5099,
+      "volume_24h": 168081690.2119,
+      "trade_plan": {
+        "entry": 270.84,
+        "stop": 236.51357143,
+        "stop_pct": -12.67,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11835.2,
+        "pos_pct": 11.84,
+        "quantity": 43.698108,
+        "take_profits": [
+          {
+            "price": 322.32964286,
+            "gain_pct": 19.01,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 373.81928571,
+            "gain_pct": 38.02,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 442.47214286,
+            "gain_pct": 63.37,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 139.2,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "SQD",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.04107,
+      "price_24h_pct": 5.7237,
+      "volume_24h": 1767263.2823,
+      "trade_plan": {
+        "entry": 0.04107,
+        "stop": 0.0349095,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 243486.729973,
+        "take_profits": [
+          {
+            "price": 0.05031075,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0595515,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0718725,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 148.8,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "WLFI",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.05979,
+      "price_24h_pct": 4.2466,
+      "volume_24h": 8131401.2221,
+      "trade_plan": {
+        "entry": 0.05979,
+        "stop": 0.05354036,
+        "stop_pct": -10.45,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14350.42,
+        "pos_pct": 14.35,
+        "quantity": 240013.715069,
+        "take_profits": [
+          {
+            "price": 0.06916446,
+            "gain_pct": 15.68,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.07853893,
+            "gain_pct": 31.36,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.09103821,
+            "gain_pct": 52.26,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 135.0,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "AKT",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.8041,
+      "price_24h_pct": 5.875,
+      "volume_24h": 5720585.196,
+      "trade_plan": {
+        "entry": 0.8041,
+        "stop": 0.68648929,
+        "stop_pct": -14.63,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10255.44,
+        "pos_pct": 10.26,
+        "quantity": 12753.940056,
+        "take_profits": [
+          {
+            "price": 0.98051607,
+            "gain_pct": 21.94,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.15693214,
+            "gain_pct": 43.88,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.39215357,
+            "gain_pct": 73.13,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 149.8,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "IO",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.17873,
+      "price_24h_pct": 11.5068,
+      "volume_24h": 3834027.3587,
+      "trade_plan": {
+        "entry": 0.17873,
+        "stop": 0.1519205,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 55950.316119,
+        "take_profits": [
+          {
+            "price": 0.21894425,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.2591585,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.3127775,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 155.2,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "OPEN",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.24964,
+      "price_24h_pct": -2.428,
+      "volume_24h": 3257076.3211,
+      "trade_plan": {
+        "entry": 0.24964,
+        "stop": 0.21378357,
+        "stop_pct": -14.36,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10443.32,
+        "pos_pct": 10.44,
+        "quantity": 41833.502659,
+        "take_profits": [
+          {
+            "price": 0.30342464,
+            "gain_pct": 21.54,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.35720929,
+            "gain_pct": 43.09,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.42892214,
+            "gain_pct": 71.82,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 135.3,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "SPX",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.337,
+      "price_24h_pct": 6.6789000000000005,
+      "volume_24h": 4101972.7925,
+      "trade_plan": {
+        "entry": 0.337,
+        "stop": 0.29108929,
+        "stop_pct": -13.62,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11010.5,
+        "pos_pct": 11.01,
+        "quantity": 32672.112019,
+        "take_profits": [
+          {
+            "price": 0.40586607,
+            "gain_pct": 20.44,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.47473214,
+            "gain_pct": 40.87,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.56655357,
+            "gain_pct": 68.12,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 134.8,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "BRETT",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.006678,
+      "price_24h_pct": 4.2913,
+      "volume_24h": 1242223.7884,
+      "trade_plan": {
+        "entry": 0.006678,
+        "stop": 0.0056763,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 1497454.327643,
+        "take_profits": [
+          {
+            "price": 0.00818055,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0096831,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0116865,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 131.9,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "ESP",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.07215,
+      "price_24h_pct": 7.684699999999999,
+      "volume_24h": 1047020.8397,
+      "trade_plan": {
+        "entry": 0.07215,
+        "stop": 0.06182464,
+        "stop_pct": -14.31,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10481.48,
+        "pos_pct": 10.48,
+        "quantity": 145273.42534,
+        "take_profits": [
+          {
+            "price": 0.08763804,
+            "gain_pct": 21.47,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.10312607,
+            "gain_pct": 42.93,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.12377679,
+            "gain_pct": 71.55,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 146.2,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "LIT",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 1.6854,
+      "price_24h_pct": 7.331799999999999,
+      "volume_24h": 11463131.1548,
+      "trade_plan": {
+        "entry": 1.6854,
+        "stop": 1.43259,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 5933.3096,
+        "take_profits": [
+          {
+            "price": 2.064615,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 2.44383,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 2.94945,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 153.3,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "HYPE",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 63.857,
+      "price_24h_pct": 12.051499999999999,
+      "volume_24h": 411875696.2156,
+      "trade_plan": {
+        "entry": 63.857,
+        "stop": 54.27845,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 156.599903,
+        "take_profits": [
+          {
+            "price": 78.224825,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 92.59265,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 111.74975,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 138.4,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "BIO",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.03268,
+      "price_24h_pct": 6.288399999999999,
+      "volume_24h": 4253825.4842,
+      "trade_plan": {
+        "entry": 0.03268,
+        "stop": 0.027778,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 305997.55202,
+        "take_profits": [
+          {
+            "price": 0.040033,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.047386,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.05719,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 139.2,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "XPL",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.08947,
+      "price_24h_pct": 9.8296,
+      "volume_24h": 29221676.2758,
+      "trade_plan": {
+        "entry": 0.08947,
+        "stop": 0.0760495,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 111769.308148,
+        "take_profits": [
+          {
+            "price": 0.10960075,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.1297315,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.1565725,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 135.4,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "MEME",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.0006324,
+      "price_24h_pct": 2.4445,
+      "volume_24h": 4107384.1492,
+      "trade_plan": {
+        "entry": 0.0006324,
+        "stop": 0.00053754,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 15812776.723593,
+        "take_profits": [
+          {
+            "price": 0.00077469,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00091698,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0011067,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 155.5,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "PEAQ",
+      "confluence": 4.0,
+      "scanner_count": 2,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.022231,
+      "price_24h_pct": 7.6815,
+      "volume_24h": 1187890.8222,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 93.2,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "TRX",
+      "confluence": 4.0,
+      "scanner_count": 2,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.32156,
+      "price_24h_pct": 0.7041000000000001,
+      "volume_24h": 11603085.9479,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows",
+        "funding_negative"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 89.6,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "ROSE",
+      "confluence": 4.0,
+      "scanner_count": 2,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.006492,
+      "price_24h_pct": 14.5153,
+      "volume_24h": 1614708.4609,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 98.4,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "SOL",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 71.23,
+      "price_24h_pct": 9.7288,
+      "volume_24h": 785439378.186,
+      "trade_plan": {
+        "entry": 71.23,
+        "stop": 64.07392857,
+        "stop_pct": -10.05,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14930.68,
+        "pos_pct": 14.93,
+        "quantity": 209.612217,
+        "take_profits": [
+          {
+            "price": 81.96410714,
+            "gain_pct": 15.07,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 92.69821429,
+            "gain_pct": 30.14,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 107.01035714,
+            "gain_pct": 50.23,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 120.8,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "ORCA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.1464,
+      "price_24h_pct": 6.4237,
+      "volume_24h": 2159741.0787,
+      "trade_plan": {
+        "entry": 1.1464,
+        "stop": 0.99491071,
+        "stop_pct": -13.21,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11351.3,
+        "pos_pct": 11.35,
+        "quantity": 9901.69036,
+        "take_profits": [
+          {
+            "price": 1.37363393,
+            "gain_pct": 19.82,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.60086786,
+            "gain_pct": 39.64,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.90384643,
+            "gain_pct": 66.07,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 124.5,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "STX",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.1949,
+      "price_24h_pct": 7.939,
+      "volume_24h": 1788296.9944,
+      "trade_plan": {
+        "entry": 0.1949,
+        "stop": 0.17315,
+        "stop_pct": -11.16,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13441.38,
+        "pos_pct": 13.44,
+        "quantity": 68965.517241,
+        "take_profits": [
+          {
+            "price": 0.227525,
+            "gain_pct": 16.74,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.26015,
+            "gain_pct": 33.48,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.30365,
+            "gain_pct": 55.8,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.5,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "CRWV",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 105.72,
+      "price_24h_pct": 4.0788,
+      "volume_24h": 1125574.8266,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_in_zone",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "HOLO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.07289,
+      "price_24h_pct": 6.3193,
+      "volume_24h": 1286076.6381,
+      "trade_plan": {
+        "entry": 0.07289,
+        "stop": 0.0642275,
+        "stop_pct": -11.88,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 12621.65,
+        "pos_pct": 12.62,
+        "quantity": 173160.17316,
+        "take_profits": [
+          {
+            "price": 0.08588375,
+            "gain_pct": 17.83,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0988775,
+            "gain_pct": 35.65,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.1162025,
+            "gain_pct": 59.42,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 122.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "NEXO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.826,
+      "price_24h_pct": 5.17,
+      "volume_24h": 524578.87795,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "SHIB1000",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.005041,
+      "price_24h_pct": 4.5398000000000005,
+      "volume_24h": 9161713.687,
+      "trade_plan": {
+        "entry": 0.005041,
+        "stop": 0.00463043,
+        "stop_pct": -8.14,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 18417.01,
+        "pos_pct": 18.42,
+        "quantity": 3653444.676409,
+        "take_profits": [
+          {
+            "price": 0.00565686,
+            "gain_pct": 12.22,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00627271,
+            "gain_pct": 24.43,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.00709386,
+            "gain_pct": 40.72,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.6,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "TRUTH",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.012483,
+      "price_24h_pct": 8.171299999999999,
+      "volume_24h": 1412056.6593,
+      "trade_plan": {
+        "entry": 0.012483,
+        "stop": 0.01061055,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 801089.481695,
+        "take_profits": [
+          {
+            "price": 0.01529167,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.01810035,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.02184525,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 127.9,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "MOVR",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1.487,
+      "price_24h_pct": 14.275,
+      "volume_24h": 1359625.840666,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "0G",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.3158,
+      "price_24h_pct": 7.3203000000000005,
+      "volume_24h": 1663425.64964,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_divergence",
+        "rsi_divergence",
+        "btc_decoupling"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "BTC",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 66530.7,
+      "price_24h_pct": 3.9189000000000003,
+      "volume_24h": 5282901064.8336,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "RENDER",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.8044,
+      "price_24h_pct": 7.1925,
+      "volume_24h": 15031406.3862,
+      "trade_plan": {
+        "entry": 1.8044,
+        "stop": 1.53374,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 5542.008424,
+        "take_profits": [
+          {
+            "price": 2.21039,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 2.61638,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 3.1577,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 124.0,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "LINK",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 8.175,
+      "price_24h_pct": 7.914899999999999,
+      "volume_24h": 43261752.249,
+      "trade_plan": {
+        "entry": 8.175,
+        "stop": 7.43828571,
+        "stop_pct": -9.01,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 16644.85,
+        "pos_pct": 16.64,
+        "quantity": 2036.067481,
+        "take_profits": [
+          {
+            "price": 9.28007143,
+            "gain_pct": 13.52,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 10.38514286,
+            "gain_pct": 27.04,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 11.85857143,
+            "gain_pct": 45.06,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.7,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "HANA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.034539,
+      "price_24h_pct": 14.9931,
+      "volume_24h": 959176.2367,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "EUR",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1.1619,
+      "price_24h_pct": 0.45,
+      "volume_24h": 22426099.552,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "KERNEL",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.05227,
+      "price_24h_pct": 11.5688,
+      "volume_24h": 1620161.6213,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "THETA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.16799,
+      "price_24h_pct": 5.9192,
+      "volume_24h": 636544.3726,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_divergence",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "SAND",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.05489,
+      "price_24h_pct": 7.5931999999999995,
+      "volume_24h": 2555821.7704,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "API3",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.2698,
+      "price_24h_pct": 7.882300000000001,
+      "volume_24h": 1104777.9603,
+      "trade_plan": {
+        "entry": 0.2698,
+        "stop": 0.2407,
+        "stop_pct": -10.79,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13907.22,
+        "pos_pct": 13.91,
+        "quantity": 51546.391753,
+        "take_profits": [
+          {
+            "price": 0.31345,
+            "gain_pct": 16.18,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.3571,
+            "gain_pct": 32.36,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.4153,
+            "gain_pct": 53.93,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 127.4,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "APE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.13044,
+      "price_24h_pct": 8.4943,
+      "volume_24h": 3007876.944,
+      "trade_plan": {
+        "entry": 0.13044,
+        "stop": 0.11242393,
+        "stop_pct": -13.81,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10860.3,
+        "pos_pct": 10.86,
+        "quantity": 83258.994945,
+        "take_profits": [
+          {
+            "price": 0.15746411,
+            "gain_pct": 20.72,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.18448821,
+            "gain_pct": 41.44,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.22052036,
+            "gain_pct": 69.06,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.6,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "ME",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.063,
+      "price_24h_pct": 11.1111,
+      "volume_24h": 2631131.1056,
+      "trade_plan": {
+        "entry": 0.063,
+        "stop": 0.05409214,
+        "stop_pct": -14.14,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10608.61,
+        "pos_pct": 10.61,
+        "quantity": 168390.666346,
+        "take_profits": [
+          {
+            "price": 0.07636179,
+            "gain_pct": 21.21,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.08972357,
+            "gain_pct": 42.42,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.10753929,
+            "gain_pct": 70.7,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 119.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "ORDI",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 3.395,
+      "price_24h_pct": 9.3058,
+      "volume_24h": 7080605.1805,
+      "trade_plan": {
+        "entry": 3.395,
+        "stop": 2.88575,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 2945.5081,
+        "take_profits": [
+          {
+            "price": 4.158875,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 4.92275,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 5.94125,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 123.0,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "MAGIC",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0497,
+      "price_24h_pct": 7.642,
+      "volume_24h": 376439.58135,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "CRO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.06269,
+      "price_24h_pct": 3.3674000000000004,
+      "volume_24h": 596908.4938,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_stealth_accum",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ENS",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 5.153,
+      "price_24h_pct": 9.8719,
+      "volume_24h": 1607564.3912,
+      "trade_plan": {
+        "entry": 5.153,
+        "stop": 4.62585714,
+        "stop_pct": -10.23,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14663.01,
+        "pos_pct": 14.66,
+        "quantity": 2845.528455,
+        "take_profits": [
+          {
+            "price": 5.94371429,
+            "gain_pct": 15.34,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 6.73442857,
+            "gain_pct": 30.69,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 7.78871429,
+            "gain_pct": 51.15,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 120.1,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "ONDO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.3676,
+      "price_24h_pct": 13.3062,
+      "volume_24h": 57621335.6564,
+      "trade_plan": {
+        "entry": 0.3676,
+        "stop": 0.31246,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 27203.482046,
+        "take_profits": [
+          {
+            "price": 0.45031,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.53302,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.6433,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 124.2,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "ETHUP",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 11.651,
+      "price_24h_pct": -0.724,
+      "volume_24h": 458839.22967,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "bb_squeeze",
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "STG",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.23303,
+      "price_24h_pct": -11.5232,
+      "volume_24h": 15280152.4622,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "PYTH",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.03943,
+      "price_24h_pct": 5.4878,
+      "volume_24h": 4344693.2843,
+      "trade_plan": {
+        "entry": 0.03943,
+        "stop": 0.03414357,
+        "stop_pct": -13.41,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11188.08,
+        "pos_pct": 11.19,
+        "quantity": 283745.439805,
+        "take_profits": [
+          {
+            "price": 0.04735964,
+            "gain_pct": 20.11,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.05528929,
+            "gain_pct": 40.22,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.06586214,
+            "gain_pct": 67.04,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 128.4,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "OSMO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0473,
+      "price_24h_pct": 5.066,
+      "volume_24h": 526508.395918,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "bb_squeeze",
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "S",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.03222,
+      "price_24h_pct": 12.2442,
+      "volume_24h": 2153412.6495,
+      "trade_plan": {
+        "entry": 0.03222,
+        "stop": 0.02798036,
+        "stop_pct": -13.16,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11399.55,
+        "pos_pct": 11.4,
+        "quantity": 353803.386404,
+        "take_profits": [
+          {
+            "price": 0.03857946,
+            "gain_pct": 19.74,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.04493893,
+            "gain_pct": 39.48,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.05341821,
+            "gain_pct": 65.79,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 118.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "RUNE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.3927,
+      "price_24h_pct": 9.216199999999999,
+      "volume_24h": 1321090.8679,
+      "trade_plan": {
+        "entry": 0.3927,
+        "stop": 0.34039286,
+        "stop_pct": -13.32,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11261.37,
+        "pos_pct": 11.26,
+        "quantity": 28676.771815,
+        "take_profits": [
+          {
+            "price": 0.47116071,
+            "gain_pct": 19.98,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.54962143,
+            "gain_pct": 39.96,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.65423571,
+            "gain_pct": 66.6,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 122.6,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "CAKE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.3878,
+      "price_24h_pct": 4.9263,
+      "volume_24h": 1069676.7128,
+      "trade_plan": {
+        "entry": 1.3878,
+        "stop": 1.26744643,
+        "stop_pct": -8.67,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 17296.54,
+        "pos_pct": 17.3,
+        "quantity": 12463.277842,
+        "take_profits": [
+          {
+            "price": 1.56833036,
+            "gain_pct": 13.01,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.74886071,
+            "gain_pct": 26.02,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.98956786,
+            "gain_pct": 43.36,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 127.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "QNT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 70.94,
+      "price_24h_pct": 4.9955,
+      "volume_24h": 942209.53582,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ACM",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.307,
+      "price_24h_pct": 1.329,
+      "volume_24h": 1687016.9407,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "LPT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1.865,
+      "price_24h_pct": 6.3,
+      "volume_24h": 546049.54046,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "GRT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.02105,
+      "price_24h_pct": 7.688300000000001,
+      "volume_24h": 1242467.73594,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ZIL",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.00334,
+      "price_24h_pct": 6.349,
+      "volume_24h": 299754.650083,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "cmf_positive",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ALT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.006658,
+      "price_24h_pct": 5.9315,
+      "volume_24h": 1662169.6726,
+      "trade_plan": {
+        "entry": 0.006658,
+        "stop": 0.00576025,
+        "stop_pct": -13.48,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11124.48,
+        "pos_pct": 11.12,
+        "quantity": 1670843.776107,
+        "take_profits": [
+          {
+            "price": 0.00800462,
+            "gain_pct": 20.23,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00935125,
+            "gain_pct": 40.45,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.01114675,
+            "gain_pct": 67.42,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 124.8,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "MANA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.07046,
+      "price_24h_pct": 7.5864,
+      "volume_24h": 1015214.0521,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "WIF",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.16468,
+      "price_24h_pct": 11.7507,
+      "volume_24h": 16903424.1349,
+      "trade_plan": {
+        "entry": 0.16468,
+        "stop": 0.14223571,
+        "stop_pct": -13.63,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11005.92,
+        "pos_pct": 11.01,
+        "quantity": 66832.155814,
+        "take_profits": [
+          {
+            "price": 0.19834643,
+            "gain_pct": 20.44,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.23201286,
+            "gain_pct": 40.89,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.27690143,
+            "gain_pct": 68.15,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 119.8,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "MNT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.5684,
+      "price_24h_pct": 4.135599999999999,
+      "volume_24h": 9247261.749,
+      "trade_plan": {
+        "entry": 0.5684,
+        "stop": 0.52628214,
+        "stop_pct": -7.41,
+        "risk_usdt": 1481.98,
+        "risk_pct": 1.482,
+        "pos_value": 20000.0,
+        "pos_pct": 20.0,
+        "quantity": 35186.488388,
+        "take_profits": [
+          {
+            "price": 0.63157679,
+            "gain_pct": 11.11,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.69475357,
+            "gain_pct": 22.23,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.77898929,
+            "gain_pct": 37.05,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 124.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "ETH",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1776.44,
+      "price_24h_pct": 9.1686,
+      "volume_24h": 2793765665.2383,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "PENDLE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.3855,
+      "price_24h_pct": 8.1861,
+      "volume_24h": 5089658.5314,
+      "trade_plan": {
+        "entry": 1.3855,
+        "stop": 1.215175,
+        "stop_pct": -12.29,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 12201.67,
+        "pos_pct": 12.2,
+        "quantity": 8806.693087,
+        "take_profits": [
+          {
+            "price": 1.6409875,
+            "gain_pct": 18.44,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.896475,
+            "gain_pct": 36.88,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 2.237125,
+            "gain_pct": 61.47,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 120.8,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "XAU",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 4351.03,
+      "price_24h_pct": 3.1801999999999997,
+      "volume_24h": 54584245.5957,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "JASMY",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.005274,
+      "price_24h_pct": -2.0328,
+      "volume_24h": 4228357.4201,
+      "trade_plan": {
+        "entry": 0.005274,
+        "stop": 0.00469779,
+        "stop_pct": -10.93,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13729.27,
+        "pos_pct": 13.73,
+        "quantity": 2603198.21495,
+        "take_profits": [
+          {
+            "price": 0.00613832,
+            "gain_pct": 16.39,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00700264,
+            "gain_pct": 32.78,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.00815507,
+            "gain_pct": 54.63,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 127.2,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "WET",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.0597,
+      "price_24h_pct": 9.1419,
+      "volume_24h": 2286196.6628,
+      "trade_plan": {
+        "entry": 0.0597,
+        "stop": 0.05319321,
+        "stop_pct": -10.9,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13762.56,
+        "pos_pct": 13.76,
+        "quantity": 230528.569076,
+        "take_profits": [
+          {
+            "price": 0.06946018,
+            "gain_pct": 16.35,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.07922036,
+            "gain_pct": 32.7,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.09223393,
+            "gain_pct": 54.5,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 128.0,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "XCN",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.004107,
+      "price_24h_pct": 4.9331,
+      "volume_24h": 1169437.899,
+      "trade_plan": {
+        "entry": 0.004107,
+        "stop": 0.00365882,
+        "stop_pct": -10.91,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13745.64,
+        "pos_pct": 13.75,
+        "quantity": 3346880.2295,
+        "take_profits": [
+          {
+            "price": 0.00477927,
+            "gain_pct": 16.37,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00545154,
+            "gain_pct": 32.74,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.00634789,
+            "gain_pct": 54.56,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 125.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "QNTX",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 57.47,
+      "price_24h_pct": 1.9432999999999998,
+      "volume_24h": 1480622.215,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "FLOKI",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 2.675e-05,
+      "price_24h_pct": 9.911,
+      "volume_24h": 1998221.0644003,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "JCT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.0060693,
+      "price_24h_pct": -7.2033,
+      "volume_24h": 4766804.5299,
+      "trade_plan": {
+        "entry": 0.0060693,
+        "stop": 0.0051589,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 1647636.46549,
+        "take_profits": [
+          {
+            "price": 0.00743489,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00880049,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.01062128,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 120.2,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "CGPT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.02264,
+      "price_24h_pct": 11.495,
+      "volume_24h": 525370.893947,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_divergence",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "AUCTION",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 3.9,
+      "price_24h_pct": 4.0,
+      "volume_24h": 439769.7961,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "LTC",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 45.36,
+      "price_24h_pct": 4.8184,
+      "volume_24h": 31307526.033,
+      "trade_plan": {
+        "entry": 45.36,
+        "stop": 41.81035714,
+        "stop_pct": -7.83,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 19168.13,
+        "pos_pct": 19.17,
+        "quantity": 422.577724,
+        "take_profits": [
+          {
+            "price": 50.68446429,
+            "gain_pct": 11.74,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 56.00892857,
+            "gain_pct": 23.48,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 63.10821429,
+            "gain_pct": 39.13,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 121.9,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "MORPHO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.9615,
+      "price_24h_pct": 2.4381,
+      "volume_24h": 1934857.128,
+      "trade_plan": {
+        "entry": 1.9615,
+        "stop": 1.70420714,
+        "stop_pct": -13.12,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11435.41,
+        "pos_pct": 11.44,
+        "quantity": 5829.932539,
+        "take_profits": [
+          {
+            "price": 2.34743929,
+            "gain_pct": 19.68,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 2.73337857,
+            "gain_pct": 39.35,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 3.24796429,
+            "gain_pct": 65.59,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.9,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "EDU",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0312,
+      "price_24h_pct": 9.028,
+      "volume_24h": 1075281.4708,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ARKM",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.13144,
+      "price_24h_pct": 11.6173,
+      "volume_24h": 5382890.705,
+      "trade_plan": {
+        "entry": 0.13144,
+        "stop": 0.111724,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 76080.34084,
+        "take_profits": [
+          {
+            "price": 0.161014,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.190588,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.23002,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 125.2,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "HEI",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.07224,
+      "price_24h_pct": -17.843700000000002,
+      "volume_24h": 1620602.6121,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "EUL",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 1.0235,
+      "price_24h_pct": 9.528699999999999,
+      "volume_24h": 1387524.679,
+      "trade_plan": {
+        "entry": 1.0235,
+        "stop": 0.87397143,
+        "stop_pct": -14.61,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10267.27,
+        "pos_pct": 10.27,
+        "quantity": 10031.527658,
+        "take_profits": [
+          {
+            "price": 1.24779286,
+            "gain_pct": 21.91,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.47208571,
+            "gain_pct": 43.83,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.77114286,
+            "gain_pct": 73.05,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 124.1,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "MDX",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0345,
+      "price_24h_pct": 13.524,
+      "volume_24h": 314138.785907,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "BNB",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 624.1,
+      "price_24h_pct": 2.9774,
+      "volume_24h": 107792547.51798,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "MU",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1058.39,
+      "price_24h_pct": 6.0874,
+      "volume_24h": 12549122.9456,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "AZTEC",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.017478,
+      "price_24h_pct": 10.0801,
+      "volume_24h": 1884114.2941,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ZKC",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.05432,
+      "price_24h_pct": -14.9655,
+      "volume_24h": 14096640.8425,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "B3",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0005943,
+      "price_24h_pct": 2.9269,
+      "volume_24h": 1987689.0349,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "PORTO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.572,
+      "price_24h_pct": 4.22,
+      "volume_24h": 486241.21265,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "WBETH",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1951.95,
+      "price_24h_pct": 9.446,
+      "volume_24h": 2987329.27284,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "CRCL",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 82.32,
+      "price_24h_pct": 9.657200000000001,
+      "volume_24h": 3294595.8567,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "SAHARA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.014915,
+      "price_24h_pct": 2.4240999999999997,
+      "volume_24h": 6969799.1139,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "EGLD",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 2.965,
+      "price_24h_pct": 10.2312,
+      "volume_24h": 3601054.4248,
+      "trade_plan": {
+        "entry": 2.965,
+        "stop": 2.65192857,
+        "stop_pct": -10.56,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14206.02,
+        "pos_pct": 14.21,
+        "quantity": 4791.238877,
+        "take_profits": [
+          {
+            "price": 3.43460714,
+            "gain_pct": 15.84,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 3.90421429,
+            "gain_pct": 31.68,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 4.53035714,
+            "gain_pct": 52.79,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 118.3,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "OP",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.10841,
+      "price_24h_pct": 6.194,
+      "volume_24h": 10784747.2431,
+      "trade_plan": {
+        "entry": 0.10841,
+        "stop": 0.0921485,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 92242.413062,
+        "take_profits": [
+          {
+            "price": 0.13280225,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.1571945,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.1897175,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 120.7,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "KITE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.1926,
+      "price_24h_pct": 4.9725,
+      "volume_24h": 1686836.5816,
+      "trade_plan": {
+        "entry": 0.1926,
+        "stop": 0.17107929,
+        "stop_pct": -11.17,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13424.28,
+        "pos_pct": 13.42,
+        "quantity": 69700.288758,
+        "take_profits": [
+          {
+            "price": 0.22488107,
+            "gain_pct": 16.76,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.25716214,
+            "gain_pct": 33.52,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.30020357,
+            "gain_pct": 55.87,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 128.0,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "IOTA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.04933,
+      "price_24h_pct": 10.2928,
+      "volume_24h": 1270354.4541,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_divergence",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "LUNA",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0543,
+      "price_24h_pct": 6.667,
+      "volume_24h": 534388.588828,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ORN",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 1.053,
+      "price_24h_pct": 1.641,
+      "volume_24h": 495531.1276,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "higher_lows"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "AEVO",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.0206,
+      "price_24h_pct": 5.385,
+      "volume_24h": 287032.1160052,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "PNUT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.04539,
+      "price_24h_pct": 7.274799999999999,
+      "volume_24h": 1470528.7205,
+      "trade_plan": {
+        "entry": 0.04539,
+        "stop": 0.03959786,
+        "stop_pct": -12.76,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 11754.72,
+        "pos_pct": 11.75,
+        "quantity": 258971.513134,
+        "take_profits": [
+          {
+            "price": 0.05407821,
+            "gain_pct": 19.14,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.06276643,
+            "gain_pct": 38.28,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.07435071,
+            "gain_pct": 63.8,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 121.6,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "SUI",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.8026,
+      "price_24h_pct": 9.0909,
+      "volume_24h": 65601117.917,
+      "trade_plan": {
+        "entry": 0.8026,
+        "stop": 0.71795714,
+        "stop_pct": -10.55,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 14223.29,
+        "pos_pct": 14.22,
+        "quantity": 17721.518987,
+        "take_profits": [
+          {
+            "price": 0.92956429,
+            "gain_pct": 15.82,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.05652857,
+            "gain_pct": 31.64,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.22581429,
+            "gain_pct": 52.73,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 123.6,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "ICP",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 2.52,
+      "price_24h_pct": 5.1037,
+      "volume_24h": 16817993.0242,
+      "trade_plan": {
+        "entry": 2.52,
+        "stop": 2.142,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 3968.253968,
+        "take_profits": [
+          {
+            "price": 3.087,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 3.654,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 4.41,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 123.0,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "SKR",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.009819,
+      "price_24h_pct": -3.3192,
+      "volume_24h": 2546249.1824,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 97.3,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "SPK",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.020056,
+      "price_24h_pct": 6.6554,
+      "volume_24h": 1402999.7481,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 98.7,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "BEAT",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 5.4907,
+      "price_24h_pct": -27.9511,
+      "volume_24h": 86841535.6377,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 78.8,
+      "trend_st_aligned": 1
+    },
+    {
+      "base": "IP",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.303,
+      "price_24h_pct": 12.898599999999998,
+      "volume_24h": 12708447.9396,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 90.2,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "ARC",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.08154,
+      "price_24h_pct": -6.013,
+      "volume_24h": 1526280.1727,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 77.1,
+      "trend_st_aligned": 1
+    },
+    {
+      "base": "JELLYJELLY",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.07779,
+      "price_24h_pct": -14.6227,
+      "volume_24h": 29322412.3346,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 117.7,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "MIRA",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.0559,
+      "price_24h_pct": -1.6677999999999997,
+      "volume_24h": 2075013.9932,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 89.5,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "RESOLV",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.01786,
+      "price_24h_pct": 10.6595,
+      "volume_24h": 1127426.5192,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 98.0,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "VELVET",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.36168,
+      "price_24h_pct": -13.281100000000002,
+      "volume_24h": 21497241.264,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 80.4,
+      "trend_st_aligned": 0
+    },
+    {
+      "base": "POL",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.0769,
+      "price_24h_pct": 4.8888,
+      "volume_24h": 4289966.5818,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 91.3,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "INJ",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 5.227,
+      "price_24h_pct": 11.652,
+      "volume_24h": 22765213.6646,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 99.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "NIGHT",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.032,
+      "price_24h_pct": 10.962,
+      "volume_24h": 1120524.1444,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 89.8,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "AVAX",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 6.786,
+      "price_24h_pct": 6.5858,
+      "volume_24h": 39165764.3331,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 97.2,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "DEXE",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 17.882,
+      "price_24h_pct": 4.3768,
+      "volume_24h": 2962076.1663,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 85.9,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "ONT",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.0489,
+      "price_24h_pct": 5.7425,
+      "volume_24h": 1469188.9647,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 103.4,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "SKY",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.05753,
+      "price_24h_pct": 2.6184,
+      "volume_24h": 2294606.3125,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 93.5,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "ID",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.02836,
+      "price_24h_pct": 0.7898999999999999,
+      "volume_24h": 2286743.2443,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 75.9,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "ZBT",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.11518,
+      "price_24h_pct": -0.6522,
+      "volume_24h": 2000725.7828,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 77.3,
+      "trend_st_aligned": 1
+    },
+    {
+      "base": "GENIUS",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.4939,
+      "price_24h_pct": 1.7477,
+      "volume_24h": 2897737.407,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 106.1,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "ASTER",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.635,
+      "price_24h_pct": 4.9709,
+      "volume_24h": 13864327.0197,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 107.2,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "HBAR",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.08114,
+      "price_24h_pct": 7.2286,
+      "volume_24h": 17358325.9142,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 98.9,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "COAI",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.3453,
+      "price_24h_pct": -11.8798,
+      "volume_24h": 10211828.7843,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 98.0,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "ZORA",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.00857,
+      "price_24h_pct": 4.8892,
+      "volume_24h": 1349340.6686,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 91.0,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "MOVE",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.01203,
+      "price_24h_pct": 3.6051,
+      "volume_24h": 1403933.6488,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 87.0,
+      "trend_st_aligned": 3
+    },
+    {
+      "base": "LAB",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 11.204,
+      "price_24h_pct": -1.0027,
+      "volume_24h": 25493601.262,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 98.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "HNT",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.3049,
+      "price_24h_pct": 5.6190999999999995,
+      "volume_24h": 1630704.8412,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 80.6,
+      "trend_st_aligned": 1
+    },
+    {
+      "base": "HMSTR",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.0001663,
+      "price_24h_pct": -5.0595,
+      "volume_24h": 3906605.9207,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 71.2,
+      "trend_st_aligned": 1
+    },
+    {
+      "base": "DYDX",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.12355,
+      "price_24h_pct": 9.3846,
+      "volume_24h": 2704552.0126,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 81.0,
+      "trend_st_aligned": 2
+    },
+    {
+      "base": "RECALL",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.03605,
+      "price_24h_pct": 12.0905,
+      "volume_24h": 1075272.2256,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 92.4,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "MITO",
+      "confluence": 1.0,
+      "scanner_count": 1,
+      "bucket": "single_scanner",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "watch",
+      "price": 0.02137,
+      "price_24h_pct": -0.3875,
+      "volume_24h": 1221203.4353,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 87.0,
+      "trend_st_aligned": 3
+    }
+  ],
+  "extended": [
+    {
+      "base": "JTO",
+      "confluence": 11.0,
+      "scanner_count": 3,
+      "bucket": "extended",
+      "ignition_tier": "on_radar",
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.5584,
+      "price_24h_pct": 40.7491,
+      "volume_24h": 23517401.5095,
+      "trade_plan": {
+        "entry": 0.5584,
+        "stop": 0.47464,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 17908.309456,
+        "take_profits": [
+          {
+            "price": 0.68404,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.80968,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.9772,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": 132.1,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "BSB",
+      "confluence": 9.0,
+      "scanner_count": 2,
+      "bucket": "extended",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.2714,
+      "price_24h_pct": 37.8669,
+      "volume_24h": 28572343.8788,
+      "trade_plan": {
+        "entry": 0.2714,
+        "stop": 0.23069,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 36845.983788,
+        "take_profits": [
+          {
+            "price": 0.332465,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.39353,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.47495,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 119.5,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "PUFFER",
+      "confluence": 8.0,
+      "scanner_count": 2,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.01833,
+      "price_24h_pct": 33.8264,
+      "volume_24h": 9938296.8189,
+      "trade_plan": {
+        "entry": 0.01833,
+        "stop": 0.0155805,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 545553.737043,
+        "take_profits": [
+          {
+            "price": 0.02245425,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0265785,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0320775,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": 138.5,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "EVAA",
+      "confluence": 8.0,
+      "scanner_count": 2,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": "on_radar",
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.7116,
+      "price_24h_pct": 112.016,
+      "volume_24h": 62985760.2065,
+      "trade_plan": {
+        "entry": 0.7116,
+        "stop": 0.60486,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 14052.838673,
+        "take_profits": [
+          {
+            "price": 0.87171,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.03182,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.2453,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "spot_signals": [],
+      "trend_score": 156.1,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "BASED",
+      "confluence": 8.0,
+      "scanner_count": 2,
+      "bucket": "extended",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.07179,
+      "price_24h_pct": 27.4867,
+      "volume_24h": 4287207.6186,
+      "trade_plan": {
+        "entry": 0.07179,
+        "stop": 0.0610215,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 139295.166458,
+        "take_profits": [
+          {
+            "price": 0.08794275,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.1040955,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.1256325,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 130.0,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "ZRO",
+      "confluence": 6.0,
+      "scanner_count": 2,
+      "bucket": "extended",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.9569,
+      "price_24h_pct": 29.728500000000004,
+      "volume_24h": 18434052.203,
+      "trade_plan": {
+        "entry": 0.9569,
+        "stop": 0.813365,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 10450.412791,
+        "take_profits": [
+          {
+            "price": 1.1722025,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 1.387505,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 1.674575,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [
+        "vol_expansion",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 125.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "XLM",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.20347,
+      "price_24h_pct": 17.4218,
+      "volume_24h": 51475719.5773,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "BB",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.02414,
+      "price_24h_pct": 15.5807,
+      "volume_24h": 596837.6762,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "obv_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "CREAM",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 2.1,
+      "price_24h_pct": 65.354,
+      "volume_24h": 276098.07379,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "XVG",
+      "confluence": 6.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": "watch_now",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.002903,
+      "price_24h_pct": 17.3123,
+      "volume_24h": 1477264.2633,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_expansion",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "ZEC",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 472.1,
+      "price_24h_pct": 25.1662,
+      "volume_24h": 311943411.4624,
+      "trade_plan": {
+        "entry": 472.1,
+        "stop": 401.285,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 21.181953,
+        "take_profits": [
+          {
+            "price": 578.3225,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 684.545,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 826.175,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 130.2,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "WLD",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.523,
+      "price_24h_pct": 23.0441,
+      "volume_24h": 206845682.855,
+      "trade_plan": {
+        "entry": 0.523,
+        "stop": 0.44455,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 19120.458891,
+        "take_profits": [
+          {
+            "price": 0.640675,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.75835,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.91525,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 150.9,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "CLO",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.19127,
+      "price_24h_pct": 36.881,
+      "volume_24h": 29268105.7271,
+      "trade_plan": {
+        "entry": 0.19127,
+        "stop": 0.1625795,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 52282.114289,
+        "take_profits": [
+          {
+            "price": 0.23430575,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.2773415,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.3347225,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 154.5,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "BABY",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.017766,
+      "price_24h_pct": 22.3968,
+      "volume_24h": 12315352.3407,
+      "trade_plan": {
+        "entry": 0.017766,
+        "stop": 0.0151011,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 562872.903298,
+        "take_profits": [
+          {
+            "price": 0.02176335,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0257607,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0310905,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 132.4,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "UAI",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.29929,
+      "price_24h_pct": 30.165799999999997,
+      "volume_24h": 12280241.3417,
+      "trade_plan": {
+        "entry": 0.29929,
+        "stop": 0.2543965,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 33412.409369,
+        "take_profits": [
+          {
+            "price": 0.36663025,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.4339705,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.5237575,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 152.6,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "EIGEN",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.20329,
+      "price_24h_pct": 16.5627,
+      "volume_24h": 11234247.2984,
+      "trade_plan": {
+        "entry": 0.20329,
+        "stop": 0.1727965,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 49190.811156,
+        "take_profits": [
+          {
+            "price": 0.24903025,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.2947705,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.3557575,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 134.6,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "AERO",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.3779,
+      "price_24h_pct": 22.3855,
+      "volume_24h": 10265809.113,
+      "trade_plan": {
+        "entry": 0.3779,
+        "stop": 0.33735714,
+        "stop_pct": -10.73,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13981.5,
+        "pos_pct": 13.98,
+        "quantity": 36997.885835,
+        "take_profits": [
+          {
+            "price": 0.43871429,
+            "gain_pct": 16.09,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.49952857,
+            "gain_pct": 32.19,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.58061429,
+            "gain_pct": 53.64,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 130.9,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "GPS",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.008002,
+      "price_24h_pct": 19.514799999999997,
+      "volume_24h": 1877199.1271,
+      "trade_plan": {
+        "entry": 0.008002,
+        "stop": 0.0068017,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 1249687.578105,
+        "take_profits": [
+          {
+            "price": 0.00980245,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0116029,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0140035,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 146.5,
+      "trend_st_aligned": 6
+    },
+    {
+      "base": "GRASS",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 0.4338,
+      "price_24h_pct": 26.131500000000003,
+      "volume_24h": 13548918.076,
+      "trade_plan": {
+        "entry": 0.4338,
+        "stop": 0.36873,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 23052.097741,
+        "take_profits": [
+          {
+            "price": 0.531405,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.62901,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.75915,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 137.3,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "NEAR",
+      "confluence": 5.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "strong",
+      "price": 2.2162,
+      "price_24h_pct": 20.7552,
+      "volume_24h": 150264070.6504,
+      "trade_plan": {
+        "entry": 2.2162,
+        "stop": 1.88377,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 4512.228138,
+        "take_profits": [
+          {
+            "price": 2.714845,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 3.21349,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 3.87835,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 141.9,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "1000BONK",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.004656,
+      "price_24h_pct": 16.1038,
+      "volume_24h": 13380147.6888,
+      "trade_plan": {
+        "entry": 0.004656,
+        "stop": 0.00413561,
+        "stop_pct": -11.18,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13420.63,
+        "pos_pct": 13.42,
+        "quantity": 2882437.718756,
+        "take_profits": [
+          {
+            "price": 0.00543659,
+            "gain_pct": 16.77,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.00621718,
+            "gain_pct": 33.53,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.00725796,
+            "gain_pct": 55.88,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 118.6,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "AAVE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 68.28,
+      "price_24h_pct": 15.9101,
+      "volume_24h": 32598875.5587,
+      "trade_plan": {
+        "entry": 68.28,
+        "stop": 60.64285714,
+        "stop_pct": -11.19,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 13410.77,
+        "pos_pct": 13.41,
+        "quantity": 196.40853,
+        "take_profits": [
+          {
+            "price": 79.73571429,
+            "gain_pct": 16.78,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 91.19142857,
+            "gain_pct": 33.56,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 106.46571429,
+            "gain_pct": 55.93,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 121.7,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "FIGHT",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.00413,
+      "price_24h_pct": 18.3172,
+      "volume_24h": 2634741.5553,
+      "trade_plan": {
+        "entry": 0.00413,
+        "stop": 0.0035105,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 2421307.506053,
+        "take_profits": [
+          {
+            "price": 0.00505925,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0059885,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0072275,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 118.3,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "JUP",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.1794,
+      "price_24h_pct": 16.1942,
+      "volume_24h": 10445684.9299,
+      "trade_plan": {
+        "entry": 0.1794,
+        "stop": 0.15415071,
+        "stop_pct": -14.07,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10657.73,
+        "pos_pct": 10.66,
+        "quantity": 59407.621149,
+        "take_profits": [
+          {
+            "price": 0.21727393,
+            "gain_pct": 21.11,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.25514786,
+            "gain_pct": 42.22,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.30564643,
+            "gain_pct": 70.37,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 125.7,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "CHIP",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.03707,
+      "price_24h_pct": 17.9215,
+      "volume_24h": 15837853.6406,
+      "trade_plan": {
+        "entry": 0.03707,
+        "stop": 0.0315095,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 269759.913677,
+        "take_profits": [
+          {
+            "price": 0.04541075,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.0537515,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.0648725,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 125.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "FHE",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.02372,
+      "price_24h_pct": 20.7816,
+      "volume_24h": 1945695.708,
+      "trade_plan": {
+        "entry": 0.02372,
+        "stop": 0.020162,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 421585.160202,
+        "take_profits": [
+          {
+            "price": 0.029057,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.034394,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.04151,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 128.6,
+      "trend_st_aligned": 5
+    },
+    {
+      "base": "US",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.014866,
+      "price_24h_pct": 19.8388,
+      "volume_24h": 826135.0102,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_divergence",
+        "cmf_positive",
+        "btc_decoupling"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "MET",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": "on_radar",
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": null,
+      "price": 0.1189,
+      "price_24h_pct": 16.6422,
+      "volume_24h": 2365563.749,
+      "trade_plan": null,
+      "trade_plan_source": null,
+      "ignition_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling"
+      ],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": null,
+      "trend_st_aligned": null
+    },
+    {
+      "base": "FARTCOIN",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.12718,
+      "price_24h_pct": 23.9492,
+      "volume_24h": 50270877.7522,
+      "trade_plan": {
+        "entry": 0.12718,
+        "stop": 0.108103,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 78628.715207,
+        "take_profits": [
+          {
+            "price": 0.1557955,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.184411,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.222565,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 119.1,
+      "trend_st_aligned": 4
+    },
+    {
+      "base": "USELESS",
+      "confluence": 3.0,
+      "scanner_count": 1,
+      "bucket": "extended",
+      "ignition_tier": null,
+      "perp_tier": null,
+      "spot_tier": null,
+      "trend_tier": "long",
+      "price": 0.07394,
+      "price_24h_pct": 25.616899999999998,
+      "volume_24h": 6663635.8197,
+      "trade_plan": {
+        "entry": 0.07394,
+        "stop": 0.062849,
+        "stop_pct": -15.0,
+        "risk_usdt": 1500.0,
+        "risk_pct": 1.5,
+        "pos_value": 10000.0,
+        "pos_pct": 10.0,
+        "quantity": 135244.793075,
+        "take_profits": [
+          {
+            "price": 0.0905765,
+            "gain_pct": 22.5,
+            "rr": 1.5,
+            "sell_pct": 40
+          },
+          {
+            "price": 0.107213,
+            "gain_pct": 45.0,
+            "rr": 3.0,
+            "sell_pct": 35
+          },
+          {
+            "price": 0.129395,
+            "gain_pct": 75.0,
+            "rr": 5.0,
+            "sell_pct": 25
+          }
+        ]
+      },
+      "trade_plan_source": "trend",
+      "ignition_signals": [],
+      "perp_signals": [],
+      "spot_signals": [],
+      "trend_score": 123.7,
+      "trend_st_aligned": 4
+    }
+  ]
+}

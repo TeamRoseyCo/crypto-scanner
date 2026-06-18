@@ -1,0 +1,31 @@
+# video_pipeline requirements
+# Install: pip install -r requirements.txt
+
+# Script generation
+anthropic>=0.40.0
+
+# Text-to-speech (primary)
+elevenlabs>=1.0.0
+
+# Text-to-speech (free fallback)
+gTTS>=2.5.0
+
+# Audio processing
+pydub>=0.25.0
+
+# Visual rendering
+matplotlib>=3.8.0
+mplfinance>=0.12.0
+Pillow>=10.0.0
+
+# Video composition
+moviepy>=1.0.3
+
+# YouTube upload
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.1.0
+
+# Note: ffmpeg must also be installed on your system
+# Windows: choco install ffmpeg   OR  download from https://ffmpeg.org/
+# Mac:     brew install ffmpeg
+# Linux:   apt install ffmpeg

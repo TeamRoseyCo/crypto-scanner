@@ -33,8 +33,20 @@ import sys
 import argparse
 import requests
 
-# Ensure demo key is always active regardless of launch method (bat, Task Scheduler, direct Python)
-os.environ.setdefault("CG_DEMO_KEY", "CG-VMU55ZMLpBrBeQBKfPwknWTa")
+# ── Encoding safety: when run as a subprocess (Task Scheduler, bat redirect),
+# stdout/stderr may use cp1252 which can't encode emoji used in log messages.
+# errors="replace" turns any unencodable character into "?" rather than crashing.
+for _stream in (sys.stdout, sys.stderr):
+    if _stream is not None and hasattr(_stream, "reconfigure"):
+        try:
+            _stream.reconfigure(errors="replace")
+        except Exception:
+            pass
+
+# CoinGecko demo key is read from the CG_DEMO_KEY environment variable.
+# Do NOT hardcode API keys in source — set it once with:
+#   [System.Environment]::SetEnvironmentVariable("CG_DEMO_KEY", "your_key", "User")
+# Without a key the scanner still runs, just at the lower free-tier rate limit.
 import pandas as pd
 import numpy as np
 
@@ -62,7 +74,10 @@ _CACHE_DIR    = _PROJECT_ROOT / "cache"    / "shared_ohlcv"
 _OUTPUT_DIR   = _PROJECT_ROOT / "outputs"  / "scanner-results"
 _LOG_DIR      = _PROJECT_ROOT / "outputs"  / "logs"
 
-_PERSISTENCE_FILE = _CACHE_DIR / "spot_candidate_history.json"
+_PERSISTENCE_FILE    = _CACHE_DIR / "spot_candidate_history.json"
+_MARKET_CTX_CACHE    = _CACHE_DIR / "market_context_cache.json"
+_TOP_COINS_CACHE     = _CACHE_DIR / "top_coins_cache.json"
+_TOP_COINS_CACHE_TTL = 22 * 60   # seconds — refresh just under the 30-min schedule
 
 for d in (_CACHE_DIR, _OUTPUT_DIR, _LOG_DIR):
     d.mkdir(parents=True, exist_ok=True)
@@ -94,9 +109,9 @@ ACCOUNT = {
 }
 
 SCAN = {
-    "top_n_coins":           1000,     # How many coins to fetch
+    "top_n_coins":            500,     # How many coins to fetch
     "min_rank":               20,     # Skip the very largest (less volatile)
-    "max_rank":              800,     # Skip illiquid micro-caps
+    "max_rank":              500,     # Skip illiquid micro-caps
     "min_volume_24h":    500_000,     # Minimum 24h volume in USD
     "min_price":          0.0001,     # Reject dust tokens
     "min_7d_pct":           -25.0,    # Reject free-falling tokens
@@ -161,6 +176,10 @@ MACRO = {
     "sideways_min_conviction":    60,    # Raised bar in sideways — must really mean it
     "sideways_max_pos_pct":        6.0,  # Half position size in sideways
     "sideways_atr_mult":           1.0,  # Tighter stops in sideways (1.0× vs 1.5×)
+    # Tiered exception: high-signal coins (50-59 conv) get a small entry slot in SIDEWAYS.
+    # Requires 6+ signals. Position capped at 3% (vs 6% normal SIDEWAYS, 12% BULL).
+    "sideways_exception_conviction":  50,
+    "sideways_exception_max_pos_pct":  3.0,
     # Persistence — 2-scan confirmation rule
     "persistence_window_h":       24.0,  # Qualifying scans must be within 24h of each other
     "persistence_min_scans":       2,    # Must qualify on N consecutive scans before entry
@@ -244,16 +263,61 @@ if _CG_PRO_KEY:
 else:
     COINGECKO_API = "https://api.coingecko.com/api/v3"
 
-_CG_SESSION = requests.Session()
-if _CG_PRO_KEY:
-    _CG_SESSION.headers.update({"x-cg-pro-api-key": _CG_PRO_KEY})
-elif _CG_DEMO_KEY:
-    _CG_SESSION.headers.update({"x-cg-demo-api-key": _CG_DEMO_KEY})
+# Resilient sessions: urllib3 Retry adapter with fail-fast DNS (5s connect),
+# generous read timeouts, exponential backoff + jitter, per-retry log line.
+# See http_client.py for the full breakdown of why this matters on Windows.
+from http_client import make_session, CircuitBreaker
+
+_CG_SESSION = make_session(
+    api_key=(_CG_PRO_KEY or _CG_DEMO_KEY or None),
+    api_key_header=("x-cg-pro-api-key" if _CG_PRO_KEY else "x-cg-demo-api-key"),
+    user_agent="crypto-scanner/2.0",
+)
 
 # Binance public API — no key required, 1200 req/min
 _BINANCE_API = "https://api.binance.com/api/v3"
-_BN_SESSION  = requests.Session()
-_BN_SESSION.headers.update({"User-Agent": "crypto-scanner/2.0"})
+_BN_SESSION  = make_session(user_agent="crypto-scanner/2.0")
+
+# Bybit public API — no key required, generous rate limits
+_BYBIT_API  = "https://api.bybit.com"
+_BB_SESSION = make_session(user_agent="crypto-scanner/2.0")
+
+# Shared circuit breaker — after 5 consecutive failures, pause 60s before
+# resuming. Prevents wasting 22s × N coins on a sustained network outage.
+_BREAKER = CircuitBreaker(threshold=5, cooloff_s=60)
+
+
+def _fetch_bybit_klines(symbol: str, days: int = 30) -> pd.DataFrame | None:
+    """Fetch OHLCV from Bybit V5 linear klines (no API key, no rate limit concerns)."""
+    limit = min(days * 6, 1000)  # 4h bars: 6/day × 30 days = 180
+    try:
+        r = _BB_SESSION.get(
+            f"{_BYBIT_API}/v5/market/kline",
+            params={
+                "category": "linear",
+                "symbol":   f"{symbol}USDT",
+                "interval": "240",
+                "limit":    limit,
+            },
+            timeout=(5, 10),  # (connect, read): fail-fast DNS
+        )
+        if r.status_code != 200:
+            return None
+        data = r.json()
+        if data.get("retCode") != 0:
+            return None
+        rows = data.get("result", {}).get("list", [])
+        if not rows or len(rows) < 20:
+            return None
+        df = pd.DataFrame(rows, columns=["ts", "open", "high", "low", "close", "volume", "turnover"])
+        df["ts"] = pd.to_datetime(df["ts"].astype("int64"), unit="ms")
+        df.set_index("ts", inplace=True)
+        for col in ["open", "high", "low", "close", "volume"]:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+        df = df[["open", "high", "low", "close", "volume"]].dropna().sort_index()
+        return df if len(df) >= 20 else None
+    except Exception:
+        return None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -456,81 +520,144 @@ def _set_cooldown(symbol: str, cooldowns: dict[str, float]) -> None:
 # MARKET CONTEXT
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _market_ctx_from_bybit() -> dict | None:
+    """Compute BTC/ETH 7d and 24h change directly from Bybit klines. No rate limits."""
+    btc_df = _fetch_bybit_klines("BTC", days=9)   # 9d to ensure 42 bars available
+    if btc_df is None or len(btc_df) < 43:
+        return None
+
+    btc_price = float(btc_df["close"].iloc[-1])
+    # 42 bars × 4h = 168h = 7d;  6 bars × 4h = 24h
+    btc_7d_price  = float(btc_df["close"].iloc[-43])
+    btc_24h_price = float(btc_df["close"].iloc[-7])
+    btc_7d  = (btc_price - btc_7d_price)  / btc_7d_price  * 100
+    btc_24h = (btc_price - btc_24h_price) / btc_24h_price * 100
+
+    eth_7d = None
+    eth_df = _fetch_bybit_klines("ETH", days=9)
+    if eth_df is not None and len(eth_df) >= 43:
+        eth_price    = float(eth_df["close"].iloc[-1])
+        eth_7d_price = float(eth_df["close"].iloc[-43])
+        eth_7d = (eth_price - eth_7d_price) / eth_7d_price * 100
+
+    return {"btc_price": btc_price, "btc_7d": btc_7d, "btc_24h": btc_24h, "eth_7d": eth_7d}
+
+
+def _market_ctx_from_coingecko() -> dict | None:
+    """Original CoinGecko-based BTC/ETH fetch — used only as Bybit fallback."""
+    markets = _get_with_retry(
+        f"{COINGECKO_API}/coins/markets",
+        {
+            "vs_currency":             "usd",
+            "ids":                     "bitcoin,ethereum",
+            "price_change_percentage": "7d",
+            "sparkline":               False,
+        },
+    )
+    if not markets:
+        return None
+    btc_7d = btc_24h = btc_price = eth_7d = None
+    for coin in markets:
+        if coin["id"] == "bitcoin":
+            btc_7d    = coin.get("price_change_percentage_7d_in_currency") or 0.0
+            btc_24h   = coin.get("price_change_percentage_24h")            or 0.0
+            btc_price = coin.get("current_price")                          or 0.0
+        elif coin["id"] == "ethereum":
+            eth_7d = coin.get("price_change_percentage_7d_in_currency")    or 0.0
+    if btc_7d is None:
+        return None
+    return {"btc_price": btc_price, "btc_7d": btc_7d, "btc_24h": btc_24h, "eth_7d": eth_7d}
+
+
 def get_market_context() -> dict | None:
-    """Fetch BTC + ETH data + BTC dominance and classify the current market regime."""
-    log.info("Fetching market context (BTC + ETH + dominance)...")
-    try:
-        # ── BTC + ETH in one call ─────────────────────────────────────────────
-        markets = _get_with_retry(
-            f"{COINGECKO_API}/coins/markets",
-            {
-                "vs_currency":             "usd",
-                "ids":                     "bitcoin,ethereum",
-                "price_change_percentage": "7d",
-                "sparkline":               False,
-            },
-        )
-        if not markets:
-            log.warning("Could not fetch BTC/ETH context after retries.")
+    """Fetch BTC + ETH data + BTC dominance and classify the current market regime.
+
+    Strategy: Bybit klines primary (no rate limits), disk cache 25 min,
+    CoinGecko only as last-resort fallback and for dominance.
+    """
+    # ── Disk cache — reuse if < 25 min old ───────────────────────────────────
+    if _MARKET_CTX_CACHE.exists():
+        try:
+            cached = json.loads(_MARKET_CTX_CACHE.read_text(encoding="utf-8"))
+            age_s = time.time() - cached.get("_ts", 0)
+            if age_s < 25 * 60:
+                log.info(f"Market context: using cache ({age_s/60:.0f}min old)")
+                return {k: v for k, v in cached.items() if k != "_ts"}
+        except Exception:
+            pass
+
+    log.info("Fetching market context (Bybit klines primary)...")
+
+    # ── Primary: Bybit klines — no rate limits ────────────────────────────────
+    core = _market_ctx_from_bybit()
+    source = "Bybit"
+
+    if core is None:
+        # ── Fallback: CoinGecko ───────────────────────────────────────────────
+        log.warning("Bybit klines unavailable — falling back to CoinGecko for market context")
+        core = _market_ctx_from_coingecko()
+        source = "CoinGecko"
+        if core is None:
+            log.warning("Could not fetch market context from any source.")
             return None
-
-        btc_7d = btc_24h = btc_price = eth_7d = None
-        for coin in markets:
-            if coin["id"] == "bitcoin":
-                btc_7d    = coin.get("price_change_percentage_7d_in_currency") or 0.0
-                btc_24h   = coin.get("price_change_percentage_24h")            or 0.0
-                btc_price = coin.get("current_price")                          or 0.0
-            elif coin["id"] == "ethereum":
-                eth_7d = coin.get("price_change_percentage_7d_in_currency")    or 0.0
-
-        if btc_7d is None:
-            log.warning("BTC data not found in markets response.")
-            return None
-
         time.sleep(SCAN["api_delay_s"])
 
-        # ── BTC dominance ─────────────────────────────────────────────────────
-        btc_dominance = None
-        global_data = _get_with_retry(f"{COINGECKO_API}/global", {})
-        if global_data:
-            btc_dominance = global_data.get("data", {}).get("market_cap_percentage", {}).get("btc")
+    btc_price = core["btc_price"]
+    btc_7d    = core["btc_7d"]
+    btc_24h   = core["btc_24h"]
+    eth_7d    = core["eth_7d"]
 
-        # ── Regime classification ─────────────────────────────────────────────
-        if btc_7d >= MACRO["bull_7d_pct"]:
-            regime, icon = "BULL",     "🟢"
-        elif btc_7d >= MACRO["neutral_7d_pct"]:
-            regime, icon = "SIDEWAYS", "🟡"
-        else:
-            regime, icon = "BEAR",     "🔴"
+    # ── BTC dominance: try CoinGecko briefly, skip if rate-limited ───────────
+    btc_dominance = None
+    if source == "Bybit":
+        # Only one CoinGecko call, non-blocking on 429
+        try:
+            r = _CG_SESSION.get(f"{COINGECKO_API}/global", params={}, timeout=(5, 8))
+            if r.status_code == 200:
+                btc_dominance = r.json().get("data", {}).get("market_cap_percentage", {}).get("btc")
+            # 429 or other → silently skip, dominance is informational only
+        except Exception:
+            pass
 
-        # ETH confirmation: if ETH also in bear territory, note it
-        eth_bear = eth_7d is not None and eth_7d < MACRO["neutral_7d_pct"]
+    # ── Regime classification ─────────────────────────────────────────────────
+    if btc_7d >= MACRO["bull_7d_pct"]:
+        regime, icon = "BULL",     "🟢"
+    elif btc_7d >= MACRO["neutral_7d_pct"]:
+        regime, icon = "SIDEWAYS", "🟡"
+    else:
+        regime, icon = "BEAR",     "🔴"
 
-        ctx = {
-            "btc_price":     btc_price,
-            "btc_7d":        btc_7d,
-            "btc_24h":       btc_24h,
-            "eth_7d":        eth_7d,
-            "btc_dominance": btc_dominance,
-            "eth_bear":      eth_bear,
-            "regime":        regime,
-            "icon":          icon,
-            "healthy":       btc_7d >= MACRO["neutral_7d_pct"],
-        }
+    eth_bear = eth_7d is not None and eth_7d < MACRO["neutral_7d_pct"]
 
-        eth_str = f"  ETH 7d: {eth_7d:+.1f}%" if eth_7d is not None else ""
-        dom_str = f"  Dominance: {btc_dominance:.1f}%" if btc_dominance else ""
-        log.info(
-            f"  BTC: ${btc_price:,.0f} | 7d: {btc_7d:+.1f}%{eth_str}{dom_str} | "
-            f"Regime: {icon} {regime}"
+    ctx = {
+        "btc_price":     btc_price,
+        "btc_7d":        btc_7d,
+        "btc_24h":       btc_24h,
+        "eth_7d":        eth_7d,
+        "btc_dominance": btc_dominance,
+        "eth_bear":      eth_bear,
+        "regime":        regime,
+        "icon":          icon,
+        "healthy":       btc_7d >= MACRO["neutral_7d_pct"],
+    }
+
+    # ── Save to disk cache ────────────────────────────────────────────────────
+    try:
+        _MARKET_CTX_CACHE.write_text(
+            json.dumps({**ctx, "_ts": time.time()}), encoding="utf-8"
         )
-        if eth_bear and regime != "BEAR":
-            log.warning("  ⚠️  ETH also below -7% 7d — broad weakness, not just BTC")
-        return ctx
+    except Exception:
+        pass
 
-    except Exception as e:
-        log.warning(f"Could not fetch market context: {e}")
-        return None
+    eth_str = f"  ETH 7d: {eth_7d:+.1f}%" if eth_7d is not None else ""
+    dom_str = f"  Dominance: {btc_dominance:.1f}%" if btc_dominance else ""
+    log.info(
+        f"  [{source}] BTC: ${btc_price:,.0f} | 7d: {btc_7d:+.1f}%{eth_str}{dom_str} | "
+        f"Regime: {icon} {regime}"
+    )
+    if eth_bear and regime != "BEAR":
+        log.warning("  ETH also below -7% 7d -- broad weakness, not just BTC")
+    return ctx
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -541,13 +668,16 @@ def _get_with_retry(url: str, params: dict, max_attempts: int = 5) -> dict | lis
     """GET with exponential backoff on 429 and transient errors.
 
     Rate-limit waits (429) do not consume an attempt — only genuine errors do.
-    DNS / ConnectionError gets a 30s recovery sleep and a connection-pool flush.
+    Note: the session itself has a urllib3 Retry adapter that already handles
+    connect/read errors with exponential backoff before raising, so this
+    outer loop is now a belt-and-suspenders safety net for the rare case
+    where the adapter exhausts its retries.
     """
     errors = 0
     rate_limit_attempt = 0
     while errors < max_attempts:
         try:
-            r = _CG_SESSION.get(url, params=params, timeout=20)
+            r = _CG_SESSION.get(url, params=params, timeout=(5, 20))  # fail-fast DNS
             if r.status_code == 429:
                 retry_after = r.headers.get("Retry-After")
                 wait = int(retry_after) if retry_after else min(60, 15 * (2 ** rate_limit_attempt))
@@ -562,9 +692,10 @@ def _get_with_retry(url: str, params: dict, max_attempts: int = 5) -> dict | lis
         except requests.exceptions.ConnectionError as e:
             errors += 1
             log.warning(f"Connection/DNS error (attempt {errors}/{max_attempts}): {e}")
-            # Flush stale connections so the next attempt opens a fresh socket
+            # The Retry adapter has already done ~22s of backoff before raising.
+            # No need for an additional 30s — 5s is enough to let DNS settle.
             _CG_SESSION.close()
-            time.sleep(30)
+            time.sleep(5)
         except requests.exceptions.Timeout:
             errors += 1
             log.warning(f"Timeout (attempt {errors}/{max_attempts}) — {url}")
@@ -587,7 +718,7 @@ def _fetch_binance_ohlcv(symbol: str, days: int = 30) -> pd.DataFrame | None:
         r = _BN_SESSION.get(
             f"{_BINANCE_API}/klines",
             params={"symbol": f"{symbol}USDT", "interval": "4h", "limit": limit},
-            timeout=10,
+            timeout=(5, 10),  # (connect, read): fail-fast DNS
         )
         if r.status_code != 200:
             return None
@@ -609,7 +740,19 @@ def _fetch_binance_ohlcv(symbol: str, days: int = 30) -> pd.DataFrame | None:
 
 
 def fetch_top_coins(n: int = 400) -> list:
-    """Fetch top N coins by market cap from CoinGecko."""
+    """Fetch top N coins by market cap from CoinGecko, with disk cache."""
+    # ── Disk cache: reuse if fresh enough ────────────────────────────────────
+    if _TOP_COINS_CACHE.exists():
+        try:
+            cached = json.loads(_TOP_COINS_CACHE.read_text(encoding="utf-8"))
+            age_s = time.time() - cached.get("_ts", 0)
+            cached_coins = cached.get("coins", [])
+            if age_s < _TOP_COINS_CACHE_TTL and len(cached_coins) >= n:
+                log.info(f"  Using cached coin list ({age_s/60:.0f}min old, {len(cached_coins)} coins)")
+                return cached_coins[:n]
+        except Exception:
+            pass
+
     log.info(f"Fetching top {n} coins by market cap...")
     coins = []
     pages = (n // 250) + (1 if n % 250 else 0)
@@ -634,6 +777,15 @@ def fetch_top_coins(n: int = 400) -> list:
         time.sleep(1.5)
 
     log.info(f"  Fetched {len(coins)} coins")
+
+    if coins:
+        try:
+            _TOP_COINS_CACHE.write_text(
+                json.dumps({"_ts": time.time(), "coins": coins[:n]}), encoding="utf-8"
+            )
+        except Exception:
+            pass
+
     return coins[:n]
 
 
@@ -646,12 +798,12 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
     """
     cache_file = _CACHE_DIR / f"{coin_id}_{days}d.csv"
 
-    # ── Cache hit (prefer Binance-sourced cache) ──
+    # ── Cache hit (prefer Bybit/Binance-sourced cache) ──
     if cache_file.exists():
         age_h = (time.time() - cache_file.stat().st_mtime) / 3600
         if age_h < SCAN["cache_max_age_h"]:
-            # Only trust cache if it came from Binance (real intraday volume)
-            if _DATA_SOURCES.get(coin_id) == "binance":
+            # Only trust cache if it came from a fast exchange (real intraday volume)
+            if _DATA_SOURCES.get(coin_id) in ("bybit", "binance"):
                 try:
                     df = pd.read_csv(cache_file, index_col=0, parse_dates=True)
                     if len(df) >= 20:
@@ -672,7 +824,19 @@ def fetch_ohlcv(coin_id: str, days: int = 30, symbol: str = "") -> pd.DataFrame 
                 except Exception:
                     pass  # corrupt cache → re-fetch
 
-    # ── Binance (primary — no rate limits) ──
+    # ── Bybit (primary — no rate limits, linear perp klines) ──
+    if symbol:
+        df = _fetch_bybit_klines(symbol, days)
+        if df is not None:
+            _DATA_SOURCES[coin_id] = "bybit"
+            _save_data_sources(_DATA_SOURCES)
+            try:
+                df.to_csv(cache_file)
+            except Exception:
+                pass
+            return df
+
+    # ── Binance (secondary — no rate limits) ──
     if symbol:
         df = _fetch_binance_ohlcv(symbol, days)
         if df is not None:
@@ -891,7 +1055,7 @@ def _fetch_funding_rate(symbol: str) -> float | None:
         r = _BN_SESSION.get(
             "https://fapi.binance.com/fapi/v1/fundingRate",
             params={"symbol": f"{symbol}USDT", "limit": 1},
-            timeout=5,
+            timeout=(5, 5),  # (connect, read): fail-fast DNS
         )
         if r.status_code == 200:
             data = r.json()
@@ -1215,18 +1379,30 @@ def detect_signals(
         # When this fires alongside rsi_divergence, hit rate is significantly higher.
         macd_div = False
         if len(macd_vals) >= SIGNAL["divergence_window"]:
-            win = SIGNAL["divergence_window"]
-            hist_window = macd_vals.iloc[-win:]
+            win          = SIGNAL["divergence_window"]
             price_window = closes.iloc[-win:]
-            # Find two troughs in price and histogram
-            price_lows = price_window[price_window == price_window.rolling(5, center=True).min()]
-            hist_lows  = hist_window[hist_window == hist_window.rolling(5, center=True).min()]
-            if len(price_lows) >= 2 and len(hist_lows) >= 2:
+            # Align the histogram to the SAME bars as price so the two pivot
+            # lows are compared like-for-like (the old code found price and
+            # histogram troughs independently — they rarely lined up).
+            hist_window  = macd_vals.reindex(price_window.index)
+            # Price swing-low pivots (local minima over a 5-bar centred window)
+            price_lows   = price_window[
+                price_window == price_window.rolling(5, center=True).min()
+            ].dropna()
+            if len(price_lows) >= 2:
+                idx1, idx2 = price_lows.index[-2], price_lows.index[-1]
                 p1, p2 = float(price_lows.iloc[-2]), float(price_lows.iloc[-1])
-                h1_, h2_ = float(hist_lows.iloc[-2]), float(hist_lows.iloc[-1])
-                # Price lower-low, MACD histogram higher-low = bullish divergence
-                macd_div = (p2 < p1 * (1 - SIGNAL["divergence_price_gap"])
-                            and h2_ > h1_ * (1 + SIGNAL["divergence_rsi_gap"]))
+                h1_ = float(hist_window.get(idx1, np.nan))
+                h2_ = float(hist_window.get(idx2, np.nan))
+                if not (np.isnan(h1_) or np.isnan(h2_)):
+                    # Bullish divergence: price makes a lower low (>= the configured
+                    # gap below the prior low) while the MACD histogram makes a
+                    # HIGHER low. divergence_price_gap is a multiplier (0.98 → a 2%
+                    # lower low), matching _rsi_divergence. The histogram side is a
+                    # plain higher-low test — histogram units are price-scaled, not
+                    # RSI points, so the old `* (1 + rsi_gap)` factor was meaningless.
+                    macd_div = (p2 <= p1 * SIGNAL["divergence_price_gap"]
+                                and h2_ > h1_)
         s["macd_divergence"] = macd_div
 
         # ── 5. ADX / trend strength ───────────────────────────────────────────
@@ -1758,12 +1934,13 @@ def check_major_leverage_signal(market_ctx: dict | None, account_size: float) ->
 
 
 def build_report(
-    market_ctx:        dict | None,
-    candidates:        list,
-    account_size:      float,
-    watchlist:         list | None = None,
-    scan_start:        datetime | None = None,
-    major_leverage:    list | None = None,
+    market_ctx:          dict | None,
+    candidates:          list,
+    account_size:        float,
+    watchlist:           list | None = None,
+    scan_start:          datetime | None = None,
+    major_leverage:      list | None = None,
+    sideways_exceptions: list | None = None,
 ) -> str:
     ts   = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sep  = "=" * 80
@@ -1822,9 +1999,11 @@ def build_report(
             lines += [
                 "",
                 f"  🟡 SIDEWAYS — Thresholds tightened for safety:",
-                f"     Conviction ≥ {MACRO['sideways_min_conviction']}  |  "
+                f"     Full entry: Conviction ≥ {MACRO['sideways_min_conviction']}  |  "
                 f"Max position {MACRO['sideways_max_pos_pct']}%  |  "
                 f"Stops {MACRO['sideways_atr_mult']}× ATR",
+                f"     Exception entry: Conviction ≥ {MACRO['sideways_exception_conviction']}  |  "
+                f"Max position {MACRO['sideways_exception_max_pos_pct']}%  (6+ signals required)",
                 "     Missing a trade is better than losing capital in chop.",
             ]
         if market_ctx.get("btc_24h", 0) < MACRO.get("btc_24h_danger", -3.0):
@@ -1905,6 +2084,41 @@ def build_report(
             "  Patience is a trading edge. Forcing trades loses money.",
             sep,
         ]
+        # ── SIDEWAYS EXCEPTIONS ───────────────────────────────────────────────
+        if sideways_exceptions:
+            lines += [
+                "",
+                sep,
+                "  ⚡ SIDEWAYS EXCEPTIONS  —  high-signal setups below normal threshold",
+                "  Conviction 50-59 with ≥6 signals. Position capped at 3%. HIGH RISK.",
+                "  These coins have individual catalysts — not pure BTC beta plays.",
+                sep,
+                "",
+            ]
+            for i, exc in enumerate(sideways_exceptions, 1):
+                sig   = exc["signals"]
+                plan  = exc["plan"]
+                conv  = sig["conviction"]
+                nsig  = sig["signal_count"]
+                sigs  = ", ".join(sig.get("active_signals", [])[:6])
+                icon  = "⚡"
+                lines += [
+                    f"  {icon} [{i}] {exc['symbol']:<8}  #{exc['rank']:<4}  "
+                    f"${exc['price']:<12.5f}  7d: {exc['change_7d']:+.1f}%  "
+                    f"conv={conv:.0f}/100  sigs={nsig}",
+                    f"       Signals: {sigs}",
+                    f"       ┌─ EXCEPTION PLAN (3% position cap) ─────────────────────",
+                    f"       │  Entry     : ${plan['entry']:.5f}",
+                    f"       │  Stop      : ${plan['stop']:.5f}  ({plan['stop_pct']:.1f}%)",
+                    f"       │  Max pos   : ${plan['pos_value']:,.0f}  ({plan['pos_pct']:.1f}% of account)",
+                    f"       │  Risk      : ${plan['risk_usd']:,.0f}  USDT",
+                ]
+                for j, tp in enumerate(plan.get("take_profits", [])[:3], 1):
+                    lines.append(
+                        f"       │  TP{j}        : ${tp['price']:.5f}  "
+                        f"(+{tp['gain_pct']:.1f}%)  sell {tp['sell_pct']}%"
+                    )
+                lines += ["       └────────────────────────────────────────────────────", ""]
         _append_major_leverage(lines, major_leverage)
         _append_watchlist(lines, watchlist, sep, dash)
         return "\n".join(lines)
@@ -2049,11 +2263,10 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     _configured_default = ACCOUNT["size_usdt"]
     if account_size < _configured_default * 0.70:
         _diff = _configured_default - account_size
-        print(
-            f"\n  ⚠️  BALANCE WARNING: Free USDT is ${account_size:,.0f} "
-            f"(${_diff:,.0f} below configured ${_configured_default:,.0f}).\n"
-            f"  This usually means capital is locked in open spot positions.\n"
-            f"  Risk sizing below is based on available USDT only.\n"
+        log.warning(
+            f"BALANCE WARNING: Free USDT is ${account_size:,.0f} "
+            f"(${_diff:,.0f} below configured ${_configured_default:,.0f}). "
+            f"Capital likely locked in open positions. Risk sizing uses available USDT only."
         )
 
     log.info("")
@@ -2075,13 +2288,14 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         today_pnl     = get_today_pnl()
         today_pnl_pct = today_pnl / account_size * 100
         if today_pnl_pct <= -5.0:
-            print(f"\n  ⛔  CIRCUIT BREAKER TRIGGERED")
-            print(f"  Today's P&L: {today_pnl_pct:.1f}% — exceeds -5% daily loss limit.")
-            print(f"  No new entries until tomorrow UTC.\n")
+            log.warning(
+                f"CIRCUIT BREAKER TRIGGERED — Today P&L: {today_pnl_pct:.1f}% "
+                f"(exceeds -5% daily loss limit). No new entries until tomorrow UTC."
+            )
             _CIRCUIT_BREAKER_ACTIVE = True
         else:
             _CIRCUIT_BREAKER_ACTIVE = False
-    except Exception:
+    except BaseException:
         _CIRCUIT_BREAKER_ACTIVE = False
 
     # ── Step 1: Market context ────────────────────────────────────────────────
@@ -2179,10 +2393,11 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
             except Exception:
                 log.warning("  Could not load bybit_symbols.json — scanning all coins")
 
-    raw_candidates = []
-    watchlist      = []      # near-miss tokens (conviction 25–59, signals ≥ 3)
-    seen_ids       = set()   # deduplication — coin_id → skip if already processed
-    scanned        = 0
+    raw_candidates     = []
+    watchlist          = []      # near-miss tokens (conviction 25–59, signals ≥ 3)
+    sideways_exceptions = []     # SIDEWAYS exception entries (conv 50-59, ≥6 signals)
+    seen_ids           = set()   # deduplication — coin_id → skip if already processed
+    scanned            = 0
 
     for coin in coins:
         symbol     = coin["symbol"].upper()
@@ -2251,7 +2466,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
         # ── A12: Data staleness check ─────────────────────────────────────────
         if ohlcv is not None and not _check_data_freshness(ohlcv):
             log.warning(f"          → skip {symbol}: OHLCV data is stale (>8h old or duplicates)")
-            if not _cache_fresh:
+            if not _cache_fresh and _DATA_SOURCES.get(coin_id, "coingecko") == "coingecko":
                 time.sleep(SCAN["api_delay_s"])
             continue
 
@@ -2266,7 +2481,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
             log.debug(f"          Funding: {fr_str}")
 
         # ── Data source for volume signal reliability ─────────────────────────
-        is_binance = _DATA_SOURCES.get(coin_id, "coingecko") == "binance"
+        is_binance = _DATA_SOURCES.get(coin_id, "coingecko") in ("bybit", "binance")
 
         # ── Run signals ───────────────────────────────────────────────────────
         signals = detect_signals(ohlcv, btc_closes, price,
@@ -2297,7 +2512,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
 
         if signals is None:
             log.info("          → skip (insufficient data)")
-            if not _cache_fresh:
+            if not _cache_fresh and _DATA_SOURCES.get(coin_id, "coingecko") == "coingecko":
                 time.sleep(SCAN["api_delay_s"])
             continue
 
@@ -2308,7 +2523,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
             log.info(
                 f"          → skip (flatliner: ATR {atr_pct:.2f}% / BB {bb_width:.2f}%)"
             )
-            if not _cache_fresh:
+            if not _cache_fresh and _DATA_SOURCES.get(coin_id, "coingecko") == "coingecko":
                 time.sleep(SCAN["api_delay_s"])
             continue
 
@@ -2420,6 +2635,50 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
                     f"          ★★★ CONFIRMED CANDIDATE (scan {scan_count}) — {active_str}"
                 )
 
+        elif (market_ctx and market_ctx.get("regime") == "SIDEWAYS"
+              and conv >= MACRO["sideways_exception_conviction"]
+              and nsig >= SIGNAL["min_signals"]):
+            # SIDEWAYS exception — high enough signal quality to justify a tiny position.
+            # Build a plan at the reduced max_pos_pct before the RSI overbought gate.
+            _rsi_exc = signals.get("rsi_value") or 0.0
+            if _rsi_exc > 70:
+                log.info(
+                    f"          ⚠️  SIDEWAYS EXCEPTION BLOCKED: RSI overbought ({_rsi_exc:.1f})"
+                )
+                watchlist.append({
+                    "symbol": symbol, "coin_id": coin_id, "rank": rank,
+                    "price": price, "change_7d": change_7d, "signals": signals,
+                    "pending": False, "trend": "flat",
+                    "blocked_reason": f"RSI overbought ({_rsi_exc:.1f})",
+                })
+            else:
+                _regime_exc = market_ctx["regime"] if market_ctx else "SIDEWAYS"
+                # Temporarily cap position for the exception plan
+                _orig_max = ACCOUNT["max_single_pos_pct"]
+                ACCOUNT["max_single_pos_pct"] = MACRO["sideways_exception_max_pos_pct"]
+                exc_plan = build_trade_plan(symbol, rank, price, signals, account_size, regime=_regime_exc)
+                ACCOUNT["max_single_pos_pct"] = _orig_max   # restore
+                if exc_plan:
+                    sideways_exceptions.append({
+                        "symbol":    symbol,
+                        "coin_id":   coin_id,
+                        "rank":      rank,
+                        "price":     price,
+                        "change_7d": change_7d,
+                        "signals":   signals,
+                        "plan":      exc_plan,
+                    })
+                    log.info(
+                        f"          ⚡ SIDEWAYS EXCEPTION ({conv:.0f}/100, {nsig} sigs) "
+                        f"— {', '.join(signals['active_signals'])}"
+                    )
+                else:
+                    watchlist.append({
+                        "symbol": symbol, "coin_id": coin_id, "rank": rank,
+                        "price": price, "change_7d": change_7d, "signals": signals,
+                        "pending": False, "trend": "flat",
+                    })
+
         elif conv >= 25 and nsig >= 3:
             _wl_count = _track_watchlist_conviction(coin_id, conv, candidate_history)
             _trend = _conviction_trend(coin_id, candidate_history, is_watchlist=True)
@@ -2438,7 +2697,7 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
             # during the next scan before a genuine signal change occurs.
             _set_cooldown(symbol, _cooldowns)
 
-        if not _cache_fresh:
+        if not _cache_fresh and _DATA_SOURCES.get(coin_id, "coingecko") == "coingecko":
             time.sleep(SCAN["api_delay_s"])
 
     # ── Save persistence history ──────────────────────────────────────────────
@@ -2532,7 +2791,8 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
 
     report_text = build_report(market_ctx, final, account_size,
                                watchlist=watchlist, scan_start=scan_start,
-                               major_leverage=major_lev)
+                               major_leverage=major_lev,
+                               sideways_exceptions=sideways_exceptions)
     log.info("\n" + report_text)
 
     ts_str = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -2544,31 +2804,6 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
     # Latest (always overwritten — easy to find)
     latest_txt = _OUTPUT_DIR / "spot_trade_plan_LATEST.txt"
     latest_txt.write_text(report_text, encoding="utf-8")
-
-    # ── Telegram alerts for confirmed setups ──────────────────────────────────
-    try:
-        from alerts import alert_setup, alert_watchlist, is_configured, send_heartbeat
-        if is_configured():
-            _regime = market_ctx["regime"] if market_ctx else "SIDEWAYS"
-            if final:
-                for _c in final:
-                    _sig  = _c["signals"]
-                    _plan = _c["plan"]
-                    alert_setup(
-                        scanner    = "Spot",
-                        symbol     = _c["symbol"],
-                        conviction = int(_sig["conviction"]),
-                        entry      = _plan["entry"],
-                        stop       = _plan["stop"],
-                        tp1        = _plan["take_profits"][0]["price"],
-                        regime     = _regime,
-                        signals    = _sig["active_signals"],
-                    )
-            # A11: Heartbeat — confirms scanner ran successfully
-            _top_sym = final[0]["symbol"] if final else None
-            send_heartbeat("Spot Scanner", coins_scanned=scanned, top_setup=_top_sym)
-    except Exception:
-        pass
 
     # JSON (for programmatic access / future dashboard)
     def _serialise(obj):
@@ -2623,6 +2858,9 @@ def run(account_size: float | None = None, coin_whitelist: set | None = None) ->
 # ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    if sys.platform == "win32":
+        import signal as _signal
+        _signal.signal(_signal.SIGINT, _signal.SIG_IGN)
     parser = argparse.ArgumentParser(
         description="Crypto Master Orchestrator — unified trade plan generator"
     )

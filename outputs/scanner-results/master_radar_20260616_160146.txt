@@ -1,0 +1,129 @@
+════════════════════════════════════════════════════════════════════════════════
+  MASTER RADAR  v3.0  —  cross-scanner confluence
+  Generated  : 2026-06-16 16:01:46    |    Orchestration time: 75.3s
+════════════════════════════════════════════════════════════════════════════════
+
+  ⚠️  WARNINGS:
+     - spot: not auto-run by orchestrator. spot_scanner: stale (2.6h old). Run `python spot_scanner.py` manually to refresh.
+
+  Regime    : 🟢 BULL    BTC 7d +5.14%  |  24h +0.89%
+
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  ⚠️  SPOT SCANNER SAYS STAY IN USDT                                │
+  │     0 setups passed spot's regime-aware filter.                  │
+  │     Trend coins below may still be valid, but reduce aggression. │
+  └──────────────────────────────────────────────────────────────────┘
+
+  Universe  : 194 coins surfaced across scanners
+  Buckets   : 2 CONVERGENCE  |  9 STRONG SETUP  |  172 SINGLE-SCANNER  |  11 EXTENDED (24h>15%)
+
+  Scanner badges: I=Ignition  P=Perp  S=Spot  T=Trend
+                   ★★=top tier  ★=lower tier  ·=watch (trend only)
+
+────────────────────────────────────────────────────────────────────────────────
+  CONVERGENCE  —  2 coin(s)  (≥3 scanners agreeing, confluence ≥10)
+────────────────────────────────────────────────────────────────────────────────
+
+  [ 1] SPX         conf= 11.0  scanners=3/4   I★   P★     ·    T★★    $0.339800  24h=+10.30%  vol=$43.3M
+       → I:[vol_in_window, vol_expansion, obv_stealth_accum +4]  |  P:[funding_negative, vol_oi_surge]  |  T:[score=139, ST=5/6]
+       Plan (trend): entry $0.339800  |  stop $0.294521 -13.33%  |  TPs: $0.407718, $0.475636, $0.566193
+
+  [ 2] JTO         conf= 11.0  scanners=3/4   I★   P★     ·    T★★    $0.729200  24h=+7.80%  vol=$113.1M
+       → I:[vol_in_window, vol_expansion, rsi_reset +5]  |  P:[funding_negative, vol_oi_surge]  |  T:[score=165, ST=6/6]
+       Plan (trend): entry $0.729200  |  stop $0.619820 -15.00%  |  TPs: $0.893270, $1.057340, $1.276100
+
+────────────────────────────────────────────────────────────────────────────────
+  STRONG SETUP  —  9 coin(s)  (≥2 scanners, confluence ≥6)
+────────────────────────────────────────────────────────────────────────────────
+
+  [ 1] XAN         conf=  9.0  scanners=2/4   I★★    ·      ·    T★     $0.009600  24h=-3.20%  vol=$1.1M
+       → I:[bb_squeeze, vol_in_window, vol_expansion +4]  |  T:[score=114, ST=4/6]
+       Plan (trend): entry $0.009600  |  stop $0.008160 -15.00%  |  TPs: $0.011760, $0.013920, $0.016800
+
+  [ 2] USELESS     conf=  8.0  scanners=2/4   I★     ·      ·    T★★    $0.074720  24h=-11.31%  vol=$6.9M
+       → I:[vol_in_window, obv_stealth_accum, obv_divergence +2]  |  T:[score=140, ST=5/6]
+       Plan (trend): entry $0.074720  |  stop $0.063512 -15.00%  |  TPs: $0.091532, $0.108344, $0.130760
+
+  [ 3] ROSE        conf=  8.0  scanners=2/4   I★     ·      ·    T★★    $0.006925  24h=-0.40%  vol=$2.6M
+       → I:[vol_in_window, vol_expansion, whale_candle +4]  |  T:[score=130, ST=5/6]
+       Plan (trend): entry $0.006925  |  stop $0.006042 -12.75%  |  TPs: $0.008249, $0.009574, $0.011340
+
+  [ 4] KAS         conf=  8.0  scanners=2/4   I★     ·      ·    T★★    $0.032990  24h=-1.51%  vol=$4.4M
+       → I:[vol_in_window, vol_expansion, obv_stealth_accum +2]  |  T:[score=132, ST=4/6]
+       Plan (trend): entry $0.032990  |  stop $0.029524 -10.51%  |  TPs: $0.038189, $0.043388, $0.050320
+
+  [ 5] FIDA        conf=  6.0  scanners=2/4     ·    P★     ·    T★     $0.024962  24h=+0.20%  vol=$6.2M
+       → P:[funding_negative, vol_oi_surge]  |  T:[score=119, ST=5/6]
+       Plan (trend): entry $0.024962  |  stop $0.021218 -15.00%  |  TPs: $0.030578, $0.036195, $0.043684
+
+  [ 6] ARB         conf=  6.0  scanners=2/4   I★     ·      ·    T★     $0.086150  24h=-5.58%  vol=$14.8M
+       → I:[vol_in_window, obv_stealth_accum, obv_divergence +3]  |  T:[score=114, ST=3/6]
+       Plan (trend): entry $0.086150  |  stop $0.075896 -11.90%  |  TPs: $0.101530, $0.116911, $0.137418
+
+  [ 7] WAVES       conf=  6.0  scanners=2/4     ·    P★     ·    T★     $0.271200  24h=+4.79%  vol=$4.5M
+       → P:[funding_negative, vol_oi_surge]  |  T:[score=120, ST=5/6]
+       Plan (trend): entry $0.271200  |  stop $0.231975 -14.46%  |  TPs: $0.330037, $0.388875, $0.467325
+
+  [ 8] ETH         conf=  6.0  scanners=2/4   I★     ·      ·    T★     $1,795.100000  24h=-1.95%  vol=$2929.7M
+       → I:[vol_in_window, obv_stealth_accum, obv_divergence +2]  |  T:[score=117, ST=4/6]
+       Plan (trend): entry $1795.100000  |  stop $1636.976429 -8.81%  |  TPs: $2032.285357, $2269.470714, $2585.717857
+
+  [ 9] STRK        conf=  6.0  scanners=2/4   I★     ·      ·    T★     $0.036320  24h=-5.08%  vol=$7.5M
+       → I:[bb_squeeze, obv_stealth_accum, rsi_divergence +1]  |  T:[score=125, ST=4/6]
+       Plan (trend): entry $0.036320  |  stop $0.031420 -13.49%  |  TPs: $0.043669, $0.051019, $0.060818
+
+────────────────────────────────────────────────────────────────────────────────
+  SINGLE-SCANNER  —  172 coin(s)  (only one scanner surfaced — early but unconfirmed)
+────────────────────────────────────────────────────────────────────────────────
+  #   Symbol      Conf  IGN PRP SPT TRD         Price    24h%  Signals snapshot
+  ------------------------------------------------------------------------------
+    1 BOND         6.0  I★★ ·   ·   ·     $  2.152000  +4.42%  I:vol_in_window,whale_candle
+    2 AWE          6.0  I★★ ·   ·   ·     $  0.054760  +0.98%  I:vol_in_window,vol_expansion
+    3 MRVL         6.0  I★★ ·   ·   ·     $311.220000  +2.69%  I:vol_in_window,vol_expansion
+    4 TOMO         6.0  I★★ ·   ·   ·     $  1.381900  +3.22%  I:vol_in_window,vol_expansion
+    5 NBIS         6.0  I★★ ·   ·   ·     $274.490000  +4.65%  I:vol_in_window,whale_candle
+    6 CRWV         6.0  I★★ ·   ·   ·     $117.050000  +7.58%  I:vol_in_window,vol_expansion
+    7 ORCL         6.0  I★★ ·   ·   ·     $194.450000  -2.06%  I:vol_in_window,whale_candle
+    8 GRASS        5.0  ·   ·   ·   T★★   $  0.461810  -3.10%  T:score=144
+    9 MMT          5.0  ·   ·   ·   T★★   $  0.127910  +3.64%  T:score=137
+   10 GPS          5.0  ·   ·   ·   T★★   $  0.009181  +4.69%  T:score=148
+   11 ATOM         5.0  ·   ·   ·   T★★   $  1.962200  -1.10%  T:score=150
+   12 AERO         5.0  ·   ·   ·   T★★   $  0.426800  +4.94%  T:score=149
+   13 ARKM         5.0  ·   ·   ·   T★★   $  0.133060  -2.23%  T:score=135
+   14 CRV          5.0  ·   ·   ·   T★★   $  0.238300  -2.08%  T:score=138
+   15 NEAR         5.0  ·   ·   ·   T★★   $  2.391800  -8.32%  T:score=136
+   16 BASED        5.0  ·   ·   ·   T★★   $  0.078590  -7.97%  T:score=141
+   17 ORDI         5.0  ·   ·   ·   T★★   $  3.380000  -4.58%  T:score=131
+   18 XLM          5.0  ·   ·   ·   T★★   $  0.213590  +2.78%  T:score=130
+   19 WLD          5.0  ·   ·   ·   T★★   $  0.586900  +3.49%  T:score=158
+   20 JCT          5.0  ·   ·   ·   T★★   $  0.006498  +1.34%  T:score=143
+   21 SQD          5.0  ·   ·   ·   T★★   $  0.041560  +1.96%  T:score=149
+   22 AKT          5.0  ·   ·   ·   T★★   $  0.822100  -1.02%  T:score=138
+   23 UAI          5.0  ·   ·   ·   T★★   $  0.327980 -23.10%  T:score=133
+   24 IO           5.0  ·   ·   ·   T★★   $  0.178020  -1.88%  T:score=143
+   25 OPEN         5.0  ·   ·   ·   T★★   $  0.236410  +5.35%  T:score=138
+   26 FOLKS        5.0  ·   ·   ·   T★★   $  2.012500 +10.22%  T:score=143
+   27 UNI          5.0  ·   ·   ·   T★★   $  2.843000  +9.27%  T:score=134
+   28 UMA          5.0  ·   ·   ·   T★★   $  0.425000  +3.96%  T:score=137
+   29 EIGEN        5.0  ·   ·   ·   T★★   $  0.214520  -6.86%  T:score=132
+   30 ALCH         5.0  ·   ·   ·   T★★   $  0.074470 +10.30%  T:score=150
+  ... (142 more, see JSON)
+
+────────────────────────────────────────────────────────────────────────────────
+  EXTENDED  —  11 coin(s)  (already up >15% in 24h — entry likely late)
+────────────────────────────────────────────────────────────────────────────────
+  #   Symbol      Conf  IGN PRP SPT TRD         Price    24h%  Original bucket / Signals
+  ------------------------------------------------------------------------------
+    1 CREAM        6.0  I★★ ·   ·   ·     $  2.100000 +65.35%  would-be: SINGLE_SCANNER
+    2 BR           8.0  ·   P★  ·   T★★   $  0.111890 +46.08%  would-be: STRONG_SETUP
+    3 PNT          3.0  I★  ·   ·   ·     $  0.035000 +45.23%  would-be: SINGLE_SCANNER
+    4 PORTAL       9.0  I★  P★★ ·   ·     $  0.016503 +44.17%  would-be: STRONG_SETUP
+    5 BSB          5.0  ·   ·   ·   T★★   $  0.361700 +39.34%  would-be: SINGLE_SCANNER
+    6 LAB          6.0  I★  ·   ·   T★    $  9.553000 +33.28%  would-be: STRONG_SETUP
+    7 EPIC         5.0  ·   ·   ·   T★★   $  0.495100 +25.18%  would-be: SINGLE_SCANNER
+    8 TRIA         7.0  I★★ ·   ·   T·    $  0.022582 +23.28%  would-be: STRONG_SETUP
+    9 SENT        11.0  I★  P★  ·   T★★   $  0.015003 +17.30%  would-be: CONVERGENCE
+   10 SPACE       11.0  I★  P★  ·   T★★   $  0.006639 +15.58%  would-be: CONVERGENCE
+   11 Q            6.0  I★  ·   ·   T★    $  0.017313 +15.30%  would-be: STRONG_SETUP
+
+════════════════════════════════════════════════════════════════════════════════

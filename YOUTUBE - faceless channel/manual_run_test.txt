@@ -1,0 +1,78 @@
+2026-06-03 09:44:29,704 [INFO] ================================================================
+2026-06-03 09:44:29,705 [INFO] VIDEO PIPELINE v2.1
+2026-06-03 09:44:29,705 [INFO]   Format: Shorts 9:16
+2026-06-03 09:44:29,705 [INFO]   Upload: enabled
+2026-06-03 09:44:29,705 [INFO] ================================================================
+2026-06-03 09:44:29,705 [INFO] 
+[1/6] Ingesting scanner data...
+2026-06-03 09:44:29,714 [INFO]   Loaded master_radar_LATEST.json
+2026-06-03 09:44:29,717 [INFO]   Loaded ignition_v3_LATEST.json
+2026-06-03 09:44:29,721 [INFO]   Loaded perp_v3_LATEST.json
+2026-06-03 09:44:29,730 [INFO]   Loaded trend_v3_LATEST.json
+2026-06-03 09:44:29,735 [INFO]   Loaded spot_trade_plan_LATEST.json
+2026-06-03 09:44:29,736 [INFO]   BTC price recovered from spot: $73,809
+2026-06-03 09:44:29,736 [INFO]   Regime: bear
+2026-06-03 09:44:29,736 [INFO]   BTC: $73,809
+2026-06-03 09:44:29,737 [INFO]   Top movers: 8
+2026-06-03 09:44:29,737 [INFO] 
+[2/6] Generating narration script...
+2026-06-03 09:44:29,737 [INFO]   Using provider: grok (model=grok-4-1-fast-non-reasoning)
+2026-06-03 09:44:30,426 [INFO]   Calling Grok (grok-4-1-fast-non-reasoning)...
+2026-06-03 09:44:35,078 [INFO]   Script generated: 4 segments, ~103 words
+2026-06-03 09:44:35,078 [INFO]   Title: I Scanned 600 Coins. Only 3 Passed.
+2026-06-03 09:44:35,078 [INFO]   Segments: 4
+2026-06-03 09:44:35,078 [INFO]   Tags: crypto, bitcoin, altcoins, trading, technicalanalysis
+2026-06-03 09:44:35,081 [INFO] 
+[3/6] Generating voiceover (voice clone)...
+2026-06-03 09:44:35,083 [INFO]   Background music: lexin_music-cinematic-documentary-115669.mp3
+2026-06-03 09:44:37,655 [INFO]   ElevenLabs quota: 36,338 chars remaining (need ~512, tier=starter)
+2026-06-03 09:44:38,305 [INFO]   TTS segment 1/4: BTC (132 chars)
+2026-06-03 09:44:41,156 [INFO]     Ô£ô 190,633 bytes
+2026-06-03 09:44:41,156 [INFO]   TTS segment 2/4: XLM (156 chars)
+2026-06-03 09:44:42,479 [INFO]     Ô£ô 211,531 bytes
+2026-06-03 09:44:42,479 [INFO]   TTS segment 3/4: LAB (115 chars)
+2026-06-03 09:44:43,645 [INFO]     Ô£ô 134,626 bytes
+2026-06-03 09:44:43,647 [INFO]   TTS segment 4/4: JTO (109 chars)
+2026-06-03 09:44:44,785 [INFO]     Ô£ô 122,924 bytes
+2026-06-03 09:44:45,402 [INFO]   Mixing background music (lexin_music-cinematic-documentary-115669.mp3 at 12%)...
+2026-06-03 09:44:46,219 [INFO]   Total audio: 42.2s (4 segments)
+2026-06-03 09:44:46,646 [INFO]   Per-segment durations: audio_20260603_094429.durations.json (4 segments)
+2026-06-03 09:44:46,653 [INFO]   Audio: audio_20260603_094429.mp3 (42.2s)
+2026-06-03 09:44:46,653 [INFO] 
+[4/6] Rendering visual frames...
+2026-06-03 09:44:47,788 [INFO]   Frame 1/4: BTC (stat_card)
+2026-06-03 09:44:48,904 [INFO]   Frame 2/4: XLM (signal_stack)
+2026-06-03 09:44:49,469 [INFO]   Frame 3/4: LAB (signal_stack)
+2026-06-03 09:44:50,081 [INFO]   Frame 4/4: JTO (signal_stack)
+2026-06-03 09:44:50,566 [INFO]   Frames: 4 images
+2026-06-03 09:44:50,571 [INFO] 
+[5/7] Composing final video...
+2026-06-03 09:44:50,691 [INFO]   Using per-segment durations from audio_20260603_094429.durations.json: [11.9, 13.2, 8.4, 7.7]
+2026-06-03 09:44:50,691 [INFO]   Audio: 42.2s, 4 frames (per-segment timing)
+2026-06-03 09:44:50,699 [INFO]   Copied frame 0: frame_000.png ÔåÆ f000.png (3,279,851 bytes)
+2026-06-03 09:44:50,703 [INFO]   Copied frame 1: frame_001.png ÔåÆ f001.png (3,017,547 bytes)
+2026-06-03 09:44:50,713 [INFO]   Copied frame 2: frame_002.png ÔåÆ f002.png (3,019,847 bytes)
+2026-06-03 09:44:50,718 [INFO]   Copied frame 3: frame_003.png ÔåÆ f003.png (3,152,620 bytes)
+2026-06-03 09:46:07,831 [INFO]   Done: crypto_recap_20260603_094429.mp4
+2026-06-03 09:46:07,882 [INFO]   Video: crypto_recap_20260603_094429.mp4
+2026-06-03 09:46:07,883 [INFO] 
+[6/7] Generating thumbnail...
+2026-06-03 09:46:08,433 [INFO]   Thumbnail: thumb_20260603_094429.png
+2026-06-03 09:46:08,433 [INFO] 
+[7/7] Uploading to YouTube...
+2026-06-03 09:46:11,648 [INFO]   YouTube token refreshed
+2026-06-03 09:46:12,210 [INFO]   Title passed humanness check: 'I Scanned 600 Coins. Only 3 Passed.'
+2026-06-03 09:46:12,235 [INFO]   Uploading: I Scanned 600 Coins. Only 3 Passed.
+2026-06-03 09:46:28,709 [INFO]   Upload progress: 38%
+2026-06-03 09:46:40,421 [INFO]   Upload progress: 76%
+2026-06-03 09:46:48,731 [INFO]   Upload complete: https://youtu.be/0FeL1Sr8DBc
+2026-06-03 09:46:51,765 [INFO]   Thumbnail set: thumb_20260603_094429.png
+2026-06-03 09:46:52,555 [INFO]   Owner comment posted: UgwNmtdZUYiSgkv7a-V4AaABAg
+2026-06-03 09:46:52,931 [INFO]   Comment pinned (owner highlight): UgwNmtdZUYiSgkv7a-V4AaABAg
+2026-06-03 09:46:52,948 [INFO]   Uploaded: https://youtu.be/0FeL1Sr8DBc
+2026-06-03 09:46:52,954 [INFO] 
+================================================================
+2026-06-03 09:46:52,954 [INFO] Done in 143.2s
+2026-06-03 09:46:52,954 [INFO]   Video:  C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\YOUTUBE - faceless channel\Videos\crypto_recap_20260603_094429.mp4
+2026-06-03 09:46:52,954 [INFO]   Script: C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\YOUTUBE - faceless channel\Video Scripts\script_20260603_094429.json
+2026-06-03 09:46:52,956 [INFO] ================================================================

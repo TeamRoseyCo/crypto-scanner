@@ -241,13 +241,67 @@ def _safe_atr(df: pd.DataFrame, period: int = 14) -> float:
     return val if val is not None else 0.0
 
 
-def _classify_regime(btc_1d: pd.DataFrame) -> tuple[str, float, float]:
+# Regime is persisted between runs so a transient BTC-1D fetch miss doesn't
+# silently downgrade the whole long side to SIDEWAYS @ 0.00% (regime gates tier
+# thresholds AND position sizing, so a wrong default is expensive).
+_REGIME_STATE_FILE = _OUTPUT_DIR / "last_regime.json"
+
+
+def _save_regime(regime: str, btc_7d_pct: float, btc_24h_pct: float) -> None:
+    try:
+        _REGIME_STATE_FILE.write_text(json.dumps({
+            "regime":      regime,
+            "btc_7d_pct":  btc_7d_pct,
+            "btc_24h_pct": btc_24h_pct,
+            "saved_at":    datetime.now().isoformat(),
+        }), encoding="utf-8")
+    except Exception as e:
+        log.debug(f"Could not persist regime state: {e}")
+
+
+def _load_last_regime() -> Optional[tuple[str, float, float]]:
+    try:
+        d = json.loads(_REGIME_STATE_FILE.read_text(encoding="utf-8"))
+        return d["regime"], float(d["btc_7d_pct"]), float(d["btc_24h_pct"])
+    except Exception:
+        return None
+
+
+def fetch_btc_1d_resilient(bars: int = 200, attempts: int = 2) -> Optional[pd.DataFrame]:
+    """Fetch BTC 1D with a retry on a miss.
+
+    Requesting >=200 bars (rather than the old 30) also clears the 50-bar cache
+    floor inside data.get_btc, so a good result is actually REUSED between runs
+    instead of re-hitting the network every scan — which is what exposed the
+    regime read to transient failures in the first place.
+    """
+    for attempt in range(1, attempts + 1):
+        df = data.get_btc("1d", bars)
+        if df is not None and len(df) >= 8:
+            return df
+        if attempt < attempts:
+            log.warning(f"  BTC 1D fetch insufficient (attempt {attempt}/{attempts}) — retrying...")
+            time.sleep(2)
+    return None
+
+
+def _classify_regime(btc_1d: Optional[pd.DataFrame]) -> tuple[str, float, float]:
     """
     Returns (regime, btc_7d_pct, btc_24h_pct).
     regime is one of 'bull' | 'sideways' | 'bear'.
+
+    On a transient BTC-1D fetch miss, fall back to the LAST KNOWN regime
+    (persisted from the previous good run) instead of silently defaulting to
+    'sideways' @ 0.00%. Only default to sideways if there is no prior state.
     """
     if btc_1d is None or len(btc_1d) < 8:
-        log.warning("BTC 1D insufficient for regime detection — defaulting to sideways")
+        last = _load_last_regime()
+        if last is not None:
+            regime, b7, b24 = last
+            log.warning(f"  BTC 1D unavailable — reusing last known regime: "
+                        f"{regime.upper()} (BTC 7d {b7:+.2f}%)")
+            return regime, b7, b24
+        log.warning("BTC 1D insufficient and no prior regime on file — defaulting to sideways")
         return "sideways", 0.0, 0.0
 
     closes = btc_1d["close"]
@@ -260,6 +314,8 @@ def _classify_regime(btc_1d: pd.DataFrame) -> tuple[str, float, float]:
         regime = "sideways"
     else:
         regime = "bear"
+
+    _save_regime(regime, btc_7d_pct, btc_24h_pct)
     return regime, btc_7d_pct, btc_24h_pct
 
 
@@ -828,7 +884,7 @@ def run(
 
     # ── BTC reference for regime + RS ────────────────────────────────────────
     log.info("Fetching BTC 1D for regime detection...")
-    btc_1d = data.get_btc("1d", 30)
+    btc_1d = fetch_btc_1d_resilient()
     regime, btc_7d_pct, btc_24h_pct = _classify_regime(btc_1d)
     btc_price = float(btc_1d["close"].iloc[-1]) if btc_1d is not None and len(btc_1d) > 0 else 0
     log.info(f"  Regime: {regime.upper()}  |  BTC 7d {btc_7d_pct:+.2f}%  "
@@ -921,9 +977,11 @@ def run(
     txt_ts      = _OUTPUT_DIR / f"trend_v3_{ts_file}.txt"
     txt_latest  = _OUTPUT_DIR / "trend_v3_LATEST.txt"
     json_latest = _OUTPUT_DIR / "trend_v3_LATEST.json"
+    json_ts     = _OUTPUT_DIR / f"trend_v3_{ts_file}.json"
 
     txt_ts.write_text(report_text, encoding="utf-8")
     txt_latest.write_text(report_text, encoding="utf-8")
+    json_ts.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     json_latest.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     log.info(f"  Saved → {txt_latest.name}, {json_latest.name}, {txt_ts.name}")
 

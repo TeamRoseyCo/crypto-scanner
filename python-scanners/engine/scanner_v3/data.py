@@ -38,7 +38,7 @@ import os
 import sys
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Literal
 
@@ -79,10 +79,13 @@ class DataConfig:
     bybit_api:           str   = "https://api.bybit.com"
     binance_api:         str   = "https://api.binance.com/api/v3"
     binance_fapi:        str   = "https://fapi.binance.com/fapi/v1"
-    user_agent:          str   = "scanner_v3/1.0"
+    user_agent:          str   = "scanner_v3/2.0"
     cache_max_age_h:     float = 1.5    # OHLCV reuse window
     btc_cache_max_age_h: float = 1.0    # BTC fetched more often
-    request_timeout_s:   int   = 15
+    # (connect, read): a short connect timeout fails fast on dead DNS instead
+    # of blocking ~30s on Windows getaddrinfo. Read timeout stays generous so
+    # slow-but-alive servers still answer.
+    request_timeout_s:   tuple[int, int] = (5, 15)
     bybit_min_volume:    float = 500_000      # 24h turnover floor (USD)
     binance_min_volume:  float = 200_000      # 24h volume floor (USD)
 
@@ -100,12 +103,22 @@ STABLECOINS_AND_WRAPPED: frozenset[str] = frozenset({
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# HTTP SESSIONS  — separate per host so headers / hooks don't bleed
+# HTTP SESSIONS  — separate per host so headers / hooks don't bleed.
+#
+# Uses http_client.make_session(): urllib3 Retry adapter that retries connect
+# errors (DNS!), read timeouts, and 429/5xx with exponential backoff + jitter,
+# and logs each retry so a flaky network doesn't look like a silent hang.
+# See http_client.py for the full breakdown.
 # ─────────────────────────────────────────────────────────────────────────────
-_BYBIT_SESSION   = requests.Session()
-_BINANCE_SESSION = requests.Session()
-_BYBIT_SESSION.headers.update({"User-Agent": CFG.user_agent})
-_BINANCE_SESSION.headers.update({"User-Agent": CFG.user_agent})
+from http_client import make_session, CircuitBreaker
+
+_BYBIT_SESSION   = make_session(user_agent=CFG.user_agent)
+_BINANCE_SESSION = make_session(user_agent=CFG.user_agent)
+
+# Shared circuit breaker — after 5 consecutive failures across either host,
+# pause once for 60s before resuming. Prevents wasting 22s × N coins on a
+# dead network.
+_BREAKER = CircuitBreaker(threshold=5, cooloff_s=60)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -121,6 +134,35 @@ TF_BINANCE = {
     "1h": "1h", "2h": "2h", "4h": "4h", "6h": "6h",
     "12h": "12h", "1d": "1d",
 }
+
+# Duration of one bar per timeframe — used to detect and drop the candle that
+# is still forming. Acting on an unclosed bar means signals are computed on a
+# partial high/low/close that keeps moving, so they flicker intrabar and don't
+# match closed-bar backtests. We only ever evaluate the most recent CLOSED bar.
+TF_DELTA = {
+    "1m": timedelta(minutes=1),  "5m": timedelta(minutes=5),
+    "15m": timedelta(minutes=15), "30m": timedelta(minutes=30),
+    "1h": timedelta(hours=1),    "2h": timedelta(hours=2),
+    "4h": timedelta(hours=4),    "6h": timedelta(hours=6),
+    "12h": timedelta(hours=12),  "1d": timedelta(days=1),
+}
+
+
+def _drop_unclosed_bars(df: pd.DataFrame | None, tf: str) -> pd.DataFrame | None:
+    """Drop trailing bar(s) whose period has not finished yet.
+
+    Bybit/Binance kline endpoints include the in-progress candle. A bar indexed
+    by its START time `t0` is closed only once `t0 + duration <= now (UTC)`.
+    Index is naive-UTC (epoch-ms), so we compare against naive-UTC now.
+    """
+    if df is None or len(df) == 0:
+        return df
+    d = TF_DELTA.get(tf)
+    if d is None:
+        return df
+    now = pd.Timestamp(datetime.now(timezone.utc).replace(tzinfo=None))
+    closed = (df.index + d) <= now
+    return df[closed]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -329,6 +371,7 @@ def _bybit_ohlcv(symbol: str, tf: str, bars: int) -> pd.DataFrame | None:
         for col in ("open", "high", "low", "close", "volume", "turnover"):
             df[col] = pd.to_numeric(df[col], errors="coerce")
         df = df[["open", "high", "low", "close", "volume"]].dropna()
+        df = _drop_unclosed_bars(df, tf)
         return df if len(df) >= 30 else None
     except Exception as e:
         log.debug(f"Bybit kline fetch failed {symbol} {tf}: {e}")
@@ -360,6 +403,7 @@ def _binance_ohlcv(symbol: str, tf: str, bars: int) -> pd.DataFrame | None:
         for col in ("open", "high", "low", "close", "volume"):
             df[col] = pd.to_numeric(df[col], errors="coerce")
         df = df[["open", "high", "low", "close", "volume"]].dropna()
+        df = _drop_unclosed_bars(df, tf)
         return df if len(df) >= 30 else None
     except Exception as e:
         log.debug(f"Binance kline fetch failed {symbol} {tf}: {e}")

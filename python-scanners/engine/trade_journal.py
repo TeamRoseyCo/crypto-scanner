@@ -349,8 +349,8 @@ def cmd_stats(args) -> None:
                   for r in closed]
     r_vals   = [r for r in r_vals_raw if r is not None]
     pnl_vals = [_float(r["pnl_usdt"])   for r in closed]
-    wins     = [r for r in r_vals if r > 0]
-    losses   = [r for r in r_vals if r <= 0]
+    wins   = [t for t in closed if (t.get("pnl_pct") or 0) > 0]
+    losses = [t for t in closed if (t.get("pnl_pct") or 0) < 0]
 
     win_rate   = len(wins) / len(r_vals) * 100 if r_vals else 0.0
     avg_win    = sum(wins)   / len(wins)   if wins   else 0.0

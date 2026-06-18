@@ -900,6 +900,518 @@ def sig_btc_decoupling(
     return res
 
 
+
+# ═════════════════════════════════════════════════════════════════════════════
+# BEARISH-TWIN SIGNALS  — for short_scanner (mirror of bullish signals above)
+# ═════════════════════════════════════════════════════════════════════════════
+# Each function below is the bearish mirror of an existing bullish signal —
+# same math, inverted comparisons. Used by short_scanner.py.
+#
+# Note: sig_bb_squeeze, sig_rsi_in_zone, sig_funding_extreme_long are
+# direction-agnostic / already-bearish and reused as-is by short_scanner.
+
+
+def sig_vol_distribution(
+    df:         pd.DataFrame,
+    recent:     int   = 6,
+    base_start: int   = 7,
+    base_end:   int   = 42,
+    mult:       float = 1.5,
+) -> SignalResult:
+    """
+    Bearish twin of sig_vol_expansion.
+    Volume elevation in recent N bars vs baseline, only counted if the recent
+    net price move is NEGATIVE (high volume + selling = distribution).
+    """
+    if not _enough_bars(df, base_end + recent) or "volume" not in df.columns:
+        return SignalResult.empty()
+
+    vols   = df["volume"].dropna()
+    closes = df["close"].dropna()
+    if len(vols) < base_end + recent or len(closes) < recent + 1:
+        return SignalResult.empty()
+
+    recent_avg = float(vols.iloc[-recent:].mean())
+    base_slice = vols.iloc[-base_end:-base_start] if base_start > 0 else vols.iloc[-base_end:]
+    base_avg   = float(base_slice.mean())
+    if base_avg <= 0:
+        return SignalResult.empty()
+
+    p_start = float(closes.iloc[-recent])
+    p_end   = float(closes.iloc[-1])
+    if p_start <= 0:
+        return SignalResult.empty()
+    recent_price_pct = (p_end - p_start) / p_start
+
+    ratio = recent_avg / base_avg
+    fired = (ratio >= mult) and (recent_price_pct < -0.005)
+
+    strength = 0.0
+    if fired:
+        vol_score  = min((ratio - mult) / 3.0, 1.0)
+        drop_score = min(abs(recent_price_pct) / 0.05, 1.0)
+        strength   = (vol_score + drop_score) / 2.0
+
+    return SignalResult(
+        fired    = bool(fired),
+        strength = float(strength),
+        value    = float(ratio),
+        extras   = {
+            "vol_ratio":        round(ratio, 2),
+            "recent_price_pct": round(recent_price_pct * 100, 2),
+        },
+    )
+
+
+def sig_bear_distribution_candle(
+    df:              pd.DataFrame,
+    lookback:        int   = 6,
+    atr_mult:        float = 1.8,
+    atr_period:      int   = 14,
+    close_lower_pct: float = 0.30,
+) -> SignalResult:
+    """
+    Bearish twin of sig_whale_candle. Large RED candle in the last `lookback`
+    bars: body >= ATR * atr_mult, close in LOWER N% of range, close < open.
+    Distribution-by-size — opposite of accumulation-by-size.
+    """
+    if not _enough_bars(df, atr_period + lookback + 2):
+        return SignalResult.empty()
+
+    atr = compute_atr(df, atr_period)
+    atr_now = _safe_float(atr.iloc[-1])
+    if np.isnan(atr_now) or atr_now <= 0:
+        return SignalResult.empty()
+
+    recent = df.iloc[-lookback:]
+    best_strength = 0.0
+    fired = False
+    bars_ago = -1
+
+    for i, (_, bar) in enumerate(recent.iloc[::-1].iterrows()):  # newest first
+        o = float(bar["open"]); h = float(bar["high"])
+        l = float(bar["low"]);  c = float(bar["close"])
+        body = o - c                              # positive if bearish
+        rng  = h - l
+        if rng <= 0 or body <= 0:
+            continue
+        close_pos = (c - l) / rng                 # 0 = at low, 1 = at high
+        if close_pos > close_lower_pct:
+            continue
+        body_atr_mult = body / atr_now
+        if body_atr_mult < atr_mult:
+            continue
+        strength = min((body_atr_mult / atr_mult - 1.0) + 0.5, 1.0)
+        recency_factor = 1.0 - (i / (lookback * 1.5))
+        strength *= recency_factor
+        if strength > best_strength:
+            best_strength = strength
+            bars_ago = i
+            fired = True
+
+    return SignalResult(
+        fired    = fired,
+        strength = float(best_strength),
+        value    = atr_now,
+        extras   = {"bars_ago": bars_ago} if fired else {},
+    )
+
+
+def sig_bear_obv_distribution(
+    df:             pd.DataFrame,
+    obv_lookback:   int   = 12,
+    max_obv_pct:    float = -0.015,    # OBV must fall >= 1.5%
+    max_price_move: float = 0.03,       # while price stays within +/-3%
+) -> SignalResult:
+    """
+    Stealth distribution: OBV falls significantly while price is flat.
+    Selling pressure not yet reflected in price.
+    Bearish twin of sig_obv_stealth_accum.
+    """
+    if not _enough_bars(df, obv_lookback + 5) or "volume" not in df.columns:
+        return SignalResult.empty()
+
+    obv    = compute_obv(df)
+    closes = df["close"]
+
+    p_now   = float(closes.iloc[-1])
+    p_prior = float(closes.iloc[-obv_lookback])
+    o_now   = float(obv.iloc[-1])
+    o_prior = float(obv.iloc[-obv_lookback])
+
+    if any(np.isnan([p_now, p_prior, o_now, o_prior])) or o_prior == 0 or p_prior == 0:
+        return SignalResult.empty()
+
+    obv_pct   = (o_now - o_prior) / abs(o_prior)
+    price_pct = (p_now - p_prior) / p_prior
+
+    is_flat       = abs(price_pct) <= max_price_move
+    obv_declining = obv_pct <= max_obv_pct
+    fired         = bool(is_flat and obv_declining)
+
+    strength = 0.0
+    if fired:
+        obv_score  = min(abs(obv_pct) / (abs(max_obv_pct) * 4), 1.0)
+        flat_score = 1.0 - min(abs(price_pct) / max_price_move, 1.0)
+        strength   = (obv_score + flat_score) / 2.0
+
+    return SignalResult(
+        fired    = fired,
+        strength = float(strength),
+        value    = float(obv_pct),
+        extras   = {
+            "obv_pct":   round(obv_pct * 100, 2),
+            "price_pct": round(price_pct * 100, 2),
+        },
+    )
+
+
+def sig_bear_obv_divergence(
+    df:          pd.DataFrame,
+    pivot_left:  int = 3,
+    pivot_right: int = 3,
+    lookback:    int = 40,
+) -> SignalResult:
+    """
+    Bearish OBV divergence: price makes HIGHER high, OBV makes LOWER high.
+    Smart money exiting while retail chases the price.
+    Bearish twin of sig_obv_divergence.
+    """
+    if not _enough_bars(df, lookback + pivot_right + 5) or "volume" not in df.columns:
+        return SignalResult.empty()
+
+    obv    = compute_obv(df)
+    closes = df["close"]
+
+    win_close = closes.iloc[-lookback:]
+    win_obv   = obv.iloc[-lookback:]
+
+    # We want HIGH pivots
+    price_highs, _ = find_pivots(win_close, pivot_left, pivot_right)
+    obv_highs,   _ = find_pivots(win_obv,   pivot_left, pivot_right)
+    if len(price_highs) < 2 or len(obv_highs) < 2:
+        return SignalResult.empty()
+
+    p1, p2 = float(win_close.iloc[price_highs[-2]]), float(win_close.iloc[price_highs[-1]])
+    o1, o2 = float(win_obv.iloc[obv_highs[-2]]),     float(win_obv.iloc[obv_highs[-1]])
+
+    if p1 == 0:
+        return SignalResult.empty()
+
+    price_higher = p2 > p1 * 1.005          # >= 0.5% higher high
+    obv_lower    = o2 < o1
+    fired        = bool(price_higher and obv_lower)
+
+    strength = 0.0
+    if fired:
+        price_rise = (p2 - p1) / p1
+        obv_gap    = (o1 - o2) / max(abs(o1), 1.0)
+        strength   = min((price_rise * 10 + obv_gap) / 2.0, 1.0)
+        strength   = max(strength, 0.0)
+
+    return SignalResult(
+        fired    = fired,
+        strength = float(strength),
+        value    = float((o1 - o2) / max(abs(o1), 1.0)) if o1 != 0 else 0.0,
+        extras   = {
+            "price_rise_pct": round((p2 - p1) / p1 * 100, 2) if p1 else 0.0,
+        },
+    )
+
+
+def sig_bear_rsi_divergence(
+    df:             pd.DataFrame,
+    rsi_period:     int = 7,
+    pivot_left:     int = 3,
+    pivot_right:    int = 3,
+    lookback:       int = 60,
+    min_price_rise: float = 0.005,
+    min_rsi_gap:    float = 3.0,
+) -> SignalResult:
+    """
+    Bearish RSI divergence via swing-HIGH pivots.
+    Fires when most recent two confirmed pivot HIGHS in price both have
+    corresponding RSI pivot highs where price2 > price1 (higher high) but
+    rsi2 < rsi1 - min_rsi_gap (lower high). Canonical bearish divergence.
+
+    Also detects HIDDEN bearish (price lower high + RSI higher high) — flagged
+    in extras as 'kind'='hidden_bearish' (continuation in downtrend).
+
+    Uses RSI(7) per spec — mirrors sig_rsi_divergence.
+    """
+    min_required = max(rsi_period, lookback) + pivot_right + 5
+    if not _enough_bars(df, min_required):
+        return SignalResult.empty()
+
+    closes = df["close"]
+    rsi    = compute_rsi(closes, rsi_period)
+
+    window_closes = closes.iloc[-lookback:]
+    window_rsi    = rsi.iloc[-lookback:]
+
+    # HIGH pivots this time
+    price_high_idx, _ = find_pivots(window_closes, pivot_left, pivot_right)
+    if len(price_high_idx) < 2:
+        return SignalResult.empty()
+
+    i1, i2 = price_high_idx[-2], price_high_idx[-1]
+    p1 = float(window_closes.iloc[i1])
+    p2 = float(window_closes.iloc[i2])
+    r1 = _safe_float(window_rsi.iloc[i1])
+    r2 = _safe_float(window_rsi.iloc[i2])
+
+    if any(np.isnan([p1, p2, r1, r2])) or p1 == 0:
+        return SignalResult.empty()
+
+    price_change_pct = (p2 - p1) / p1
+    rsi_gap          = r2 - r1                  # negative => bearish
+
+    is_bearish = (price_change_pct >= +min_price_rise) and (rsi_gap <= -min_rsi_gap)
+    is_hidden  = (price_change_pct <= -min_price_rise) and (rsi_gap >= +min_rsi_gap)
+
+    fired = bool(is_bearish or is_hidden)
+    if not fired:
+        return SignalResult(
+            fired = False, strength = 0.0, value = rsi_gap,
+            extras = {"kind": None, "price_change_pct": round(price_change_pct * 100, 2)},
+        )
+
+    if is_bearish:
+        gap_score   = min(abs(rsi_gap) / 10.0, 1.0)
+        price_score = min(price_change_pct / 0.05, 1.0)
+        strength    = (gap_score + price_score) / 2.0
+        kind        = "bearish"
+    else:
+        gap_score   = min(rsi_gap / 10.0, 1.0)
+        price_score = min(abs(price_change_pct) / 0.05, 1.0)
+        strength    = (gap_score + price_score) / 2.0
+        kind        = "hidden_bearish"
+
+    return SignalResult(
+        fired    = True,
+        strength = float(strength),
+        value    = rsi_gap,
+        extras   = {
+            "kind":             kind,
+            "price_change_pct": round(price_change_pct * 100, 2),
+            "rsi_gap":          round(rsi_gap, 2),
+            "rsi1":             round(r1, 1),
+            "rsi2":             round(r2, 1),
+        },
+    )
+
+
+def sig_rsi_overbought_reset(
+    df:          pd.DataFrame,
+    rsi_period:  int   = 7,
+    high_thresh: float = 68.0,
+    lookback:    int   = 24,
+) -> SignalResult:
+    """
+    RSI was overbought (>= high_thresh) within the last `lookback` bars,
+    AND RSI is currently FALLING. Catches the topping process.
+    Bearish twin of sig_rsi_reset.
+    """
+    if not _enough_bars(df, max(rsi_period, lookback) + 5):
+        return SignalResult.empty()
+
+    rsi = compute_rsi(df["close"], rsi_period).dropna()
+    if len(rsi) < lookback + 2:
+        return SignalResult.empty()
+
+    window   = rsi.iloc[-lookback:]
+    cur      = float(rsi.iloc[-1])
+    prev     = float(rsi.iloc[-2])
+    had_high = bool((window >= high_thresh).any())
+    falling  = cur < prev
+    fired    = had_high and falling
+
+    strength = 0.0
+    if fired:
+        depth   = (float(window.max()) - high_thresh) / max(100 - high_thresh, 1)
+        bounce  = (float(window.max()) - cur)         / max(100 - high_thresh, 1)
+        fall    = (prev - cur) / 100.0
+        strength = float(min(max(depth + bounce + fall * 5, 0.0), 1.0))
+
+    return SignalResult(
+        fired    = fired,
+        strength = strength,
+        value    = cur,
+        extras   = {
+            "max_in_window": round(float(window.max()), 1),
+            "rsi_now":       round(cur, 1),
+        },
+    )
+
+
+def sig_lower_highs(
+    df:          pd.DataFrame,
+    window:      int = 30,
+    pivot_left:  int = 3,
+    pivot_right: int = 3,
+) -> SignalResult:
+    """Two consecutive lower swing highs — topping / distribution structure.
+    Bearish twin of sig_higher_lows."""
+    if not _enough_bars(df, window + pivot_right + 5):
+        return SignalResult.empty()
+    closes = df["close"].iloc[-window:]
+    highs_idx, _ = find_pivots(closes, pivot_left, pivot_right)
+    if len(highs_idx) < 2:
+        return SignalResult.empty()
+    h1 = float(closes.iloc[highs_idx[-2]])
+    h2 = float(closes.iloc[highs_idx[-1]])
+    fired = h2 < h1 * 0.999
+    return SignalResult(
+        fired    = bool(fired),
+        strength = float(min((h1 - h2) / h1 * 20, 1.0)) if fired else 0.0,
+        value    = (h2 - h1) / h1 if h1 else 0.0,
+    )
+
+
+def sig_cmf_negative(
+    df:        pd.DataFrame,
+    period:    int   = 20,
+    threshold: float = -0.05,
+) -> SignalResult:
+    """Chaikin Money Flow <= threshold — institutional selling pressure.
+    Bearish twin of sig_cmf_positive."""
+    if not _enough_bars(df, period + 5) or "volume" not in df.columns:
+        return SignalResult.empty()
+    cmf = _safe_float(compute_cmf(df, period).iloc[-1])
+    if np.isnan(cmf):
+        return SignalResult.empty()
+    fired = cmf <= threshold
+    return SignalResult(
+        fired    = bool(fired),
+        strength = float(min(max((threshold - cmf) / 0.15, 0.0), 1.0)) if fired else 0.0,
+        value    = cmf,
+    )
+
+
+def sig_price_range_fail(
+    df:            pd.DataFrame,
+    lookback:      int   = 120,
+    rejection_pct: float = 0.02,
+) -> SignalResult:
+    """
+    Price tagged within rejection_pct of the lookback-window high, then closed
+    meaningfully below it within the last few bars. Topping rejection pattern.
+    No direct bullish twin — this is a stand-alone bearish signal.
+    """
+    if not _enough_bars(df, 20):
+        return SignalResult.empty()
+    closes = df["close"]
+    highs  = df["high"]
+    n = min(lookback, len(closes))
+    window_high = float(highs.iloc[-n:].max())
+    cur         = float(closes.iloc[-1])
+    if window_high <= 0:
+        return SignalResult.empty()
+
+    pull_back_pct = (window_high - cur) / window_high
+    recent_high   = float(highs.iloc[-5:].max()) if len(highs) >= 5 else cur
+    tagged_high   = recent_high >= window_high * 0.995
+
+    fired = tagged_high and pull_back_pct >= rejection_pct
+
+    strength = 0.0
+    if fired:
+        strength = float(min(pull_back_pct / 0.08, 1.0))   # 8% rejection = max
+
+    return SignalResult(
+        fired    = bool(fired),
+        strength = strength,
+        value    = pull_back_pct,
+        extras   = {
+            "window_high":   round(window_high, 6),
+            "pull_back_pct": round(pull_back_pct * 100, 2),
+        },
+    )
+
+
+def sig_btc_underperform(
+    token_closes:     pd.Series,
+    btc_closes:       pd.Series,
+    window:           int   = 6,
+    min_underperform: float = 0.015,
+) -> SignalResult:
+    """
+    Short-window UNDERperformance: token loses to BTC by min_underperform
+    over `window` bars. Token-specific weakness (mirror of sig_btc_decoupling).
+    """
+    if (token_closes is None or btc_closes is None
+            or len(token_closes) < window + 1 or len(btc_closes) < window + 1):
+        return SignalResult.empty()
+    t = token_closes.iloc[-(window + 1):].dropna()
+    b = btc_closes.iloc[-(window + 1):].dropna()
+    if len(t) < 2 or len(b) < 2:
+        return SignalResult.empty()
+    tok_ret = (float(t.iloc[-1]) - float(t.iloc[0])) / float(t.iloc[0])
+    btc_ret = (float(b.iloc[-1]) - float(b.iloc[0])) / float(b.iloc[0])
+    rs      = tok_ret - btc_ret                # negative = underperform
+    fired   = rs <= -min_underperform
+    return SignalResult(
+        fired    = bool(fired),
+        strength = float(min(max((-rs - min_underperform) / 0.15, 0.0), 1.0)) if fired else 0.0,
+        value    = rs,
+        extras   = {
+            "token_ret_pct": round(tok_ret * 100, 2),
+            "btc_ret_pct":   round(btc_ret * 100, 2),
+        },
+    )
+
+
+def sig_bear_failed_breakout(
+    df:            pd.DataFrame,
+    lookback:      int = 60,
+    max_bars_back: int = 5,
+) -> SignalResult:
+    """
+    Failed breakout / bull trap: within the last `max_bars_back` bars, the
+    HIGH of some bar exceeded the prior `lookback`-bar range high — but the
+    current close is back BELOW that prior range high.
+
+    Strong bearish signal — no direct bullish twin.
+    """
+    if not _enough_bars(df, lookback + max_bars_back + 2):
+        return SignalResult.empty()
+
+    closes = df["close"]
+    highs  = df["high"]
+
+    range_window = highs.iloc[-(lookback + max_bars_back):-max_bars_back]
+    if len(range_window) < lookback // 2:
+        return SignalResult.empty()
+    range_high = float(range_window.max())
+    if range_high <= 0:
+        return SignalResult.empty()
+
+    recent_highs  = highs.iloc[-max_bars_back:]
+    breakout_bars = recent_highs[recent_highs > range_high * 1.001]
+    if len(breakout_bars) == 0:
+        return SignalResult.empty()
+
+    cur = float(closes.iloc[-1])
+    fired = cur < range_high * 0.999
+
+    strength = 0.0
+    if fired:
+        extension_pct = (float(breakout_bars.max()) - range_high) / range_high
+        retrace_pct   = (range_high - cur) / range_high
+        strength = float(min((extension_pct * 20 + retrace_pct * 20) / 2, 1.0))
+
+    return SignalResult(
+        fired    = bool(fired),
+        strength = strength,
+        value    = cur / range_high if range_high else 0.0,
+        extras   = {
+            "range_high":    round(range_high, 6),
+            "max_extension": round((float(breakout_bars.max()) - range_high) / range_high * 100, 2),
+            "current_below": round((range_high - cur) / range_high * 100, 2),
+        },
+    )
+
+
 # ═════════════════════════════════════════════════════════════════════════════
 # PERP-SPECIFIC SIGNALS  — for perp_scanner (Bybit positioning data)
 # ═════════════════════════════════════════════════════════════════════════════
@@ -910,7 +1422,7 @@ def sig_oi_building(
     min_pct:     float = 0.03,
 ) -> SignalResult:
     """OI grew vs prior snapshot by ≥ min_pct."""
-    if oi_prev is None or oi_prev <= 0:
+    if not isinstance(oi_prev, (int, float)) or oi_prev <= 0:
         return SignalResult.empty()
     pct = (oi_now - oi_prev) / oi_prev
     fired = pct >= min_pct
@@ -927,7 +1439,7 @@ def sig_oi_unwind(
     max_pct:     float = -0.05,
 ) -> SignalResult:
     """OI fell vs prior snapshot by ≥ |max_pct| — conviction leaving."""
-    if oi_prev is None or oi_prev <= 0:
+    if not isinstance(oi_prev, (int, float)) or oi_prev <= 0:
         return SignalResult.empty()
     pct = (oi_now - oi_prev) / oi_prev
     fired = pct <= max_pct
@@ -1023,4 +1535,16 @@ SIGNAL_REGISTRY = {
     "funding_negative":    sig_funding_negative,
     "funding_extreme_long": sig_funding_extreme_long,
     "vol_oi_surge":        sig_vol_oi_surge,
+    # bearish-twin (used by short_scanner)
+    "vol_distribution":         sig_vol_distribution,
+    "bear_distribution_candle": sig_bear_distribution_candle,
+    "bear_obv_distribution":    sig_bear_obv_distribution,
+    "bear_obv_divergence":      sig_bear_obv_divergence,
+    "bear_rsi_divergence":      sig_bear_rsi_divergence,
+    "rsi_overbought_reset":     sig_rsi_overbought_reset,
+    "lower_highs":              sig_lower_highs,
+    "cmf_negative":             sig_cmf_negative,
+    "price_range_fail":         sig_price_range_fail,
+    "btc_underperform":         sig_btc_underperform,
+    "bear_failed_breakout":     sig_bear_failed_breakout,
 }

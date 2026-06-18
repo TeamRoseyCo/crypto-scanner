@@ -1,0 +1,737 @@
+{
+  "scanner": "perp_scanner",
+  "version": "3.0",
+  "generated_at": "2026-06-17T10:20:35.659213",
+  "elapsed_s": 0.73,
+  "universe_size": 724,
+  "scanned": 413,
+  "btc_1h_pct": -0.94,
+  "thresholds": {
+    "watch_now_conviction": 50.0,
+    "watch_now_signals": 3,
+    "on_radar_conviction": 25.0,
+    "on_radar_signals": 2
+  },
+  "weights": {
+    "oi_building": 3.0,
+    "funding_negative": 2.5,
+    "vol_oi_surge": 2.0,
+    "btc_decoupling_1h": 1.5
+  },
+  "penalty_weights": {
+    "funding_extreme_long": 3.0,
+    "oi_unwind": 2.0
+  },
+  "watch_now": [
+    {
+      "base": "ID",
+      "symbol": "IDUSDT",
+      "price": 0.03258,
+      "funding_rate": -0.02,
+      "open_interest": 90034618.0,
+      "oi_value": 2932427.51,
+      "oi_change_pct": 0.4221636059783725,
+      "turnover_24h": 16228718.2003,
+      "vol_oi_ratio": 5.534226556311362,
+      "price_24h_pct": 20.711299999999998,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "watch_now",
+      "conviction": 80.1,
+      "signal_count": 3,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 1.0,
+        "funding_negative": 1.0,
+        "vol_oi_surge": 0.707
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "ELSA",
+      "symbol": "ELSAUSDT",
+      "price": 0.05022,
+      "funding_rate": -0.00326843,
+      "open_interest": 13012249.0,
+      "oi_value": 654125.76,
+      "oi_change_pct": 0.2860573962797558,
+      "turnover_24h": 2474121.7662,
+      "vol_oi_ratio": 3.7823334861479845,
+      "price_24h_pct": 4.0613,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "watch_now",
+      "conviction": 76.2,
+      "signal_count": 3,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 1.0,
+        "funding_negative": 1.0,
+        "vol_oi_surge": 0.356
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "H",
+      "symbol": "HUSDT",
+      "price": 0.24746,
+      "funding_rate": -0.00060794,
+      "open_interest": 69677220.0,
+      "oi_value": 17218634.61,
+      "oi_change_pct": 0.05779177157587355,
+      "turnover_24h": 136142687.6323,
+      "vol_oi_ratio": 7.9067063513405955,
+      "price_24h_pct": 1.252,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "watch_now",
+      "conviction": 71.3,
+      "signal_count": 3,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.278,
+        "funding_negative": 1.0,
+        "vol_oi_surge": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "OPG",
+      "symbol": "OPGUSDT",
+      "price": 0.1543,
+      "funding_rate": -0.00037338,
+      "open_interest": 26925328.0,
+      "oi_value": 4159963.18,
+      "oi_change_pct": 0.03406199027221633,
+      "turnover_24h": 10880756.9174,
+      "vol_oi_ratio": 2.6155897171666793,
+      "price_24h_pct": -3.9227,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "watch_now",
+      "conviction": 54.1,
+      "signal_count": 3,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.041,
+        "funding_negative": 0.747,
+        "vol_oi_surge": 0.123
+      },
+      "signal_extras": {}
+    }
+  ],
+  "on_radar": [
+    {
+      "base": "HIGH",
+      "symbol": "HIGHUSDT",
+      "price": 0.05174,
+      "funding_rate": -0.00920775,
+      "open_interest": 19168839.3,
+      "oi_value": 990453.93,
+      "oi_change_pct": 0.18172902640567873,
+      "turnover_24h": 1821220.8996,
+      "vol_oi_ratio": 1.8387739645800585,
+      "price_24h_pct": 22.1435,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 61.1,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 1.0,
+        "funding_negative": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "BLESS",
+      "symbol": "BLESSUSDT",
+      "price": 0.006896,
+      "funding_rate": 5e-05,
+      "open_interest": 243882170.0,
+      "oi_value": 1678884.86,
+      "oi_change_pct": 0.13285674311322315,
+      "turnover_24h": 12314313.657,
+      "vol_oi_ratio": 7.334817264955262,
+      "price_24h_pct": 15.472199999999999,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 55.6,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 1.0,
+        "vol_oi_surge": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "SPCX",
+      "symbol": "SPCXUSDT",
+      "price": 208.9,
+      "funding_rate": 0.0,
+      "open_interest": 57959.88,
+      "oi_value": 12107818.93,
+      "oi_change_pct": 0.1624783463891795,
+      "turnover_24h": 144650484.6967,
+      "vol_oi_ratio": 11.946865536475281,
+      "price_24h_pct": -1.4901,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 55.6,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 1.0,
+        "vol_oi_surge": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "BR",
+      "symbol": "BRUSDT",
+      "price": 0.19419,
+      "funding_rate": 5e-05,
+      "open_interest": 14109457.0,
+      "oi_value": 2741608.59,
+      "oi_change_pct": 0.14733391539798446,
+      "turnover_24h": 18228776.7675,
+      "vol_oi_ratio": 6.648934801995203,
+      "price_24h_pct": 14.6949,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 54.8,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 1.0,
+        "vol_oi_surge": 0.93
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "BEAT",
+      "symbol": "BEATUSDT",
+      "price": 1.9058,
+      "funding_rate": 5e-05,
+      "open_interest": 5719727.0,
+      "oi_value": 10974383.0,
+      "oi_change_pct": 0.12167697142175812,
+      "turnover_24h": 111586410.7752,
+      "vol_oi_ratio": 10.167898347925345,
+      "price_24h_pct": -43.9371,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 54.2,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.917,
+        "vol_oi_surge": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "TRUMP",
+      "symbol": "TRUMPUSDT",
+      "price": 1.894,
+      "funding_rate": -0.00039378,
+      "open_interest": 14027362.8,
+      "oi_value": 26595879.87,
+      "oi_change_pct": 0.10062770955968259,
+      "turnover_24h": 33539912.0792,
+      "vol_oi_ratio": 1.2610942838944323,
+      "price_24h_pct": -1.7634,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 53.3,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.706,
+        "funding_negative": 0.788
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "SOXL",
+      "symbol": "SOXLUSDT",
+      "price": 242.59,
+      "funding_rate": 0.00034416,
+      "open_interest": 20939.72,
+      "oi_value": 5078929.09,
+      "oi_change_pct": 0.10150267173203363,
+      "turnover_24h": 36602841.3392,
+      "vol_oi_ratio": 7.206802987517197,
+      "price_24h_pct": -12.0477,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 50.8,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.715,
+        "vol_oi_surge": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "BIO",
+      "symbol": "BIOUSDT",
+      "price": 0.03389,
+      "funding_rate": -0.00012079,
+      "open_interest": 171236723.0,
+      "oi_value": 5799787.81,
+      "oi_change_pct": 0.10485118378223955,
+      "turnover_24h": 8675020.2707,
+      "vol_oi_ratio": 1.495747871282898,
+      "price_24h_pct": 8.4133,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 46.4,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.749,
+        "funding_negative": 0.242
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "FIDA",
+      "symbol": "FIDAUSDT",
+      "price": 0.023851,
+      "funding_rate": -0.0012209,
+      "open_interest": 57530885.0,
+      "oi_value": 1372169.14,
+      "oi_change_pct": 0.04190226295770621,
+      "turnover_24h": 1816562.9101,
+      "vol_oi_ratio": 1.3238622390968509,
+      "price_24h_pct": -3.4646000000000003,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 46.4,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.119,
+        "funding_negative": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "SQD",
+      "symbol": "SQDUSDT",
+      "price": 0.05489,
+      "funding_rate": 5e-05,
+      "open_interest": 26991344.0,
+      "oi_value": 1481554.87,
+      "oi_change_pct": 0.08071294514327602,
+      "turnover_24h": 9254151.9642,
+      "vol_oi_ratio": 6.246243154126312,
+      "price_24h_pct": 33.1958,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 45.7,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.507,
+        "vol_oi_surge": 0.849
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "USD1",
+      "symbol": "USD1USDT",
+      "price": 1.0,
+      "funding_rate": -6.998e-05,
+      "open_interest": 800166.0,
+      "oi_value": 800246.02,
+      "oi_change_pct": 0.06214939748800684,
+      "turnover_24h": 11076191.332,
+      "vol_oi_ratio": 13.84098271679002,
+      "price_24h_pct": 0.02,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 44.2,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.321,
+        "vol_oi_surge": 1.0
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "PUFFER",
+      "symbol": "PUFFERUSDT",
+      "price": 0.02041,
+      "funding_rate": -0.00083473,
+      "open_interest": 31604898.0,
+      "oi_value": 645372.02,
+      "oi_change_pct": -0.0009327818578290991,
+      "turnover_24h": 2181565.75,
+      "vol_oi_ratio": 3.3803227942853797,
+      "price_24h_pct": 1.7447000000000001,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 42.0,
+      "signal_count": 2,
+      "fired_signals": [
+        "funding_negative",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "funding_negative": 1.0,
+        "vol_oi_surge": 0.276
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "NBIS",
+      "symbol": "NBISUSDT",
+      "price": 269.25,
+      "funding_rate": -0.00032212,
+      "open_interest": 7418.46,
+      "oi_value": 1997049.43,
+      "oi_change_pct": 0.035906788134031205,
+      "turnover_24h": 2245451.366,
+      "vol_oi_ratio": 1.124384470543626,
+      "price_24h_pct": 3.6853,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 40.5,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.059,
+        "funding_negative": 0.644
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "AERO",
+      "symbol": "AEROUSDT",
+      "price": 0.4979,
+      "funding_rate": 5e-05,
+      "open_interest": 24390860.0,
+      "oi_value": 12153965.54,
+      "oi_change_pct": 0.07453001652576825,
+      "turnover_24h": 30957930.2497,
+      "vol_oi_ratio": 2.5471464558472,
+      "price_24h_pct": 11.8373,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 36.4,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.445,
+        "vol_oi_surge": 0.109
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "UNI",
+      "symbol": "UNIUSDT",
+      "price": 3.569,
+      "funding_rate": 6.2e-05,
+      "open_interest": 7336282.4,
+      "oi_value": 26212537.02,
+      "oi_change_pct": 0.05647069222476574,
+      "turnover_24h": 92004235.3701,
+      "vol_oi_ratio": 3.5099324914601495,
+      "price_24h_pct": 21.188399999999998,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 35.5,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.265,
+        "vol_oi_surge": 0.302
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "APT",
+      "symbol": "APTUSDT",
+      "price": 0.6601,
+      "funding_rate": -0.0001201,
+      "open_interest": 24275166.54,
+      "oi_value": 16045885.08,
+      "oi_change_pct": 0.03882673420656509,
+      "turnover_24h": 15166481.8549,
+      "vol_oi_ratio": 0.9451944706873098,
+      "price_24h_pct": -3.7192999999999996,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 35.4,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "funding_negative"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.088,
+        "funding_negative": 0.24
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "MU",
+      "symbol": "MUUSDT",
+      "price": 1059.03,
+      "funding_rate": 0.00020876,
+      "open_interest": 6026.84,
+      "oi_value": 6381820.88,
+      "oi_change_pct": 0.04542978764739972,
+      "turnover_24h": 21570894.6126,
+      "vol_oi_ratio": 3.3800532823165037,
+      "price_24h_pct": -5.5129,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 33.4,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.154,
+        "vol_oi_surge": 0.276
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "ZEC",
+      "symbol": "ZECUSDT",
+      "price": 505.3,
+      "funding_rate": 0.0001,
+      "open_interest": 155419.34,
+      "oi_value": 78587789.27,
+      "oi_change_pct": 0.05235740706484071,
+      "turnover_24h": 198650756.8865,
+      "vol_oi_ratio": 2.5277560131384518,
+      "price_24h_pct": -3.1398,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 32.7,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.224,
+        "vol_oi_surge": 0.106
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "MRVL",
+      "symbol": "MRVLUSDT",
+      "price": 288.76,
+      "funding_rate": -5.456e-05,
+      "open_interest": 13533.68,
+      "oi_value": 3904872.69,
+      "oi_change_pct": 0.04276565187107439,
+      "turnover_24h": 11859959.0278,
+      "vol_oi_ratio": 3.0372204087913555,
+      "price_24h_pct": -5.8616,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 32.2,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.128,
+        "vol_oi_surge": 0.207
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "INJ",
+      "symbol": "INJUSDT",
+      "price": 5.444,
+      "funding_rate": -1.145e-05,
+      "open_interest": 2518893.2,
+      "oi_value": 13731746.28,
+      "oi_change_pct": 0.04347917584599963,
+      "turnover_24h": 32291900.9806,
+      "vol_oi_ratio": 2.3516237718164423,
+      "price_24h_pct": -7.2572,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 30.8,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.135,
+        "vol_oi_surge": 0.07
+      },
+      "signal_extras": {}
+    },
+    {
+      "base": "LAB",
+      "symbol": "LABUSDT",
+      "price": 13.135,
+      "funding_rate": 0.00023023,
+      "open_interest": 2453045.0,
+      "oi_value": 32200483.92,
+      "oi_change_pct": 0.04261465788160569,
+      "turnover_24h": 70282896.992,
+      "vol_oi_ratio": 2.1826658619980144,
+      "price_24h_pct": 22.4594,
+      "price_1h_pct": 0.0,
+      "btc_1h_pct": -0.9360462011458787,
+      "decoupling_1h": 0.9360462011458787,
+      "tier": "on_radar",
+      "conviction": 30.3,
+      "signal_count": 2,
+      "fired_signals": [
+        "oi_building",
+        "vol_oi_surge"
+      ],
+      "penalty_signals": [],
+      "signal_strengths": {
+        "oi_building": 0.126,
+        "vol_oi_surge": 0.037
+      },
+      "signal_extras": {}
+    }
+  ]
+}

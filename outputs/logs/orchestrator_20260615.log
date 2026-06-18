@@ -1,0 +1,2554 @@
+2026-06-15 00:23:34,810 [INFO]   Live Bybit balance: 96,313.06 USDT
+2026-06-15 00:23:34,819 [INFO] 
+2026-06-15 00:23:34,821 [INFO] ================================================================================
+2026-06-15 00:23:34,821 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.1
+2026-06-15 00:23:34,821 [INFO]   18-signal engine | funding rate | corr filter | volume source tagging
+2026-06-15 00:23:34,821 [INFO] ================================================================================
+2026-06-15 00:23:34,821 [INFO]   Account: $96,313.06 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-06-15 00:23:34,829 [INFO] 
+2026-06-15 00:23:34,847 [INFO] [1/5] Analyzing market regime...
+2026-06-15 00:23:34,856 [INFO] Fetching market context (Bybit klines primary)...
+2026-06-15 00:23:35,889 [INFO]   [Bybit] BTC: $65,502 | 7d: +3.5%  ETH 7d: +1.8%  Dominance: 56.7% | Regime: 🟢 BULL
+2026-06-15 00:23:35,890 [INFO]   🟢 BULL — normal parameters apply
+2026-06-15 00:23:35,896 [INFO] [2/5] Fetching BTC historical data...
+2026-06-15 00:23:35,913 [INFO]   BTC data: OK
+2026-06-15 00:23:40,414 [INFO] [3/5] Fetching top 500 coins...
+2026-06-15 00:23:40,423 [INFO] Fetching top 500 coins by market cap...
+2026-06-15 00:23:42,675 [INFO]   Fetched 500 coins
+2026-06-15 00:23:42,705 [INFO]   Fetched 500 coins
+2026-06-15 00:23:42,705 [INFO] [4/5] Scanning for high-conviction setups...
+2026-06-15 00:23:42,705 [INFO]   Filters: Rank 20–500  |  Vol ≥ $500,000  |  Min conviction: 45
+2026-06-15 00:23:42,706 [INFO] 
+2026-06-15 00:23:42,722 [INFO]   [  1]  CC        (# 20)  $0.16128       7d: -1.9%
+2026-06-15 00:23:43,321 [INFO]           → conviction 11/100  |  signals 2/19
+2026-06-15 00:23:43,322 [INFO]   [  2]  TON       (# 22)  $1.75000       7d: +2.4%
+2026-06-15 00:23:43,650 [INFO]           → conviction 19/100  |  signals 4/19
+2026-06-15 00:23:43,651 [INFO]   [  3]  M         (# 27)  $2.98000       7d: -4.0%
+2026-06-15 00:23:44,055 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 00:23:44,057 [INFO]   [  4]  LTC       (# 28)  $45.19000      7d: +5.5%
+2026-06-15 00:23:44,486 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 00:23:44,487 [INFO]   [  5]  HBAR      (# 30)  $0.08008       7d: -2.3%
+2026-06-15 00:23:44,955 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:23:44,955 [INFO]   [  6]  USYC      (# 32)  $1.13000       7d: +0.0%
+2026-06-15 00:23:44,964 [WARNING]           → skip USYC: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 00:23:44,964 [INFO]   [  7]  NEAR      (# 35)  $2.22000       7d: +12.2%
+2026-06-15 00:23:45,408 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:23:45,408 [INFO]   [  8]  CRO       (# 36)  $0.06229       7d: +3.1%
+2026-06-15 00:23:45,796 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:23:45,796 [INFO]   [  9]  TAO       (# 39)  $272.37000     7d: +31.7%
+2026-06-15 00:23:46,131 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 00:23:46,132 [INFO]   [ 10]  WLFI      (# 44)  $0.05952       7d: +4.0%
+2026-06-15 00:23:46,446 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 00:23:46,447 [INFO]   [ 11]  MNT       (# 45)  $0.56726       7d: +4.6%
+2026-06-15 00:23:46,779 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:23:46,779 [INFO]   [ 12]  ONDO      (# 46)  $0.36785       7d: +6.4%
+2026-06-15 00:23:47,146 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:23:47,147 [INFO]   [ 13]  WLD       (# 47)  $0.51836       7d: +11.0%
+2026-06-15 00:23:47,482 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 00:23:47,482 [INFO]   [ 14]  ASTER     (# 48)  $0.63250       7d: +1.2%
+2026-06-15 00:23:47,799 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:23:47,799 [INFO]   [ 15]  OKB       (# 52)  $75.01000      7d: +4.1%
+2026-06-15 00:23:48,133 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:23:48,133 [INFO]   [ 16]  BEAT      (# 53)  $5.45000       7d: +51.7%
+2026-06-15 00:23:48,528 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 00:23:48,528 [INFO]   [ 17]  ICP       (# 57)  $2.50000       7d: +9.0%
+2026-06-15 00:23:48,858 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:23:48,860 [INFO]   [ 18]  SKY       (# 59)  $0.05741       7d: -1.1%
+2026-06-15 00:23:49,230 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:23:49,231 [INFO]   [ 19]  AAVE      (# 65)  $67.80000      7d: +9.2%
+2026-06-15 00:23:49,558 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 00:23:49,558 [INFO]   [ 20]  QNT       (# 68)  $68.36000      7d: -0.1%
+2026-06-15 00:23:49,881 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 00:23:49,882 [INFO]   [ 21]  KCS       (# 71)  $7.01000       7d: +9.4%
+2026-06-15 00:23:50,195 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 00:23:50,196 [INFO]   [ 22]  RENDER    (# 73)  $1.80000       7d: +7.3%
+2026-06-15 00:23:50,511 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:23:50,511 [INFO]   [ 23]  KAS       (# 75)  $0.03213       7d: +6.9%
+2026-06-15 00:23:50,820 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:23:50,820 [INFO]   [ 24]  STABLE    (# 78)  $0.03562       7d: +6.0%
+2026-06-15 00:23:51,145 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:23:51,145 [INFO]   [ 25]  POL       (# 80)  $0.07682       7d: -1.5%
+2026-06-15 00:23:51,470 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:23:51,471 [INFO]   [ 26]  VVV       (# 82)  $16.98000      7d: +3.7%
+2026-06-15 00:23:51,805 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:23:51,806 [INFO]   [ 27]  GT        (# 84)  $6.76000       7d: +7.7%
+2026-06-15 00:23:52,141 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 00:23:52,141 [INFO]   [ 28]  FLR       (# 85)  $0.00803       7d: +14.3%
+2026-06-15 00:23:52,462 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:23:52,462 [INFO]   [ 29]  JST       (# 87)  $0.07814       7d: +0.8%
+2026-06-15 00:23:52,797 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:23:52,798 [INFO]   [ 30]  XDC       (# 92)  $0.03015       7d: +2.9%
+2026-06-15 00:23:53,119 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 00:23:53,120 [INFO]   [ 31]  JUP       (# 94)  $0.17549       7d: +15.3%
+2026-06-15 00:23:53,446 [INFO]           → conviction 24/100  |  signals 6/19
+2026-06-15 00:23:53,447 [INFO]   [ 32]  APT       (# 95)  $0.67639       7d: +3.4%
+2026-06-15 00:23:53,770 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:23:53,770 [INFO]   [ 33]  PUMP      (# 98)  $0.00157       7d: +2.7%
+2026-06-15 00:23:54,093 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:23:54,095 [INFO]   [ 34]  INJ       (#102)  $5.19000       7d: -1.0%
+2026-06-15 00:23:54,435 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:23:54,436 [INFO]   [ 35]  TRUMP     (#106)  $2.09000       7d: +25.7%
+2026-06-15 00:23:54,781 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 00:23:54,781 [INFO]   [ 36]  FET       (#110)  $0.21110       7d: +2.9%
+2026-06-15 00:23:55,100 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 00:23:55,101 [INFO]   [ 37]  DASH      (#111)  $37.43000      7d: +0.8%
+2026-06-15 00:23:55,490 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:23:55,491 [INFO]   [ 38]  ADI       (#112)  $3.72000       7d: +0.8%
+2026-06-15 00:23:59,150 [INFO]           → skip (flatliner: ATR 0.22% / BB 0.15%)
+2026-06-15 00:24:03,651 [INFO]   [ 39]  LIT       (#117)  $1.69000       7d: +21.6%
+2026-06-15 00:24:03,990 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:24:03,992 [INFO]   [ 40]  VIRTUAL   (#118)  $0.63992       7d: +11.1%
+2026-06-15 00:24:04,327 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:24:04,328 [INFO]   [ 41]  APXUSD    (#121)  $0.96043       7d: +1.5%
+2026-06-15 00:24:04,710 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 00:24:04,711 [INFO]   [ 42]  SKYAI     (#123)  $0.37870       7d: +67.0%
+2026-06-15 00:24:05,039 [INFO]           → conviction 14/100  |  signals 5/19
+2026-06-15 00:24:05,040 [INFO]   [ 43]  SEI       (#124)  $0.05489       7d: +13.5%
+2026-06-15 00:24:05,362 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:24:05,363 [INFO]   [ 44]  9BIT      (#125)  $0.04396       7d: +4.9%
+2026-06-15 00:24:05,684 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:05,685 [INFO]   [ 45]  CRV       (#126)  $0.23525       7d: +19.9%
+2026-06-15 00:24:06,013 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:24:06,013 [INFO]   [ 46]  TIA       (#133)  $0.34814       7d: +13.1%
+2026-06-15 00:24:06,344 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:06,345 [INFO]   [ 47]  UB        (#135)  $0.12449       7d: -2.3%
+2026-06-15 00:24:06,668 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 00:24:06,669 [INFO]   [ 48]  ETHFI     (#137)  $0.33009       7d: +9.2%
+2026-06-15 00:24:07,056 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:07,056 [INFO]   [ 49]  GNO       (#138)  $108.27000     7d: +15.9%
+2026-06-15 00:24:07,065 [WARNING]           → skip GNO: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 00:24:07,066 [INFO]   [ 50]  JTO       (#139)  $0.56088       7d: -7.2%
+2026-06-15 00:24:07,392 [INFO]           → conviction 19/100  |  signals 4/19
+2026-06-15 00:24:07,393 [INFO]   [ 51]  ZBCN      (#145)  $0.00268       7d: +3.1%
+2026-06-15 00:24:07,712 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:07,712 [INFO]   [ 52]  GRASS     (#147)  $0.42527       7d: +24.7%
+2026-06-15 00:24:08,033 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:24:08,033 [INFO]   [ 53]  XTZ       (#148)  $0.23750       7d: -3.6%
+2026-06-15 00:24:08,355 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:08,356 [INFO]   [ 54]  2Z        (#152)  $0.07109       7d: -0.1%
+2026-06-15 00:24:08,679 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:08,680 [INFO]   [ 55]  BSV       (#151)  $12.30000      7d: +3.7%
+2026-06-15 00:24:09,001 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 00:24:09,002 [INFO]   [ 56]  ZRO       (#154)  $0.95277       7d: +7.4%
+2026-06-15 00:24:09,331 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 00:24:09,332 [INFO]   [ 57]  OP        (#160)  $0.10818       7d: +15.1%
+2026-06-15 00:24:09,658 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:24:09,658 [INFO]   [ 58]  TEL       (#159)  $0.00245       7d: -0.2%
+2026-06-15 00:24:09,973 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 00:24:09,973 [INFO]   [ 59]  KAIA      (#164)  $0.03859       7d: +6.2%
+2026-06-15 00:24:10,288 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:10,288 [INFO]   [ 60]  STRK      (#165)  $0.03544       7d: +4.4%
+2026-06-15 00:24:10,621 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:24:10,621 [INFO]   [ 61]  XPL       (#167)  $0.08911       7d: +32.2%
+2026-06-15 00:24:10,937 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 00:24:10,937 [INFO]   [ 62]  IOTA      (#172)  $0.04750       7d: +4.1%
+2026-06-15 00:24:11,260 [INFO]           → conviction 47/100  |  signals 8/19
+2026-06-15 00:24:11,260 [INFO]           ★★★ CONFIRMED CANDIDATE (scan 3) — whale_candles, funding_neg, bb_squeeze, cmf, higher_lows, rs_acceleration, macd_crossover, rsi_in_zone
+2026-06-15 00:24:11,261 [INFO]   [ 63]  USDM      (#173)  $1.01000       7d: +1.0%
+2026-06-15 00:24:11,581 [INFO]           → skip (flatliner: ATR 3.53% / BB 0.45%)
+2026-06-15 00:24:11,581 [INFO]   [ 64]  REAL      (#176)  $0.06192       7d: +21.0%
+2026-06-15 00:24:11,901 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 00:24:11,901 [INFO]   [ 65]  BTW       (#178)  $0.09087       7d: +36.6%
+2026-06-15 00:24:12,223 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:12,223 [INFO]   [ 66]  ULTIMA    (#183)  $2258.92000    7d: -0.8%
+2026-06-15 00:24:12,533 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 00:24:12,533 [INFO]   [ 67]  PIEVERSE  (#185)  $0.67321       7d: +10.2%
+2026-06-15 00:24:12,907 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 00:24:12,907 [INFO]   [ 68]  BTSE      (#187)  $1.13000       7d: +9.0%
+2026-06-15 00:24:13,243 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:13,245 [INFO]   [ 69]  BILL      (#188)  $0.07371       7d: -1.3%
+2026-06-15 00:24:13,586 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:24:13,586 [INFO]   [ 70]  WFI       (#189)  $2.05000       7d: +1.3%
+2026-06-15 00:24:13,901 [INFO]           → skip (flatliner: ATR 0.39% / BB 0.50%)
+2026-06-15 00:24:13,902 [INFO]   [ 71]  SYRUP     (#192)  $0.14338       7d: +11.6%
+2026-06-15 00:24:14,223 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:14,223 [INFO]   [ 72]  GENIUS    (#199)  $0.49693       7d: +8.0%
+2026-06-15 00:24:14,542 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 00:24:14,543 [INFO]   [ 73]  TRAC      (#197)  $0.36764       7d: +5.2%
+2026-06-15 00:24:14,866 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 00:24:14,866 [INFO]   [ 74]  MX        (#206)  $1.72000       7d: -1.2%
+2026-06-15 00:24:15,188 [INFO]           → skip (flatliner: ATR 0.17% / BB 0.57%)
+2026-06-15 00:24:15,190 [INFO]   [ 75]  ZANO      (#214)  $9.38000       7d: +8.8%
+2026-06-15 00:24:15,526 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 00:24:15,526 [INFO]   [ 76]  EURCV     (#218)  $1.16000       7d: +0.9%
+2026-06-15 00:24:15,870 [INFO]           → skip (flatliner: ATR 0.69% / BB 0.43%)
+2026-06-15 00:24:15,871 [INFO]   [ 77]  RUNE      (#222)  $0.39267       7d: +17.7%
+2026-06-15 00:24:16,187 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:16,188 [INFO]   [ 78]  SHFL      (#228)  $0.29964       7d: -0.2%
+2026-06-15 00:24:16,508 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:16,508 [INFO]   [ 79]  TIBBIR    (#231)  $0.12469       7d: +14.6%
+2026-06-15 00:24:16,833 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:16,833 [INFO]   [ 80]  VSN       (#233)  $0.03334       7d: +9.5%
+2026-06-15 00:24:17,173 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 00:24:17,173 [INFO]   [ 81]  SFP       (#237)  $0.24497       7d: +11.6%
+2026-06-15 00:24:17,495 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:17,495 [INFO]   [ 82]  CVX       (#238)  $1.34000       7d: +6.4%
+2026-06-15 00:24:18,070 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 00:24:18,072 [INFO]   [ 83]  A         (#239)  $0.07321       7d: +18.6%
+2026-06-15 00:24:18,455 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:24:18,458 [INFO]   [ 84]  WEMIX     (#253)  $0.24346       7d: -7.7%
+2026-06-15 00:24:18,786 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 00:24:18,786 [INFO]   [ 85]  HOME      (#255)  $0.02732       7d: -5.9%
+2026-06-15 00:24:19,403 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:24:19,403 [INFO]   [ 86]  GOMINING  (#257)  $0.27347       7d: +4.6%
+2026-06-15 00:24:19,741 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:19,742 [INFO]   [ 87]  TAG       (#259)  $0.00100       7d: -6.4%
+2026-06-15 00:24:20,073 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:20,073 [INFO]   [ 88]  IP        (#261)  $0.30221       7d: -4.3%
+2026-06-15 00:24:20,467 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 00:24:20,467 [INFO]   [ 89]  QAIT      (#264)  $0.02413       7d: -3.2%
+2026-06-15 00:24:20,806 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:20,807 [INFO]   [ 90]  AWE       (#265)  $0.05425       7d: +1.5%
+2026-06-15 00:24:21,129 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 00:24:21,130 [INFO]   [ 91]  NXPC      (#269)  $0.35756       7d: +9.4%
+2026-06-15 00:24:21,515 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:21,516 [INFO]   [ 92]  BANANAS31  (#270)  $0.01018       7d: -3.6%
+2026-06-15 00:24:21,836 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 00:24:21,836 [INFO]   [ 93]  BMX       (#271)  $0.29608       7d: -1.2%
+2026-06-15 00:24:22,172 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 00:24:22,173 [INFO]   [ 94]  GEOD      (#276)  $0.22381       7d: +43.1%
+2026-06-15 00:24:22,490 [INFO]           → conviction 13/100  |  signals 5/19
+2026-06-15 00:24:22,492 [INFO]   [ 95]  ATH       (#281)  $0.00472       7d: +5.5%
+2026-06-15 00:24:22,835 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:22,835 [INFO]   [ 96]  KTA       (#285)  $0.16506       7d: +2.2%
+2026-06-15 00:24:23,153 [INFO]           → conviction 7/100  |  signals 1/19
+2026-06-15 00:24:23,155 [INFO]   [ 97]  COW       (#286)  $0.15695       7d: +11.5%
+2026-06-15 00:24:23,490 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 00:24:23,491 [INFO]   [ 98]  FLUID     (#293)  $1.09900       7d: +3.4%
+2026-06-15 00:24:23,812 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 00:24:23,812 [INFO]   [ 99]  DBR       (#299)  $0.01600       7d: +11.0%
+2026-06-15 00:24:24,136 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:24,136 [INFO]   [100]  ARKM      (#301)  $0.13064       7d: +10.8%
+2026-06-15 00:24:24,463 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:24:24,465 [INFO]   [101]  UMXM      (#302)  $1.77000       7d: +4.7%
+2026-06-15 00:24:24,798 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 00:24:24,799 [INFO]   [102]  CFG       (#303)  $0.21777       7d: +12.2%
+2026-06-15 00:24:25,168 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:25,169 [INFO]   [103]  TROLL     (#308)  $0.08247       7d: +14.2%
+2026-06-15 00:24:25,500 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:25,500 [INFO]   [104]  WAL       (#304)  $0.03433       7d: -3.2%
+2026-06-15 00:24:25,818 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:25,819 [INFO]   [105]  ARC       (#309)  $0.08167       7d: -1.6%
+2026-06-15 00:24:26,159 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 00:24:26,160 [INFO]   [106]  LINEA     (#317)  $0.00259       7d: +5.5%
+2026-06-15 00:24:26,730 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:26,731 [INFO]   [107]  MUON      (#316)  $1024.08000    7d: +13.2%
+2026-06-15 00:24:27,057 [INFO]           → conviction 10/100  |  signals 4/19
+2026-06-15 00:24:27,057 [INFO]   [108]  ZIG       (#320)  $0.05584       7d: +6.9%
+2026-06-15 00:24:27,373 [INFO]           → conviction 17/100  |  signals 3/19
+2026-06-15 00:24:27,374 [INFO]   [109]  RAVE      (#326)  $0.30534       7d: -7.9%
+2026-06-15 00:24:27,699 [INFO]           → conviction 16/100  |  signals 3/19
+2026-06-15 00:24:27,700 [INFO]   [110]  MELANIA   (#329)  $0.08026       7d: +10.9%
+2026-06-15 00:24:28,016 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:28,016 [INFO]   [111]  BAN       (#330)  $0.07583       7d: +3.5%
+2026-06-15 00:24:28,335 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 00:24:28,335 [INFO]   [112]  AIOZ      (#343)  $0.05923       7d: +4.3%
+2026-06-15 00:24:28,658 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 00:24:28,658 [INFO]   [113]  MAG7.SSI  (#349)  $0.42872       7d: +3.1%
+2026-06-15 00:24:28,988 [INFO]           → conviction 17/100  |  signals 4/19
+2026-06-15 00:24:28,988 [INFO]   [114]  UAI       (#354)  $0.29726       7d: +4.4%
+2026-06-15 00:24:29,313 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 00:24:29,313 [INFO]   [115]  ORDI      (#355)  $3.38000       7d: +12.9%
+2026-06-15 00:24:29,629 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:24:29,630 [INFO]   [116]  COAI      (#358)  $0.37507       7d: +64.2%
+2026-06-15 00:24:29,941 [INFO]           → conviction 19/100  |  signals 6/19
+2026-06-15 00:24:29,941 [INFO]   [117]  BIO       (#357)  $0.03274       7d: +15.3%
+2026-06-15 00:24:30,263 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:24:30,264 [INFO]   [118]  ZAMA      (#361)  $0.03189       7d: +8.3%
+2026-06-15 00:24:30,575 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:30,575 [INFO]   [119]  ORCA      (#363)  $1.14000       7d: +9.3%
+2026-06-15 00:24:30,911 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 00:24:30,911 [INFO]   [120]  JCT       (#364)  $0.00602       7d: +29.0%
+2026-06-15 00:24:31,236 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 00:24:31,236 [INFO]   [121]  YFI       (#365)  $1919.66000    7d: +5.5%
+2026-06-15 00:24:31,553 [INFO]           → conviction 47/100  |  signals 8/19
+2026-06-15 00:24:31,570 [INFO]           ★★★ CONFIRMED CANDIDATE (scan 3) — whale_candles, funding_neg, bb_squeeze, cmf, higher_lows, macd_crossover, trend_strong, rsi_in_zone
+2026-06-15 00:24:31,570 [INFO]   [122]  Q         (#366)  $0.01680       7d: -1.5%
+2026-06-15 00:24:31,883 [INFO]           → conviction 24/100  |  signals 5/19
+2026-06-15 00:24:31,883 [INFO]   [123]  SN4       (#367)  $13.83000      7d: +26.1%
+2026-06-15 00:24:32,200 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 00:24:32,200 [INFO]   [124]  CARDS     (#370)  $0.26412       7d: +46.8%
+2026-06-15 00:24:32,526 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 00:24:32,527 [INFO]   [125]  METAL     (#369)  $0.13349       7d: +2.4%
+2026-06-15 00:24:32,846 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:32,846 [INFO]   [126]  DOG       (#375)  $0.00066       7d: -1.9%
+2026-06-15 00:24:32,853 [WARNING]           → skip DOG: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 00:24:32,853 [INFO]   [127]  BABY      (#376)  $0.01778       7d: +8.5%
+2026-06-15 00:24:33,162 [INFO]           → conviction 45/100  |  signals 8/19
+2026-06-15 00:24:33,163 [INFO]           ⚠️  RSI OVERBOUGHT (98.0) — demoting to watchlist, wait for cooldown below 65
+2026-06-15 00:24:33,163 [INFO]   [128]  XPR       (#380)  $0.00226       7d: +6.9%
+2026-06-15 00:24:33,501 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:33,502 [INFO]   [129]  OMI       (#383)  $0.00023       7d: +5.1%
+2026-06-15 00:24:33,830 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 00:24:33,831 [INFO]   [130]  TURBO     (#384)  $0.00092       7d: +8.2%
+2026-06-15 00:24:34,144 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:34,144 [INFO]   [131]  SUPER     (#385)  $0.09832       7d: +7.7%
+2026-06-15 00:24:34,471 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:24:34,472 [INFO]   [132]  KNTQ      (#392)  $0.22220       7d: -7.3%
+2026-06-15 00:24:37,815 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 00:24:42,316 [INFO]   [133]  PLUME     (#393)  $0.01079       7d: -4.8%
+2026-06-15 00:24:42,641 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:24:42,642 [INFO]   [134]  TFUEL     (#394)  $0.00840       7d: -2.2%
+2026-06-15 00:24:42,984 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 00:24:42,984 [INFO]   [135]  AIPF      (#400)  $2.19000       7d: +0.6%
+2026-06-15 00:24:43,308 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 00:24:43,309 [INFO]   [136]  DIEM      (#399)  $1628.81000    7d: +13.8%
+2026-06-15 00:24:43,643 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 00:24:43,643 [INFO]   [137]  GMX       (#406)  $5.78000       7d: +4.4%
+2026-06-15 00:24:43,974 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:43,975 [INFO]   [138]  W         (#408)  $0.00997       7d: +3.5%
+2026-06-15 00:24:44,344 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:44,345 [INFO]   [139]  TSLAX     (#412)  $409.83000     7d: +4.1%
+2026-06-15 00:24:44,663 [INFO]           → skip (flatliner: ATR 0.44% / BB 1.46%)
+2026-06-15 00:24:44,663 [INFO]   [140]  SOON      (#413)  $0.17136       7d: +2.4%
+2026-06-15 00:24:44,995 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 00:24:44,995 [INFO]   [141]  ZETA      (#415)  $0.03961       7d: +8.8%
+2026-06-15 00:24:45,316 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 00:24:45,316 [INFO]   [142]  EURI      (#417)  $1.16000       7d: +0.7%
+2026-06-15 00:24:45,683 [INFO]           → skip (flatliner: ATR 0.15% / BB 0.11%)
+2026-06-15 00:24:45,688 [INFO]   [143]  MET       (#416)  $0.10852       7d: +13.1%
+2026-06-15 00:24:46,060 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 00:24:46,061 [INFO]   [144]  PURR      (#419)  $0.09547       7d: +7.8%
+2026-06-15 00:24:46,383 [INFO]           → conviction 7/100  |  signals 3/19
+2026-06-15 00:24:46,383 [INFO]   [145]  TOSHI     (#420)  $0.00013       7d: +10.7%
+2026-06-15 00:24:46,708 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 00:24:46,708 [INFO]   [146]  CKB       (#422)  $0.00115       7d: +7.2%
+2026-06-15 00:24:47,027 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 00:24:47,027 [INFO]   [147]  DEGEN     (#424)  $0.00153       7d: -6.3%
+2026-06-15 00:24:47,345 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:47,345 [INFO]   [148]  SPK       (#428)  $0.02002       7d: +5.1%
+2026-06-15 00:24:47,673 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:47,673 [INFO]   [149]  IDOL      (#430)  $0.02987       7d: -1.4%
+2026-06-15 00:24:47,996 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:47,996 [INFO]   [150]  ICNT      (#433)  $0.21515       7d: -6.7%
+2026-06-15 00:24:48,738 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:48,739 [INFO]   [151]  DUSK      (#436)  $0.09240       7d: -1.1%
+2026-06-15 00:24:49,052 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:49,052 [INFO]   [152]  OPEN      (#439)  $0.24945       7d: +22.2%
+2026-06-15 00:24:49,371 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:24:49,371 [INFO]   [153]  ELF       (#444)  $0.06376       7d: -0.9%
+2026-06-15 00:24:49,379 [WARNING]           → skip ELF: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 00:24:49,380 [INFO]   [154]  NVDAON    (#443)  $208.00000     7d: +1.0%
+2026-06-15 00:24:49,699 [INFO]           → skip (flatliner: ATR 0.32% / BB 0.54%)
+2026-06-15 00:24:49,699 [INFO]   [155]  AZTEC     (#446)  $0.01792       7d: +14.7%
+2026-06-15 00:24:50,014 [INFO]           → conviction 52/100  |  signals 10/19
+2026-06-15 00:24:50,029 [INFO]           ★★★ CONFIRMED CANDIDATE (scan 3) — whale_candles, rsi_divergence, higher_lows, rs_vs_btc, vol_expansion, macd_crossover, vol_velocity, trend_strong, atr_expanding, rsi_in_zone
+2026-06-15 00:24:50,029 [INFO]   [156]  HOLO      (#448)  $0.07218       7d: +21.6%
+2026-06-15 00:24:50,346 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 00:24:50,347 [INFO]   [157]  ASTR      (#451)  $0.00601       7d: +8.3%
+2026-06-15 00:24:50,694 [INFO]           → conviction 24/100  |  signals 6/19
+2026-06-15 00:24:50,695 [INFO]   [158]  BARD      (#452)  $0.16165       7d: +4.9%
+2026-06-15 00:24:51,015 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 00:24:51,016 [INFO]   [159]  POLYX     (#453)  $0.04036       7d: +4.3%
+2026-06-15 00:24:51,329 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 00:24:51,330 [INFO]   [160]  CTC       (#456)  $0.09504       7d: +4.1%
+2026-06-15 00:24:51,643 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 00:24:51,643 [INFO]   [161]  XYO       (#465)  $0.00359       7d: -0.9%
+2026-06-15 00:24:51,966 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 00:24:51,967 [INFO]   [162]  PEAQ      (#471)  $0.02210       7d: -4.1%
+2026-06-15 00:24:52,288 [INFO]           → conviction 24/100  |  signals 6/19
+2026-06-15 00:24:52,289 [INFO]   [163]  FOGO      (#473)  $0.01282       7d: +15.0%
+2026-06-15 00:24:52,606 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 00:24:52,606 [INFO]   [164]  SUSHI     (#475)  $0.17924       7d: +7.6%
+2026-06-15 00:24:52,915 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 00:24:52,916 [INFO]   [165]  XNO       (#474)  $0.36657       7d: -5.9%
+2026-06-15 00:24:53,229 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:53,229 [INFO]   [166]  SLX       (#484)  $0.19574       7d: +12.4%
+2026-06-15 00:24:53,553 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:53,553 [INFO]   [167]  RON       (#487)  $0.06111       7d: -6.6%
+2026-06-15 00:24:53,878 [INFO]           → conviction 19/100  |  signals 3/19
+2026-06-15 00:24:53,879 [INFO]   [168]  AMP       (#491)  $0.00053       7d: +0.4%
+2026-06-15 00:24:54,198 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 00:24:54,198 [INFO]   [169]  PNUT      (#492)  $0.04496       7d: +10.2%
+2026-06-15 00:24:54,520 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 00:24:54,520 [INFO]   [170]  SQD       (#493)  $0.04110       7d: +28.0%
+2026-06-15 00:24:54,830 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 00:24:54,830 [INFO]   [171]  ROBO      (#497)  $0.01952       7d: +1.5%
+2026-06-15 00:24:55,153 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 00:24:55,154 [INFO]   [172]  T         (#500)  $0.00385       7d: +1.9%
+2026-06-15 00:24:55,474 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 00:24:55,479 [INFO] 
+[5/5] Building trade plan report...
+2026-06-15 00:24:55,479 [INFO]   Raw candidates found: 3
+2026-06-15 00:24:55,492 [INFO]   Correlation filter: dropped iota (corr=0.86 with aztec — kept higher conviction)
+2026-06-15 00:24:55,493 [INFO]   Correlation filter: dropped yearn-finance (corr=0.78 with aztec — kept higher conviction)
+2026-06-15 00:24:55,495 [INFO]   After correlation filter: 1 unique candidates
+2026-06-15 00:24:55,495 [INFO] [5/5] Checking major leverage opportunities (BTC/ETH/SOL)...
+2026-06-15 00:24:55,495 [INFO]   Major leverage: 0 opportunity(s) found
+2026-06-15 00:24:55,496 [INFO] 
+================================================================================
+  CRYPTO SPOT SCANNER — TRADE PLAN REPORT
+  Generated: 2026-06-15 00:24:55
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   65,502.50
+  BTC 7-day    :     +3.47%
+  BTC 24-hour  :     +1.69%
+  ETH 7-day    :     +1.80%
+  BTC Dominance:      56.7%
+  Regime       :  🟢 BULL
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,313.06 USDT
+  Risk / trade  : 1.5%  ($1,445 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+
+TOP 1 SETUPS  (ranked by conviction)
+================================================================================
+
+[1] 💡  AZTEC  (Rank #446)
+     Conviction  : 52 / 100
+     Signals     : 10 / 19 active
+     Active      : whale_candles  |  rsi_divergence  |  higher_lows  |  rs_vs_btc  |  vol_expansion  |  macd_crossover  |  vol_velocity  |  trend_strong  |  atr_expanding  |  rsi_in_zone
+
+     ┌─ TRADE PLAN ──────────────────────────────────────────────
+     │  Entry price  : $0.017921   <- consider limit or wait for dip
+     │  STOP LOSS    : $0.017025   (-5.0%)   ← EXIT HARD — no exceptions
+     │
+     │  Position     : $    11,834 USDT (12.3% of account)
+     │  Risk amount  : $       592 USDT (0.61% of account)
+     │
+     │  TP1  $0.019713 (+10.0%)  Sell 30%  ≈ $3,905 USDT  R:R 1:2
+     │  TP2  $0.020609 (+15.0%)  Sell 40%  ≈ $5,444 USDT  R:R 1:3
+     │  TP3  $0.022401 (+25.0%)  Sell 30%  ≈ $4,438 USDT  R:R 1:5
+     │
+     │  Expected value (40% win rate): +4.8%
+     └──────────────────────────────────────────────────────────
+
+     ── INDICATORS ──────────────────────────────────────────────
+     RSI = 64.7  [OK — getting extended]  |  ADX = 34.8  |  ATR = 2.93%  |  RS vs BTC = 8.05%  |  BB width = 2.62%
+     ⚠️  RSI above is 14-period on 4h candles.  Always confirm on 1h RSI7 before entry.
+--------------------------------------------------------------------------------
+
+PORTFOLIO SUMMARY
+----------------------------------------
+  Total deployed   : $    11,834 USDT  (12.3%)
+  Total at risk    : $       592 USDT  (0.6%)  🟢
+  Cash reserve     : $    84,479 USDT
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = needs 1 more confirmation scan  |  ↗ = conviction rising  |  ↘ = fading
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  TREND  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  -----  ----------------------------
+  1     🔴BABY      #376  $0.01778         +8.5%    45     8      →  whale_candles, funding_neg, macd_divergence +5  ⚠️ RSI 98 — wait for cooldown <65
+
+--------------------------------------------------------------------------------
+
+TRADING RULES  (non-negotiable)
+----------------------------------------
+  1. Honor every stop loss.  No exceptions.  No averaging down.
+  2. After TP1 hit → move stop to breakeven.  Now it's a free trade.
+  3. After TP2 hit → move stop to TP1.  Lock in profit.
+  4. Never open more than 8 positions simultaneously.
+  5. If BTC drops >5% in a single day → tighten all stops to -5%.
+  6. Run this scanner again in 2-3 hours for fresh signals.
+  7. ⏳ rule: a token must qualify on 2 consecutive scans before entry.
+  8. Cash is a position.  Forcing trades is how accounts blow up.
+
+DISCLAIMER
+----------------------------------------
+  This is a technical analysis tool, not financial advice.
+  Past signals do not guarantee future results.
+  Crypto markets are highly volatile.  Only risk what you can afford to lose.
+================================================================================
+2026-06-15 00:24:55,502 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.txt
+2026-06-15 00:24:55,502 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.json
+2026-06-15 00:24:55,502 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260615.log
+2026-06-15 00:24:55,502 [INFO] 
+  Done.  1 high-conviction setup(s) found.
+2026-06-15 09:29:03,825 [INFO]   Live Bybit balance: 96,313.06 USDT
+2026-06-15 09:29:03,828 [INFO] 
+2026-06-15 09:29:03,828 [INFO] ================================================================================
+2026-06-15 09:29:03,828 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.1
+2026-06-15 09:29:03,828 [INFO]   18-signal engine | funding rate | corr filter | volume source tagging
+2026-06-15 09:29:03,828 [INFO] ================================================================================
+2026-06-15 09:29:03,828 [INFO]   Account: $96,313.06 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-06-15 09:29:03,828 [INFO] 
+2026-06-15 09:29:03,839 [INFO] [1/5] Analyzing market regime...
+2026-06-15 09:29:03,839 [INFO] Fetching market context (Bybit klines primary)...
+2026-06-15 09:29:04,881 [INFO]   [Bybit] BTC: $65,623 | 7d: +3.4%  ETH 7d: +2.0%  Dominance: 56.6% | Regime: 🟢 BULL
+2026-06-15 09:29:04,882 [INFO]   🟢 BULL — normal parameters apply
+2026-06-15 09:29:04,883 [INFO] [2/5] Fetching BTC historical data...
+2026-06-15 09:29:07,193 [INFO]   BTC data: OK
+2026-06-15 09:29:11,695 [INFO] [3/5] Fetching top 500 coins...
+2026-06-15 09:29:11,706 [INFO] Fetching top 500 coins by market cap...
+2026-06-15 09:29:13,834 [INFO]   Fetched 500 coins
+2026-06-15 09:29:13,846 [INFO]   Fetched 500 coins
+2026-06-15 09:29:13,846 [INFO] [4/5] Scanning for high-conviction setups...
+2026-06-15 09:29:13,847 [INFO]   Filters: Rank 20–500  |  Vol ≥ $500,000  |  Min conviction: 45
+2026-06-15 09:29:13,847 [INFO] 
+2026-06-15 09:29:13,852 [INFO]   [  1]  XMR       (# 20)  $334.92000     7d: +6.5%
+2026-06-15 09:29:14,742 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:29:14,742 [INFO]   [  2]  TON       (# 22)  $1.81000       7d: +4.9%
+2026-06-15 09:29:15,344 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:29:15,345 [INFO]   [  3]  M         (# 27)  $2.96000       7d: -2.0%
+2026-06-15 09:29:15,946 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:29:15,946 [INFO]   [  4]  HBAR      (# 28)  $0.08145       7d: -0.4%
+2026-06-15 09:29:16,653 [INFO]           → conviction 18/100  |  signals 2/19
+2026-06-15 09:29:16,654 [INFO]   [  5]  LTC       (# 29)  $45.16000      7d: +5.5%
+2026-06-15 09:29:17,328 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 09:29:17,329 [INFO]   [  6]  NEAR      (# 32)  $2.38000       7d: +10.8%
+2026-06-15 09:29:18,185 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 09:29:18,187 [INFO]   [  7]  USYC      (# 33)  $1.13000       7d: +0.0%
+2026-06-15 09:29:21,342 [WARNING]           → skip USYC: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 09:29:25,843 [INFO]   [  8]  CRO       (# 37)  $0.06158       7d: +1.2%
+2026-06-15 09:29:28,981 [INFO]           → conviction 26/100  |  signals 4/19
+2026-06-15 09:29:28,983 [INFO]   [  9]  TAO       (# 38)  $285.17000     7d: +35.9%
+2026-06-15 09:29:31,501 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:29:31,501 [INFO]   [ 10]  USDY      (# 42)  $1.13000       7d: +1.4%
+2026-06-15 09:29:38,838 [INFO]           → skip (flatliner: ATR 0.97% / BB 0.45%)
+2026-06-15 09:29:43,340 [INFO]   [ 11]  WLD       (# 43)  $0.58502       7d: +24.2%
+2026-06-15 09:29:44,607 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 09:29:44,607 [INFO]   [ 12]  WLFI      (# 45)  $0.06059       7d: +8.7%
+2026-06-15 09:29:45,821 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:29:45,822 [INFO]   [ 13]  MNT       (# 46)  $0.57273       7d: +4.5%
+2026-06-15 09:29:47,121 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:29:47,122 [INFO]   [ 14]  ONDO      (# 47)  $0.37840       7d: +6.4%
+2026-06-15 09:29:48,359 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 09:29:48,359 [INFO]   [ 15]  UNI       (# 51)  $2.61000       7d: +2.5%
+2026-06-15 09:29:49,464 [INFO]           → conviction 18/100  |  signals 2/19
+2026-06-15 09:29:49,464 [INFO]   [ 16]  OKB       (# 52)  $75.31000      7d: +3.8%
+2026-06-15 09:29:50,204 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:29:50,205 [INFO]   [ 17]  PI        (# 55)  $0.13418       7d: +4.4%
+2026-06-15 09:29:54,280 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:29:58,781 [INFO]   [ 18]  ICP       (# 56)  $2.53000       7d: +7.9%
+2026-06-15 09:29:59,834 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:29:59,835 [INFO]   [ 19]  BEAT      (# 58)  $4.62000       7d: +11.4%
+2026-06-15 09:30:01,008 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:30:01,009 [INFO]   [ 20]  SKY       (# 60)  $0.05628       7d: -2.0%
+2026-06-15 09:30:02,785 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 09:30:02,786 [INFO]   [ 21]  MORPHO    (# 61)  $1.99000       7d: +16.8%
+2026-06-15 09:30:04,027 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:30:04,028 [INFO]   [ 22]  BGB       (# 62)  $1.81000       7d: -1.8%
+2026-06-15 09:30:07,596 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 09:30:12,098 [INFO]   [ 23]  ETC       (# 64)  $7.25000       7d: +3.0%
+2026-06-15 09:30:12,680 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:30:12,681 [INFO]   [ 24]  AAVE      (# 65)  $71.35000      7d: +13.7%
+2026-06-15 09:30:13,376 [INFO]           → conviction 32/100  |  signals 5/19
+2026-06-15 09:30:13,376 [INFO]   [ 25]  QNT       (# 68)  $69.03000      7d: +1.2%
+2026-06-15 09:30:14,003 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 09:30:14,003 [INFO]   [ 26]  RENDER    (# 73)  $1.83000       7d: +10.2%
+2026-06-15 09:30:14,615 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:30:14,615 [INFO]   [ 27]  KCS       (# 74)  $7.01000       7d: +8.0%
+2026-06-15 09:30:18,197 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 09:30:22,698 [INFO]   [ 28]  KAS       (# 76)  $0.03267       7d: +1.9%
+2026-06-15 09:30:23,261 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 09:30:23,261 [INFO]   [ 29]  ALGO      (# 79)  $0.09359       7d: +0.6%
+2026-06-15 09:30:23,859 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 09:30:23,860 [INFO]   [ 30]  POL       (# 80)  $0.07708       7d: -3.0%
+2026-06-15 09:30:24,429 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 09:30:24,430 [INFO]   [ 31]  STABLE    (# 81)  $0.03471       7d: +4.5%
+2026-06-15 09:30:24,998 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:30:24,999 [INFO]   [ 32]  ENA       (# 83)  $0.08577       7d: -2.2%
+2026-06-15 09:30:25,582 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:30:25,582 [INFO]   [ 33]  VVV       (# 84)  $16.04000      7d: -7.9%
+2026-06-15 09:30:26,197 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:30:26,197 [INFO]   [ 34]  GT        (# 85)  $6.86000       7d: +7.4%
+2026-06-15 09:30:29,724 [INFO]           → conviction 20/100  |  signals 6/19
+2026-06-15 09:30:34,225 [INFO]   [ 35]  FLR       (# 88)  $0.00799       7d: +12.8%
+2026-06-15 09:30:34,805 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:30:34,806 [INFO]   [ 36]  JST       (# 89)  $0.07746       7d: -2.4%
+2026-06-15 09:30:35,389 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:30:35,390 [INFO]   [ 37]  JUP       (# 91)  $0.18862       7d: +21.0%
+2026-06-15 09:30:35,971 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 09:30:35,971 [INFO]   [ 38]  BDX       (# 92)  $0.08017       7d: +1.8%
+2026-06-15 09:30:39,640 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 09:30:44,142 [INFO]   [ 39]  XDC       (# 93)  $0.03045       7d: -2.9%
+2026-06-15 09:30:44,726 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:30:44,727 [INFO]   [ 40]  APT       (# 95)  $0.68203       7d: +2.6%
+2026-06-15 09:30:45,316 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:30:45,316 [INFO]   [ 41]  PUMP      (# 97)  $0.00159       7d: +0.7%
+2026-06-15 09:30:46,194 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:30:46,195 [INFO]   [ 42]  NIGHT     (# 99)  $0.03287       7d: +8.5%
+2026-06-15 09:30:46,773 [INFO]           → conviction 11/100  |  signals 2/19
+2026-06-15 09:30:46,773 [INFO]   [ 43]  ARB       (#100)  $0.08661       7d: +5.8%
+2026-06-15 09:30:47,342 [INFO]           → conviction 16/100  |  signals 3/19
+2026-06-15 09:30:47,343 [INFO]   [ 44]  INJ       (#102)  $5.22000       7d: -5.8%
+2026-06-15 09:30:47,909 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 09:30:47,910 [INFO]   [ 45]  DASH      (#108)  $38.70000      7d: +4.2%
+2026-06-15 09:30:48,499 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 09:30:48,500 [INFO]   [ 46]  FET       (#109)  $0.21543       7d: +3.5%
+2026-06-15 09:30:49,383 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 09:30:49,383 [INFO]   [ 47]  TRUMP     (#111)  $1.98000       7d: +19.6%
+2026-06-15 09:30:49,972 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:30:49,972 [INFO]   [ 48]  KITE      (#113)  $0.19674       7d: +2.4%
+2026-06-15 09:30:50,538 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 09:30:50,538 [INFO]   [ 49]  VIRTUAL   (#117)  $0.64917       7d: +11.8%
+2026-06-15 09:30:51,150 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:30:51,150 [INFO]   [ 50]  LIT       (#118)  $1.69000       7d: +9.9%
+2026-06-15 09:30:51,795 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 09:30:51,796 [INFO]   [ 51]  APXUSD    (#121)  $0.96059       7d: +2.4%
+2026-06-15 09:30:55,258 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:30:59,759 [INFO]   [ 52]  9BIT      (#123)  $0.04585       7d: -2.5%
+2026-06-15 09:31:03,356 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 09:31:07,857 [INFO]   [ 53]  SEI       (#124)  $0.05530       7d: +11.4%
+2026-06-15 09:31:08,427 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 09:31:08,427 [INFO]   [ 54]  AERO      (#125)  $0.38997       7d: +15.9%
+2026-06-15 09:31:09,003 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 09:31:09,004 [INFO]   [ 55]  CRV       (#126)  $0.23663       7d: +19.8%
+2026-06-15 09:31:09,573 [INFO]           → conviction 21/100  |  signals 4/19
+2026-06-15 09:31:09,573 [INFO]   [ 56]  SKYAI     (#128)  $0.34099       7d: +33.7%
+2026-06-15 09:31:12,943 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 09:31:17,443 [INFO]   [ 57]  TIA       (#130)  $0.36137       7d: +14.5%
+2026-06-15 09:31:18,020 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:31:18,021 [INFO]   [ 58]  SUN       (#132)  $0.01702       7d: -3.1%
+2026-06-15 09:31:18,597 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 09:31:18,597 [INFO]   [ 59]  UB        (#135)  $0.12237       7d: +5.2%
+2026-06-15 09:31:19,389 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:31:19,390 [INFO]   [ 60]  ETHFI     (#136)  $0.33875       7d: +12.7%
+2026-06-15 09:31:20,184 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 09:31:20,185 [INFO]   [ 61]  JTO       (#137)  $0.60023       7d: -0.6%
+2026-06-15 09:31:20,893 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:31:20,893 [INFO]   [ 62]  GNO       (#138)  $109.12000     7d: +14.8%
+2026-06-15 09:31:21,145 [WARNING]           → skip GNO: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 09:31:21,145 [INFO]   [ 63]  GWEI      (#139)  $0.13633       7d: -1.4%
+2026-06-15 09:31:21,705 [INFO]           → conviction 5/100  |  signals 1/19
+2026-06-15 09:31:21,705 [INFO]   [ 64]  GRASS     (#140)  $0.47132       7d: +36.5%
+2026-06-15 09:31:22,265 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 09:31:22,266 [INFO]   [ 65]  ZRO       (#141)  $1.07800       7d: +20.7%
+2026-06-15 09:31:22,827 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 09:31:22,827 [INFO]   [ 66]  ZBCN      (#142)  $0.00276       7d: +6.4%
+2026-06-15 09:31:23,400 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 09:31:23,400 [INFO]   [ 67]  JASMY     (#146)  $0.00530       7d: +10.4%
+2026-06-15 09:31:23,973 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 09:31:23,974 [INFO]   [ 68]  XTZ       (#149)  $0.23826       7d: -2.3%
+2026-06-15 09:31:24,561 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:31:24,561 [INFO]   [ 69]  BSV       (#150)  $12.46000      7d: +4.6%
+2026-06-15 09:31:25,146 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 09:31:25,146 [INFO]   [ 70]  2Z        (#152)  $0.07165       7d: +1.0%
+2026-06-15 09:31:25,726 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:31:25,727 [INFO]   [ 71]  TEL       (#159)  $0.00249       7d: +2.3%
+2026-06-15 09:31:29,643 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 09:31:34,145 [INFO]   [ 72]  STRK      (#158)  $0.03722       7d: +10.0%
+2026-06-15 09:31:34,746 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 09:31:34,747 [INFO]   [ 73]  OP        (#160)  $0.10987       7d: +14.1%
+2026-06-15 09:31:35,315 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:31:35,315 [INFO]   [ 74]  KAIA      (#165)  $0.03889       7d: +5.1%
+2026-06-15 09:31:35,913 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:31:35,914 [INFO]   [ 75]  GRT       (#168)  $0.02075       7d: +3.5%
+2026-06-15 09:31:36,686 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 09:31:36,686 [INFO]   [ 76]  DCR       (#169)  $12.53000      7d: +0.5%
+2026-06-15 09:31:37,573 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 09:31:37,574 [INFO]   [ 77]  USDM      (#170)  $0.98816       7d: -1.2%
+2026-06-15 09:31:41,173 [INFO]           → skip (flatliner: ATR 3.70% / BB 0.49%)
+2026-06-15 09:31:45,674 [INFO]   [ 78]  IOTA      (#173)  $0.04744       7d: +0.9%
+2026-06-15 09:31:46,258 [INFO]           → conviction 32/100  |  signals 5/19
+2026-06-15 09:31:46,259 [INFO]   [ 79]  REAL      (#177)  $0.06256       7d: +18.4%
+2026-06-15 09:31:49,864 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:31:54,365 [INFO]   [ 80]  PIEVERSE  (#183)  $0.70247       7d: +12.9%
+2026-06-15 09:31:54,938 [INFO]           → conviction 19/100  |  signals 6/19
+2026-06-15 09:31:54,938 [INFO]   [ 81]  ULTIMA    (#185)  $2269.84000    7d: -0.5%
+2026-06-15 09:31:58,318 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:32:02,820 [INFO]   [ 82]  BTSE      (#187)  $1.14000       7d: +7.6%
+2026-06-15 09:32:06,265 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:32:10,766 [INFO]   [ 83]  BILL      (#188)  $0.07250       7d: -1.1%
+2026-06-15 09:32:11,357 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:32:11,357 [INFO]   [ 84]  TWT       (#192)  $0.40194       7d: +7.6%
+2026-06-15 09:32:11,960 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:32:11,961 [INFO]   [ 85]  SYRUP     (#194)  $0.13986       7d: +7.7%
+2026-06-15 09:32:12,526 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 09:32:12,526 [INFO]   [ 86]  TRAC      (#195)  $0.37265       7d: +1.3%
+2026-06-15 09:32:16,066 [INFO]           → conviction 11/100  |  signals 4/19
+2026-06-15 09:32:20,567 [INFO]   [ 87]  MX        (#206)  $1.72000       7d: -1.5%
+2026-06-15 09:32:24,253 [INFO]           → skip (flatliner: ATR 0.29% / BB 0.67%)
+2026-06-15 09:32:28,754 [INFO]   [ 88]  EIGEN     (#205)  $0.21135       7d: +14.8%
+2026-06-15 09:32:29,340 [INFO]           → conviction 29/100  |  signals 7/19
+2026-06-15 09:32:29,340 [INFO]   [ 89]  GENIUS    (#208)  $0.45715       7d: +0.3%
+2026-06-15 09:32:29,909 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 09:32:29,910 [INFO]   [ 90]  ZANO      (#213)  $9.34000       7d: +7.9%
+2026-06-15 09:32:33,618 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:32:38,120 [INFO]   [ 91]  AR        (#218)  $2.10000       7d: +9.5%
+2026-06-15 09:32:38,698 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 09:32:38,699 [INFO]   [ 92]  BAT       (#219)  $0.09214       7d: +6.4%
+2026-06-15 09:32:39,279 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:32:39,280 [INFO]   [ 93]  EURCV     (#220)  $1.16000       7d: +0.7%
+2026-06-15 09:32:43,013 [INFO]           → skip (flatliner: ATR 0.60% / BB 0.42%)
+2026-06-15 09:32:47,514 [INFO]   [ 94]  RUNE      (#221)  $0.39793       7d: +17.1%
+2026-06-15 09:32:48,087 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 09:32:48,088 [INFO]   [ 95]  TIBBIR    (#227)  $0.12738       7d: +15.9%
+2026-06-15 09:32:51,330 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:32:55,831 [INFO]   [ 96]  FT        (#228)  $0.10283       7d: +4.8%
+2026-06-15 09:32:59,452 [INFO]           → conviction 19/100  |  signals 6/19
+2026-06-15 09:33:03,954 [INFO]   [ 97]  SHFL      (#229)  $0.29562       7d: -1.3%
+2026-06-15 09:33:07,381 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:33:11,891 [INFO]   [ 98]  VSN       (#233)  $0.03367       7d: +10.7%
+2026-06-15 09:33:15,252 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 09:33:19,753 [INFO]   [ 99]  SFP       (#237)  $0.24647       7d: +8.3%
+2026-06-15 09:33:20,631 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:33:20,632 [INFO]   [100]  CVX       (#239)  $1.34000       7d: +7.6%
+2026-06-15 09:33:21,195 [INFO]           → conviction 32/100  |  signals 5/19
+2026-06-15 09:33:21,196 [INFO]   [101]  A         (#240)  $0.07311       7d: +15.3%
+2026-06-15 09:33:21,774 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:33:21,774 [INFO]   [102]  NUSD      (#242)  $0.99183       7d: -0.7%
+2026-06-15 09:33:25,148 [INFO]           → skip (flatliner: ATR 0.14% / BB 0.13%)
+2026-06-15 09:33:29,649 [INFO]   [103]  CRCLON    (#244)  $82.24000      7d: -0.2%
+2026-06-15 09:33:32,987 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:33:37,488 [INFO]   [104]  GOMINING  (#245)  $0.28622       7d: +9.4%
+2026-06-15 09:33:40,840 [INFO]           → conviction 26/100  |  signals 7/19
+2026-06-15 09:33:45,340 [INFO]   [105]  KAITO     (#250)  $0.47252       7d: +4.3%
+2026-06-15 09:33:45,898 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:33:45,899 [INFO]   [106]  WEMIX     (#251)  $0.24368       7d: -7.3%
+2026-06-15 09:33:49,747 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:33:54,248 [INFO]   [107]  IP        (#254)  $0.31172       7d: +1.6%
+2026-06-15 09:33:54,830 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 09:33:54,831 [INFO]   [108]  BP        (#256)  $0.43616       7d: +66.9%
+2026-06-15 09:33:55,415 [INFO]           → conviction 37/100  |  signals 7/19
+2026-06-15 09:33:55,416 [INFO]   [109]  SENT      (#257)  $0.01507       7d: +17.6%
+2026-06-15 09:33:55,984 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:33:55,985 [INFO]   [110]  AB        (#258)  $0.00109       7d: -3.3%
+2026-06-15 09:33:59,703 [INFO]           → skip (flatliner: ATR 0.28% / BB 0.50%)
+2026-06-15 09:34:04,204 [INFO]   [111]  BANANAS31  (#260)  $0.01077       7d: +3.2%
+2026-06-15 09:34:04,775 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 09:34:04,775 [INFO]   [112]  AWE       (#264)  $0.05403       7d: +1.3%
+2026-06-15 09:34:05,368 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:34:05,369 [INFO]   [113]  BMX       (#269)  $0.29941       7d: -0.1%
+2026-06-15 09:34:09,149 [INFO]           → conviction 16/100  |  signals 3/19
+2026-06-15 09:34:13,651 [INFO]   [114]  NOCK      (#271)  $0.04565       7d: +4.7%
+2026-06-15 09:34:17,392 [INFO]           → conviction 14/100  |  signals 5/19
+2026-06-15 09:34:21,893 [INFO]   [115]  NXPC      (#272)  $0.35202       7d: +5.0%
+2026-06-15 09:34:22,589 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 09:34:22,590 [INFO]   [116]  QAIT      (#279)  $0.02275       7d: -1.5%
+2026-06-15 09:34:25,954 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 09:34:30,455 [INFO]   [117]  RIF       (#278)  $0.09994       7d: +56.7%
+2026-06-15 09:34:31,325 [INFO]           → conviction 36/100  |  signals 7/19
+2026-06-15 09:34:31,326 [INFO]   [118]  ATH       (#280)  $0.00490       7d: +10.5%
+2026-06-15 09:34:31,911 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:34:31,911 [INFO]   [119]  SN64      (#282)  $18.97000      7d: +36.3%
+2026-06-15 09:34:35,295 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 09:34:39,796 [INFO]   [120]  GEOD      (#283)  $0.21631       7d: +36.7%
+2026-06-15 09:34:43,135 [INFO]           → conviction 13/100  |  signals 5/19
+2026-06-15 09:34:47,637 [INFO]   [121]  WAL       (#289)  $0.03801       7d: +6.5%
+2026-06-15 09:34:48,231 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 09:34:48,231 [INFO]   [122]  COW       (#287)  $0.15666       7d: +12.4%
+2026-06-15 09:34:48,821 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 09:34:48,822 [INFO]   [123]  RSR       (#292)  $0.00142       7d: +2.2%
+2026-06-15 09:34:49,400 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 09:34:49,400 [INFO]   [124]  ARKM      (#293)  $0.13776       7d: +17.3%
+2026-06-15 09:34:50,313 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:34:50,314 [INFO]   [125]  FLUID     (#295)  $1.09800       7d: +2.0%
+2026-06-15 09:34:50,893 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 09:34:50,893 [INFO]   [126]  USDA      (#300)  $0.99123       7d: -0.5%
+2026-06-15 09:34:54,543 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:34:59,044 [INFO]   [127]  DBR       (#299)  $0.01613       7d: +11.8%
+2026-06-15 09:34:59,643 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 09:34:59,644 [INFO]   [128]  KTA       (#301)  $0.15450       7d: +0.3%
+2026-06-15 09:35:02,960 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 09:35:07,461 [INFO]   [129]  UAI       (#304)  $0.35407       7d: +31.3%
+2026-06-15 09:35:08,041 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 09:35:08,042 [INFO]   [130]  UMXM      (#306)  $1.79000       7d: +5.4%
+2026-06-15 09:35:11,832 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:35:16,334 [INFO]   [131]  CFG       (#307)  $0.21899       7d: +10.4%
+2026-06-15 09:35:16,916 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:35:16,916 [INFO]   [132]  BAS       (#309)  $0.03294       7d: -1.9%
+2026-06-15 09:35:20,741 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:35:25,242 [INFO]   [133]  PROS      (#312)  $0.59918       7d: -4.5%
+2026-06-15 09:35:25,810 [WARNING]           → skip PROS: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 09:35:25,811 [INFO]   [134]  LINEA     (#313)  $0.00263       7d: +5.1%
+2026-06-15 09:35:26,420 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 09:35:26,420 [INFO]   [135]  TROLL     (#319)  $0.07881       7d: +10.3%
+2026-06-15 09:35:30,084 [INFO]           → conviction 17/100  |  signals 4/19
+2026-06-15 09:35:34,585 [INFO]   [136]  QTUM      (#320)  $0.74058       7d: +5.1%
+2026-06-15 09:35:35,193 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 09:35:35,194 [INFO]   [137]  ZIG       (#321)  $0.05570       7d: +5.8%
+2026-06-15 09:35:38,715 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:35:43,215 [INFO]   [138]  MUON      (#323)  $1053.13000    7d: +20.2%
+2026-06-15 09:35:47,023 [INFO]           → conviction 15/100  |  signals 4/19
+2026-06-15 09:35:51,524 [INFO]   [139]  ARC       (#324)  $0.07762       7d: -6.1%
+2026-06-15 09:35:52,127 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:35:52,127 [INFO]   [140]  JCT       (#331)  $0.00665       7d: +47.3%
+2026-06-15 09:35:52,716 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:35:52,716 [INFO]   [141]  MELANIA   (#330)  $0.07997       7d: +8.0%
+2026-06-15 09:35:53,365 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 09:35:53,366 [INFO]   [142]  BAN       (#340)  $0.07624       7d: +7.5%
+2026-06-15 09:35:53,950 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:35:53,951 [INFO]   [143]  ZRX       (#339)  $0.08855       7d: +5.6%
+2026-06-15 09:35:54,554 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:35:54,554 [INFO]   [144]  ORDI      (#345)  $3.54000       7d: +20.5%
+2026-06-15 09:35:55,155 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:35:55,155 [INFO]   [145]  MEGA      (#353)  $0.06487       7d: +28.9%
+2026-06-15 09:35:55,738 [INFO]           → conviction 27/100  |  signals 7/19
+2026-06-15 09:35:55,738 [INFO]   [146]  AIOZ      (#349)  $0.05854       7d: +3.2%
+2026-06-15 09:35:56,326 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 09:35:56,329 [INFO]   [147]  MAG7.SSI  (#351)  $0.43222       7d: +4.6%
+2026-06-15 09:36:00,086 [INFO]           → conviction 15/100  |  signals 3/19
+2026-06-15 09:36:04,588 [INFO]   [148]  RVN       (#355)  $0.00441       7d: +4.5%
+2026-06-15 09:36:05,175 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:36:05,176 [INFO]   [149]  SN4       (#358)  $14.49000      7d: +30.4%
+2026-06-15 09:36:08,952 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 09:36:13,453 [INFO]   [150]  BIO       (#360)  $0.03244       7d: +15.0%
+2026-06-15 09:36:14,017 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 09:36:14,018 [INFO]   [151]  YFI       (#362)  $1928.63000    7d: +3.6%
+2026-06-15 09:36:14,633 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 09:36:14,633 [INFO]   [152]  ORCA      (#364)  $1.13000       7d: +9.2%
+2026-06-15 09:36:15,220 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:36:15,220 [INFO]   [153]  ZAMA      (#370)  $0.03042       7d: +1.6%
+2026-06-15 09:36:15,805 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:36:15,806 [INFO]   [154]  METAL     (#365)  $0.13164       7d: +1.3%
+2026-06-15 09:36:19,467 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:36:23,968 [INFO]   [155]  Q         (#371)  $0.01644       7d: -3.1%
+2026-06-15 09:36:24,542 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 09:36:24,543 [INFO]   [156]  PLUME     (#373)  $0.01145       7d: +3.9%
+2026-06-15 09:36:25,146 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 09:36:25,147 [INFO]   [157]  DOG       (#378)  $0.00066       7d: +0.8%
+2026-06-15 09:36:25,403 [WARNING]           → skip DOG: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 09:36:25,403 [INFO]   [158]  CARDS     (#375)  $0.25482       7d: +47.9%
+2026-06-15 09:36:28,856 [INFO]           → conviction 17/100  |  signals 4/19
+2026-06-15 09:36:33,356 [INFO]   [159]  XPR       (#381)  $0.00225       7d: +5.8%
+2026-06-15 09:36:36,860 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:36:41,362 [INFO]   [160]  TURBO     (#384)  $0.00092       7d: +7.3%
+2026-06-15 09:36:42,220 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:36:42,221 [INFO]   [161]  OMI       (#386)  $0.00024       7d: +6.0%
+2026-06-15 09:36:46,273 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:36:50,775 [INFO]   [162]  SUPER     (#387)  $0.09926       7d: +6.7%
+2026-06-15 09:36:51,385 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 09:36:51,386 [INFO]   [163]  KNTQ      (#388)  $0.22585       7d: -0.9%
+2026-06-15 09:36:55,131 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:36:59,633 [INFO]   [164]  BABY      (#394)  $0.01683       7d: +3.2%
+2026-06-15 09:37:00,224 [INFO]           → conviction 42/100  |  signals 8/19
+2026-06-15 09:37:00,225 [INFO]   [165]  TFUEL     (#395)  $0.00842       7d: +0.4%
+2026-06-15 09:37:01,123 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 09:37:01,123 [INFO]   [166]  W         (#396)  $0.01020       7d: +7.3%
+2026-06-15 09:37:01,699 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 09:37:01,699 [INFO]   [167]  VELO      (#400)  $0.00350       7d: +2.0%
+2026-06-15 09:37:02,285 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 09:37:02,286 [INFO]   [168]  ENJ       (#398)  $0.03095       7d: +2.9%
+2026-06-15 09:37:02,860 [INFO]           → conviction 21/100  |  signals 4/19
+2026-06-15 09:37:02,860 [INFO]   [169]  GMX       (#401)  $5.86000       7d: +3.0%
+2026-06-15 09:37:03,448 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 09:37:03,449 [INFO]   [170]  MET       (#402)  $0.11489       7d: +14.6%
+2026-06-15 09:37:04,024 [INFO]           → conviction 31/100  |  signals 6/19
+2026-06-15 09:37:04,024 [INFO]   [171]  COAI      (#406)  $0.32208       7d: +40.9%
+2026-06-15 09:37:04,596 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:37:04,597 [INFO]   [172]  NMR       (#408)  $8.53000       7d: +3.8%
+2026-06-15 09:37:05,167 [INFO]           → conviction 31/100  |  signals 5/19
+2026-06-15 09:37:05,169 [INFO]   [173]  SOON      (#409)  $0.17678       7d: +8.4%
+2026-06-15 09:37:05,751 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:37:05,752 [INFO]   [174]  PURR      (#411)  $0.09997       7d: +4.2%
+2026-06-15 09:37:09,349 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 09:37:13,850 [INFO]   [175]  TSLAX     (#414)  $410.96000     7d: +4.2%
+2026-06-15 09:37:17,554 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 09:37:22,056 [INFO]   [176]  EURI      (#418)  $1.16000       7d: +0.7%
+2026-06-15 09:37:22,925 [INFO]           → skip (flatliner: ATR 0.15% / BB 0.16%)
+2026-06-15 09:37:22,926 [INFO]   [177]  IDOL      (#419)  $0.03078       7d: +7.3%
+2026-06-15 09:37:26,684 [INFO]           → conviction 11/100  |  signals 4/19
+2026-06-15 09:37:31,185 [INFO]   [178]  SPK       (#421)  $0.02044       7d: +8.4%
+2026-06-15 09:37:31,936 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:37:31,937 [INFO]   [179]  TOSHI     (#423)  $0.00014       7d: +11.0%
+2026-06-15 09:37:35,989 [INFO]           → conviction 22/100  |  signals 5/19
+2026-06-15 09:37:40,491 [INFO]   [180]  ZETA      (#422)  $0.03908       7d: +9.8%
+2026-06-15 09:37:41,062 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 09:37:41,063 [INFO]   [181]  CKB       (#425)  $0.00116       7d: +9.0%
+2026-06-15 09:37:41,638 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 09:37:41,638 [INFO]   [182]  ALCH      (#427)  $0.06645       7d: +13.9%
+2026-06-15 09:37:42,216 [INFO]           → conviction 26/100  |  signals 6/19
+2026-06-15 09:37:42,217 [INFO]   [183]  DUSK      (#430)  $0.09462       7d: +4.0%
+2026-06-15 09:37:42,785 [INFO]           → conviction 18/100  |  signals 2/19
+2026-06-15 09:37:42,785 [INFO]   [184]  DEGEN     (#433)  $0.00147       7d: -5.1%
+2026-06-15 09:37:46,276 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:37:50,777 [INFO]   [185]  ICNT      (#437)  $0.21485       7d: -2.5%
+2026-06-15 09:37:51,339 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:37:51,340 [INFO]   [186]  QFI       (#436)  $54.64000      7d: -0.4%
+2026-06-15 09:37:55,032 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:37:59,533 [INFO]   [187]  BARD      (#435)  $0.16954       7d: +8.3%
+2026-06-15 09:38:00,105 [INFO]           → conviction 27/100  |  signals 4/19
+2026-06-15 09:38:00,106 [INFO]   [188]  FXUSD     (#439)  $0.99738       7d: -0.2%
+2026-06-15 09:38:03,792 [INFO]           → skip (flatliner: ATR 0.82% / BB 0.19%)
+2026-06-15 09:38:08,293 [INFO]   [189]  POLYX     (#446)  $0.04072       7d: +4.8%
+2026-06-15 09:38:08,874 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:38:08,874 [INFO]   [190]  SN44      (#445)  $11.01000      7d: +35.2%
+2026-06-15 09:38:12,231 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 09:38:16,733 [INFO]   [191]  BLUR      (#448)  $0.01857       7d: +7.0%
+2026-06-15 09:38:17,288 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 09:38:17,289 [INFO]   [192]  CTC       (#452)  $0.09636       7d: +8.5%
+2026-06-15 09:38:17,854 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:38:17,855 [INFO]   [193]  OPEN      (#456)  $0.23939       7d: +16.3%
+2026-06-15 09:38:18,418 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:38:18,419 [INFO]   [194]  ASTR      (#455)  $0.00591       7d: +5.9%
+2026-06-15 09:38:18,996 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 09:38:18,997 [INFO]   [195]  NVDAON    (#462)  $210.39000     7d: +1.8%
+2026-06-15 09:38:22,729 [INFO]           → skip (flatliner: ATR 0.48% / BB 0.85%)
+2026-06-15 09:38:27,230 [INFO]   [196]  XYO       (#465)  $0.00359       7d: +0.8%
+2026-06-15 09:38:30,868 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 09:38:35,373 [INFO]   [197]  AZTEC     (#466)  $0.01704       7d: +7.7%
+2026-06-15 09:38:35,973 [INFO]           → conviction 39/100  |  signals 8/19
+2026-06-15 09:38:35,974 [INFO]   [198]  FOGO      (#464)  $0.01305       7d: +14.3%
+2026-06-15 09:38:36,535 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 09:38:36,536 [INFO]   [199]  KAVA      (#470)  $0.04599       7d: +6.4%
+2026-06-15 09:38:37,117 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 09:38:37,117 [INFO]   [200]  DGB       (#471)  $0.00271       7d: -7.6%
+2026-06-15 09:38:37,984 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 09:38:37,985 [INFO]   [201]  SUSHI     (#472)  $0.18106       7d: +6.6%
+2026-06-15 09:38:38,554 [INFO]           → conviction 14/100  |  signals 1/19
+2026-06-15 09:38:38,554 [INFO]   [202]  RON       (#486)  $0.06100       7d: -5.7%
+2026-06-15 09:38:42,594 [INFO]           → conviction 11/100  |  signals 4/19
+2026-06-15 09:38:47,096 [INFO]   [203]  SLX       (#487)  $0.19391       7d: +12.5%
+2026-06-15 09:38:47,676 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 09:38:47,676 [INFO]   [204]  SQD       (#493)  $0.04229       7d: +33.0%
+2026-06-15 09:38:48,261 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 09:38:48,261 [INFO]   [205]  ASTEROID  (#491)  $0.00011       7d: +13.2%
+2026-06-15 09:38:52,054 [INFO]           → conviction 28/100  |  signals 7/19
+2026-06-15 09:38:56,555 [INFO]   [206]  XVG       (#494)  $0.00277       7d: +8.7%
+2026-06-15 09:38:57,129 [INFO]           → conviction 36/100  |  signals 7/19
+2026-06-15 09:38:57,130 [INFO]   [207]  PNUT      (#496)  $0.04485       7d: +7.4%
+2026-06-15 09:38:57,710 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 09:38:57,711 [INFO]   [208]  CRCLX     (#499)  $82.37000      7d: -0.2%
+2026-06-15 09:39:01,353 [INFO]           → conviction 15/100  |  signals 3/19
+2026-06-15 09:39:05,855 [INFO]   [209]  ROBO      (#500)  $0.01968       7d: +2.1%
+2026-06-15 09:39:06,561 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 09:39:06,570 [INFO] 
+[5/5] Building trade plan report...
+2026-06-15 09:39:06,570 [INFO]   Raw candidates found: 0
+2026-06-15 09:39:06,571 [INFO] [5/5] Checking major leverage opportunities (BTC/ETH/SOL)...
+2026-06-15 09:39:06,571 [INFO]   Major leverage: 0 opportunity(s) found
+2026-06-15 09:39:06,578 [INFO] 
+================================================================================
+  CRYPTO SPOT SCANNER — TRADE PLAN REPORT
+  Generated: 2026-06-15 09:39:06
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   65,623.00
+  BTC 7-day    :     +3.42%
+  BTC 24-hour  :     +1.72%
+  ETH 7-day    :     +2.03%
+  BTC Dominance:      56.6%
+  Regime       :  🟢 BULL
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,313.06 USDT
+  Risk / trade  : 1.5%  ($1,445 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = needs 1 more confirmation scan  |  ↗ = conviction rising  |  ↘ = fading
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  TREND  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  -----  ----------------------------
+  1     🔶BABY      #394  $0.01683         +3.2%    42     8      →  whale_candles, macd_divergence, cmf +5
+  2     🔶AZTEC     #466  $0.01704         +7.7%    39     8      ↗  whale_candles, higher_lows, rs_vs_btc +5
+  3     🔹BP        #256  $0.43616        +66.9%    37     7      ↗  whale_candles, cmf, higher_lows +4
+  4     🔹RIF       #278  $0.09994        +56.7%    36     7      ↘  whale_candles, cmf, rs_vs_btc +4
+  5     🔹XVG       #494  $0.00277         +8.7%    36     7      →  whale_candles, cmf, vol_expansion +4
+  6     🔹AAVE      # 65  $71.35000       +13.7%    32     5      →  whale_candles, funding_neg, cmf +2
+  7     🔹JUP       # 91  $0.18862        +21.0%    32     6      →  whale_candles, cmf, rs_vs_btc +3
+  8     🔹AERO      #125  $0.38997        +15.9%    32     6      →  whale_candles, cmf, rs_vs_btc +3
+  9     🔹GRASS     #140  $0.47132        +36.5%    32     6      →  whale_candles, cmf, rs_vs_btc +3
+  10    🔹IOTA      #173  $0.04744         +0.9%    32     5      →  whale_candles, bb_squeeze, cmf +2
+
+--------------------------------------------------------------------------------
+2026-06-15 09:39:06,586 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.txt
+2026-06-15 09:39:06,587 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.json
+2026-06-15 09:39:06,587 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260615.log
+2026-06-15 09:39:06,587 [INFO] 
+  Done.  0 high-conviction setup(s) found.
+2026-06-15 14:51:28,303 [INFO]   Live Bybit balance: 96,313.06 USDT
+2026-06-15 14:51:28,307 [INFO] 
+2026-06-15 14:51:28,309 [INFO] ================================================================================
+2026-06-15 14:51:28,310 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.1
+2026-06-15 14:51:28,310 [INFO]   18-signal engine | funding rate | corr filter | volume source tagging
+2026-06-15 14:51:28,311 [INFO] ================================================================================
+2026-06-15 14:51:28,313 [INFO]   Account: $96,313.06 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-06-15 14:51:28,313 [INFO] 
+2026-06-15 14:51:28,323 [INFO] [1/5] Analyzing market regime...
+2026-06-15 14:51:28,328 [INFO] Fetching market context (Bybit klines primary)...
+2026-06-15 14:51:29,817 [INFO]   [Bybit] BTC: $66,567 | 7d: +4.4%  ETH 7d: +7.3%  Dominance: 56.4% | Regime: 🟢 BULL
+2026-06-15 14:51:29,847 [INFO]   🟢 BULL — normal parameters apply
+2026-06-15 14:51:29,855 [INFO] [2/5] Fetching BTC historical data...
+2026-06-15 14:51:32,254 [INFO]   BTC data: OK
+2026-06-15 14:51:36,756 [INFO] [3/5] Fetching top 500 coins...
+2026-06-15 14:51:36,769 [INFO] Fetching top 500 coins by market cap...
+2026-06-15 14:51:39,153 [INFO]   Fetched 500 coins
+2026-06-15 14:51:39,166 [INFO]   Fetched 500 coins
+2026-06-15 14:51:39,167 [INFO] [4/5] Scanning for high-conviction setups...
+2026-06-15 14:51:39,168 [INFO]   Filters: Rank 20–500  |  Vol ≥ $500,000  |  Min conviction: 45
+2026-06-15 14:51:39,168 [INFO] 
+2026-06-15 14:51:39,176 [INFO]   [  1]  CC        (# 20)  $0.16420       7d: +4.5%
+2026-06-15 14:51:41,000 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:51:41,001 [INFO]   [  2]  GRAM      (# 22)  $1.78000       7d: +1.8%
+2026-06-15 14:51:44,461 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:51:48,962 [INFO]   [  3]  M         (# 27)  $2.92000       7d: -4.9%
+2026-06-15 14:51:50,363 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 14:51:50,364 [INFO]   [  4]  HBAR      (# 28)  $0.08301       7d: +1.2%
+2026-06-15 14:51:50,963 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 14:51:50,965 [INFO]   [  5]  LTC       (# 29)  $46.16000      7d: +6.8%
+2026-06-15 14:51:51,618 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 14:51:51,618 [INFO]   [  6]  NEAR      (# 31)  $2.47000       7d: +16.2%
+2026-06-15 14:51:52,489 [INFO]           → conviction 26/100  |  signals 6/19
+2026-06-15 14:51:52,490 [INFO]   [  7]  USYC      (# 34)  $1.13000       7d: +0.0%
+2026-06-15 14:51:55,536 [WARNING]           → skip USYC: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 14:52:00,041 [INFO]   [  8]  TAO       (# 40)  $275.67000     7d: +29.7%
+2026-06-15 14:52:00,782 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 14:52:00,795 [INFO]   [  9]  WLFI      (# 45)  $0.06148       7d: +10.5%
+2026-06-15 14:52:01,764 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:52:01,764 [INFO]   [ 10]  MNT       (# 46)  $0.58736       7d: +6.9%
+2026-06-15 14:52:02,489 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:52:02,489 [INFO]   [ 11]  ONDO      (# 47)  $0.38608       7d: +6.3%
+2026-06-15 14:52:03,229 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 14:52:03,232 [INFO]   [ 12]  ASTER     (# 49)  $0.64379       7d: +1.7%
+2026-06-15 14:52:04,303 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 14:52:04,303 [INFO]   [ 13]  UNI       (# 50)  $2.70000       7d: +6.1%
+2026-06-15 14:52:05,451 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 14:52:05,452 [INFO]   [ 14]  OKB       (# 52)  $76.79000      7d: +5.5%
+2026-06-15 14:52:06,119 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:52:06,119 [INFO]   [ 15]  PI        (# 54)  $0.13565       7d: +4.6%
+2026-06-15 14:52:10,200 [INFO]           → conviction 18/100  |  signals 6/19
+2026-06-15 14:52:14,702 [INFO]   [ 16]  ICP       (# 56)  $2.57000       7d: +8.5%
+2026-06-15 14:52:15,319 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 14:52:15,321 [INFO]   [ 17]  SKY       (# 58)  $0.05763       7d: -0.8%
+2026-06-15 14:52:15,972 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 14:52:15,972 [INFO]   [ 18]  MORPHO    (# 60)  $1.99000       7d: +7.0%
+2026-06-15 14:52:16,599 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:52:16,599 [INFO]   [ 19]  BGB       (# 61)  $1.83000       7d: -0.2%
+2026-06-15 14:52:20,399 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 14:52:24,902 [INFO]   [ 20]  ETC       (# 64)  $7.49000       7d: +4.5%
+2026-06-15 14:52:25,611 [INFO]           → conviction 26/100  |  signals 4/19
+2026-06-15 14:52:25,612 [INFO]   [ 21]  QNT       (# 66)  $71.32000      7d: +2.2%
+2026-06-15 14:52:26,612 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 14:52:26,613 [INFO]   [ 22]  KCS       (# 69)  $7.36000       7d: +14.3%
+2026-06-15 14:52:30,524 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:52:35,028 [INFO]   [ 23]  RENDER    (# 71)  $1.84000       7d: +9.7%
+2026-06-15 14:52:35,701 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 14:52:35,701 [INFO]   [ 24]  KAS       (# 74)  $0.03334       7d: +1.6%
+2026-06-15 14:52:36,334 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:52:36,334 [INFO]   [ 25]  ALGO      (# 78)  $0.09593       7d: +1.7%
+2026-06-15 14:52:37,039 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:52:37,039 [INFO]   [ 26]  POL       (# 79)  $0.07841       7d: -3.6%
+2026-06-15 14:52:37,729 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 14:52:37,729 [INFO]   [ 27]  STABLE    (# 80)  $0.03541       7d: +8.1%
+2026-06-15 14:52:38,499 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 14:52:38,499 [INFO]   [ 28]  ENA       (# 82)  $0.08956       7d: +2.0%
+2026-06-15 14:52:39,253 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 14:52:39,253 [INFO]   [ 29]  VVV       (# 83)  $16.90000      7d: -2.6%
+2026-06-15 14:52:39,919 [INFO]           → conviction 23/100  |  signals 4/19
+2026-06-15 14:52:39,922 [INFO]   [ 30]  GT        (# 84)  $6.90000       7d: +8.5%
+2026-06-15 14:52:43,735 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 14:52:48,238 [INFO]   [ 31]  币安人生      (# 85)  $0.71312       7d: -3.2%
+2026-06-15 14:52:49,217 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 14:52:49,217 [INFO]   [ 32]  FLR       (# 86)  $0.00812       7d: +14.2%
+2026-06-15 14:52:49,859 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:52:49,859 [INFO]   [ 33]  JST       (# 88)  $0.07752       7d: -1.6%
+2026-06-15 14:52:50,499 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 14:52:50,499 [INFO]   [ 34]  BDX       (# 91)  $0.08214       7d: +3.9%
+2026-06-15 14:52:54,333 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:52:58,836 [INFO]   [ 35]  XDC       (# 92)  $0.03105       7d: -0.9%
+2026-06-15 14:52:59,504 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:52:59,505 [INFO]   [ 36]  APT       (# 94)  $0.70854       7d: +4.3%
+2026-06-15 14:53:00,155 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 14:53:00,155 [INFO]   [ 37]  NIGHT     (# 95)  $0.03411       7d: +6.9%
+2026-06-15 14:53:00,805 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 14:53:00,807 [INFO]   [ 38]  PUMP      (# 96)  $0.00162       7d: +2.1%
+2026-06-15 14:53:02,220 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 14:53:02,220 [INFO]   [ 39]  ARB       (# 97)  $0.08935       7d: +7.3%
+2026-06-15 14:53:03,133 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 14:53:03,135 [INFO]   [ 40]  INJ       (#101)  $5.43000       7d: -3.9%
+2026-06-15 14:53:03,759 [INFO]           → conviction 34/100  |  signals 6/19
+2026-06-15 14:53:03,759 [INFO]   [ 41]  FET       (#107)  $0.21900       7d: +2.6%
+2026-06-15 14:53:04,809 [INFO]           → conviction 29/100  |  signals 7/19
+2026-06-15 14:53:04,809 [INFO]   [ 42]  TRUMP     (#110)  $2.01000       7d: +19.3%
+2026-06-15 14:53:05,485 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:53:05,485 [INFO]   [ 43]  ADI       (#111)  $3.72000       7d: +0.8%
+2026-06-15 14:53:10,485 [INFO]           → skip (flatliner: ATR 0.19% / BB 0.12%)
+2026-06-15 14:53:14,987 [INFO]   [ 44]  KITE      (#112)  $0.19875       7d: +3.9%
+2026-06-15 14:53:16,104 [INFO]           → conviction 26/100  |  signals 6/19
+2026-06-15 14:53:16,111 [INFO]   [ 45]  VIRTUAL   (#118)  $0.66578       7d: +13.1%
+2026-06-15 14:53:16,778 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:53:16,780 [INFO]   [ 46]  LIT       (#119)  $1.68000       7d: +11.8%
+2026-06-15 14:53:17,413 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 14:53:17,413 [INFO]   [ 47]  APXUSD    (#122)  $0.96684       7d: -0.2%
+2026-06-15 14:53:21,235 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:53:25,737 [INFO]   [ 48]  SEI       (#124)  $0.05572       7d: +10.9%
+2026-06-15 14:53:26,376 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 14:53:26,377 [INFO]   [ 49]  CRV       (#125)  $0.24052       7d: +19.2%
+2026-06-15 14:53:27,037 [INFO]           → conviction 21/100  |  signals 4/19
+2026-06-15 14:53:27,038 [INFO]   [ 50]  9BIT      (#127)  $0.04413       7d: -2.7%
+2026-06-15 14:53:30,500 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 14:53:35,002 [INFO]   [ 51]  TIA       (#129)  $0.37279       7d: +15.5%
+2026-06-15 14:53:35,697 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:53:35,706 [INFO]   [ 52]  SKYAI     (#130)  $0.34767       7d: +32.5%
+2026-06-15 14:53:39,362 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 14:53:43,864 [INFO]   [ 53]  SUN       (#132)  $0.01710       7d: -2.6%
+2026-06-15 14:53:44,495 [INFO]           → conviction 18/100  |  signals 3/19
+2026-06-15 14:53:44,497 [INFO]   [ 54]  JTO       (#134)  $0.65942       7d: +4.5%
+2026-06-15 14:53:45,145 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 14:53:45,146 [INFO]   [ 55]  GWEI      (#136)  $0.14943       7d: +4.9%
+2026-06-15 14:53:45,787 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 14:53:45,788 [INFO]   [ 56]  ETHFI     (#137)  $0.34821       7d: +13.5%
+2026-06-15 14:53:46,416 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 14:53:46,416 [INFO]   [ 57]  ZRO       (#138)  $1.17000       7d: +32.0%
+2026-06-15 14:53:47,083 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 14:53:47,090 [INFO]   [ 58]  UB        (#139)  $0.11820       7d: -3.0%
+2026-06-15 14:53:47,738 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 14:53:47,739 [INFO]   [ 59]  GNO       (#141)  $110.11000     7d: +13.9%
+2026-06-15 14:53:48,005 [WARNING]           → skip GNO: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 14:53:48,006 [INFO]   [ 60]  MON       (#143)  $0.02293       7d: +4.5%
+2026-06-15 14:53:48,746 [INFO]           → conviction 36/100  |  signals 6/19
+2026-06-15 14:53:48,747 [INFO]   [ 61]  CHZ       (#145)  $0.02578       7d: +2.6%
+2026-06-15 14:53:49,411 [INFO]           → conviction 26/100  |  signals 6/19
+2026-06-15 14:53:49,413 [INFO]   [ 62]  XTZ       (#146)  $0.24518       7d: -1.1%
+2026-06-15 14:53:50,057 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 14:53:50,057 [INFO]   [ 63]  BSV       (#149)  $13.14000      7d: +9.0%
+2026-06-15 14:53:50,705 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 14:53:50,706 [INFO]   [ 64]  JASMY     (#151)  $0.00527       7d: +9.8%
+2026-06-15 14:53:51,341 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 14:53:51,341 [INFO]   [ 65]  2Z        (#152)  $0.07364       7d: +1.4%
+2026-06-15 14:53:52,006 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:53:52,007 [INFO]   [ 66]  TEL       (#153)  $0.00266       7d: +7.1%
+2026-06-15 14:53:55,470 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:53:59,971 [INFO]   [ 67]  OP        (#160)  $0.11137       7d: +11.9%
+2026-06-15 14:54:00,607 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:54:00,609 [INFO]   [ 68]  XPL       (#161)  $0.09497       7d: +35.7%
+2026-06-15 14:54:01,230 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 14:54:01,230 [INFO]   [ 69]  KAIA      (#166)  $0.03943       7d: +5.0%
+2026-06-15 14:54:01,886 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:54:01,889 [INFO]   [ 70]  GRT       (#167)  $0.02110       7d: +4.1%
+2026-06-15 14:54:02,570 [INFO]           → conviction 26/100  |  signals 4/19
+2026-06-15 14:54:02,571 [INFO]   [ 71]  USDM      (#170)  $0.99862       7d: -0.0%
+2026-06-15 14:54:06,354 [INFO]           → skip (flatliner: ATR 3.55% / BB 0.49%)
+2026-06-15 14:54:10,856 [INFO]   [ 72]  DCR       (#171)  $12.81000      7d: +1.9%
+2026-06-15 14:54:11,881 [INFO]           → conviction 31/100  |  signals 6/19
+2026-06-15 14:54:11,881 [INFO]   [ 73]  REAL      (#175)  $0.06390       7d: +13.7%
+2026-06-15 14:54:15,283 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:54:19,785 [INFO]   [ 74]  BTW       (#179)  $0.09131       7d: +53.9%
+2026-06-15 14:54:20,403 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 14:54:20,404 [INFO]   [ 75]  PIEVERSE  (#180)  $0.71845       7d: +16.4%
+2026-06-15 14:54:21,032 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 14:54:21,033 [INFO]   [ 76]  APYUSD    (#182)  $1.29000       7d: +0.8%
+2026-06-15 14:54:27,240 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:54:31,741 [INFO]   [ 77]  BILL      (#187)  $0.07572       7d: +3.7%
+2026-06-15 14:54:32,378 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 14:54:32,379 [INFO]   [ 78]  COMP      (#189)  $18.36000      7d: +7.5%
+2026-06-15 14:54:33,027 [INFO]           → conviction 18/100  |  signals 2/19
+2026-06-15 14:54:33,030 [INFO]   [ 79]  TWT       (#190)  $0.42235       7d: +13.2%
+2026-06-15 14:54:33,683 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 14:54:33,684 [INFO]   [ 80]  AXS       (#191)  $1.01400       7d: +5.9%
+2026-06-15 14:54:34,327 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 14:54:34,330 [INFO]   [ 81]  WFI       (#194)  $2.03000       7d: -1.1%
+2026-06-15 14:54:37,823 [INFO]           → skip (flatliner: ATR 0.64% / BB 0.42%)
+2026-06-15 14:54:42,325 [INFO]   [ 82]  THETA     (#197)  $0.16812       7d: +8.3%
+2026-06-15 14:54:42,958 [INFO]           → conviction 34/100  |  signals 6/19
+2026-06-15 14:54:42,959 [INFO]   [ 83]  TRAC      (#199)  $0.37255       7d: +1.3%
+2026-06-15 14:54:46,423 [INFO]           → conviction 10/100  |  signals 4/19
+2026-06-15 14:54:50,924 [INFO]   [ 84]  NEO       (#201)  $2.32000       7d: +5.2%
+2026-06-15 14:54:51,576 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 14:54:51,577 [INFO]   [ 85]  MX        (#204)  $1.76000       7d: +1.0%
+2026-06-15 14:54:55,067 [INFO]           → skip (flatliner: ATR 0.45% / BB 0.92%)
+2026-06-15 14:54:59,569 [INFO]   [ 86]  ZANO      (#213)  $9.46000       7d: +7.3%
+2026-06-15 14:55:03,089 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:55:07,590 [INFO]   [ 87]  BAT       (#216)  $0.09435       7d: +5.4%
+2026-06-15 14:55:08,244 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 14:55:08,245 [INFO]   [ 88]  AR        (#219)  $2.13000       7d: +8.0%
+2026-06-15 14:55:08,896 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 14:55:08,896 [INFO]   [ 89]  EURCV     (#220)  $1.16000       7d: +0.7%
+2026-06-15 14:55:12,450 [INFO]           → skip (flatliner: ATR 0.60% / BB 0.42%)
+2026-06-15 14:55:16,952 [INFO]   [ 90]  TIBBIR    (#226)  $0.13349       7d: +26.2%
+2026-06-15 14:55:20,480 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:55:24,982 [INFO]   [ 91]  FT        (#228)  $0.10503       7d: +6.7%
+2026-06-15 14:55:28,719 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 14:55:33,221 [INFO]   [ 92]  VSN       (#232)  $0.03412       7d: +10.7%
+2026-06-15 14:55:37,131 [INFO]           → conviction 27/100  |  signals 6/19
+2026-06-15 14:55:41,633 [INFO]   [ 93]  SFP       (#233)  $0.25315       7d: +7.8%
+2026-06-15 14:55:42,540 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 14:55:42,540 [INFO]   [ 94]  SHFL      (#235)  $0.29671       7d: +0.2%
+2026-06-15 14:55:46,295 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:55:50,811 [INFO]   [ 95]  A         (#239)  $0.07443       7d: +14.9%
+2026-06-15 14:55:51,467 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:55:51,469 [INFO]   [ 96]  CRCLON    (#242)  $84.41000      7d: +1.0%
+2026-06-15 14:55:55,083 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 14:55:59,584 [INFO]   [ 97]  ZK        (#243)  $0.01223       7d: +14.4%
+2026-06-15 14:56:00,246 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 14:56:00,246 [INFO]   [ 98]  KAITO     (#248)  $0.47811       7d: +4.9%
+2026-06-15 14:56:00,888 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 14:56:00,890 [INFO]   [ 99]  IP        (#253)  $0.32123       7d: +1.1%
+2026-06-15 14:56:01,529 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:56:01,531 [INFO]   [100]  SENT      (#255)  $0.01533       7d: +17.0%
+2026-06-15 14:56:02,748 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:56:02,750 [INFO]   [101]  AB        (#261)  $0.00108       7d: -3.7%
+2026-06-15 14:56:06,584 [INFO]           → skip (flatliner: ATR 0.47% / BB 0.62%)
+2026-06-15 14:56:11,086 [INFO]   [102]  AWE       (#264)  $0.05400       7d: -1.1%
+2026-06-15 14:56:11,786 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:56:11,787 [INFO]   [103]  ATH       (#267)  $0.00514       7d: +11.5%
+2026-06-15 14:56:12,409 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 14:56:12,409 [INFO]   [104]  BANANAS31  (#269)  $0.01022       7d: -3.8%
+2026-06-15 14:56:13,039 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 14:56:13,040 [INFO]   [105]  QAIT      (#272)  $0.02321       7d: +6.6%
+2026-06-15 14:56:16,497 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 14:56:20,999 [INFO]   [106]  NXPC      (#273)  $0.35517       7d: +3.5%
+2026-06-15 14:56:21,648 [INFO]           → conviction 16/100  |  signals 3/19
+2026-06-15 14:56:21,649 [INFO]   [107]  GEOD      (#281)  $0.21820       7d: +38.5%
+2026-06-15 14:56:25,342 [INFO]           → conviction 13/100  |  signals 5/19
+2026-06-15 14:56:29,843 [INFO]   [108]  NOCK      (#282)  $0.04419       7d: -4.3%
+2026-06-15 14:56:33,661 [INFO]           → conviction 11/100  |  signals 4/19
+2026-06-15 14:56:38,163 [INFO]   [109]  RIVER     (#283)  $4.92000       7d: -5.9%
+2026-06-15 14:56:38,960 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 14:56:38,961 [INFO]   [110]  COW       (#284)  $0.16459       7d: +16.0%
+2026-06-15 14:56:39,590 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 14:56:39,591 [INFO]   [111]  SN64      (#286)  $18.26000      7d: +29.7%
+2026-06-15 14:56:43,219 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 14:56:47,722 [INFO]   [112]  RSR       (#290)  $0.00146       7d: +2.8%
+2026-06-15 14:56:48,383 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 14:56:48,384 [INFO]   [113]  WAL       (#292)  $0.03771       7d: +4.9%
+2026-06-15 14:56:49,025 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 14:56:49,026 [INFO]   [114]  FLUID     (#293)  $1.14000       7d: +1.0%
+2026-06-15 14:56:49,665 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 14:56:49,667 [INFO]   [115]  UAI       (#294)  $0.37629       7d: +33.5%
+2026-06-15 14:56:50,314 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 14:56:50,315 [INFO]   [116]  ARKM      (#298)  $0.13782       7d: +16.4%
+2026-06-15 14:56:50,969 [INFO]           → conviction 26/100  |  signals 7/19
+2026-06-15 14:56:50,970 [INFO]   [117]  USDA      (#301)  $0.98726       7d: -0.8%
+2026-06-15 14:56:54,590 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:56:59,091 [INFO]   [118]  SHX       (#303)  $0.00482       7d: +4.2%
+2026-06-15 14:57:02,885 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 14:57:07,387 [INFO]   [119]  CFG       (#304)  $0.22248       7d: +9.6%
+2026-06-15 14:57:08,009 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:57:08,011 [INFO]   [120]  UMXM      (#306)  $1.79000       7d: +4.8%
+2026-06-15 14:57:11,910 [INFO]           → conviction 9/100  |  signals 3/19
+2026-06-15 14:57:16,411 [INFO]   [121]  TROLL     (#310)  $0.08286       7d: +10.1%
+2026-06-15 14:57:20,001 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 14:57:24,503 [INFO]   [122]  QTUM      (#314)  $0.76630       7d: +7.3%
+2026-06-15 14:57:25,170 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 14:57:25,171 [INFO]   [123]  PROS      (#315)  $0.59732       7d: -4.6%
+2026-06-15 14:57:25,728 [WARNING]           → skip PROS: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 14:57:25,729 [INFO]   [124]  CHIP      (#318)  $0.04034       7d: +27.5%
+2026-06-15 14:57:26,359 [INFO]           → conviction 39/100  |  signals 7/19
+2026-06-15 14:57:26,360 [INFO]   [125]  BAS       (#322)  $0.03180       7d: -3.9%
+2026-06-15 14:57:30,339 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:57:34,840 [INFO]   [126]  BSB       (#330)  $0.36021       7d: +8.8%
+2026-06-15 14:57:35,650 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 14:57:35,651 [INFO]   [127]  MELANIA   (#325)  $0.08335       7d: +9.5%
+2026-06-15 14:57:36,287 [INFO]           → conviction 24/100  |  signals 6/19
+2026-06-15 14:57:36,289 [INFO]   [128]  DBR       (#326)  $0.01487       7d: +1.9%
+2026-06-15 14:57:36,947 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 14:57:36,949 [INFO]   [129]  MUON      (#328)  $1058.74000    7d: +13.8%
+2026-06-15 14:57:40,779 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 14:57:45,280 [INFO]   [130]  ARC       (#329)  $0.07819       7d: -5.6%
+2026-06-15 14:57:45,903 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 14:57:45,904 [INFO]   [131]  ZRX       (#332)  $0.09104       7d: +6.6%
+2026-06-15 14:57:46,535 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 14:57:46,537 [INFO]   [132]  BAN       (#337)  $0.07612       7d: +2.7%
+2026-06-15 14:57:47,240 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:57:47,241 [INFO]   [133]  MAG7.SSI  (#344)  $0.44476       7d: +6.7%
+2026-06-15 14:57:50,920 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 14:57:55,421 [INFO]   [134]  ORDI      (#345)  $3.56000       7d: +16.7%
+2026-06-15 14:57:56,090 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:57:56,091 [INFO]   [135]  RVN       (#350)  $0.00453       7d: +5.1%
+2026-06-15 14:57:56,755 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 14:57:56,755 [INFO]   [136]  YFI       (#357)  $1996.74000    7d: +5.4%
+2026-06-15 14:57:57,439 [INFO]           → conviction 26/100  |  signals 4/19
+2026-06-15 14:57:57,440 [INFO]   [137]  BIO       (#361)  $0.03290       7d: +6.1%
+2026-06-15 14:57:58,262 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:57:58,262 [INFO]   [138]  ORCA      (#362)  $1.16000       7d: +9.9%
+2026-06-15 14:57:59,066 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 14:57:59,067 [INFO]   [139]  JCT       (#364)  $0.00610       7d: +21.5%
+2026-06-15 14:57:59,703 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:57:59,704 [INFO]   [140]  Q         (#366)  $0.01712       7d: -0.1%
+2026-06-15 14:58:00,328 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:58:00,329 [INFO]   [141]  SN4       (#369)  $13.91000      7d: +23.8%
+2026-06-15 14:58:03,826 [INFO]           → conviction 14/100  |  signals 5/19
+2026-06-15 14:58:08,329 [INFO]   [142]  CARDS     (#376)  $0.25955       7d: +43.6%
+2026-06-15 14:58:11,969 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 14:58:16,471 [INFO]   [143]  DOG       (#377)  $0.00066       7d: +4.4%
+2026-06-15 14:58:16,879 [WARNING]           → skip DOG: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 14:58:16,880 [INFO]   [144]  XPR       (#382)  $0.00229       7d: +6.5%
+2026-06-15 14:58:20,840 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:58:25,341 [INFO]   [145]  LBT       (#381)  $0.26835       7d: +10.7%
+2026-06-15 14:58:29,556 [INFO]           → skip (flatliner: ATR 0.28% / BB 0.08%)
+2026-06-15 14:58:34,070 [INFO]   [146]  IO        (#383)  $0.18637       7d: +34.5%
+2026-06-15 14:58:34,731 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:58:34,731 [INFO]   [147]  KNTQ      (#386)  $0.23241       7d: +1.3%
+2026-06-15 14:58:39,673 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 14:58:44,177 [INFO]   [148]  SUPER     (#387)  $0.10149       7d: +7.0%
+2026-06-15 14:58:44,827 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 14:58:44,829 [INFO]   [149]  OMI       (#390)  $0.00024       7d: -5.7%
+2026-06-15 14:58:50,041 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 14:58:54,545 [INFO]   [150]  TURBO     (#391)  $0.00094       7d: +6.8%
+2026-06-15 14:58:55,459 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 14:58:55,461 [INFO]   [151]  TFUEL     (#393)  $0.00860       7d: +1.4%
+2026-06-15 14:58:56,389 [INFO]           → conviction 5/100  |  signals 1/19
+2026-06-15 14:58:56,392 [INFO]   [152]  ENJ       (#395)  $0.03196       7d: +4.4%
+2026-06-15 14:58:57,043 [INFO]           → conviction 27/100  |  signals 6/19
+2026-06-15 14:58:57,047 [INFO]   [153]  JELLYJELLY  (#398)  $0.06315       7d: +7.5%
+2026-06-15 14:58:57,729 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 14:58:57,729 [INFO]   [154]  PURR      (#397)  $0.10577       7d: +10.8%
+2026-06-15 14:59:01,869 [INFO]           → conviction 34/100  |  signals 8/19
+2026-06-15 14:59:06,374 [INFO]   [155]  GMX       (#400)  $6.01000       7d: +4.8%
+2026-06-15 14:59:07,018 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 14:59:07,023 [INFO]   [156]  COAI      (#402)  $0.33222       7d: +34.0%
+2026-06-15 14:59:07,673 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:59:07,675 [INFO]   [157]  W         (#403)  $0.01036       7d: +7.5%
+2026-06-15 14:59:08,329 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:59:08,339 [INFO]   [158]  DIEM      (#407)  $1635.65000    7d: +11.6%
+2026-06-15 14:59:11,849 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 14:59:16,351 [INFO]   [159]  SKR       (#408)  $0.00944       7d: -2.3%
+2026-06-15 14:59:16,993 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 14:59:16,994 [INFO]   [160]  SOON      (#411)  $0.17826       7d: +7.2%
+2026-06-15 14:59:17,613 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 14:59:17,613 [INFO]   [161]  DUSK      (#415)  $0.10085       7d: +9.4%
+2026-06-15 14:59:18,244 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 14:59:18,246 [INFO]   [162]  TSLAX     (#419)  $412.14000     7d: +3.6%
+2026-06-15 14:59:21,929 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:59:26,433 [INFO]   [163]  ZETA      (#418)  $0.04020       7d: +9.5%
+2026-06-15 14:59:27,060 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 14:59:27,061 [INFO]   [164]  TOSHI     (#420)  $0.00014       7d: +11.6%
+2026-06-15 14:59:31,239 [INFO]           → conviction 22/100  |  signals 5/19
+2026-06-15 14:59:35,757 [INFO]   [165]  EURI      (#425)  $1.16000       7d: +0.5%
+2026-06-15 14:59:36,681 [INFO]           → skip (flatliner: ATR 0.18% / BB 0.18%)
+2026-06-15 14:59:36,682 [INFO]   [166]  IDOL      (#426)  $0.03059       7d: +8.7%
+2026-06-15 14:59:40,425 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 14:59:44,926 [INFO]   [167]  SPK       (#428)  $0.02046       7d: +8.2%
+2026-06-15 14:59:45,730 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 14:59:45,731 [INFO]   [168]  AXL       (#431)  $0.04707       7d: +7.7%
+2026-06-15 14:59:46,361 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 14:59:46,362 [INFO]   [169]  ICNT      (#434)  $0.21946       7d: +0.1%
+2026-06-15 14:59:47,004 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:59:47,005 [INFO]   [170]  DEGEN     (#436)  $0.00150       7d: +1.5%
+2026-06-15 14:59:50,527 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 14:59:55,029 [INFO]   [171]  QFI       (#439)  $55.12000      7d: +1.3%
+2026-06-15 14:59:58,778 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 15:00:03,279 [INFO]   [172]  BLUR      (#443)  $0.01909       7d: +7.1%
+2026-06-15 15:00:03,919 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 15:00:03,920 [INFO]   [173]  POLYX     (#444)  $0.04178       7d: +5.1%
+2026-06-15 15:00:04,529 [INFO]           → conviction 21/100  |  signals 3/19
+2026-06-15 15:00:04,530 [INFO]   [174]  ASTR      (#448)  $0.00606       7d: +6.0%
+2026-06-15 15:00:05,175 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 15:00:05,176 [INFO]   [175]  CTC       (#451)  $0.09719       7d: +8.6%
+2026-06-15 15:00:05,892 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 15:00:05,903 [INFO]   [176]  ELF       (#454)  $0.06333       7d: -1.7%
+2026-06-15 15:00:06,582 [WARNING]           → skip ELF: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 15:00:06,582 [INFO]   [177]  DGB       (#456)  $0.00283       7d: +4.7%
+2026-06-15 15:00:07,511 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 15:00:07,512 [INFO]   [178]  SN44      (#460)  $10.83000      7d: +34.0%
+2026-06-15 15:00:11,255 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 15:00:15,757 [INFO]   [179]  KAVA      (#459)  $0.04743       7d: +7.7%
+2026-06-15 15:00:16,418 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 15:00:16,419 [INFO]   [180]  FOGO      (#463)  $0.01333       7d: +16.7%
+2026-06-15 15:00:17,079 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 15:00:17,080 [INFO]   [181]  XYO       (#465)  $0.00367       7d: +2.3%
+2026-06-15 15:00:20,834 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 15:00:25,335 [INFO]   [182]  XNO       (#469)  $0.38068       7d: +6.7%
+2026-06-15 15:00:26,750 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 15:00:26,773 [INFO]   [183]  SUSHI     (#470)  $0.18533       7d: +8.5%
+2026-06-15 15:00:27,558 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 15:00:27,560 [INFO]   [184]  NVDAON    (#472)  $209.25000     7d: -0.2%
+2026-06-15 15:00:31,275 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 15:00:35,778 [INFO]   [185]  HOLO      (#476)  $0.06862       7d: +13.4%
+2026-06-15 15:00:36,418 [INFO]           → conviction 27/100  |  signals 5/19
+2026-06-15 15:00:36,419 [INFO]   [186]  RON       (#480)  $0.06338       7d: -1.0%
+2026-06-15 15:00:40,188 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 15:00:44,695 [INFO]   [187]  SLX       (#486)  $0.19661       7d: +12.4%
+2026-06-15 15:00:45,330 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 15:00:45,330 [INFO]   [188]  AMP       (#492)  $0.00054       7d: +0.4%
+2026-06-15 15:00:46,251 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 15:00:46,252 [INFO]   [189]  PNUT      (#494)  $0.04633       7d: +9.3%
+2026-06-15 15:00:46,876 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 15:00:46,882 [INFO]   [190]  SQD       (#495)  $0.04235       7d: +30.6%
+2026-06-15 15:00:47,523 [INFO]           → conviction 29/100  |  signals 7/19
+2026-06-15 15:00:47,526 [INFO]   [191]  CRCLX     (#497)  $85.57000      7d: +2.0%
+2026-06-15 15:00:51,126 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 15:00:55,628 [INFO]   [192]  APEX      (#498)  $0.32504       7d: +26.0%
+2026-06-15 15:00:56,292 [INFO]           → conviction 32/100  |  signals 6/19
+2026-06-15 15:00:56,293 [INFO]   [193]  ROBO      (#500)  $0.01985       7d: +2.6%
+2026-06-15 15:00:57,013 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 15:00:57,031 [INFO] 
+[5/5] Building trade plan report...
+2026-06-15 15:00:57,032 [INFO]   Raw candidates found: 0
+2026-06-15 15:00:57,034 [INFO] [5/5] Checking major leverage opportunities (BTC/ETH/SOL)...
+2026-06-15 15:00:57,036 [INFO]   Major leverage: 0 opportunity(s) found
+2026-06-15 15:00:57,052 [INFO] 
+================================================================================
+  CRYPTO SPOT SCANNER — TRADE PLAN REPORT
+  Generated: 2026-06-15 15:00:57
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   66,566.60
+  BTC 7-day    :     +4.43%
+  BTC 24-hour  :     +4.02%
+  ETH 7-day    :     +7.28%
+  BTC Dominance:      56.4%
+  Regime       :  🟢 BULL
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,313.06 USDT
+  Risk / trade  : 1.5%  ($1,445 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = needs 1 more confirmation scan  |  ↗ = conviction rising  |  ↘ = fading
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  TREND  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  -----  ----------------------------
+  1     🔶CHIP      #318  $0.04034        +27.5%    39     7      ↗  whale_candles, funding_neg, cmf +4
+  2     🔹MON       #143  $0.02293         +4.5%    36     6      ↗  whale_candles, funding_neg, cmf +3
+  3     🔹INJ       #101  $5.43000         -3.9%    34     6      →  whale_candles, funding_neg, rs_acceleration +3
+  4     🔹THETA     #197  $0.16812         +8.3%    34     6      ↗  whale_candles, cmf, higher_lows +3
+  5     🔹PURR      #397  $0.10577        +10.8%    34     8      →  whale_candles, rsi_divergence, cmf +5
+  6     🔹JTO       #134  $0.65942         +4.5%    32     6      →  whale_candles, cmf, rs_acceleration +3
+  7     🔹ETHFI     #137  $0.34821        +13.5%    32     6      →  whale_candles, cmf, rs_vs_btc +3
+  8     🔹COW       #284  $0.16459        +16.0%    32     6      →  whale_candles, cmf, rs_vs_btc +3
+  9     🔹BSB       #330  $0.36021         +8.8%    32     6      ↗  whale_candles, cmf, rs_vs_btc +3
+  10    🔹APEX      #498  $0.32504        +26.0%    32     6      →  whale_candles, cmf, rs_vs_btc +3
+
+--------------------------------------------------------------------------------
+2026-06-15 15:00:57,069 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.txt
+2026-06-15 15:00:57,071 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.json
+2026-06-15 15:00:57,072 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260615.log
+2026-06-15 15:00:57,072 [INFO] 
+  Done.  0 high-conviction setup(s) found.
+2026-06-15 19:24:18,051 [INFO]   Live Bybit balance: 96,313.06 USDT
+2026-06-15 19:24:18,054 [INFO] 
+2026-06-15 19:24:18,054 [INFO] ================================================================================
+2026-06-15 19:24:18,055 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.1
+2026-06-15 19:24:18,056 [INFO]   18-signal engine | funding rate | corr filter | volume source tagging
+2026-06-15 19:24:18,056 [INFO] ================================================================================
+2026-06-15 19:24:18,057 [INFO]   Account: $96,313.06 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-06-15 19:24:18,057 [INFO] 
+2026-06-15 19:24:18,069 [INFO] [1/5] Analyzing market regime...
+2026-06-15 19:24:18,074 [INFO] Fetching market context (Bybit klines primary)...
+2026-06-15 19:24:19,134 [INFO]   [Bybit] BTC: $66,857 | 7d: +5.5%  ETH 7d: +8.7%  Dominance: 56.4% | Regime: 🟢 BULL
+2026-06-15 19:24:19,135 [INFO]   🟢 BULL — normal parameters apply
+2026-06-15 19:24:19,139 [INFO] [2/5] Fetching BTC historical data...
+2026-06-15 19:24:21,424 [INFO]   BTC data: OK
+2026-06-15 19:24:25,925 [INFO] [3/5] Fetching top 500 coins...
+2026-06-15 19:24:25,944 [INFO] Fetching top 500 coins by market cap...
+2026-06-15 19:24:28,225 [INFO]   Fetched 500 coins
+2026-06-15 19:24:28,248 [INFO]   Fetched 500 coins
+2026-06-15 19:24:28,249 [INFO] [4/5] Scanning for high-conviction setups...
+2026-06-15 19:24:28,249 [INFO]   Filters: Rank 20–500  |  Vol ≥ $500,000  |  Min conviction: 45
+2026-06-15 19:24:28,249 [INFO] 
+2026-06-15 19:24:28,257 [INFO]   [  1]  WBT       (# 20)  $54.87000      7d: +21.4%
+2026-06-15 19:24:32,164 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 19:24:36,666 [INFO]   [  2]  GRAM      (# 22)  $1.79000       7d: -0.1%
+2026-06-15 19:24:40,016 [INFO]           → conviction 2/100  |  signals 1/19
+2026-06-15 19:24:44,517 [INFO]   [  3]  HBAR      (# 28)  $0.08348       7d: +2.0%
+2026-06-15 19:24:45,149 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 19:24:45,149 [INFO]   [  4]  LTC       (# 29)  $45.89000      7d: +6.1%
+2026-06-15 19:24:45,768 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 19:24:45,769 [INFO]   [  5]  USYC      (# 32)  $1.13000       7d: +0.0%
+2026-06-15 19:24:48,761 [WARNING]           → skip USYC: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 19:24:53,263 [INFO]   [  6]  TAO       (# 40)  $273.46000     7d: +25.9%
+2026-06-15 19:24:53,880 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 19:24:53,880 [INFO]   [  7]  WLFI      (# 45)  $0.06120       7d: +9.2%
+2026-06-15 19:24:54,483 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 19:24:54,484 [INFO]   [  8]  MNT       (# 46)  $0.58214       7d: +5.8%
+2026-06-15 19:24:55,094 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:24:55,095 [INFO]   [  9]  ONDO      (# 47)  $0.38383       7d: +2.7%
+2026-06-15 19:24:55,704 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:24:55,705 [INFO]   [ 10]  ASTER     (# 49)  $0.65075       7d: +2.3%
+2026-06-15 19:24:56,592 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 19:24:56,593 [INFO]   [ 11]  OKB       (# 52)  $76.34000      7d: +5.3%
+2026-06-15 19:24:57,174 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:24:57,175 [INFO]   [ 12]  PI        (# 55)  $0.13531       7d: +3.7%
+2026-06-15 19:25:00,836 [INFO]           → conviction 18/100  |  signals 6/19
+2026-06-15 19:25:05,337 [INFO]   [ 13]  ICP       (# 56)  $2.50000       7d: +5.0%
+2026-06-15 19:25:05,939 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:25:05,939 [INFO]   [ 14]  SKY       (# 58)  $0.05781       7d: -1.0%
+2026-06-15 19:25:06,691 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:25:06,692 [INFO]   [ 15]  BGB       (# 61)  $1.83000       7d: -0.7%
+2026-06-15 19:25:10,325 [INFO]           → conviction 7/100  |  signals 1/19
+2026-06-15 19:25:14,827 [INFO]   [ 16]  MORPHO    (# 62)  $1.96000       7d: +9.7%
+2026-06-15 19:25:15,424 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 19:25:15,424 [INFO]   [ 17]  QNT       (# 66)  $71.00000      7d: +5.1%
+2026-06-15 19:25:16,039 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:25:16,039 [INFO]   [ 18]  KCS       (# 69)  $7.24000       7d: +11.4%
+2026-06-15 19:25:19,493 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:25:23,995 [INFO]   [ 19]  RENDER    (# 73)  $1.82000       7d: +9.6%
+2026-06-15 19:25:24,606 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:25:24,607 [INFO]   [ 20]  KAS       (# 75)  $0.03326       7d: +3.0%
+2026-06-15 19:25:25,216 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:25:25,216 [INFO]   [ 21]  ALGO      (# 78)  $0.09663       7d: +3.3%
+2026-06-15 19:25:25,815 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:25:25,816 [INFO]   [ 22]  POL       (# 79)  $0.07881       7d: -1.0%
+2026-06-15 19:25:26,606 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:25:26,607 [INFO]   [ 23]  STABLE    (# 80)  $0.03522       7d: +3.6%
+2026-06-15 19:25:27,195 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:25:27,196 [INFO]   [ 24]  ENA       (# 82)  $0.08787       7d: -0.6%
+2026-06-15 19:25:27,811 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:25:27,812 [INFO]   [ 25]  VVV       (# 83)  $16.46000      7d: -5.9%
+2026-06-15 19:25:28,405 [INFO]           → conviction 29/100  |  signals 5/19
+2026-06-15 19:25:28,405 [INFO]   [ 26]  GT        (# 84)  $7.02000       7d: +10.7%
+2026-06-15 19:25:32,028 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:25:36,530 [INFO]   [ 27]  FLR       (# 85)  $0.00821       7d: +14.3%
+2026-06-15 19:25:37,123 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 19:25:37,124 [INFO]   [ 28]  JST       (# 88)  $0.07789       7d: -2.0%
+2026-06-15 19:25:37,728 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 19:25:37,728 [INFO]   [ 29]  BDX       (# 91)  $0.08298       7d: +5.5%
+2026-06-15 19:25:41,317 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:25:45,818 [INFO]   [ 30]  XDC       (# 92)  $0.03084       7d: -1.4%
+2026-06-15 19:25:46,396 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 19:25:46,396 [INFO]   [ 31]  APT       (# 94)  $0.69928       7d: +2.4%
+2026-06-15 19:25:47,000 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:25:47,001 [INFO]   [ 32]  PUMP      (# 96)  $0.00162       7d: +0.1%
+2026-06-15 19:25:47,901 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:25:47,901 [INFO]   [ 33]  NIGHT     (# 97)  $0.03373       7d: +4.9%
+2026-06-15 19:25:48,505 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:25:48,506 [INFO]   [ 34]  ARB       (# 99)  $0.08896       7d: +6.9%
+2026-06-15 19:25:49,109 [INFO]           → conviction 11/100  |  signals 2/19
+2026-06-15 19:25:49,110 [INFO]   [ 35]  TRUMP     (#110)  $2.01000       7d: +18.1%
+2026-06-15 19:25:49,721 [INFO]           → conviction 27/100  |  signals 6/19
+2026-06-15 19:25:49,721 [INFO]   [ 36]  LIT       (#118)  $1.72000       7d: +13.6%
+2026-06-15 19:25:50,348 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:25:50,349 [INFO]   [ 37]  VIRTUAL   (#119)  $0.65431       7d: +10.9%
+2026-06-15 19:25:50,945 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:25:50,945 [INFO]   [ 38]  APXUSD    (#121)  $0.95469       7d: -2.0%
+2026-06-15 19:25:54,499 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:25:59,001 [INFO]   [ 39]  SEI       (#124)  $0.05511       7d: +10.0%
+2026-06-15 19:25:59,609 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:25:59,611 [INFO]   [ 40]  CRV       (#127)  $0.23768       7d: +19.1%
+2026-06-15 19:26:00,198 [INFO]           → conviction 34/100  |  signals 6/19
+2026-06-15 19:26:00,200 [INFO]   [ 41]  SKYAI     (#128)  $0.36167       7d: +56.6%
+2026-06-15 19:26:03,761 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 19:26:08,262 [INFO]   [ 42]  9BIT      (#129)  $0.04343       7d: -2.4%
+2026-06-15 19:26:12,363 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 19:26:16,864 [INFO]   [ 43]  TIA       (#131)  $0.37213       7d: +14.8%
+2026-06-15 19:26:17,488 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:26:17,488 [INFO]   [ 44]  SUN       (#133)  $0.01710       7d: -2.3%
+2026-06-15 19:26:18,089 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 19:26:18,090 [INFO]   [ 45]  PYTH      (#135)  $0.03998       7d: +25.1%
+2026-06-15 19:26:18,701 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 19:26:18,702 [INFO]   [ 46]  UB        (#138)  $0.11869       7d: -2.7%
+2026-06-15 19:26:19,305 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:26:19,306 [INFO]   [ 47]  ZRO       (#141)  $1.12000       7d: +27.5%
+2026-06-15 19:26:19,935 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 19:26:19,936 [INFO]   [ 48]  XTZ       (#146)  $0.24612       7d: -1.0%
+2026-06-15 19:26:20,540 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:26:20,541 [INFO]   [ 49]  BSV       (#151)  $12.96000      7d: +6.8%
+2026-06-15 19:26:21,155 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:26:21,156 [INFO]   [ 50]  JASMY     (#150)  $0.00525       7d: +9.8%
+2026-06-15 19:26:21,771 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:26:21,772 [INFO]   [ 51]  2Z        (#153)  $0.07287       7d: -3.9%
+2026-06-15 19:26:22,373 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 19:26:22,374 [INFO]   [ 52]  TEL       (#154)  $0.00263       7d: +5.4%
+2026-06-15 19:26:25,817 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:26:30,318 [INFO]   [ 53]  OP        (#159)  $0.11127       7d: +14.1%
+2026-06-15 19:26:30,919 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:26:30,919 [INFO]   [ 54]  AKT       (#160)  $0.81829       7d: +25.1%
+2026-06-15 19:26:31,505 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:26:31,506 [INFO]   [ 55]  XPL       (#165)  $0.09194       7d: +28.4%
+2026-06-15 19:26:32,127 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 19:26:32,128 [INFO]   [ 56]  KAIA      (#166)  $0.03914       7d: +2.7%
+2026-06-15 19:26:32,729 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:26:32,731 [INFO]   [ 57]  REAL      (#175)  $0.06432       7d: +12.8%
+2026-06-15 19:26:36,188 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:26:40,689 [INFO]   [ 58]  BTW       (#179)  $0.09010       7d: +51.8%
+2026-06-15 19:26:41,336 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:26:41,336 [INFO]   [ 59]  PIEVERSE  (#180)  $0.71088       7d: +12.7%
+2026-06-15 19:26:42,467 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:26:42,468 [INFO]   [ 60]  APYUSD    (#183)  $1.27000       7d: +0.1%
+2026-06-15 19:26:45,887 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:26:50,388 [INFO]   [ 61]  ULTIMA    (#182)  $2249.42000    7d: -2.1%
+2026-06-15 19:26:53,827 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 19:26:58,328 [INFO]   [ 62]  BILL      (#187)  $0.07477       7d: +3.8%
+2026-06-15 19:26:58,913 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:26:58,914 [INFO]   [ 63]  RAIL      (#188)  $3.15000       7d: -2.2%
+2026-06-15 19:27:02,831 [INFO]           → conviction 28/100  |  signals 7/19
+2026-06-15 19:27:07,332 [INFO]   [ 64]  BTSE      (#189)  $1.12000       7d: +4.2%
+2026-06-15 19:27:10,771 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:27:15,272 [INFO]   [ 65]  COMP      (#191)  $18.32000      7d: +3.9%
+2026-06-15 19:27:15,852 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 19:27:15,853 [INFO]   [ 66]  AXS       (#192)  $1.01500       7d: +6.0%
+2026-06-15 19:27:16,449 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 19:27:16,449 [INFO]   [ 67]  TRAC      (#197)  $0.37823       7d: +2.1%
+2026-06-15 19:27:19,924 [INFO]           → conviction 17/100  |  signals 5/19
+2026-06-15 19:27:24,425 [INFO]   [ 68]  MX        (#203)  $1.77000       7d: +1.9%
+2026-06-15 19:27:28,237 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 19:27:32,738 [INFO]   [ 69]  ZANO      (#211)  $9.66000       7d: +9.5%
+2026-06-15 19:27:36,139 [INFO]           → conviction 7/100  |  signals 1/19
+2026-06-15 19:27:40,641 [INFO]   [ 70]  BAT       (#217)  $0.09355       7d: +0.9%
+2026-06-15 19:27:41,235 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:27:41,236 [INFO]   [ 71]  AR        (#218)  $2.11000       7d: +7.5%
+2026-06-15 19:27:41,850 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 19:27:41,850 [INFO]   [ 72]  EURCV     (#219)  $1.16000       7d: +0.5%
+2026-06-15 19:27:45,315 [INFO]           → skip (flatliner: ATR 0.52% / BB 0.42%)
+2026-06-15 19:27:49,816 [INFO]   [ 73]  VELVET    (#222)  $0.32096       7d: -5.8%
+2026-06-15 19:27:50,418 [INFO]           → conviction 21/100  |  signals 4/19
+2026-06-15 19:27:50,419 [INFO]   [ 74]  TIBBIR    (#226)  $0.13196       7d: +22.1%
+2026-06-15 19:27:53,864 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:27:58,365 [INFO]   [ 75]  FT        (#229)  $0.10472       7d: +6.3%
+2026-06-15 19:28:01,782 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:28:06,285 [INFO]   [ 76]  SHFL      (#234)  $0.29646       7d: -0.4%
+2026-06-15 19:28:09,904 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:28:14,406 [INFO]   [ 77]  A         (#239)  $0.07438       7d: +14.6%
+2026-06-15 19:28:15,012 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:28:15,013 [INFO]   [ 78]  CRCLON    (#241)  $84.80000      7d: +2.0%
+2026-06-15 19:28:18,590 [INFO]           → conviction 15/100  |  signals 4/19
+2026-06-15 19:28:23,091 [INFO]   [ 79]  ZK        (#246)  $0.01202       7d: +12.1%
+2026-06-15 19:28:23,683 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:28:23,684 [INFO]   [ 80]  KAITO     (#247)  $0.47939       7d: +6.3%
+2026-06-15 19:28:24,287 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:28:24,288 [INFO]   [ 81]  IP        (#253)  $0.31498       7d: -0.0%
+2026-06-15 19:28:24,884 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 19:28:24,884 [INFO]   [ 82]  BMX       (#257)  $0.31957       7d: +6.5%
+2026-06-15 19:28:28,834 [INFO]           → conviction 17/100  |  signals 4/19
+2026-06-15 19:28:33,335 [INFO]   [ 83]  AB        (#259)  $0.00109       7d: -3.1%
+2026-06-15 19:28:36,984 [INFO]           → skip (flatliner: ATR 0.47% / BB 0.69%)
+2026-06-15 19:28:41,485 [INFO]   [ 84]  AWE       (#264)  $0.05422       7d: -0.5%
+2026-06-15 19:28:42,109 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 19:28:42,110 [INFO]   [ 85]  QAIT      (#269)  $0.02339       7d: +10.9%
+2026-06-15 19:28:45,521 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 19:28:50,022 [INFO]   [ 86]  ATH       (#272)  $0.00507       7d: +8.5%
+2026-06-15 19:28:50,658 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 19:28:50,659 [INFO]   [ 87]  NXPC      (#277)  $0.34937       7d: +0.5%
+2026-06-15 19:28:51,314 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:28:51,315 [INFO]   [ 88]  GEOD      (#279)  $0.21986       7d: +38.1%
+2026-06-15 19:28:55,026 [INFO]           → conviction 13/100  |  signals 5/19
+2026-06-15 19:28:59,528 [INFO]   [ 89]  SN64      (#287)  $17.85000      7d: +24.8%
+2026-06-15 19:29:03,229 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 19:29:07,730 [INFO]   [ 90]  RSR       (#291)  $0.00145       7d: +2.5%
+2026-06-15 19:29:08,356 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:29:08,356 [INFO]   [ 91]  NOCK      (#294)  $0.04096       7d: -3.9%
+2026-06-15 19:29:12,060 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 19:29:16,562 [INFO]   [ 92]  FLUID     (#292)  $1.14000       7d: +0.6%
+2026-06-15 19:29:17,210 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:29:17,211 [INFO]   [ 93]  SHX       (#296)  $0.00497       7d: +8.8%
+2026-06-15 19:29:20,864 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:29:25,366 [INFO]   [ 94]  WAL       (#299)  $0.03656       7d: +3.2%
+2026-06-15 19:29:26,016 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:29:26,016 [INFO]   [ 95]  UAI       (#302)  $0.36451       7d: +30.9%
+2026-06-15 19:29:26,630 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:29:26,631 [INFO]   [ 96]  USDA      (#303)  $0.98752       7d: -0.9%
+2026-06-15 19:29:30,365 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:29:34,867 [INFO]   [ 97]  MUON      (#306)  $1079.71000    7d: +13.1%
+2026-06-15 19:29:38,317 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 19:29:42,818 [INFO]   [ 98]  UMXM      (#308)  $1.79000       7d: +4.6%
+2026-06-15 19:29:47,110 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:29:51,612 [INFO]   [ 99]  CFG       (#310)  $0.21707       7d: +5.2%
+2026-06-15 19:29:52,246 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:29:52,246 [INFO]   [100]  MELANIA   (#316)  $0.08471       7d: +3.2%
+2026-06-15 19:29:52,881 [INFO]           → conviction 19/100  |  signals 6/19
+2026-06-15 19:29:52,881 [INFO]   [101]  TROLL     (#322)  $0.07990       7d: +2.1%
+2026-06-15 19:29:56,631 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 19:30:01,133 [INFO]   [102]  ZIG       (#323)  $0.05633       7d: -6.4%
+2026-06-15 19:30:05,039 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:30:09,541 [INFO]   [103]  PROS      (#326)  $0.58239       7d: -4.9%
+2026-06-15 19:30:10,125 [WARNING]           → skip PROS: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 19:30:10,125 [INFO]   [104]  ARC       (#327)  $0.07877       7d: -5.1%
+2026-06-15 19:30:10,771 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 19:30:10,774 [INFO]   [105]  DBR       (#333)  $0.01442       7d: -2.2%
+2026-06-15 19:30:11,420 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:30:11,420 [INFO]   [106]  MAG7.SSI  (#340)  $0.44744       7d: +6.5%
+2026-06-15 19:30:15,353 [INFO]           → conviction 9/100  |  signals 2/19
+2026-06-15 19:30:19,855 [INFO]   [107]  CYS       (#348)  $0.45933       7d: -1.4%
+2026-06-15 19:30:20,520 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 19:30:20,521 [INFO]   [108]  RVN       (#349)  $0.00451       7d: +4.3%
+2026-06-15 19:30:21,194 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 19:30:21,200 [INFO]   [109]  JCT       (#347)  $0.00640       7d: +37.5%
+2026-06-15 19:30:21,849 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:30:21,851 [INFO]   [110]  ORDI      (#352)  $3.48000       7d: +12.0%
+2026-06-15 19:30:22,498 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:30:22,500 [INFO]   [111]  ORCA      (#359)  $1.16000       7d: +9.2%
+2026-06-15 19:30:23,140 [INFO]           → conviction 31/100  |  signals 7/19
+2026-06-15 19:30:23,140 [INFO]   [112]  METAL     (#357)  $0.14067       7d: +6.1%
+2026-06-15 19:30:26,684 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 19:30:31,190 [INFO]   [113]  BIO       (#365)  $0.03219       7d: +1.4%
+2026-06-15 19:30:31,828 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 19:30:31,828 [INFO]   [114]  Q         (#366)  $0.01695       7d: -2.4%
+2026-06-15 19:30:32,468 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:30:32,468 [INFO]   [115]  XPR       (#369)  $0.00240       7d: +9.1%
+2026-06-15 19:30:36,127 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 19:30:40,628 [INFO]   [116]  ZAMA      (#368)  $0.03129       7d: -1.8%
+2026-06-15 19:30:41,273 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:30:41,274 [INFO]   [117]  DOG       (#371)  $0.00068       7d: +3.2%
+2026-06-15 19:30:41,565 [WARNING]           → skip DOG: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 19:30:41,565 [INFO]   [118]  SN4       (#372)  $13.78000      7d: +21.4%
+2026-06-15 19:30:45,057 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 19:30:49,558 [INFO]   [119]  0G        (#374)  $0.31403       7d: +0.3%
+2026-06-15 19:30:50,286 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:30:50,288 [INFO]   [120]  LBT       (#378)  $0.26716       7d: +10.0%
+2026-06-15 19:30:53,919 [INFO]           → conviction 25/100  |  signals 6/19
+2026-06-15 19:30:58,434 [INFO]   [121]  OMI       (#384)  $0.00024       7d: +5.5%
+2026-06-15 19:31:02,174 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 19:31:06,677 [INFO]   [122]  BRETT     (#383)  $0.00653       7d: +15.2%
+2026-06-15 19:31:07,351 [INFO]           → conviction 24/100  |  signals 6/19
+2026-06-15 19:31:07,352 [INFO]   [123]  SUPER     (#387)  $0.10039       7d: +5.4%
+2026-06-15 19:31:08,004 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 19:31:08,004 [INFO]   [124]  TFUEL     (#388)  $0.00871       7d: +2.0%
+2026-06-15 19:31:09,069 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 19:31:09,069 [INFO]   [125]  IO        (#390)  $0.18264       7d: +32.3%
+2026-06-15 19:31:09,695 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:31:09,695 [INFO]   [126]  GMX       (#395)  $6.03000       7d: +4.2%
+2026-06-15 19:31:10,371 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 19:31:10,371 [INFO]   [127]  SHOW      (#401)  $2.36000       7d: +45.1%
+2026-06-15 19:31:13,944 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 19:31:18,446 [INFO]   [128]  W         (#402)  $0.01028       7d: +6.3%
+2026-06-15 19:31:19,151 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:31:19,153 [INFO]   [129]  SKR       (#407)  $0.00956       7d: -2.2%
+2026-06-15 19:31:20,000 [INFO]           → conviction 26/100  |  signals 6/19
+2026-06-15 19:31:20,002 [INFO]   [130]  JELLYJELLY  (#406)  $0.06182       7d: +2.6%
+2026-06-15 19:31:20,619 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 19:31:20,622 [INFO]   [131]  COAI      (#405)  $0.32892       7d: +33.9%
+2026-06-15 19:31:21,256 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:31:21,256 [INFO]   [132]  SOON      (#412)  $0.17758       7d: +5.9%
+2026-06-15 19:31:22,381 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 19:31:22,384 [INFO]   [133]  DIEM      (#413)  $1600.74000    7d: +7.7%
+2026-06-15 19:31:26,220 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:31:30,722 [INFO]   [134]  CARDS     (#414)  $0.23125       7d: +31.9%
+2026-06-15 19:31:34,078 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 19:31:38,579 [INFO]   [135]  ZETA      (#417)  $0.03994       7d: +9.0%
+2026-06-15 19:31:39,204 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 19:31:39,204 [INFO]   [136]  TSLAX     (#420)  $410.76000     7d: +0.2%
+2026-06-15 19:31:42,546 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:31:47,048 [INFO]   [137]  TOSHI     (#425)  $0.00014       7d: +9.3%
+2026-06-15 19:31:50,510 [INFO]           → conviction 22/100  |  signals 5/19
+2026-06-15 19:31:55,012 [INFO]   [138]  EURI      (#424)  $1.16000       7d: +0.6%
+2026-06-15 19:31:56,030 [INFO]           → skip (flatliner: ATR 0.18% / BB 0.17%)
+2026-06-15 19:31:56,030 [INFO]   [139]  SPK       (#430)  $0.02036       7d: +2.9%
+2026-06-15 19:31:56,968 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 19:31:56,968 [INFO]   [140]  IDOL      (#428)  $0.03026       7d: +9.3%
+2026-06-15 19:32:00,624 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:32:05,129 [INFO]   [141]  SERV      (#431)  $0.07244       7d: -4.4%
+2026-06-15 19:32:08,602 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:32:13,106 [INFO]   [142]  AXL       (#432)  $0.04658       7d: +4.3%
+2026-06-15 19:32:13,767 [INFO]           → conviction 26/100  |  signals 6/19
+2026-06-15 19:32:13,767 [INFO]   [143]  QFI       (#436)  $54.83000      7d: +1.8%
+2026-06-15 19:32:17,664 [INFO]           → conviction 17/100  |  signals 5/19
+2026-06-15 19:32:22,168 [INFO]   [144]  DEGEN     (#439)  $0.00148       7d: -0.1%
+2026-06-15 19:32:25,698 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:32:30,200 [INFO]   [145]  ICNT      (#440)  $0.21488       7d: -2.3%
+2026-06-15 19:32:30,874 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 19:32:30,874 [INFO]   [146]  FXUSD     (#441)  $1.00100       7d: +0.2%
+2026-06-15 19:32:34,368 [INFO]           → skip (flatliner: ATR 1.01% / BB 0.22%)
+2026-06-15 19:32:38,871 [INFO]   [147]  BLUR      (#442)  $0.01903       7d: +5.5%
+2026-06-15 19:32:39,522 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:32:39,522 [INFO]   [148]  POLYX     (#443)  $0.04178       7d: +5.1%
+2026-06-15 19:32:40,134 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 19:32:40,139 [INFO]   [149]  ASTR      (#449)  $0.00605       7d: +5.2%
+2026-06-15 19:32:40,769 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:32:40,773 [INFO]   [150]  CTC       (#451)  $0.09708       7d: +7.0%
+2026-06-15 19:32:41,404 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:32:41,404 [INFO]   [151]  PEAQ      (#457)  $0.02348       7d: -4.8%
+2026-06-15 19:32:42,014 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:32:42,014 [INFO]   [152]  XYO       (#453)  $0.00374       7d: +2.5%
+2026-06-15 19:32:45,445 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:32:49,948 [INFO]   [153]  DGB       (#455)  $0.00283       7d: +9.9%
+2026-06-15 19:32:50,908 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:32:50,910 [INFO]   [154]  SN44      (#460)  $10.80000      7d: +30.3%
+2026-06-15 19:32:54,434 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 19:32:58,936 [INFO]   [155]  KAVA      (#461)  $0.04706       7d: +6.5%
+2026-06-15 19:32:59,618 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 19:32:59,622 [INFO]   [156]  FOGO      (#465)  $0.01322       7d: +14.0%
+2026-06-15 19:33:00,277 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:33:00,280 [INFO]   [157]  NVDAON    (#466)  $212.22000     7d: +1.7%
+2026-06-15 19:33:04,164 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 19:33:08,670 [INFO]   [158]  SUSHI     (#468)  $0.18491       7d: +7.3%
+2026-06-15 19:33:09,288 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 19:33:09,304 [INFO]   [159]  OPEN      (#469)  $0.23466       7d: +18.5%
+2026-06-15 19:33:09,947 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:33:09,947 [INFO]   [160]  RON       (#475)  $0.06425       7d: +0.9%
+2026-06-15 19:33:13,359 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 19:33:17,861 [INFO]   [161]  SN120     (#480)  $14.77000      7d: +20.5%
+2026-06-15 19:33:21,355 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:33:25,857 [INFO]   [162]  AMP       (#487)  $0.00055       7d: +0.5%
+2026-06-15 19:33:26,802 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:33:26,802 [INFO]   [163]  SLX       (#488)  $0.19522       7d: +6.0%
+2026-06-15 19:33:27,449 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:33:27,449 [INFO]   [164]  APR       (#490)  $0.19132       7d: -3.3%
+2026-06-15 19:33:28,101 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 19:33:28,102 [INFO]   [165]  PNUT      (#495)  $0.04617       7d: +8.5%
+2026-06-15 19:33:28,755 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 19:33:28,755 [INFO]   [166]  CRCLX     (#494)  $84.76000      7d: +1.7%
+2026-06-15 19:33:32,224 [INFO]           → conviction 15/100  |  signals 4/19
+2026-06-15 19:33:36,731 [INFO]   [167]  NOT       (#493)  $0.00046       7d: +17.9%
+2026-06-15 19:33:37,369 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 19:33:37,385 [INFO] 
+[5/5] Building trade plan report...
+2026-06-15 19:33:37,385 [INFO]   Raw candidates found: 0
+2026-06-15 19:33:37,385 [INFO] [5/5] Checking major leverage opportunities (BTC/ETH/SOL)...
+2026-06-15 19:34:30,407 [INFO]   Major leverage: 8 opportunity(s) found
+2026-06-15 19:34:30,422 [INFO] 
+================================================================================
+  CRYPTO SPOT SCANNER — TRADE PLAN REPORT
+  Generated: 2026-06-15 19:34:30
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   66,857.30
+  BTC 7-day    :     +5.55%
+  BTC 24-hour  :     +4.83%
+  ETH 7-day    :     +8.72%
+  BTC Dominance:      56.4%
+  Regime       :  🟢 BULL
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,313.06 USDT
+  Risk / trade  : 1.5%  ($1,445 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+================================================================================
+  ⚡ MAJOR LEVERAGE OPPORTUNITY
+  BTC in confirmed BULL trend — conditions met for leveraged long on majors.
+  These are lower-risk leverage plays (2-3×) on BTC / ETH / SOL.
+================================================================================
+
+  🔥🔥  BTC — 2× LEVERAGED LONG
+  Conditions: RSI 80.1 | ADX 45.2 | +DI 51.2 / -DI 10.5 | ATR 0.83%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $67204.0000   [LIMIT BUY]
+  │  Stop Loss    : $65187.8800   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $71236.2400  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $73252.3600  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  ETH — 2× LEVERAGED LONG
+  Conditions: RSI 86.7 | ADX 28.4 | +DI 66.1 / -DI 9.1 | ATR 1.17%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $1843.4600   [LIMIT BUY]
+  │  Stop Loss    : $1788.1562   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $1954.0676  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $2009.3714  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  SOL — 2× LEVERAGED LONG
+  Conditions: RSI 84.0 | ADX 57.9 | +DI 61.6 / -DI 10.8 | ATR 1.51%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $75.1200   [LIMIT BUY]
+  │  Stop Loss    : $72.8664   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $79.6272  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $81.8808  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  XRP — 2× LEVERAGED LONG
+  Conditions: RSI 81.0 | ADX 40.4 | +DI 60.0 / -DI 12.0 | ATR 1.41%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $1.2700   [LIMIT BUY]
+  │  Stop Loss    : $1.2319   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $1.3462  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $1.3843  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  BNB — 2× LEVERAGED LONG
+  Conditions: RSI 74.8 | ADX 36.2 | +DI 44.2 / -DI 9.3 | ATR 0.85%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $628.5000   [LIMIT BUY]
+  │  Stop Loss    : $609.6450   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $666.2100  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $685.0650  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  LINK — 2× LEVERAGED LONG
+  Conditions: RSI 78.1 | ADX 38.8 | +DI 48.4 / -DI 11.5 | ATR 1.31%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $8.5500   [LIMIT BUY]
+  │  Stop Loss    : $8.2935   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $9.0630  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $9.3195  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  SUI — 2× LEVERAGED LONG
+  Conditions: RSI 75.5 | ADX 41.6 | +DI 45.1 / -DI 12.1 | ATR 1.63%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $0.8246   [LIMIT BUY]
+  │  Stop Loss    : $0.7999   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $0.8741  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $0.8988  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  AAVE — 2× LEVERAGED LONG
+  Conditions: RSI 85.5 | ADX 37.8 | +DI 64.2 / -DI 12.5 | ATR 1.85%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $76.9500   [LIMIT BUY]
+  │  Stop Loss    : $74.6415   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $81.5670  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $83.8755  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = needs 1 more confirmation scan  |  ↗ = conviction rising  |  ↘ = fading
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  TREND  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  -----  ----------------------------
+  1     🔹CRV       #127  $0.23768        +19.1%    34     6      →  funding_neg, macd_turning, stealth_accum +3
+  2     🔹ORCA      #359  $1.16000         +9.2%    31     7      →  funding_neg, macd_turning, rs_vs_btc +4
+  3     🔹VVV       # 83  $16.46000        -5.9%    29     5      →  funding_neg, rsi_divergence, stealth_accum +2
+  4     🔹RAIL      #188  $3.15000         -2.2%    28     7      →  whale_candles, bb_squeeze, macd_crossover +4
+  5     🔹TRUMP     #110  $2.01000        +18.1%    27     6      →  funding_neg, macd_turning, rs_vs_btc +3
+  6     🔹SKR       #407  $0.00956         -2.2%    26     6      ↘  funding_neg, stealth_accum, vol_expansion +3
+  7     🔹AXL       #432  $0.04658         +4.3%    26     6      →  funding_neg, stealth_accum, vol_expansion +3
+  8     🔹LBT       #378  $0.26716        +10.0%    25     6      →  whale_candles, higher_lows, rs_vs_btc +3
+
+--------------------------------------------------------------------------------
+2026-06-15 19:34:30,434 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.txt
+2026-06-15 19:34:30,437 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.json
+2026-06-15 19:34:30,437 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260615.log
+2026-06-15 19:34:30,437 [INFO] 
+  Done.  0 high-conviction setup(s) found.
+2026-06-15 21:28:14,374 [INFO]   Live Bybit balance: 96,313.06 USDT
+2026-06-15 21:28:14,376 [INFO] 
+2026-06-15 21:28:14,377 [INFO] ================================================================================
+2026-06-15 21:28:14,377 [INFO]   CRYPTO MASTER ORCHESTRATOR v2.1
+2026-06-15 21:28:14,378 [INFO]   18-signal engine | funding rate | corr filter | volume source tagging
+2026-06-15 21:28:14,378 [INFO] ================================================================================
+2026-06-15 21:28:14,378 [INFO]   Account: $96,313.06 USDT  |  Risk/trade: 1.5%  |  Max positions: 8
+2026-06-15 21:28:14,379 [INFO] 
+2026-06-15 21:28:14,385 [INFO] [1/5] Analyzing market regime...
+2026-06-15 21:28:14,389 [INFO] Fetching market context (Bybit klines primary)...
+2026-06-15 21:28:15,836 [INFO]   [Bybit] BTC: $66,569 | 7d: +5.6%  ETH 7d: +7.8%  Dominance: 56.3% | Regime: 🟢 BULL
+2026-06-15 21:28:15,836 [INFO]   🟢 BULL — normal parameters apply
+2026-06-15 21:28:15,840 [INFO] [2/5] Fetching BTC historical data...
+2026-06-15 21:28:15,858 [INFO]   BTC data: OK
+2026-06-15 21:28:20,360 [INFO] [3/5] Fetching top 500 coins...
+2026-06-15 21:28:20,369 [INFO] Fetching top 500 coins by market cap...
+2026-06-15 21:28:22,757 [INFO]   Fetched 500 coins
+2026-06-15 21:28:22,767 [INFO]   Fetched 500 coins
+2026-06-15 21:28:22,768 [INFO] [4/5] Scanning for high-conviction setups...
+2026-06-15 21:28:22,768 [INFO]   Filters: Rank 20–500  |  Vol ≥ $500,000  |  Min conviction: 45
+2026-06-15 21:28:22,768 [INFO] 
+2026-06-15 21:28:22,773 [INFO]   [  1]  WBT       (# 20)  $54.71000      7d: +21.1%
+2026-06-15 21:28:23,397 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 21:28:23,398 [INFO]   [  2]  GRAM      (# 22)  $1.77000       7d: -0.7%
+2026-06-15 21:28:23,741 [INFO]           → conviction 2/100  |  signals 1/19
+2026-06-15 21:28:23,741 [INFO]   [  3]  HBAR      (# 28)  $0.08302       7d: +1.6%
+2026-06-15 21:28:24,099 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 21:28:24,099 [INFO]   [  4]  LTC       (# 29)  $45.69000      7d: +5.5%
+2026-06-15 21:28:24,441 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 21:28:24,442 [INFO]   [  5]  USYC      (# 32)  $1.13000       7d: +0.0%
+2026-06-15 21:28:24,452 [WARNING]           → skip USYC: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 21:28:24,452 [INFO]   [  6]  TAO       (# 40)  $269.92000     7d: +24.0%
+2026-06-15 21:28:25,230 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 21:28:25,230 [INFO]   [  7]  MNT       (# 46)  $0.58056       7d: +5.3%
+2026-06-15 21:28:25,569 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 21:28:25,569 [INFO]   [  8]  WLFI      (# 45)  $0.06026       7d: +7.5%
+2026-06-15 21:28:25,906 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 21:28:25,907 [INFO]   [  9]  ONDO      (# 47)  $0.37607       7d: +0.7%
+2026-06-15 21:28:26,549 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:26,550 [INFO]   [ 10]  ASTER     (# 48)  $0.65282       7d: +2.9%
+2026-06-15 21:28:26,883 [INFO]           → conviction 23/100  |  signals 3/19
+2026-06-15 21:28:26,884 [INFO]   [ 11]  OKB       (# 52)  $76.01000      7d: +4.3%
+2026-06-15 21:28:27,223 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:28:27,224 [INFO]   [ 12]  PI        (# 55)  $0.13526       7d: +4.2%
+2026-06-15 21:28:27,554 [INFO]           → conviction 18/100  |  signals 6/19
+2026-06-15 21:28:27,554 [INFO]   [ 13]  ICP       (# 57)  $2.46000       7d: +4.0%
+2026-06-15 21:28:27,883 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:27,883 [INFO]   [ 14]  SKY       (# 58)  $0.05749       7d: -1.5%
+2026-06-15 21:28:28,213 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:28:28,213 [INFO]   [ 15]  BGB       (# 60)  $1.82000       7d: -0.6%
+2026-06-15 21:28:28,545 [INFO]           → conviction 7/100  |  signals 1/19
+2026-06-15 21:28:28,546 [INFO]   [ 16]  MORPHO    (# 61)  $1.96000       7d: +8.0%
+2026-06-15 21:28:29,194 [INFO]           → conviction 16/100  |  signals 3/19
+2026-06-15 21:28:29,194 [INFO]   [ 17]  QNT       (# 66)  $70.81000      7d: +4.9%
+2026-06-15 21:28:29,532 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:28:29,532 [INFO]   [ 18]  KCS       (# 71)  $7.20000       7d: +11.8%
+2026-06-15 21:28:29,870 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:29,871 [INFO]   [ 19]  RENDER    (# 73)  $1.79000       7d: +6.1%
+2026-06-15 21:28:30,217 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:28:30,218 [INFO]   [ 20]  KAS       (# 75)  $0.03312       7d: +2.2%
+2026-06-15 21:28:30,552 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:30,552 [INFO]   [ 21]  ALGO      (# 78)  $0.09562       7d: +2.8%
+2026-06-15 21:28:30,890 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:28:30,891 [INFO]   [ 22]  POL       (# 80)  $0.07848       7d: -0.3%
+2026-06-15 21:28:31,233 [INFO]           → conviction 23/100  |  signals 5/19
+2026-06-15 21:28:31,234 [INFO]   [ 23]  ENA       (# 82)  $0.08628       7d: -3.2%
+2026-06-15 21:28:31,878 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 21:28:31,879 [INFO]   [ 24]  GT        (# 84)  $7.00000       7d: +9.2%
+2026-06-15 21:28:32,205 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:32,205 [INFO]   [ 25]  FLR       (# 85)  $0.00813       7d: +12.9%
+2026-06-15 21:28:32,540 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 21:28:32,540 [INFO]   [ 26]  JST       (# 87)  $0.07923       7d: -0.9%
+2026-06-15 21:28:32,869 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 21:28:32,869 [INFO]   [ 27]  BDX       (# 90)  $0.08292       7d: +5.7%
+2026-06-15 21:28:33,194 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:33,195 [INFO]   [ 28]  XDC       (# 92)  $0.03083       7d: -0.5%
+2026-06-15 21:28:33,535 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 21:28:33,535 [INFO]   [ 29]  APT       (# 94)  $0.69208       7d: +1.5%
+2026-06-15 21:28:33,871 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:28:33,871 [INFO]   [ 30]  NIGHT     (# 96)  $0.03370       7d: -1.3%
+2026-06-15 21:28:34,203 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:28:34,204 [INFO]   [ 31]  PUMP      (# 98)  $0.00159       7d: -3.3%
+2026-06-15 21:28:34,539 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:34,540 [INFO]   [ 32]  ARB       (#100)  $0.08728       7d: +4.9%
+2026-06-15 21:28:34,915 [INFO]           → conviction 11/100  |  signals 2/19
+2026-06-15 21:28:34,916 [INFO]   [ 33]  VIRTUAL   (#118)  $0.64305       7d: +8.5%
+2026-06-15 21:28:35,254 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:35,255 [INFO]   [ 34]  LIT       (#119)  $1.67000       7d: +14.0%
+2026-06-15 21:28:35,594 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:28:35,594 [INFO]   [ 35]  APXUSD    (#121)  $0.95639       7d: -1.4%
+2026-06-15 21:28:35,931 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:28:35,931 [INFO]   [ 36]  SEI       (#125)  $0.05422       7d: +8.5%
+2026-06-15 21:28:36,271 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:28:36,272 [INFO]   [ 37]  9BIT      (#128)  $0.04347       7d: -2.4%
+2026-06-15 21:28:36,606 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 21:28:36,606 [INFO]   [ 38]  SKYAI     (#130)  $0.35106       7d: +46.1%
+2026-06-15 21:28:36,942 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 21:28:36,943 [INFO]   [ 39]  TIA       (#131)  $0.37179       7d: +15.2%
+2026-06-15 21:28:37,272 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:28:37,273 [INFO]   [ 40]  SUN       (#133)  $0.01715       7d: -2.0%
+2026-06-15 21:28:37,634 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 21:28:37,634 [INFO]   [ 41]  PYTH      (#135)  $0.03963       7d: +23.7%
+2026-06-15 21:28:38,009 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 21:28:38,009 [INFO]   [ 42]  GNO       (#139)  $107.40000     7d: +11.5%
+2026-06-15 21:28:38,681 [WARNING]           → skip GNO: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 21:28:38,681 [INFO]   [ 43]  ZRO       (#140)  $1.12000       7d: +28.1%
+2026-06-15 21:28:39,051 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 21:28:39,052 [INFO]   [ 44]  XTZ       (#148)  $0.24271       7d: -2.2%
+2026-06-15 21:28:39,382 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:28:39,382 [INFO]   [ 45]  BSV       (#149)  $12.87000      7d: +5.8%
+2026-06-15 21:28:39,720 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:28:39,720 [INFO]   [ 46]  2Z        (#153)  $0.07210       7d: -3.6%
+2026-06-15 21:28:40,043 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 21:28:40,043 [INFO]   [ 47]  TEL       (#156)  $0.00258       7d: +4.1%
+2026-06-15 21:28:40,373 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:40,374 [INFO]   [ 48]  AKT       (#159)  $0.82167       7d: +25.9%
+2026-06-15 21:28:40,707 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:28:40,707 [INFO]   [ 49]  OP        (#160)  $0.10994       7d: +12.6%
+2026-06-15 21:28:41,038 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 21:28:41,038 [INFO]   [ 50]  XPL       (#162)  $0.09313       7d: +28.1%
+2026-06-15 21:28:41,380 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 21:28:41,380 [INFO]   [ 51]  KAIA      (#167)  $0.03879       7d: +2.5%
+2026-06-15 21:28:41,725 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:41,725 [INFO]   [ 52]  REAL      (#175)  $0.06418       7d: +12.8%
+2026-06-15 21:28:42,066 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:42,066 [INFO]   [ 53]  BTW       (#179)  $0.09023       7d: +50.9%
+2026-06-15 21:28:42,411 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:28:42,412 [INFO]   [ 54]  PIEVERSE  (#180)  $0.70882       7d: +13.8%
+2026-06-15 21:28:42,761 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:28:42,761 [INFO]   [ 55]  APYUSD    (#182)  $1.28000       7d: +1.2%
+2026-06-15 21:28:43,099 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:43,099 [INFO]   [ 56]  ULTIMA    (#183)  $2244.07000    7d: -3.8%
+2026-06-15 21:28:43,419 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 21:28:43,420 [INFO]   [ 57]  BILL      (#190)  $0.07273       7d: +0.6%
+2026-06-15 21:28:43,751 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:43,752 [INFO]   [ 58]  AXS       (#192)  $1.00400       7d: +5.4%
+2026-06-15 21:28:44,094 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 21:28:44,095 [INFO]   [ 59]  COMP      (#193)  $18.00000      7d: +1.6%
+2026-06-15 21:28:44,737 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 21:28:44,737 [INFO]   [ 60]  WFI       (#194)  $2.03000       7d: -0.2%
+2026-06-15 21:28:48,783 [INFO]           → skip (flatliner: ATR 0.64% / BB 0.45%)
+2026-06-15 21:28:53,284 [INFO]   [ 61]  TRAC      (#198)  $0.37244       7d: +0.0%
+2026-06-15 21:28:53,634 [INFO]           → conviction 17/100  |  signals 5/19
+2026-06-15 21:28:53,635 [INFO]   [ 62]  MX        (#201)  $1.77000       7d: +1.8%
+2026-06-15 21:28:54,285 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 21:28:54,285 [INFO]   [ 63]  ZANO      (#208)  $10.01000      7d: +12.5%
+2026-06-15 21:28:54,626 [INFO]           → conviction 7/100  |  signals 1/19
+2026-06-15 21:28:54,626 [INFO]   [ 64]  VELVET    (#214)  $0.33407       7d: +2.1%
+2026-06-15 21:28:54,969 [INFO]           → conviction 21/100  |  signals 4/19
+2026-06-15 21:28:54,969 [INFO]   [ 65]  BAT       (#217)  $0.09338       7d: +0.7%
+2026-06-15 21:28:55,314 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:28:55,315 [INFO]   [ 66]  AR        (#221)  $2.08000       7d: +4.2%
+2026-06-15 21:28:55,652 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 21:28:55,653 [INFO]   [ 67]  TIBBIR    (#226)  $0.12958       7d: +18.2%
+2026-06-15 21:28:55,990 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:28:55,990 [INFO]   [ 68]  FT        (#228)  $0.10506       7d: +6.7%
+2026-06-15 21:28:56,331 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 21:28:56,331 [INFO]   [ 69]  A         (#240)  $0.07379       7d: +13.7%
+2026-06-15 21:28:56,670 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:28:56,671 [INFO]   [ 70]  CRCLON    (#241)  $83.95000      7d: +2.3%
+2026-06-15 21:28:57,011 [INFO]           → conviction 15/100  |  signals 4/19
+2026-06-15 21:28:57,011 [INFO]   [ 71]  HOME      (#243)  $0.02885       7d: -2.4%
+2026-06-15 21:28:57,711 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 21:28:57,711 [INFO]   [ 72]  KAITO     (#245)  $0.48274       7d: +7.2%
+2026-06-15 21:28:58,059 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:28:58,059 [INFO]   [ 73]  ZK        (#247)  $0.01193       7d: +12.5%
+2026-06-15 21:28:58,712 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 21:28:58,712 [INFO]   [ 74]  IP        (#255)  $0.31262       7d: -0.7%
+2026-06-15 21:28:59,045 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 21:28:59,046 [INFO]   [ 75]  SENT      (#257)  $0.01504       7d: +6.9%
+2026-06-15 21:28:59,727 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:28:59,728 [INFO]   [ 76]  BMX       (#258)  $0.31949       7d: +6.7%
+2026-06-15 21:29:00,070 [INFO]           → conviction 17/100  |  signals 4/19
+2026-06-15 21:29:00,071 [INFO]   [ 77]  AB        (#261)  $0.00108       7d: -3.6%
+2026-06-15 21:29:00,433 [INFO]           → skip (flatliner: ATR 0.48% / BB 0.69%)
+2026-06-15 21:29:00,433 [INFO]   [ 78]  AWE       (#265)  $0.05412       7d: -0.6%
+2026-06-15 21:29:00,787 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 21:29:00,788 [INFO]   [ 79]  QAIT      (#266)  $0.02380       7d: +11.5%
+2026-06-15 21:29:01,133 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 21:29:01,134 [INFO]   [ 80]  BANANAS31  (#267)  $0.01046       7d: -3.2%
+2026-06-15 21:29:01,801 [INFO]           → conviction 26/100  |  signals 7/19
+2026-06-15 21:29:01,802 [INFO]   [ 81]  ATH       (#274)  $0.00499       7d: +7.4%
+2026-06-15 21:29:02,150 [INFO]           → conviction 21/100  |  signals 6/19
+2026-06-15 21:29:02,151 [INFO]   [ 82]  GEOD      (#278)  $0.22365       7d: +40.6%
+2026-06-15 21:29:02,799 [INFO]           → conviction 13/100  |  signals 5/19
+2026-06-15 21:29:02,799 [INFO]   [ 83]  NXPC      (#280)  $0.34706       7d: -2.5%
+2026-06-15 21:29:03,138 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 21:29:03,139 [INFO]   [ 84]  SN64      (#288)  $17.66000      7d: +22.1%
+2026-06-15 21:29:03,486 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 21:29:03,486 [INFO]   [ 85]  RSR       (#291)  $0.00144       7d: +2.5%
+2026-06-15 21:29:04,462 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:29:04,462 [INFO]   [ 86]  NOCK      (#294)  $0.04081       7d: -5.2%
+2026-06-15 21:29:04,801 [INFO]           → conviction 5/100  |  signals 2/19
+2026-06-15 21:29:04,801 [INFO]   [ 87]  FLUID     (#295)  $1.12000       7d: -1.0%
+2026-06-15 21:29:05,458 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:05,459 [INFO]   [ 88]  SHX       (#300)  $0.00492       7d: +7.7%
+2026-06-15 21:29:05,794 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:29:05,794 [INFO]   [ 89]  WAL       (#299)  $0.03613       7d: +1.7%
+2026-06-15 21:29:06,434 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 21:29:06,434 [INFO]   [ 90]  USDA      (#301)  $0.98752       7d: -0.8%
+2026-06-15 21:29:06,767 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:06,768 [INFO]   [ 91]  MUON      (#304)  $1085.91000    7d: +14.7%
+2026-06-15 21:29:07,115 [INFO]           → conviction 18/100  |  signals 5/19
+2026-06-15 21:29:07,116 [INFO]   [ 92]  UMXM      (#306)  $1.79000       7d: +5.2%
+2026-06-15 21:29:07,463 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:07,464 [INFO]   [ 93]  UAI       (#310)  $0.34934       7d: +23.1%
+2026-06-15 21:29:07,816 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 21:29:07,816 [INFO]   [ 94]  CFG       (#312)  $0.21554       7d: +3.6%
+2026-06-15 21:29:08,154 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:08,154 [INFO]   [ 95]  BAS       (#316)  $0.03213       7d: +0.7%
+2026-06-15 21:29:11,688 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:29:16,189 [INFO]   [ 96]  ZIG       (#320)  $0.05668       7d: -4.5%
+2026-06-15 21:29:16,537 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:29:16,538 [INFO]   [ 97]  PROS      (#321)  $0.58758       7d: -4.4%
+2026-06-15 21:29:16,559 [WARNING]           → skip PROS: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 21:29:16,559 [INFO]   [ 98]  MELANIA   (#322)  $0.08333       7d: +3.8%
+2026-06-15 21:29:16,895 [INFO]           → conviction 19/100  |  signals 6/19
+2026-06-15 21:29:16,895 [INFO]   [ 99]  TROLL     (#324)  $0.07890       7d: +0.2%
+2026-06-15 21:29:17,562 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 21:29:17,563 [INFO]   [100]  ARC       (#325)  $0.07801       7d: -6.4%
+2026-06-15 21:29:17,907 [INFO]           → conviction 14/100  |  signals 3/19
+2026-06-15 21:29:17,909 [INFO]   [101]  DBR       (#326)  $0.01446       7d: -1.9%
+2026-06-15 21:29:18,246 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:29:18,246 [INFO]   [102]  BAN       (#336)  $0.07585       7d: +5.2%
+2026-06-15 21:29:18,914 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:18,915 [INFO]   [103]  MAG7.SSI  (#341)  $0.44562       7d: +6.1%
+2026-06-15 21:29:19,260 [INFO]           → conviction 9/100  |  signals 2/19
+2026-06-15 21:29:19,261 [INFO]   [104]  JCT       (#348)  $0.00636       7d: +40.1%
+2026-06-15 21:29:19,609 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:19,609 [INFO]   [105]  CYS       (#349)  $0.45551       7d: -1.9%
+2026-06-15 21:29:20,244 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 21:29:20,245 [INFO]   [106]  RVN       (#351)  $0.00448       7d: +3.4%
+2026-06-15 21:29:20,590 [INFO]           → conviction 0/100  |  signals 0/19
+2026-06-15 21:29:20,591 [INFO]   [107]  ORDI      (#354)  $3.43000       7d: +9.3%
+2026-06-15 21:29:20,936 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:20,936 [INFO]   [108]  METAL     (#361)  $0.13731       7d: +3.6%
+2026-06-15 21:29:21,276 [INFO]           → conviction 19/100  |  signals 5/19
+2026-06-15 21:29:21,276 [INFO]   [109]  Q         (#365)  $0.01710       7d: -1.0%
+2026-06-15 21:29:21,633 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:29:21,634 [INFO]   [110]  XPR       (#366)  $0.00240       7d: +9.0%
+2026-06-15 21:29:21,969 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 21:29:21,970 [INFO]   [111]  ZAMA      (#368)  $0.03104       7d: -0.1%
+2026-06-15 21:29:22,731 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 21:29:22,732 [INFO]   [112]  BIO       (#370)  $0.03170       7d: -4.8%
+2026-06-15 21:29:23,066 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 21:29:23,067 [INFO]   [113]  DOG       (#371)  $0.00068       7d: +2.1%
+2026-06-15 21:29:23,086 [WARNING]           → skip DOG: OHLCV data is stale (>8h old or duplicates)
+2026-06-15 21:29:23,086 [INFO]   [114]  0G        (#378)  $0.30779       7d: -1.3%
+2026-06-15 21:29:23,423 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:23,424 [INFO]   [115]  JELLYJELLY  (#379)  $0.06533       7d: +9.1%
+2026-06-15 21:29:23,767 [INFO]           → conviction 13/100  |  signals 4/19
+2026-06-15 21:29:23,767 [INFO]   [116]  BRETT     (#384)  $0.00651       7d: +15.1%
+2026-06-15 21:29:24,107 [INFO]           → conviction 24/100  |  signals 6/19
+2026-06-15 21:29:24,107 [INFO]   [117]  OMI       (#385)  $0.00024       7d: +5.3%
+2026-06-15 21:29:24,445 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 21:29:24,445 [INFO]   [118]  SUPER     (#386)  $0.09947       7d: +4.0%
+2026-06-15 21:29:24,794 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 21:29:24,795 [INFO]   [119]  TFUEL     (#388)  $0.00861       7d: -0.0%
+2026-06-15 21:29:25,128 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 21:29:25,128 [INFO]   [120]  CARDS     (#392)  $0.24461       7d: +40.5%
+2026-06-15 21:29:25,454 [INFO]           → conviction 10/100  |  signals 2/19
+2026-06-15 21:29:25,454 [INFO]   [121]  IO        (#394)  $0.17992       7d: +27.5%
+2026-06-15 21:29:25,805 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:25,806 [INFO]   [122]  GMX       (#398)  $5.96000       7d: +2.9%
+2026-06-15 21:29:26,142 [INFO]           → conviction 13/100  |  signals 3/19
+2026-06-15 21:29:26,143 [INFO]   [123]  SHOW      (#403)  $2.34000       7d: +48.3%
+2026-06-15 21:29:26,493 [INFO]           → conviction 12/100  |  signals 4/19
+2026-06-15 21:29:26,494 [INFO]   [124]  AIPF      (#402)  $2.15000       7d: -0.9%
+2026-06-15 21:29:29,987 [INFO]           → conviction 15/100  |  signals 4/19
+2026-06-15 21:29:34,488 [INFO]   [125]  W         (#405)  $0.01014       7d: +5.6%
+2026-06-15 21:29:34,820 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:34,821 [INFO]   [126]  COAI      (#411)  $0.32093       7d: +30.4%
+2026-06-15 21:29:35,156 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:35,157 [INFO]   [127]  SOON      (#412)  $0.17716       7d: +6.5%
+2026-06-15 21:29:35,490 [INFO]           → conviction 23/100  |  signals 6/19
+2026-06-15 21:29:35,490 [INFO]   [128]  TSLAX     (#418)  $410.64000     7d: -0.3%
+2026-06-15 21:29:35,823 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:35,823 [INFO]   [129]  ZETA      (#420)  $0.03937       7d: +8.0%
+2026-06-15 21:29:36,163 [INFO]           → conviction 16/100  |  signals 5/19
+2026-06-15 21:29:36,163 [INFO]   [130]  IDOL      (#423)  $0.03060       7d: +11.1%
+2026-06-15 21:29:36,495 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:36,495 [INFO]   [131]  TOSHI     (#425)  $0.00014       7d: +8.6%
+2026-06-15 21:29:36,828 [INFO]           → conviction 22/100  |  signals 5/19
+2026-06-15 21:29:36,828 [INFO]   [132]  SPK       (#430)  $0.02002       7d: +2.3%
+2026-06-15 21:29:37,166 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 21:29:37,166 [INFO]   [133]  ICNT      (#431)  $0.21932       7d: +0.9%
+2026-06-15 21:29:37,516 [INFO]           → conviction 21/100  |  signals 5/19
+2026-06-15 21:29:37,517 [INFO]   [134]  QFI       (#435)  $54.65000      7d: +1.5%
+2026-06-15 21:29:37,862 [INFO]           → conviction 17/100  |  signals 5/19
+2026-06-15 21:29:37,862 [INFO]   [135]  SERV      (#440)  $0.07047       7d: -6.1%
+2026-06-15 21:29:38,207 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:29:38,208 [INFO]   [136]  POLYX     (#444)  $0.04134       7d: +3.6%
+2026-06-15 21:29:38,548 [INFO]           → conviction 8/100  |  signals 2/19
+2026-06-15 21:29:38,549 [INFO]   [137]  BLUR      (#446)  $0.01880       7d: +5.0%
+2026-06-15 21:29:38,897 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:29:38,897 [INFO]   [138]  CTC       (#450)  $0.09685       7d: +6.2%
+2026-06-15 21:29:39,532 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:39,532 [INFO]   [139]  ASTR      (#451)  $0.00596       7d: +3.5%
+2026-06-15 21:29:39,879 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:39,880 [INFO]   [140]  XNO       (#452)  $0.38947       7d: +0.2%
+2026-06-15 21:29:40,847 [INFO]           → conviction 3/100  |  signals 1/19
+2026-06-15 21:29:40,848 [INFO]   [141]  XYO       (#454)  $0.00371       7d: -0.0%
+2026-06-15 21:29:41,181 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:41,182 [INFO]   [142]  DGB       (#456)  $0.00281       7d: +7.5%
+2026-06-15 21:29:41,518 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:29:41,519 [INFO]   [143]  OPEN      (#457)  $0.23874       7d: +21.1%
+2026-06-15 21:29:41,852 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:41,852 [INFO]   [144]  SN44      (#460)  $10.71000      7d: +27.8%
+2026-06-15 21:29:42,193 [INFO]           → conviction 15/100  |  signals 5/19
+2026-06-15 21:29:42,193 [INFO]   [145]  NVDAON    (#465)  $212.02000     7d: +1.4%
+2026-06-15 21:29:42,527 [INFO]           → conviction 14/100  |  signals 4/19
+2026-06-15 21:29:42,528 [INFO]   [146]  FOGO      (#467)  $0.01311       7d: +14.6%
+2026-06-15 21:29:42,869 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:42,869 [INFO]   [147]  KAVA      (#468)  $0.04653       7d: +5.8%
+2026-06-15 21:29:43,223 [INFO]           → conviction 11/100  |  signals 3/19
+2026-06-15 21:29:43,223 [INFO]   [148]  SUSHI     (#471)  $0.18262       7d: +6.3%
+2026-06-15 21:29:43,582 [INFO]           → conviction 6/100  |  signals 2/19
+2026-06-15 21:29:43,582 [INFO]   [149]  RON       (#476)  $0.06355       7d: +1.0%
+2026-06-15 21:29:43,957 [INFO]           → conviction 18/100  |  signals 4/19
+2026-06-15 21:29:43,958 [INFO]   [150]  SN120     (#479)  $14.54000      7d: +16.8%
+2026-06-15 21:29:44,319 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:44,319 [INFO]   [151]  AMP       (#486)  $0.00055       7d: +0.8%
+2026-06-15 21:29:44,666 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:44,666 [INFO]   [152]  SLX       (#491)  $0.18921       7d: +2.7%
+2026-06-15 21:29:45,041 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:45,041 [INFO]   [153]  CRCLX     (#493)  $84.05000      7d: +1.6%
+2026-06-15 21:29:45,415 [INFO]           → conviction 15/100  |  signals 4/19
+2026-06-15 21:29:45,415 [INFO]   [154]  PNUT      (#494)  $0.04551       7d: +7.3%
+2026-06-15 21:29:45,769 [INFO]           → conviction 10/100  |  signals 3/19
+2026-06-15 21:29:45,769 [INFO]   [155]  NOT       (#495)  $0.00046       7d: +16.8%
+2026-06-15 21:29:46,421 [INFO]           → conviction 16/100  |  signals 4/19
+2026-06-15 21:29:46,422 [INFO]   [156]  POPCAT    (#499)  $0.04483       7d: +5.8%
+2026-06-15 21:29:47,090 [INFO]           → conviction 24/100  |  signals 4/19
+2026-06-15 21:29:47,097 [INFO] 
+[5/5] Building trade plan report...
+2026-06-15 21:29:47,097 [INFO]   Raw candidates found: 0
+2026-06-15 21:29:47,098 [INFO] [5/5] Checking major leverage opportunities (BTC/ETH/SOL)...
+2026-06-15 21:30:23,222 [INFO]   Major leverage: 8 opportunity(s) found
+2026-06-15 21:30:23,225 [INFO] 
+================================================================================
+  CRYPTO SPOT SCANNER — TRADE PLAN REPORT
+  Generated: 2026-06-15 21:30:23
+================================================================================
+
+MARKET CONTEXT
+----------------------------------------
+  BTC Price    :  $   66,568.70
+  BTC 7-day    :     +5.57%
+  BTC 24-hour  :     +1.31%
+  ETH 7-day    :     +7.84%
+  BTC Dominance:      56.3%
+  Regime       :  🟢 BULL
+
+ACCOUNT
+----------------------------------------
+  Balance       : $   96,313.06 USDT
+  Risk / trade  : 1.5%  ($1,445 USDT per trade)
+  Max positions : 8
+  Max heat      : 12.0%
+
+================================================================================
+  NO QUALIFYING SETUPS FOUND
+
+  All scanned tokens failed to meet the minimum conviction threshold.
+  This means market conditions are not favorable right now.
+
+  RECOMMENDATION: Stay in USDT. Wait for the next scan.
+  Patience is a trading edge. Forcing trades loses money.
+================================================================================
+
+================================================================================
+  ⚡ MAJOR LEVERAGE OPPORTUNITY
+  BTC in confirmed BULL trend — conditions met for leveraged long on majors.
+  These are lower-risk leverage plays (2-3×) on BTC / ETH / SOL.
+================================================================================
+
+  🔥🔥  BTC — 2× LEVERAGED LONG
+  Conditions: RSI 80.1 | ADX 45.2 | +DI 51.2 / -DI 10.5 | ATR 0.83%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $67204.0000   [LIMIT BUY]
+  │  Stop Loss    : $65187.8800   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $71236.2400  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $73252.3600  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  ETH — 2× LEVERAGED LONG
+  Conditions: RSI 86.7 | ADX 28.4 | +DI 66.1 / -DI 9.1 | ATR 1.17%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $1843.4600   [LIMIT BUY]
+  │  Stop Loss    : $1788.1562   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $1954.0676  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $2009.3714  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  SOL — 2× LEVERAGED LONG
+  Conditions: RSI 84.0 | ADX 57.9 | +DI 61.6 / -DI 10.8 | ATR 1.51%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $75.1200   [LIMIT BUY]
+  │  Stop Loss    : $72.8664   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $79.6272  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $81.8808  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  XRP — 2× LEVERAGED LONG
+  Conditions: RSI 81.0 | ADX 40.4 | +DI 60.0 / -DI 12.0 | ATR 1.41%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $1.2700   [LIMIT BUY]
+  │  Stop Loss    : $1.2319   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $1.3462  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $1.3843  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  BNB — 2× LEVERAGED LONG
+  Conditions: RSI 74.8 | ADX 36.2 | +DI 44.2 / -DI 9.3 | ATR 0.85%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $628.5000   [LIMIT BUY]
+  │  Stop Loss    : $609.6450   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $666.2100  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $685.0650  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  LINK — 2× LEVERAGED LONG
+  Conditions: RSI 78.1 | ADX 38.8 | +DI 48.4 / -DI 11.5 | ATR 1.31%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $8.5500   [LIMIT BUY]
+  │  Stop Loss    : $8.2935   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $9.0630  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $9.3195  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  SUI — 2× LEVERAGED LONG
+  Conditions: RSI 75.5 | ADX 41.6 | +DI 45.1 / -DI 12.1 | ATR 1.63%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $0.8246   [LIMIT BUY]
+  │  Stop Loss    : $0.7999   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $0.8741  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $0.8988  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+  🔥🔥  AAVE — 2× LEVERAGED LONG
+  Conditions: RSI 85.5 | ADX 37.8 | +DI 64.2 / -DI 12.5 | ATR 1.85%
+
+  ┌─ TRADE PLAN (2× leverage) ───────────────────────────────
+  │  Entry        : $76.9500   [LIMIT BUY]
+  │  Stop Loss    : $74.6415   (-3.0%)   ← STOP-MARKET — no exceptions
+  │
+  │  Notional     : $    48,157 USDT
+  │  Margin req   : $    24,078 USDT  (25.0% of account)
+  │  Risk         : $     1,445 USDT  (1.5%)
+  │
+  │  TP1  $81.5670  (+6.0% spot / +12.0% leveraged)  Sell 50%  ≈ $1,445 USDT  R:R 1:2
+  │  TP2  $83.8755  (+9.0% spot / +18.0% leveraged)  Sell 50%  ≈ $2,167 USDT  R:R 1:3
+  └──────────────────────────────────────────────────────────
+
+  ⚠️  Set leverage to 2× on Bybit before placing order.
+  ⚠️  If BTC drops >3% after entry, tighten stop to -3%.
+--------------------------------------------------------------------------------
+
+WATCHLIST  — tokens building momentum, not ready to enter yet
+----------------------------------------
+  ⏳ = needs 1 more confirmation scan  |  ↗ = conviction rising  |  ↘ = fading
+  Monitor all. Enter only after a fresh scan confirms conviction ≥ threshold.
+
+  #     SYMBOL     RANK         PRICE      7d%   CONV  SIGS  TREND  KEY SIGNALS
+  ----  ---------  ----  ------------  -------  -----  ----  -----  ----------------------------
+  1     🔹BANANAS31  #267  $0.01046         -3.2%    26     7      →  cmf, higher_lows, vol_expansion +4
+
+--------------------------------------------------------------------------------
+2026-06-15 21:30:23,230 [INFO] 
+  Report  → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.txt
+2026-06-15 21:30:23,232 [INFO]   JSON    → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\scanner-results\spot_trade_plan_LATEST.json
+2026-06-15 21:30:23,232 [INFO]   Log     → C:\Users\bruno\OneDrive\Ambiente de Trabalho\Workspace\crypto scanner\crypto-scanner\outputs\logs\orchestrator_20260615.log
+2026-06-15 21:30:23,232 [INFO] 
+  Done.  0 high-conviction setup(s) found.

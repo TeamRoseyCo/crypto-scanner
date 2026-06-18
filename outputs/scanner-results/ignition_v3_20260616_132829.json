@@ -1,0 +1,2937 @@
+{
+  "scanner": "ignition_scanner",
+  "version": "3.0",
+  "generated_at": "2026-06-16T13:28:29.591528",
+  "elapsed_s": 265.09,
+  "universe_size": 639,
+  "scanned": 635,
+  "thresholds": {
+    "watch_now_conviction": 40.0,
+    "watch_now_signals": 5,
+    "on_radar_conviction": 25.0,
+    "on_radar_signals": 3
+  },
+  "weights": {
+    "whale_candle": 2.5,
+    "obv_divergence": 2.5,
+    "rsi_divergence": 2.5,
+    "bb_squeeze": 2.0,
+    "obv_stealth_accum": 2.0,
+    "cmf_positive": 1.5,
+    "vol_expansion": 1.5,
+    "higher_lows": 1.5,
+    "rsi_reset": 1.5,
+    "rsi_in_zone": 1.0,
+    "vol_in_window": 1.0,
+    "btc_decoupling": 1.0,
+    "funding_negative": 1.0,
+    "price_range_break": 1.0
+  },
+  "watch_now": [
+    {
+      "base": "CREAM",
+      "price": 2.1,
+      "volume_24h": 276098.07379,
+      "price_24h_pct": 65.354,
+      "sources": [
+        "binance"
+      ],
+      "tier": "watch_now",
+      "conviction": 46.7,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.105,
+        "whale_candle": 1.0,
+        "obv_divergence": 0.486,
+        "rsi_divergence": 0.679,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 1.0,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "obv_divergence": {
+          "price_drop_pct": 1.79
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.79,
+          "rsi_gap": 11.76,
+          "rsi1": 33.3,
+          "rsi2": 45.1
+        },
+        "rsi_reset": {
+          "min_in_window": 10.5,
+          "rsi_now": 88.5
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 77.97,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 77.3,
+      "error": null
+    },
+    {
+      "base": "BR",
+      "price": 0.17235,
+      "volume_24h": 3177546.7417,
+      "price_24h_pct": 47.4088,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "watch_now",
+      "conviction": 44.4,
+      "signal_count": 8,
+      "fired_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "funding_negative",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_expansion": 1.0,
+        "whale_candle": 0.394,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.925,
+        "higher_lows": 0.059,
+        "btc_decoupling": 1.0,
+        "funding_negative": 1.0,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 2730038.5,
+          "base_avg": 55493.94285714286
+        },
+        "whale_candle": {
+          "bars_ago": 5
+        },
+        "rsi_reset": {
+          "min_in_window": 5.3,
+          "rsi_now": 99.4
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 31.16,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.00121042,
+      "rs_btc_6h_pct": 30.5,
+      "error": null
+    },
+    {
+      "base": "PORTAL",
+      "price": 0.017139,
+      "volume_24h": 10430531.605,
+      "price_24h_pct": 39.1589,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "watch_now",
+      "conviction": 43.8,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "funding_negative",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_expansion": 1.0,
+        "whale_candle": 0.889,
+        "rsi_reset": 1.0,
+        "cmf_positive": 1.0,
+        "btc_decoupling": 1.0,
+        "funding_negative": 1.0,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 84937391.48333333,
+          "base_avg": 5561771.202857143
+        },
+        "whale_candle": {
+          "bars_ago": 1
+        },
+        "rsi_reset": {
+          "min_in_window": 9.7,
+          "rsi_now": 99.5
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 43.0,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.01161145,
+      "rs_btc_6h_pct": 42.34,
+      "error": null
+    },
+    {
+      "base": "HAEDAL",
+      "price": 0.01979,
+      "volume_24h": 675578.0652,
+      "price_24h_pct": 0.5561,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "watch_now",
+      "conviction": 42.9,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.941,
+        "vol_expansion": 0.448,
+        "whale_candle": 0.667,
+        "rsi_divergence": 0.555,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.996,
+        "btc_decoupling": 0.148
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 2539488.3333333335,
+          "base_avg": 893032.0
+        },
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.21,
+          "rsi_gap": 8.69,
+          "rsi1": 4.9,
+          "rsi2": 13.5
+        },
+        "rsi_reset": {
+          "min_in_window": 4.9,
+          "rsi_now": 73.5
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 4.38,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 6.42e-05,
+      "rs_btc_6h_pct": 3.72,
+      "error": null
+    },
+    {
+      "base": "BOND",
+      "price": 2.152,
+      "volume_24h": 704422.82223,
+      "price_24h_pct": 4.415,
+      "sources": [
+        "binance"
+      ],
+      "tier": "watch_now",
+      "conviction": 42.5,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "rsi_divergence",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.139,
+        "whale_candle": 0.578,
+        "rsi_divergence": 1.0,
+        "cmf_positive": 0.35,
+        "higher_lows": 1.0,
+        "btc_decoupling": 1.0,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 1
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 15.69,
+          "rsi_gap": -18.08,
+          "rsi1": 86.8,
+          "rsi2": 68.7
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 20.02,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 19.36,
+      "error": null
+    },
+    {
+      "base": "QQQ",
+      "price": 746.54,
+      "volume_24h": 886820.6434,
+      "price_24h_pct": 0.9723,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "watch_now",
+      "conviction": 42.0,
+      "signal_count": 7,
+      "fired_signals": [
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "whale_candle": 0.351,
+        "obv_stealth_accum": 0.732,
+        "rsi_divergence": 0.573,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.477,
+        "higher_lows": 0.147,
+        "price_range_break": 0.2
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 3.81,
+          "price_pct": 0.51
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 0.73,
+          "rsi_gap": -43.92,
+          "rsi1": 63.3,
+          "rsi2": 19.4
+        },
+        "rsi_reset": {
+          "min_in_window": 19.4,
+          "rsi_now": 75.4
+        }
+      },
+      "funding_rate": 0.00031085,
+      "rs_btc_6h_pct": -0.21,
+      "error": null
+    },
+    {
+      "base": "TOMO",
+      "price": 1.3819,
+      "volume_24h": 1094187.90188,
+      "price_24h_pct": 3.219,
+      "sources": [
+        "binance"
+      ],
+      "tier": "watch_now",
+      "conviction": 41.5,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.252,
+        "vol_expansion": 0.976,
+        "whale_candle": 0.943,
+        "rsi_reset": 1.0,
+        "cmf_positive": 1.0,
+        "btc_decoupling": 0.6,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 588199.8593416667,
+          "base_avg": 132813.83960571428
+        },
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "rsi_reset": {
+          "min_in_window": 25.6,
+          "rsi_now": 88.1
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 11.17,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 10.5,
+      "error": null
+    },
+    {
+      "base": "LAB",
+      "price": 12.422,
+      "volume_24h": 24308954.871,
+      "price_24h_pct": 37.6386,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "watch_now",
+      "conviction": 41.0,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_divergence",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.749,
+        "vol_expansion": 0.173,
+        "whale_candle": 1.0,
+        "obv_divergence": 0.179,
+        "cmf_positive": 1.0,
+        "btc_decoupling": 1.0,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 173245.0,
+          "base_avg": 85831.42857142857
+        },
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "obv_divergence": {
+          "price_drop_pct": 3.22
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 24.66,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 24.0,
+      "error": null
+    },
+    {
+      "base": "AT",
+      "price": 0.13217,
+      "volume_24h": 770173.3515,
+      "price_24h_pct": -5.8936,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "watch_now",
+      "conviction": 41.0,
+      "signal_count": 6,
+      "fired_signals": [
+        "bb_squeeze",
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.5,
+        "vol_in_window": 0.939,
+        "vol_expansion": 0.491,
+        "whale_candle": 0.743,
+        "rsi_divergence": 0.558,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 3.061,
+          "ttm_threshold_pct": 5.78,
+          "deep_threshold_pct": 3.416,
+          "rank_pct": 4.2,
+          "inside_kc": "False",
+          "trigger": "deep"
+        },
+        "vol_expansion": {
+          "recent_avg": 430534.5,
+          "base_avg": 144766.25714285715
+        },
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.58,
+          "rsi_gap": 10.53,
+          "rsi1": 1.7,
+          "rsi2": 12.2
+        },
+        "rsi_reset": {
+          "min_in_window": 1.7,
+          "rsi_now": 63.6
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 1.21,
+      "error": null
+    }
+  ],
+  "on_radar": [
+    {
+      "base": "QCOM",
+      "price": 231.48,
+      "volume_24h": 913270.4832,
+      "price_24h_pct": 4.2851,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 39.5,
+      "signal_count": 8,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.899,
+        "vol_expansion": 0.523,
+        "whale_candle": 0.667,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.641,
+        "higher_lows": 0.066,
+        "btc_decoupling": 0.145,
+        "price_range_break": 0.2
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 303.66833333333335,
+          "base_avg": 98.95314285714285
+        },
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "rsi_reset": {
+          "min_in_window": 28.0,
+          "rsi_now": 88.4
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 4.34,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 0.0,
+      "rs_btc_6h_pct": 3.67,
+      "error": null
+    },
+    {
+      "base": "ROSE",
+      "price": 0.007377,
+      "volume_24h": 3332143.99,
+      "price_24h_pct": 7.8316,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 39.4,
+      "signal_count": 8,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "funding_negative",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.251,
+        "vol_expansion": 0.102,
+        "whale_candle": 0.66,
+        "rsi_reset": 1.0,
+        "cmf_positive": 1.0,
+        "btc_decoupling": 0.282,
+        "funding_negative": 0.401,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 21208840.833333332,
+          "base_avg": 11737536.742857143
+        },
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "rsi_reset": {
+          "min_in_window": 17.9,
+          "rsi_now": 82.1
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 6.39,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.00020028,
+      "rs_btc_6h_pct": 5.73,
+      "error": null
+    },
+    {
+      "base": "KAS",
+      "price": 0.0339,
+      "volume_24h": 3802065.7535,
+      "price_24h_pct": 1.5273999999999999,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 38.7,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "cmf_positive",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.556,
+        "vol_expansion": 0.215,
+        "whale_candle": 0.302,
+        "obv_stealth_accum": 0.597,
+        "rsi_divergence": 0.791,
+        "cmf_positive": 0.397,
+        "btc_decoupling": 0.017
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 8537723.333333334,
+          "base_avg": 3977605.4285714286
+        },
+        "whale_candle": {
+          "bars_ago": 4
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 38.3,
+          "price_pct": 2.42
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 2.91,
+          "rsi_gap": -43.08,
+          "rsi1": 70.0,
+          "rsi2": 26.9
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 2.42,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 1.76,
+      "error": null
+    },
+    {
+      "base": "ETHUP",
+      "price": 11.651,
+      "volume_24h": 458839.22967,
+      "price_24h_pct": -0.724,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 37.0,
+      "signal_count": 7,
+      "fired_signals": [
+        "bb_squeeze",
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 1.0,
+        "vol_in_window": 0.279,
+        "vol_expansion": 0.055,
+        "obv_stealth_accum": 0.932,
+        "rsi_in_zone": 0.78,
+        "cmf_positive": 0.569,
+        "higher_lows": 0.19
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 3.787,
+          "ttm_threshold_pct": 6.479,
+          "deep_threshold_pct": 4.57,
+          "rank_pct": 0.0,
+          "inside_kc": "True",
+          "trigger": "ttm+deep"
+        },
+        "vol_expansion": {
+          "recent_avg": 95415.99183000001,
+          "base_avg": 57286.43237171428
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 16.31,
+          "price_pct": 0.41
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -0.81,
+      "error": null
+    },
+    {
+      "base": "SENT",
+      "price": 0.017174,
+      "volume_24h": 3000647.80726,
+      "price_24h_pct": 10.9962,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 35.5,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_expansion": 1.0,
+        "rsi_divergence": 0.606,
+        "rsi_reset": 1.0,
+        "cmf_positive": 1.0,
+        "btc_decoupling": 0.214,
+        "price_range_break": 0.736
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 13642813.333333334,
+          "base_avg": 2995513.4285714286
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.06,
+          "rsi_gap": 15.61,
+          "rsi1": 0.0,
+          "rsi2": 15.6
+        },
+        "rsi_reset": {
+          "min_in_window": 15.6,
+          "rsi_now": 88.5
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 5.37,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 4.71,
+      "error": null
+    },
+    {
+      "base": "ID",
+      "price": 0.02829,
+      "volume_24h": 2719939.9473,
+      "price_24h_pct": 0.7559,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 35.0,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "funding_negative"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.239,
+        "vol_expansion": 0.078,
+        "rsi_divergence": 0.774,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.446,
+        "btc_decoupling": 0.274,
+        "funding_negative": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 6063109.333333333,
+          "base_avg": 3499229.4571428574
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -2.74,
+          "rsi_gap": 18.49,
+          "rsi1": 17.5,
+          "rsi2": 36.0
+        },
+        "rsi_reset": {
+          "min_in_window": 0.0,
+          "rsi_now": 84.5
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 6.27,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.00154064,
+      "rs_btc_6h_pct": 5.61,
+      "error": null
+    },
+    {
+      "base": "BNB",
+      "price": 613.9,
+      "volume_24h": 121715709.59167,
+      "price_24h_pct": -0.7579,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 34.7,
+      "signal_count": 5,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.962,
+        "obv_divergence": 0.421,
+        "rsi_divergence": 0.554,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.276
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 11.89,
+          "price_pct": -0.23
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.54
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.54,
+          "rsi_gap": 17.69,
+          "rsi1": 0.0,
+          "rsi2": 17.7
+        },
+        "rsi_reset": {
+          "min_in_window": 0.0,
+          "rsi_now": 56.9
+        }
+      },
+      "funding_rate": -6.7e-05,
+      "rs_btc_6h_pct": -0.56,
+      "error": null
+    },
+    {
+      "base": "MDX",
+      "price": 0.0345,
+      "volume_24h": 314138.785907,
+      "price_24h_pct": 13.524,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 34.4,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.116,
+        "whale_candle": 1.0,
+        "rsi_divergence": 0.866,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.713
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -3.66,
+          "rsi_gap": 11.62,
+          "rsi1": 23.1,
+          "rsi2": 34.7
+        },
+        "rsi_reset": {
+          "min_in_window": 6.3,
+          "rsi_now": 65.4
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 12.86,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 12.19,
+      "error": null
+    },
+    {
+      "base": "WBETH",
+      "price": 1978.09,
+      "volume_24h": 2797265.564508,
+      "price_24h_pct": 3.129,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 34.0,
+      "signal_count": 5,
+      "fired_signals": [
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "whale_candle": 0.353,
+        "obv_stealth_accum": 0.899,
+        "rsi_divergence": 0.651,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.005
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 41.56,
+          "price_pct": 0.61
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.51,
+          "rsi_gap": 27.5,
+          "rsi1": 0.7,
+          "rsi2": 28.2
+        },
+        "rsi_reset": {
+          "min_in_window": 0.7,
+          "rsi_now": 79.2
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 2.23,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 1.57,
+      "error": null
+    },
+    {
+      "base": "SPX",
+      "price": 0.3814,
+      "volume_24h": 41355803.4519,
+      "price_24h_pct": 11.2294,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 33.6,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows",
+        "funding_negative"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.636,
+        "vol_expansion": 0.556,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.479,
+        "cmf_positive": 0.247,
+        "higher_lows": 1.0,
+        "funding_negative": 0.78
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 5848080.333333333,
+          "base_avg": 1846671.1142857142
+        },
+        "rsi_reset": {
+          "min_in_window": 12.0,
+          "rsi_now": 53.1
+        }
+      },
+      "funding_rate": -0.00039016,
+      "rs_btc_6h_pct": -2.94,
+      "error": null
+    },
+    {
+      "base": "DRAM",
+      "price": 72.803,
+      "volume_24h": 2903459.7348,
+      "price_24h_pct": 4.027,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 33.6,
+      "signal_count": 6,
+      "fired_signals": [
+        "whale_candle",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "whale_candle": 0.459,
+        "rsi_divergence": 0.749,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.206,
+        "btc_decoupling": 0.099,
+        "price_range_break": 0.2
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 2.49,
+          "rsi_gap": -34.83,
+          "rsi1": 63.1,
+          "rsi2": 28.3
+        },
+        "rsi_reset": {
+          "min_in_window": 28.3,
+          "rsi_now": 76.4
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.65,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 8.69e-05,
+      "rs_btc_6h_pct": 2.99,
+      "error": null
+    },
+    {
+      "base": "ORN",
+      "price": 1.053,
+      "volume_24h": 495531.1276,
+      "price_24h_pct": 1.641,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 33.5,
+      "signal_count": 5,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.483,
+        "rsi_divergence": 1.0,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.089,
+        "higher_lows": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 1.51,
+          "price_pct": 0.86
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 10.28,
+          "rsi_gap": -11.84,
+          "rsi1": 73.0,
+          "rsi2": 61.1
+        },
+        "rsi_reset": {
+          "min_in_window": 32.6,
+          "rsi_now": 60.3
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 0.88,
+      "error": null
+    },
+    {
+      "base": "SYN",
+      "price": 0.0501,
+      "volume_24h": 5507815.65574,
+      "price_24h_pct": 16.552,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 33.2,
+      "signal_count": 5,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.77,
+        "rsi_divergence": 1.0,
+        "rsi_reset": 0.181,
+        "rsi_in_zone": 0.608,
+        "higher_lows": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 6.02,
+          "price_pct": -1.38
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 16.35,
+          "rsi_gap": -11.87,
+          "rsi1": 72.0,
+          "rsi2": 60.2
+        },
+        "rsi_reset": {
+          "min_in_window": 35.8,
+          "rsi_now": 36.2
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -7.02,
+      "error": null
+    },
+    {
+      "base": "SLF",
+      "price": 0.0208,
+      "volume_24h": 306328.7021,
+      "price_24h_pct": -12.236,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 33.2,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_in_zone"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.932,
+        "vol_expansion": 0.344,
+        "obv_divergence": 1.0,
+        "rsi_divergence": 1.0,
+        "rsi_in_zone": 0.007
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 1117780.0400133333,
+          "base_avg": 441622.57300228573
+        },
+        "obv_divergence": {
+          "price_drop_pct": 20.29
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -20.29,
+          "rsi_gap": 12.1,
+          "rsi1": 4.2,
+          "rsi2": 16.3
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -26.11,
+      "error": null
+    },
+    {
+      "base": "ZEC",
+      "price": 514.46,
+      "volume_24h": 250465210.2421,
+      "price_24h_pct": -3.7643999999999997,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 33.0,
+      "signal_count": 5,
+      "fired_signals": [
+        "bb_squeeze",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.083,
+        "obv_stealth_accum": 0.578,
+        "rsi_divergence": 1.0,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.543
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 4.374,
+          "ttm_threshold_pct": 4.553,
+          "deep_threshold_pct": 2.462,
+          "rank_pct": 18.3,
+          "inside_kc": "True",
+          "trigger": "ttm"
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 1.71,
+          "price_pct": 0.38
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 22.07,
+          "rsi_gap": -16.95,
+          "rsi1": 36.1,
+          "rsi2": 19.2
+        },
+        "rsi_reset": {
+          "min_in_window": 10.8,
+          "rsi_now": 35.0
+        }
+      },
+      "funding_rate": 0.0001,
+      "rs_btc_6h_pct": -2.14,
+      "error": null
+    },
+    {
+      "base": "BEAM",
+      "price": 0.0015783,
+      "volume_24h": 739250.4197,
+      "price_24h_pct": 6.1548,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.9,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.409,
+        "vol_expansion": 0.029,
+        "whale_candle": 0.325,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.843,
+        "btc_decoupling": 0.16,
+        "price_range_break": 0.622
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 25074233.333333332,
+          "base_avg": 15812020.0
+        },
+        "whale_candle": {
+          "bars_ago": 4
+        },
+        "rsi_reset": {
+          "min_in_window": 1.6,
+          "rsi_now": 95.9
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 4.56,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 3.9,
+      "error": null
+    },
+    {
+      "base": "NIGHT",
+      "price": 0.03374,
+      "volume_24h": 17848316.69695,
+      "price_24h_pct": 1.6407999999999998,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.9,
+      "signal_count": 6,
+      "fired_signals": [
+        "bb_squeeze",
+        "vol_in_window",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "rsi_in_zone",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.958,
+        "vol_in_window": 0.077,
+        "obv_stealth_accum": 0.941,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.36,
+        "higher_lows": 0.042
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 2.496,
+          "ttm_threshold_pct": 5.361,
+          "deep_threshold_pct": 3.519,
+          "rank_pct": 0.8,
+          "inside_kc": "True",
+          "trigger": "ttm+deep"
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 5.83,
+          "price_pct": 0.27
+        },
+        "rsi_reset": {
+          "min_in_window": 19.9,
+          "rsi_now": 55.3
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": -0.42,
+      "error": null
+    },
+    {
+      "base": "ETH",
+      "price": 1798.91,
+      "volume_24h": 3196483136.1984,
+      "price_24h_pct": 3.2555,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.7,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.905,
+        "obv_divergence": 0.494,
+        "rsi_divergence": 0.662,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 23.05,
+          "price_pct": 0.57
+        },
+        "obv_divergence": {
+          "price_drop_pct": 1.62
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.62,
+          "rsi_gap": 20.67,
+          "rsi1": 0.0,
+          "rsi2": 20.7
+        },
+        "rsi_reset": {
+          "min_in_window": 0.0,
+          "rsi_now": 79.8
+        }
+      },
+      "funding_rate": 9.694e-05,
+      "rs_btc_6h_pct": 1.48,
+      "error": null
+    },
+    {
+      "base": "MUB",
+      "price": 1123.68,
+      "volume_24h": 964860.62943,
+      "price_24h_pct": 4.048,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.6,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_in_window",
+        "whale_candle",
+        "rsi_divergence",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.151,
+        "whale_candle": 0.667,
+        "rsi_divergence": 0.561,
+        "cmf_positive": 0.755,
+        "higher_lows": 0.121,
+        "btc_decoupling": 0.15
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 0.61,
+          "rsi_gap": -46.47,
+          "rsi1": 81.0,
+          "rsi2": 34.6
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 4.41,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 3.75,
+      "error": null
+    },
+    {
+      "base": "INX",
+      "price": 0.008152,
+      "volume_24h": 948334.924,
+      "price_24h_pct": -2.2512999999999996,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.6,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.348,
+        "vol_expansion": 0.141,
+        "obv_stealth_accum": 0.832,
+        "rsi_divergence": 0.552,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.069
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 6926676.666666667,
+          "base_avg": 3600185.4285714286
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 5.52,
+          "price_pct": 0.77
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 0.52,
+          "rsi_gap": -31.62,
+          "rsi1": 51.3,
+          "rsi2": 19.7
+        },
+        "rsi_reset": {
+          "min_in_window": 8.3,
+          "rsi_now": 71.3
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.19,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 2.53,
+      "error": null
+    },
+    {
+      "base": "COCOS",
+      "price": 1.7546,
+      "volume_24h": 1531715.9424,
+      "price_24h_pct": 3.443,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.5,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.573,
+        "vol_expansion": 0.272,
+        "obv_stealth_accum": 0.646,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.61,
+        "cmf_positive": 0.052,
+        "higher_lows": 0.095
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 839298.85145,
+          "base_avg": 362472.58708
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 45.25,
+          "price_pct": 2.12
+        },
+        "rsi_reset": {
+          "min_in_window": 31.2,
+          "rsi_now": 50.7
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -2.07,
+      "error": null
+    },
+    {
+      "base": "COAI",
+      "price": 0.3423,
+      "volume_24h": 4803402.0857,
+      "price_24h_pct": 7.284699999999999,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.5,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_in_window",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.067,
+        "obv_divergence": 1.0,
+        "rsi_divergence": 0.67,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.402
+      },
+      "signal_extras": {
+        "obv_divergence": {
+          "price_drop_pct": 1.7
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.7,
+          "rsi_gap": 19.79,
+          "rsi1": 22.2,
+          "rsi2": 42.0
+        },
+        "rsi_reset": {
+          "min_in_window": 22.2,
+          "rsi_now": 79.7
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 8.19,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 7.52,
+      "error": null
+    },
+    {
+      "base": "PLA",
+      "price": 0.2347,
+      "volume_24h": 802650.287482,
+      "price_24h_pct": 5.531,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.2,
+      "signal_count": 7,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.336,
+        "vol_expansion": 0.018,
+        "obv_stealth_accum": 0.72,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.378,
+        "higher_lows": 0.176,
+        "btc_decoupling": 0.367
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 159680.24849416668,
+          "base_avg": 102657.19084602858
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 3.93,
+          "price_pct": 0.64
+        },
+        "rsi_reset": {
+          "min_in_window": 18.8,
+          "rsi_now": 77.2
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 7.66,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 7.0,
+      "error": null
+    },
+    {
+      "base": "AWE",
+      "price": 0.05452,
+      "volume_24h": 574957.26006,
+      "price_24h_pct": 0.552,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.2,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_reset",
+        "cmf_positive"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.742,
+        "obv_divergence": 1.0,
+        "rsi_reset": 1.0,
+        "cmf_positive": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 224.85,
+          "price_pct": 1.55
+        },
+        "obv_divergence": {
+          "price_drop_pct": 1.1
+        },
+        "rsi_reset": {
+          "min_in_window": 7.7,
+          "rsi_now": 88.5
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -0.77,
+      "error": null
+    },
+    {
+      "base": "ORCA",
+      "price": 1.1837,
+      "volume_24h": 5752850.4739,
+      "price_24h_pct": 4.5846,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 32.0,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_expansion",
+        "whale_candle",
+        "rsi_reset",
+        "cmf_positive",
+        "btc_decoupling",
+        "funding_negative"
+      ],
+      "signal_strengths": {
+        "vol_expansion": 1.0,
+        "whale_candle": 0.444,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.371,
+        "btc_decoupling": 0.103,
+        "funding_negative": 0.641
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 523019.56666666665,
+          "base_avg": 82792.83142857143
+        },
+        "whale_candle": {
+          "bars_ago": 5
+        },
+        "rsi_reset": {
+          "min_in_window": 27.9,
+          "rsi_now": 63.8
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.71,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.00032042,
+      "rs_btc_6h_pct": 3.04,
+      "error": null
+    },
+    {
+      "base": "1000FLOKI",
+      "price": 0.02641,
+      "volume_24h": 2191346.9048,
+      "price_24h_pct": 0.41650000000000004,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 31.8,
+      "signal_count": 5,
+      "fired_signals": [
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone",
+        "funding_negative"
+      ],
+      "signal_strengths": {
+        "obv_divergence": 1.0,
+        "rsi_divergence": 0.569,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.09,
+        "funding_negative": 0.29
+      },
+      "signal_extras": {
+        "obv_divergence": {
+          "price_drop_pct": 0.69
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.69,
+          "rsi_gap": 11.67,
+          "rsi1": 0.8,
+          "rsi2": 12.5
+        },
+        "rsi_reset": {
+          "min_in_window": 0.8,
+          "rsi_now": 60.3
+        }
+      },
+      "funding_rate": -0.00014498,
+      "rs_btc_6h_pct": -0.43,
+      "error": null
+    },
+    {
+      "base": "VIC",
+      "price": 0.0402,
+      "volume_24h": 1719837.250913,
+      "price_24h_pct": 13.609,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 31.4,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_expansion",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "vol_expansion": 1.0,
+        "rsi_divergence": 0.653,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 1.0,
+        "price_range_break": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 203531.65345800002,
+          "base_avg": 18337.899101628573
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 1.53,
+          "rsi_gap": -14.69,
+          "rsi1": 45.5,
+          "rsi2": 30.8
+        },
+        "rsi_reset": {
+          "min_in_window": 17.6,
+          "rsi_now": 94.4
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 17.89,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 17.23,
+      "error": null
+    },
+    {
+      "base": "BANK",
+      "price": 0.0409,
+      "volume_24h": 554047.84498,
+      "price_24h_pct": 0.993,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 31.3,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "whale_candle",
+        "obv_stealth_accum",
+        "rsi_in_zone",
+        "cmf_positive"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.599,
+        "vol_expansion": 0.267,
+        "whale_candle": 0.377,
+        "obv_stealth_accum": 0.835,
+        "rsi_in_zone": 0.593,
+        "cmf_positive": 0.244
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 45217.67780833334,
+          "base_avg": 19646.41677142857
+        },
+        "whale_candle": {
+          "bars_ago": 5
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 85.93,
+          "price_pct": 0.99
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -0.17,
+      "error": null
+    },
+    {
+      "base": "IN",
+      "price": 0.0761,
+      "volume_24h": 968392.6739,
+      "price_24h_pct": 1.8928,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 31.2,
+      "signal_count": 5,
+      "fired_signals": [
+        "bb_squeeze",
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.583,
+        "obv_stealth_accum": 0.439,
+        "rsi_divergence": 0.571,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.081
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 3.733,
+          "ttm_threshold_pct": 5.152,
+          "deep_threshold_pct": 3.266,
+          "rank_pct": 8.3,
+          "inside_kc": "True",
+          "trigger": "ttm"
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 5.17,
+          "price_pct": 2.95
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.71,
+          "rsi_gap": 11.6,
+          "rsi1": 26.3,
+          "rsi2": 37.9
+        },
+        "rsi_reset": {
+          "min_in_window": 26.3,
+          "rsi_now": 86.1
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.38,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 2.72,
+      "error": null
+    },
+    {
+      "base": "MON",
+      "price": 0.023656,
+      "volume_24h": 3152064.8614,
+      "price_24h_pct": 5.0508,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 31.0,
+      "signal_count": 6,
+      "fired_signals": [
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling",
+        "funding_negative",
+        "price_range_break"
+      ],
+      "signal_strengths": {
+        "obv_divergence": 0.172,
+        "rsi_divergence": 0.587,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.152,
+        "funding_negative": 0.232,
+        "price_range_break": 0.679
+      },
+      "signal_extras": {
+        "obv_divergence": {
+          "price_drop_pct": 0.87
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.87,
+          "rsi_gap": 21.36,
+          "rsi1": 11.2,
+          "rsi2": 32.6
+        },
+        "rsi_reset": {
+          "min_in_window": 11.2,
+          "rsi_now": 100.0
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 4.44,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.00011606,
+      "rs_btc_6h_pct": 3.78,
+      "error": null
+    },
+    {
+      "base": "ACX",
+      "price": 0.04183,
+      "volume_24h": 533416.5064,
+      "price_24h_pct": -2.5694000000000004,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 31.0,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_divergence",
+        "rsi_reset",
+        "rsi_in_zone"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.83,
+        "vol_expansion": 0.478,
+        "obv_divergence": 1.0,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.882
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 723643.8333333334,
+          "base_avg": 246700.0
+        },
+        "obv_divergence": {
+          "price_drop_pct": 1.79
+        },
+        "rsi_reset": {
+          "min_in_window": 13.2,
+          "rsi_now": 41.3
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": -2.01,
+      "error": null
+    },
+    {
+      "base": "OMG",
+      "price": 0.383,
+      "volume_24h": 683758.0092,
+      "price_24h_pct": -0.777,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.9,
+      "signal_count": 6,
+      "fired_signals": [
+        "bb_squeeze",
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_reset",
+        "rsi_in_zone",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.75,
+        "vol_in_window": 0.986,
+        "vol_expansion": 0.39,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.757,
+        "higher_lows": 0.053
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 3.156,
+          "ttm_threshold_pct": 4.355,
+          "deep_threshold_pct": 3.149,
+          "rank_pct": 5.0,
+          "inside_kc": "True",
+          "trigger": "ttm"
+        },
+        "vol_expansion": {
+          "recent_avg": 170438.18866666665,
+          "base_avg": 63831.86908571429
+        },
+        "rsi_reset": {
+          "min_in_window": 15.4,
+          "rsi_now": 48.0
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -1.69,
+      "error": null
+    },
+    {
+      "base": "REP",
+      "price": 4.73,
+      "volume_24h": 473556.1177,
+      "price_24h_pct": -0.839,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.8,
+      "signal_count": 6,
+      "fired_signals": [
+        "bb_squeeze",
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.458,
+        "vol_in_window": 0.495,
+        "vol_expansion": 0.174,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.676,
+        "cmf_positive": 1.0
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 2.355,
+          "ttm_threshold_pct": 2.721,
+          "deep_threshold_pct": 1.843,
+          "rank_pct": 10.8,
+          "inside_kc": "True",
+          "trigger": "ttm"
+        },
+        "vol_expansion": {
+          "recent_avg": 21632.158116666666,
+          "base_avg": 10696.79770857143
+        },
+        "rsi_reset": {
+          "min_in_window": 0.0,
+          "rsi_now": 37.5
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -1.29,
+      "error": null
+    },
+    {
+      "base": "SPACE",
+      "price": 0.008338,
+      "volume_24h": 19919928.1428,
+      "price_24h_pct": 27.430799999999998,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.5,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_expansion",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows",
+        "funding_negative"
+      ],
+      "signal_strengths": {
+        "vol_expansion": 1.0,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.826,
+        "higher_lows": 1.0,
+        "funding_negative": 1.0
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 212700193.33333334,
+          "base_avg": 20419240.0
+        },
+        "rsi_reset": {
+          "min_in_window": 11.0,
+          "rsi_now": 65.2
+        }
+      },
+      "funding_rate": -0.00407985,
+      "rs_btc_6h_pct": -2.36,
+      "error": null
+    },
+    {
+      "base": "STORJ",
+      "price": 0.0792,
+      "volume_24h": 260365.9566,
+      "price_24h_pct": -0.126,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.5,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.937,
+        "obv_divergence": 0.18,
+        "rsi_divergence": 0.564,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 21.58,
+          "price_pct": 0.38
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.64
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.64,
+          "rsi_gap": 13.29,
+          "rsi1": 30.3,
+          "rsi2": 43.6
+        },
+        "rsi_reset": {
+          "min_in_window": 20.7,
+          "rsi_now": 71.4
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 0.36,
+      "error": null
+    },
+    {
+      "base": "BB",
+      "price": 0.02317,
+      "volume_24h": 1152786.9588,
+      "price_24h_pct": -0.258,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.4,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.706,
+        "obv_divergence": 0.314,
+        "rsi_divergence": 0.592,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 5.01,
+          "price_pct": 1.27
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.92
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.92,
+          "rsi_gap": 25.79,
+          "rsi1": 2.7,
+          "rsi2": 28.5
+        },
+        "rsi_reset": {
+          "min_in_window": 2.7,
+          "rsi_now": 70.3
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 0.34,
+      "error": null
+    },
+    {
+      "base": "NEO",
+      "price": 2.288,
+      "volume_24h": 412799.06822,
+      "price_24h_pct": 0.0,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.4,
+      "signal_count": 4,
+      "fired_signals": [
+        "whale_candle",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "whale_candle": 0.339,
+        "obv_divergence": 0.332,
+        "rsi_divergence": 0.592,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.92
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.92,
+          "rsi_gap": 22.86,
+          "rsi1": 9.0,
+          "rsi2": 31.8
+        },
+        "rsi_reset": {
+          "min_in_window": 9.0,
+          "rsi_now": 68.6
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 0.35,
+      "error": null
+    },
+    {
+      "base": "ETHBTC",
+      "price": 0.02706,
+      "volume_24h": 924155.6048,
+      "price_24h_pct": 2.5491,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.3,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.883,
+        "rsi_divergence": 0.699,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.737
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 4.86,
+          "price_pct": 0.13
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 1.99,
+          "rsi_gap": -24.27,
+          "rsi1": 25.7,
+          "rsi2": 1.4
+        },
+        "rsi_reset": {
+          "min_in_window": 1.4,
+          "rsi_now": 75.2
+        }
+      },
+      "funding_rate": 0.0,
+      "rs_btc_6h_pct": 0.76,
+      "error": null
+    },
+    {
+      "base": "FORM",
+      "price": 0.2312,
+      "volume_24h": 628473.18605,
+      "price_24h_pct": -0.3,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.2,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_reset",
+        "cmf_positive"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.245,
+        "vol_expansion": 0.038,
+        "obv_stealth_accum": 0.669,
+        "obv_divergence": 0.168,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.008
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 38712.90254666667,
+          "base_avg": 24002.124541428573
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 4.66,
+          "price_pct": 1.31
+        },
+        "obv_divergence": {
+          "price_drop_pct": 2.68
+        },
+        "rsi_reset": {
+          "min_in_window": 7.6,
+          "rsi_now": 78.8
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 0.61,
+      "error": null
+    },
+    {
+      "base": "QNTX",
+      "price": 59.11,
+      "volume_24h": 1462850.045,
+      "price_24h_pct": 1.8457000000000001,
+      "sources": [
+        "bybit"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.1,
+      "signal_count": 5,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.572,
+        "rsi_divergence": 0.591,
+        "rsi_reset": 1.0,
+        "cmf_positive": 0.097,
+        "higher_lows": 0.183
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 39.37,
+          "price_pct": 2.57
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 0.91,
+          "rsi_gap": -10.71,
+          "rsi1": 32.0,
+          "rsi2": 21.3
+        },
+        "rsi_reset": {
+          "min_in_window": 9.8,
+          "rsi_now": 69.1
+        }
+      },
+      "funding_rate": 0.00074898,
+      "rs_btc_6h_pct": 0.9,
+      "error": null
+    },
+    {
+      "base": "PNUT",
+      "price": 0.04577,
+      "volume_24h": 1414591.24485,
+      "price_24h_pct": 0.0656,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.1,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.737,
+        "obv_divergence": 0.22,
+        "rsi_divergence": 0.607,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 14.21,
+          "price_pct": 1.58
+        },
+        "obv_divergence": {
+          "price_drop_pct": 1.07
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.07,
+          "rsi_gap": 16.95,
+          "rsi1": 1.0,
+          "rsi2": 17.9
+        },
+        "rsi_reset": {
+          "min_in_window": 1.0,
+          "rsi_now": 81.9
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 1.3,
+      "error": null
+    },
+    {
+      "base": "BNX",
+      "price": 1.7819,
+      "volume_24h": 768036.30934,
+      "price_24h_pct": 2.81,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 30.0,
+      "signal_count": 5,
+      "fired_signals": [
+        "whale_candle",
+        "rsi_divergence",
+        "rsi_in_zone",
+        "cmf_positive",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "whale_candle": 0.629,
+        "rsi_divergence": 0.629,
+        "rsi_in_zone": 0.077,
+        "cmf_positive": 1.0,
+        "btc_decoupling": 0.279
+      },
+      "signal_extras": {
+        "whale_candle": {
+          "bars_ago": 3
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.29,
+          "rsi_gap": 24.86,
+          "rsi1": 17.7,
+          "rsi2": 42.6
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 6.35,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 5.69,
+      "error": null
+    },
+    {
+      "base": "WCT",
+      "price": 0.04795,
+      "volume_24h": 2278364.4914,
+      "price_24h_pct": -0.35109999999999997,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.9,
+      "signal_count": 5,
+      "fired_signals": [
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset",
+        "btc_decoupling",
+        "funding_negative"
+      ],
+      "signal_strengths": {
+        "obv_divergence": 0.59,
+        "rsi_divergence": 0.662,
+        "rsi_reset": 1.0,
+        "btc_decoupling": 0.08,
+        "funding_negative": 0.236
+      },
+      "signal_extras": {
+        "obv_divergence": {
+          "price_drop_pct": 1.62
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -1.62,
+          "rsi_gap": 22.63,
+          "rsi1": 6.5,
+          "rsi2": 29.1
+        },
+        "rsi_reset": {
+          "min_in_window": 6.5,
+          "rsi_now": 96.9
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.36,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": -0.00011791,
+      "rs_btc_6h_pct": 2.7,
+      "error": null
+    },
+    {
+      "base": "PARTI",
+      "price": 0.05829,
+      "volume_24h": 1127880.89478,
+      "price_24h_pct": 3.8608999999999996,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.9,
+      "signal_count": 5,
+      "fired_signals": [
+        "bb_squeeze",
+        "whale_candle",
+        "rsi_reset",
+        "higher_lows",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.5,
+        "whale_candle": 0.842,
+        "rsi_reset": 1.0,
+        "higher_lows": 0.169,
+        "btc_decoupling": 0.077
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 4.071,
+          "ttm_threshold_pct": 4.659,
+          "deep_threshold_pct": 3.312,
+          "rank_pct": 10.0,
+          "inside_kc": "True",
+          "trigger": "ttm"
+        },
+        "whale_candle": {
+          "bars_ago": 0
+        },
+        "rsi_reset": {
+          "min_in_window": 22.3,
+          "rsi_now": 74.8
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.31,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 2.65,
+      "error": null
+    },
+    {
+      "base": "KSM",
+      "price": 3.79,
+      "volume_24h": 325348.82862,
+      "price_24h_pct": -0.524,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.9,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.867,
+        "obv_divergence": 0.111,
+        "rsi_divergence": 0.58,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 19.48,
+          "price_pct": 0.8
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.8
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.8,
+          "rsi_gap": 22.32,
+          "rsi1": 6.3,
+          "rsi2": 28.6
+        },
+        "rsi_reset": {
+          "min_in_window": 6.3,
+          "rsi_now": 72.7
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -0.13,
+      "error": null
+    },
+    {
+      "base": "UNI",
+      "price": 3.014,
+      "volume_24h": 47859069.4207,
+      "price_24h_pct": 12.7191,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.7,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "obv_stealth_accum",
+        "cmf_positive",
+        "higher_lows",
+        "btc_decoupling"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.323,
+        "vol_expansion": 0.176,
+        "obv_stealth_accum": 0.759,
+        "cmf_positive": 0.982,
+        "higher_lows": 0.812,
+        "btc_decoupling": 0.087
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 791120.9666666667,
+          "base_avg": 390247.66
+        },
+        "obv_stealth_accum": {
+          "obv_pct": 15.27,
+          "price_pct": 1.45
+        },
+        "btc_decoupling": {
+          "token_ret_pct": 3.47,
+          "btc_ret_pct": 0.66
+        }
+      },
+      "funding_rate": 0.0001,
+      "rs_btc_6h_pct": 2.81,
+      "error": null
+    },
+    {
+      "base": "MUBARAK",
+      "price": 0.01101,
+      "volume_24h": 369224.535701,
+      "price_24h_pct": -0.361,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.7,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.801,
+        "obv_divergence": 0.139,
+        "rsi_divergence": 0.565,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 11.05,
+          "price_pct": 1.19
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.65
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.65,
+          "rsi_gap": 19.71,
+          "rsi1": 11.7,
+          "rsi2": 31.4
+        },
+        "rsi_reset": {
+          "min_in_window": 10.2,
+          "rsi_now": 71.7
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 0.44,
+      "error": null
+    },
+    {
+      "base": "KITE",
+      "price": 0.1924,
+      "volume_24h": 1147975.6865,
+      "price_24h_pct": -1.7706,
+      "sources": [
+        "bybit",
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.6,
+      "signal_count": 4,
+      "fired_signals": [
+        "bb_squeeze",
+        "obv_divergence",
+        "rsi_divergence",
+        "rsi_reset"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 1.0,
+        "obv_divergence": 0.058,
+        "rsi_divergence": 0.464,
+        "rsi_reset": 1.0
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 2.013,
+          "ttm_threshold_pct": 3.061,
+          "deep_threshold_pct": 2.573,
+          "rank_pct": 0.0,
+          "inside_kc": "True",
+          "trigger": "ttm+deep"
+        },
+        "obv_divergence": {
+          "price_drop_pct": 0.67
+        },
+        "rsi_divergence": {
+          "kind": "bullish",
+          "price_change_pct": -0.67,
+          "rsi_gap": 7.92,
+          "rsi1": 32.0,
+          "rsi2": 39.9
+        },
+        "rsi_reset": {
+          "min_in_window": 15.4,
+          "rsi_now": 76.3
+        }
+      },
+      "funding_rate": 0.0001466,
+      "rs_btc_6h_pct": -0.4,
+      "error": null
+    },
+    {
+      "base": "MFT",
+      "price": 0.005254,
+      "volume_24h": 746802.044777,
+      "price_24h_pct": -0.849,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.5,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_in_window",
+        "vol_expansion",
+        "rsi_reset",
+        "rsi_in_zone",
+        "cmf_positive",
+        "higher_lows"
+      ],
+      "signal_strengths": {
+        "vol_in_window": 0.456,
+        "vol_expansion": 0.897,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.959,
+        "cmf_positive": 0.62,
+        "higher_lows": 0.049
+      },
+      "signal_extras": {
+        "vol_expansion": {
+          "recent_avg": 60205.237061833344,
+          "base_avg": 14366.56227962857
+        },
+        "rsi_reset": {
+          "min_in_window": 21.0,
+          "rsi_now": 44.3
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": -1.73,
+      "error": null
+    },
+    {
+      "base": "BAL",
+      "price": 0.967,
+      "volume_24h": 231043.32076,
+      "price_24h_pct": -3.685,
+      "sources": [
+        "binance"
+      ],
+      "tier": "on_radar",
+      "conviction": 29.4,
+      "signal_count": 4,
+      "fired_signals": [
+        "obv_stealth_accum",
+        "rsi_divergence",
+        "rsi_reset",
+        "rsi_in_zone"
+      ],
+      "signal_strengths": {
+        "obv_stealth_accum": 0.646,
+        "rsi_divergence": 1.0,
+        "rsi_reset": 1.0,
+        "rsi_in_zone": 0.954
+      },
+      "signal_extras": {
+        "obv_stealth_accum": {
+          "obv_pct": 847.84,
+          "price_pct": -2.13
+        },
+        "rsi_divergence": {
+          "kind": "hidden_bullish",
+          "price_change_pct": 8.19,
+          "rsi_gap": -32.73,
+          "rsi1": 32.7,
+          "rsi2": 0.0
+        },
+        "rsi_reset": {
+          "min_in_window": 0.0,
+          "rsi_now": 42.6
+        }
+      },
+      "funding_rate": null,
+      "rs_btc_6h_pct": 0.17,
+      "error": null
+    }
+  ]
+}

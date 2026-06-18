@@ -228,7 +228,7 @@ def score_ticker(
         return None
 
     # OI change vs previous snapshot
-    if prev_oi and prev_oi > 0:
+    if isinstance(prev_oi, (int, float)) and prev_oi > 0:
         oi_change_pct = (oi - prev_oi) / prev_oi
     else:
         oi_change_pct = 0.0   # No prior snapshot → no signal possible
@@ -562,9 +562,11 @@ def run(top_n: int = 50) -> dict:
     txt_ts      = _OUTPUT_DIR / f"perp_v3_{ts_file}.txt"
     txt_latest  = _OUTPUT_DIR / "perp_v3_LATEST.txt"
     json_latest = _OUTPUT_DIR / "perp_v3_LATEST.json"
+    json_ts     = _OUTPUT_DIR / f"perp_v3_{ts_file}.json"
 
     txt_ts.write_text(report_text, encoding="utf-8")
     txt_latest.write_text(report_text, encoding="utf-8")
+    json_ts.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     json_latest.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     log.info(f"  Saved → {txt_latest.name}, {json_latest.name}, {txt_ts.name}")
 

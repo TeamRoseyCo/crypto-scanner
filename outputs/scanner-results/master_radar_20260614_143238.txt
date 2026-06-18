@@ -1,0 +1,144 @@
+════════════════════════════════════════════════════════════════════════════════
+  MASTER RADAR  v3.0  —  cross-scanner confluence
+  Generated  : 2026-06-14 14:32:38    |    Orchestration time: 70.0s
+════════════════════════════════════════════════════════════════════════════════
+
+  ⚠️  WARNINGS:
+     - spot: not auto-run by orchestrator. spot_scanner: file not found (spot_trade_plan_LATEST.json). Run `python spot_scanner.py` manually to refresh.
+
+  Regime    : 🟢 BULL    BTC 7d +5.87%  |  24h +1.38%
+
+  Universe  : 167 coins surfaced across scanners
+  Buckets   : 1 CONVERGENCE  |  17 STRONG SETUP  |  139 SINGLE-SCANNER  |  10 EXTENDED (24h>15%)
+
+  Scanner badges: I=Ignition  P=Perp  S=Spot  T=Trend
+                   ★★=top tier  ★=lower tier  ·=watch (trend only)
+
+────────────────────────────────────────────────────────────────────────────────
+  CONVERGENCE  —  1 coin(s)  (≥3 scanners agreeing, confluence ≥10)
+────────────────────────────────────────────────────────────────────────────────
+
+  [ 1] MIRA        conf= 10.0  scanners=3/4   I★★  P★     ·    T·     $0.053300  24h=+9.25%  vol=$2.4M
+       → I:[vol_expansion, whale_candle, rsi_reset +4]  |  P:[funding_negative, vol_oi_surge]  |  T:[score=94, ST=3/6]
+
+────────────────────────────────────────────────────────────────────────────────
+  STRONG SETUP  —  17 coin(s)  (≥2 scanners, confluence ≥6)
+────────────────────────────────────────────────────────────────────────────────
+
+  [ 1] JASMY       conf=  9.0  scanners=2/4   I★★    ·      ·    T★     $0.005097  24h=+11.53%  vol=$5.4M
+       → I:[vol_in_window, vol_expansion, obv_stealth_accum +4]  |  T:[score=118, ST=4/6]
+       Plan (trend): entry $0.005097  |  stop $0.004545 -10.82%  |  TPs: $0.005924, $0.006752, $0.007855
+
+  [ 2] HYPE        conf=  9.0  scanners=2/4   I★★    ·      ·    T★     $60.665000  24h=+2.36%  vol=$213.2M
+       → I:[bb_squeeze, vol_in_window, obv_stealth_accum +4]  |  T:[score=120, ST=3/6]
+       Plan (trend): entry $60.665000  |  stop $51.565250 -15.00%  |  TPs: $74.314625, $87.964250, $106.163750
+
+  [ 3] H           conf=  9.0  scanners=2/4     ·    P★★    ·    T★     $0.341950  24h=-15.54%  vol=$271.6M
+       → P:[oi_building, funding_negative, vol_oi_surge]  |  T:[score=118, ST=5/6]
+       Plan (trend): entry $0.341950  |  stop $0.290658 -15.00%  |  TPs: $0.418889, $0.495827, $0.598413
+
+  [ 4] NEWT        conf=  9.0  scanners=2/4   I★★  P★     ·      ·      $0.054550  24h=+2.98%  vol=$1.5M
+       → I:[vol_expansion, whale_candle, obv_stealth_accum +5]  |  P:[oi_building, funding_negative]
+
+  [ 5] BLUAI       conf=  9.0  scanners=2/4   I★★    ·      ·    T★     $0.011341  24h=+9.21%  vol=$3.9M
+       → I:[vol_in_window, vol_expansion, whale_candle +4]  |  T:[score=108, ST=4/6]
+       Plan (trend): entry $0.011341  |  stop $0.009640 -15.00%  |  TPs: $0.013893, $0.016444, $0.019847
+
+  [ 6] ZKP         conf=  9.0  scanners=2/4     ·    P★★    ·    T★     $0.056660  24h=+7.01%  vol=$3.4M
+       → P:[oi_building, funding_negative, vol_oi_surge]  |  T:[score=116, ST=3/6]
+       Plan (trend): entry $0.056660  |  stop $0.050037 -11.69%  |  TPs: $0.066594, $0.076527, $0.089773
+
+  [ 7] MEGA        conf=  8.0  scanners=2/4   I★     ·      ·    T★★    $0.062640  24h=+13.95%  vol=$39.9M
+       → I:[rsi_divergence, rsi_reset, rsi_in_zone +2]  |  T:[score=136, ST=6/6]
+       Plan (trend): entry $0.062640  |  stop $0.053244 -15.00%  |  TPs: $0.076734, $0.090828, $0.109620
+
+  [ 8] UAI         conf=  7.0  scanners=2/4   I★★    ·      ·    T·     $0.265870  24h=+6.68%  vol=$1.8M
+       → I:[vol_in_window, vol_expansion, whale_candle +4]  |  T:[score=97, ST=4/6]
+
+  [ 9] ETHFI       conf=  7.0  scanners=2/4   I★★    ·      ·    T·     $0.317100  24h=-3.26%  vol=$2.7M
+       → I:[bb_squeeze, vol_in_window, vol_expansion +4]  |  T:[score=94, ST=3/6]
+
+  [10] NIL         conf=  7.0  scanners=2/4   I★★    ·      ·    T·     $0.038830  24h=-1.41%  vol=$3.3M
+       → I:[vol_in_window, whale_candle, rsi_divergence +5]  |  T:[score=99, ST=4/6]
+
+  [11] PNUT        conf=  7.0  scanners=2/4   I★★    ·      ·    T·     $0.044410  24h=-1.99%  vol=$2.3M
+       → I:[bb_squeeze, vol_in_window, vol_expansion +4]  |  T:[score=94, ST=3/6]
+
+  [12] FIDA        conf=  6.0  scanners=2/4   I★     ·      ·    T★     $0.022939  24h=+2.15%  vol=$2.6M
+       → I:[bb_squeeze, rsi_divergence, rsi_reset +3]  |  T:[score=116, ST=5/6]
+       Plan (trend): entry $0.022939  |  stop $0.019498 -15.00%  |  TPs: $0.028100, $0.033262, $0.040143
+
+  [13] ORDI        conf=  6.0  scanners=2/4   I★     ·      ·    T★     $3.354000  24h=-2.78%  vol=$6.0M
+       → I:[obv_stealth_accum, obv_divergence, rsi_reset +1]  |  T:[score=101, ST=4/6]
+       Plan (trend): entry $3.354000  |  stop $2.850900 -15.00%  |  TPs: $4.108650, $4.863300, $5.869500
+
+  [14] B3          conf=  6.0  scanners=2/4     ·    P★     ·    T★     $0.000556  24h=+6.86%  vol=$3.1M
+       → P:[funding_negative, vol_oi_surge]  |  T:[score=111, ST=4/6]
+       Plan (trend): entry $0.000556  |  stop $0.000472 -15.00%  |  TPs: $0.000681, $0.000806, $0.000972
+
+  [15] KAITO       conf=  6.0  scanners=2/4   I★     ·      ·    T★     $0.482800  24h=+5.18%  vol=$11.2M
+       → I:[vol_in_window, vol_expansion, rsi_divergence +3]  |  T:[score=122, ST=4/6]
+       Plan (trend): entry $0.482800  |  stop $0.434039 -10.10%  |  TPs: $0.555941, $0.629082, $0.726604
+
+  [16] CAKE        conf=  6.0  scanners=2/4   I★     ·      ·    T★     $1.350400  24h=+0.21%  vol=$1.1M
+       → I:[vol_in_window, vol_expansion, obv_stealth_accum +4]  |  T:[score=114, ST=4/6]
+       Plan (trend): entry $1.350400  |  stop $1.224754 -9.30%  |  TPs: $1.538870, $1.727339, $1.978632
+
+  [17] AXL         conf=  6.0  scanners=2/4     ·    P★     ·    T★     $0.048330  24h=-3.63%  vol=$4.7M
+       → P:[oi_building, vol_oi_surge]  |  T:[score=103, ST=3/6]
+       Plan (trend): entry $0.048330  |  stop $0.041881 -13.34%  |  TPs: $0.058003, $0.067677, $0.080575
+
+────────────────────────────────────────────────────────────────────────────────
+  SINGLE-SCANNER  —  139 coin(s)  (only one scanner surfaced — early but unconfirmed)
+────────────────────────────────────────────────────────────────────────────────
+  #   Symbol      Conf  IGN PRP SPT TRD         Price    24h%  Signals snapshot
+  ------------------------------------------------------------------------------
+    1 COW          6.0  I★★ ·   ·   ·     $  0.152800  +3.55%  I:vol_expansion,obv_stealth_accum
+    2 BOND         6.0  I★★ ·   ·   ·     $  2.152000  +4.42%  I:vol_in_window,whale_candle
+    3 DOGS         6.0  I★★ ·   ·   ·     $  0.000043  -2.50%  I:bb_squeeze,vol_in_window
+    4 MASK         6.0  I★★ ·   ·   ·     $  0.370000  +0.55%  I:bb_squeeze,vol_expansion
+    5 TOMO         6.0  I★★ ·   ·   ·     $  1.381900  +3.22%  I:vol_in_window,vol_expansion
+    6 GPS          6.0  I★★ ·   ·   ·     $  0.007550  +4.43%  I:bb_squeeze,vol_in_window
+    7 ESP          5.0  ·   ·   ·   T★★   $  0.072050  -6.03%  T:score=132
+    8 LIT          5.0  ·   ·   ·   T★★   $  1.630800  -1.87%  T:score=138
+    9 TAO          5.0  ·   ·   ·   T★★   $262.760000  +3.76%  T:score=138
+   10 WLD          5.0  ·   ·   ·   T★★   $  0.501400  -1.38%  T:score=141
+   11 MEME         5.0  ·   ·   ·   T★★   $  0.000560 +12.85%  T:score=139
+   12 JCT          5.0  ·   ·   ·   T★★   $  0.006911  +5.24%  T:score=150
+   13 TRUTH        5.0  ·   ·   ·   T★★   $  0.012075  +7.46%  T:score=132
+   14 OPEN         5.0  ·   ·   ·   T★★   $  0.240890  +0.40%  T:score=155
+   15 IO           5.0  ·   ·   ·   T★★   $  0.179850  -9.36%  T:score=131
+   16 SQD          5.0  ·   ·   ·   T★★   $  0.041000  -1.03%  T:score=132
+   17 SOMI         4.0  I★  ·   ·   T·    $  0.113300  -0.59%  I:bb_squeeze,obv_stealth_accum
+   18 VELVET       4.0  ·   P★  ·   T·    $  0.400010  +7.54%  P:oi_building,vol_oi_surge
+   19 STX          4.0  I★  ·   ·   T·    $  0.184700  -0.81%  I:vol_in_window,vol_expansion
+   20 BIGTIME      4.0  ·   P★  ·   T·    $  0.008895  +1.68%  P:oi_building,funding_negative
+   21 UNI          4.0  I★  ·   ·   T·    $  2.555000  -1.69%  I:bb_squeeze,obv_stealth_accum
+   22 LIGHT        3.0  ·   ·   ·   T★    $  0.114900  +6.65%  T:score=110
+   23 WLFI         3.0  ·   ·   ·   T★    $  0.058870  -0.20%  T:score=102
+   24 BRETT        3.0  ·   ·   ·   T★    $  0.006708  +7.10%  T:score=122
+   25 MUBARAK      3.0  I★  ·   ·   ·     $  0.010790  -0.83%  I:bb_squeeze,vol_in_window
+   26 TWT          3.0  I★  ·   ·   ·     $  0.401300  +0.82%  I:vol_in_window,vol_expansion
+   27 DEXE         3.0  I★  ·   ·   ·     $ 18.017000  +0.04%  I:obv_stealth_accum,rsi_divergence
+   28 COAI         3.0  ·   ·   ·   T★    $  0.419600 -11.14%  T:score=121
+   29 2Z           3.0  I★  ·   ·   ·     $  0.070260  -2.89%  I:bb_squeeze,obv_stealth_accum
+   30 LA           3.0  ·   ·   ·   T★    $  0.074040  +5.13%  T:score=106
+  ... (109 more, see JSON)
+
+────────────────────────────────────────────────────────────────────────────────
+  EXTENDED  —  10 coin(s)  (already up >15% in 24h — entry likely late)
+────────────────────────────────────────────────────────────────────────────────
+  #   Symbol      Conf  IGN PRP SPT TRD         Price    24h%  Original bucket / Signals
+  ------------------------------------------------------------------------------
+    1 CREAM        6.0  I★★ ·   ·   ·     $  2.100000 +65.35%  would-be: SINGLE_SCANNER
+    2 CLO          3.0  ·   ·   ·   T★    $  0.139890 +28.64%  would-be: SINGLE_SCANNER
+    3 ZKC         15.0  I★★ P★★ ·   T★    $  0.049110 +28.30%  would-be: CONVERGENCE
+    4 OPG          6.0  I★★ ·   ·   ·     $  0.210000 +27.86%  would-be: SINGLE_SCANNER
+    5 ROAM        11.0  I★★ ·   ·   T★★   $  0.006783 +27.46%  would-be: STRONG_SETUP
+    6 BANANAS31    3.0  ·   P★  ·   ·     $  0.009738 +27.28%  would-be: SINGLE_SCANNER
+    7 JELLYJELLY   8.0  ·   P★  ·   T★★   $  0.057030 +25.21%  would-be: STRONG_SETUP
+    8 EVAA        11.0  I★★ ·   ·   T★★   $  0.389800 +22.67%  would-be: STRONG_SETUP
+    9 MITO         1.0  ·   ·   ·   T·    $  0.018400 +22.22%  would-be: SINGLE_SCANNER
+   10 BTW          3.0  I★  ·   ·   ·     $  0.090050 +19.15%  would-be: SINGLE_SCANNER
+
+════════════════════════════════════════════════════════════════════════════════

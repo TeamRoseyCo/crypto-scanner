@@ -1,0 +1,738 @@
+{
+  "scanner": "short_scanner",
+  "version": "3.0",
+  "direction": "short",
+  "generated_at": "2026-06-17T01:26:09.081528",
+  "elapsed_s": 16.4,
+  "universe_size": 329,
+  "scanned": 325,
+  "excluded": 47,
+  "thresholds": {
+    "watch_now_conviction": 45.0,
+    "watch_now_signals": 5,
+    "on_radar_conviction": 28.0,
+    "on_radar_signals": 3
+  },
+  "weights": {
+    "bear_distribution_candle": 2.5,
+    "bear_obv_divergence": 2.5,
+    "bear_rsi_divergence": 2.5,
+    "bear_obv_distribution": 2.0,
+    "bear_failed_breakout": 2.0,
+    "bb_squeeze": 1.5,
+    "cmf_negative": 1.5,
+    "lower_highs": 1.5,
+    "rsi_overbought_reset": 1.5,
+    "rsi_in_zone_bear": 1.0,
+    "vol_distribution": 1.0,
+    "funding_extreme_long": 1.5,
+    "btc_underperform": 1.0,
+    "price_range_fail": 1.0
+  },
+  "watch_now": [],
+  "on_radar": [
+    {
+      "base": "ALT",
+      "price": 0.006749,
+      "volume_24h": 1468743.9045,
+      "price_24h_pct": 6.348199999999999,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 37.8,
+      "signal_count": 6,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "bear_obv_divergence",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "bear_failed_breakout"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.258,
+        "bear_obv_distribution": 0.782,
+        "bear_obv_divergence": 0.24,
+        "bear_rsi_divergence": 0.657,
+        "rsi_overbought_reset": 1.0,
+        "bear_failed_breakout": 0.153
+      },
+      "signal_extras": {
+        "bear_obv_distribution": {
+          "obv_pct": -27.42,
+          "price_pct": 1.31
+        },
+        "bear_obv_divergence": {
+          "price_rise_pct": 1.57
+        },
+        "bear_rsi_divergence": {
+          "kind": "bearish",
+          "price_change_pct": 1.57,
+          "rsi_gap": -13.36,
+          "rsi1": 82.1,
+          "rsi2": 68.7
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 88.4,
+          "rsi_now": 43.2
+        },
+        "bear_failed_breakout": {
+          "range_high": 0.006805,
+          "max_extension": 0.71,
+          "current_below": 0.82
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 0.98,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "TRB",
+      "price": 14.559,
+      "volume_24h": 835250.4642,
+      "price_24h_pct": 4.7578000000000005,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 37.4,
+      "signal_count": 6,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_divergence",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "bear_failed_breakout",
+        "price_range_fail"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.991,
+        "bear_obv_divergence": 0.774,
+        "bear_rsi_divergence": 0.585,
+        "rsi_overbought_reset": 1.0,
+        "bear_failed_breakout": 0.251,
+        "price_range_fail": 0.312
+      },
+      "signal_extras": {
+        "bear_obv_divergence": {
+          "price_rise_pct": 0.85
+        },
+        "bear_rsi_divergence": {
+          "kind": "bearish",
+          "price_change_pct": 0.85,
+          "rsi_gap": -20.26,
+          "rsi1": 81.5,
+          "rsi2": 61.2
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 94.4,
+          "rsi_now": 52.6
+        },
+        "bear_failed_breakout": {
+          "range_high": 14.864,
+          "max_extension": 0.46,
+          "current_below": 2.05
+        },
+        "price_range_fail": {
+          "window_high": 14.932,
+          "pull_back_pct": 2.5
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": -1.21,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "IRYS",
+      "price": 0.018021,
+      "volume_24h": 877714.2174,
+      "price_24h_pct": -3.7920000000000003,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 36.5,
+      "signal_count": 6,
+      "fired_signals": [
+        "bb_squeeze",
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "lower_highs"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.792,
+        "rsi_in_zone_bear": 0.605,
+        "bear_obv_distribution": 0.859,
+        "bear_rsi_divergence": 0.594,
+        "rsi_overbought_reset": 1.0,
+        "lower_highs": 0.189
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 3.147,
+          "ttm_threshold_pct": 4.458,
+          "deep_threshold_pct": 3.339,
+          "rank_pct": 4.2,
+          "inside_kc": "True",
+          "trigger": "ttm+deep"
+        },
+        "bear_obv_distribution": {
+          "obv_pct": -19.0,
+          "price_pct": -0.85
+        },
+        "bear_rsi_divergence": {
+          "kind": "hidden_bearish",
+          "price_change_pct": -0.94,
+          "rsi_gap": 21.43,
+          "rsi1": 35.6,
+          "rsi2": 57.0
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 76.0,
+          "rsi_now": 57.4
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 0.44,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "BEAM",
+      "price": 0.0015916,
+      "volume_24h": 758223.1094,
+      "price_24h_pct": 6.4392000000000005,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 35.9,
+      "signal_count": 6,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "vol_distribution",
+        "bear_obv_distribution",
+        "bear_obv_divergence",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.901,
+        "vol_distribution": 0.161,
+        "bear_obv_distribution": 0.781,
+        "bear_obv_divergence": 0.1,
+        "bear_rsi_divergence": 0.649,
+        "rsi_overbought_reset": 1.0
+      },
+      "signal_extras": {
+        "vol_distribution": {
+          "vol_ratio": 2.09,
+          "recent_price_pct": -0.64
+        },
+        "bear_obv_distribution": {
+          "obv_pct": -45.62,
+          "price_pct": 1.31
+        },
+        "bear_obv_divergence": {
+          "price_rise_pct": 1.49
+        },
+        "bear_rsi_divergence": {
+          "kind": "bearish",
+          "price_change_pct": 1.49,
+          "rsi_gap": -34.99,
+          "rsi1": 95.9,
+          "rsi2": 61.0
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 95.9,
+          "rsi_now": 53.7
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 0.78,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "PRL",
+      "price": 0.1654,
+      "volume_24h": 2584780.7461,
+      "price_24h_pct": -11.4701,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 35.5,
+      "signal_count": 5,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "lower_highs"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.58,
+        "bear_obv_distribution": 0.878,
+        "bear_rsi_divergence": 1.0,
+        "rsi_overbought_reset": 1.0,
+        "lower_highs": 1.0
+      },
+      "signal_extras": {
+        "bear_obv_distribution": {
+          "obv_pct": -27.49,
+          "price_pct": 0.73
+        },
+        "bear_rsi_divergence": {
+          "kind": "hidden_bearish",
+          "price_change_pct": -5.15,
+          "rsi_gap": 40.63,
+          "rsi1": 35.1,
+          "rsi2": 75.7
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 75.7,
+          "rsi_now": 47.3
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": -0.14,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "H",
+      "price": 0.29459,
+      "volume_24h": 138116294.1981,
+      "price_24h_pct": -3.1908,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 33.2,
+      "signal_count": 5,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "lower_highs",
+        "funding_extreme_long"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.281,
+        "bear_rsi_divergence": 1.0,
+        "rsi_overbought_reset": 1.0,
+        "lower_highs": 1.0,
+        "funding_extreme_long": 1.0
+      },
+      "signal_extras": {
+        "bear_rsi_divergence": {
+          "kind": "hidden_bearish",
+          "price_change_pct": -7.98,
+          "rsi_gap": 66.05,
+          "rsi1": 28.7,
+          "rsi2": 94.7
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 94.7,
+          "rsi_now": 61.5
+        }
+      },
+      "funding_rate": 0.00276739,
+      "rs_btc_6h_pct": 5.2,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "4",
+      "price": 0.008273,
+      "volume_24h": 679923.4155,
+      "price_24h_pct": -6.2261,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 31.5,
+      "signal_count": 6,
+      "fired_signals": [
+        "vol_distribution",
+        "rsi_overbought_reset",
+        "cmf_negative",
+        "lower_highs",
+        "btc_underperform",
+        "funding_extreme_long"
+      ],
+      "signal_strengths": {
+        "vol_distribution": 0.583,
+        "rsi_overbought_reset": 1.0,
+        "cmf_negative": 0.885,
+        "lower_highs": 0.794,
+        "btc_underperform": 0.395,
+        "funding_extreme_long": 1.0
+      },
+      "signal_extras": {
+        "vol_distribution": {
+          "vol_ratio": 2.0,
+          "recent_price_pct": -8.29
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 92.4,
+          "rsi_now": 12.9
+        },
+        "btc_underperform": {
+          "token_ret_pct": -7.88,
+          "btc_ret_pct": -0.46
+        }
+      },
+      "funding_rate": 0.00236253,
+      "rs_btc_6h_pct": -7.42,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "BLUR",
+      "price": 0.018456,
+      "volume_24h": 593169.7127,
+      "price_24h_pct": -1.1701,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 31.4,
+      "signal_count": 6,
+      "fired_signals": [
+        "bb_squeeze",
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "rsi_overbought_reset",
+        "cmf_negative",
+        "lower_highs"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.417,
+        "rsi_in_zone_bear": 0.777,
+        "bear_obv_distribution": 0.743,
+        "rsi_overbought_reset": 1.0,
+        "cmf_negative": 0.579,
+        "lower_highs": 0.137
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 2.851,
+          "ttm_threshold_pct": 3.063,
+          "deep_threshold_pct": 2.569,
+          "rank_pct": 11.7,
+          "inside_kc": "True",
+          "trigger": "ttm"
+        },
+        "bear_obv_distribution": {
+          "obv_pct": -108.76,
+          "price_pct": -1.54
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 76.8,
+          "rsi_now": 49.7
+        }
+      },
+      "funding_rate": 0.0001,
+      "rs_btc_6h_pct": -0.26,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "DASH",
+      "price": 37.47,
+      "volume_24h": 3768505.8554,
+      "price_24h_pct": -2.0942,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 30.8,
+      "signal_count": 5,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "cmf_negative"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.612,
+        "bear_obv_distribution": 0.755,
+        "bear_rsi_divergence": 0.781,
+        "rsi_overbought_reset": 1.0,
+        "cmf_negative": 0.074
+      },
+      "signal_extras": {
+        "bear_obv_distribution": {
+          "obv_pct": -6.62,
+          "price_pct": -1.47
+        },
+        "bear_rsi_divergence": {
+          "kind": "hidden_bearish",
+          "price_change_pct": -2.81,
+          "rsi_gap": 10.58,
+          "rsi1": 56.5,
+          "rsi2": 67.1
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 77.4,
+          "rsi_now": 57.4
+        }
+      },
+      "funding_rate": 0.0001,
+      "rs_btc_6h_pct": 0.92,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "ZEC",
+      "price": 504.76,
+      "volume_24h": 218740442.6488,
+      "price_24h_pct": -2.1725000000000003,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 30.7,
+      "signal_count": 5,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "rsi_overbought_reset",
+        "cmf_negative",
+        "lower_highs"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.825,
+        "bear_obv_distribution": 0.766,
+        "rsi_overbought_reset": 1.0,
+        "cmf_negative": 0.855,
+        "lower_highs": 0.978
+      },
+      "signal_extras": {
+        "bear_obv_distribution": {
+          "obv_pct": -14.66,
+          "price_pct": -1.41
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 81.2,
+          "rsi_now": 50.3
+        }
+      },
+      "funding_rate": 0.0001,
+      "rs_btc_6h_pct": 0.27,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "NOT",
+      "price": 0.0004206,
+      "volume_24h": 4023810.703,
+      "price_24h_pct": -6.7126,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 30.2,
+      "signal_count": 4,
+      "fired_signals": [
+        "bear_obv_distribution",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "cmf_negative"
+      ],
+      "signal_strengths": {
+        "bear_obv_distribution": 0.758,
+        "bear_rsi_divergence": 0.758,
+        "rsi_overbought_reset": 1.0,
+        "cmf_negative": 1.0
+      },
+      "signal_extras": {
+        "bear_obv_distribution": {
+          "obv_pct": -34.75,
+          "price_pct": -1.45
+        },
+        "bear_rsi_divergence": {
+          "kind": "hidden_bearish",
+          "price_change_pct": -2.58,
+          "rsi_gap": 13.58,
+          "rsi1": 51.3,
+          "rsi2": 64.9
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 81.3,
+          "rsi_now": 71.0
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 3.75,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "EPIC",
+      "price": 0.6363,
+      "volume_24h": 6926177.6579,
+      "price_24h_pct": 28.62,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 29.6,
+      "signal_count": 5,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_divergence",
+        "bear_rsi_divergence",
+        "rsi_overbought_reset",
+        "bear_failed_breakout"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.238,
+        "bear_obv_divergence": 0.117,
+        "bear_rsi_divergence": 0.671,
+        "rsi_overbought_reset": 1.0,
+        "bear_failed_breakout": 0.204
+      },
+      "signal_extras": {
+        "bear_obv_divergence": {
+          "price_rise_pct": 1.71
+        },
+        "bear_rsi_divergence": {
+          "kind": "bearish",
+          "price_change_pct": 1.71,
+          "rsi_gap": -31.44,
+          "rsi1": 99.2,
+          "rsi2": 67.8
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 99.2,
+          "rsi_now": 62.0
+        },
+        "bear_failed_breakout": {
+          "range_high": 0.6457,
+          "max_extension": 0.59,
+          "current_below": 1.46
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": 5.18,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "SIREN",
+      "price": 0.04597,
+      "volume_24h": 15447549.0866,
+      "price_24h_pct": -12.881300000000001,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 28.8,
+      "signal_count": 5,
+      "fired_signals": [
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "rsi_overbought_reset",
+        "lower_highs",
+        "funding_extreme_long"
+      ],
+      "signal_strengths": {
+        "rsi_in_zone_bear": 0.885,
+        "bear_obv_distribution": 0.554,
+        "rsi_overbought_reset": 0.986,
+        "lower_highs": 0.514,
+        "funding_extreme_long": 1.0
+      },
+      "signal_extras": {
+        "bear_obv_distribution": {
+          "obv_pct": -3.73,
+          "price_pct": -1.54
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 74.9,
+          "rsi_now": 51.1
+        }
+      },
+      "funding_rate": 0.00290358,
+      "rs_btc_6h_pct": 2.37,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "MIRA",
+      "price": 0.05379,
+      "volume_24h": 1271088.9096,
+      "price_24h_pct": -2.8922,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 28.4,
+      "signal_count": 5,
+      "fired_signals": [
+        "bb_squeeze",
+        "rsi_in_zone_bear",
+        "bear_obv_distribution",
+        "rsi_overbought_reset",
+        "lower_highs"
+      ],
+      "signal_strengths": {
+        "bb_squeeze": 0.833,
+        "rsi_in_zone_bear": 0.81,
+        "bear_obv_distribution": 0.978,
+        "rsi_overbought_reset": 1.0,
+        "lower_highs": 0.026
+      },
+      "signal_extras": {
+        "bb_squeeze": {
+          "bb_width_pct": 2.543,
+          "ttm_threshold_pct": 4.499,
+          "deep_threshold_pct": 3.054,
+          "rank_pct": 0.8,
+          "inside_kc": "False",
+          "trigger": "deep"
+        },
+        "bear_obv_distribution": {
+          "obv_pct": -8.96,
+          "price_pct": -0.13
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 75.4,
+          "rsi_now": 54.9
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": -0.06,
+      "excluded_reason": null,
+      "error": null
+    },
+    {
+      "base": "LUMIA",
+      "price": 0.09589,
+      "volume_24h": 1006562.661,
+      "price_24h_pct": 7.3222,
+      "direction": "short",
+      "tier": "on_radar",
+      "conviction": 28.2,
+      "signal_count": 5,
+      "fired_signals": [
+        "vol_distribution",
+        "rsi_overbought_reset",
+        "cmf_negative",
+        "bear_failed_breakout",
+        "btc_underperform"
+      ],
+      "signal_strengths": {
+        "vol_distribution": 0.935,
+        "rsi_overbought_reset": 1.0,
+        "cmf_negative": 1.0,
+        "bear_failed_breakout": 1.0,
+        "btc_underperform": 0.039
+      },
+      "signal_extras": {
+        "vol_distribution": {
+          "vol_ratio": 31.86,
+          "recent_price_pct": -4.35
+        },
+        "rsi_overbought_reset": {
+          "max_in_window": 88.1,
+          "rsi_now": 67.4
+        },
+        "bear_failed_breakout": {
+          "range_high": 0.10196,
+          "max_extension": 8.0,
+          "current_below": 5.95
+        },
+        "btc_underperform": {
+          "token_ret_pct": -2.55,
+          "btc_ret_pct": -0.46
+        }
+      },
+      "funding_rate": 5e-05,
+      "rs_btc_6h_pct": -2.09,
+      "excluded_reason": null,
+      "error": null
+    }
+  ]
+}
