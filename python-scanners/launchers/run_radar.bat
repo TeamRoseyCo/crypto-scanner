@@ -101,6 +101,16 @@ echo Longs args :%LONGS_ARGS%
 echo Shorts args:%SHORTS_ARGS%
 echo.
 
+:: ---- STEP 0: macro gauge (DXY + yields) ---------------------------------
+set "MACRO=%SCRIPT_DIR%macro_watch.py"
+if not exist "%MACRO%" goto skip_macro
+echo --------------------------------------------------------------------------------
+echo  STEP 0: macro gauge - DXY + Treasury yields ^(crypto regime gate^)
+echo --------------------------------------------------------------------------------
+call "%VENV_PYTHON%" "%MACRO%"
+echo.
+:skip_macro
+
 :: ---- STEP 1: longs orchestrator -----------------------------------------
 echo --------------------------------------------------------------------------------
 echo  STEP 1/3: longs orchestrator (ignition + perp + trend)
