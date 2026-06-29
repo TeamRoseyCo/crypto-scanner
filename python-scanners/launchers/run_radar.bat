@@ -111,6 +111,17 @@ call "%VENV_PYTHON%" "%MACRO%"
 echo.
 :skip_macro
 
+:: ---- STEP 0.5: daily-loss gate refresh ----------------------------------
+set "GATE=%SCANNER_DIR%\daily_pnl_tracker.py"
+if not exist "%GATE%" goto skip_gate
+echo --------------------------------------------------------------------------------
+echo  STEP 0.5: daily-loss gate refresh - sync today.json ^(pre-entry safety^)
+echo --------------------------------------------------------------------------------
+call "%VENV_PYTHON%" "%GATE%"
+if not %errorlevel% == 0 echo   (WARN) gate refresh failed - today.json may be STALE, verify before sizing
+echo.
+:skip_gate
+
 :: ---- STEP 1: longs orchestrator -----------------------------------------
 echo --------------------------------------------------------------------------------
 echo  STEP 1/3: longs orchestrator (ignition + perp + trend)
