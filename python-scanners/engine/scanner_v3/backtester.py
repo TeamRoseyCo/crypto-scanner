@@ -44,6 +44,7 @@ import pandas as pd
 
 import data
 import signals as S
+import short_scanner as SS   # Phase 2: reuse the live bearish signal logic (no drift)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -210,6 +211,28 @@ def evaluate_signals_at_bar(
 
     conviction = (earned / TOTAL_WEIGHT) * 100 if TOTAL_WEIGHT > 0 else 0
     return conviction, len(fired), fired
+
+
+def evaluate_short_signals_at_bar(
+    base:        str,
+    df_so_far:   pd.DataFrame,
+    btc_so_far:  Optional[pd.Series],
+) -> tuple[float, int, list[str]]:
+    """Bearish conviction at the current bar — reuses short_scanner.score_coin so
+    the backtest uses the EXACT live short signal logic (no drift).
+
+    funding_rate is None in replay (the OHLCV cache has no historical funding), so
+    the funding exclusion + funding_extreme_long bonus are inactive here — the
+    backtest is therefore slightly OPTIMISTIC on entries (it may enter shorts the
+    live scanner would have funding-excluded as squeeze-risk). The gap-through-stop
+    model still charges the squeeze LOSSES. Phase 3 paper measures real funding.
+    """
+    if df_so_far is None or len(df_so_far) < 50:
+        return 0.0, 0, []
+    res = SS.score_coin(base, df_so_far, btc_closes=btc_so_far, funding_rate=None)
+    if res is None:
+        return 0.0, 0, []
+    return res.conviction, res.signal_count, list(res.fired_signals)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -393,9 +416,15 @@ def backtest_coin(
         df_so_far  = df.iloc[:i + 1]
         btc_so_far = btc_closes.iloc[:i + 1] if btc_closes is not None else None
 
-        conviction, sig_count, fired = evaluate_signals_at_bar(df_so_far, btc_so_far)
-        if (conviction < BACKTEST_TIERS["watch_now_conviction"]
-                or sig_count < BACKTEST_TIERS["watch_now_signals"]):
+        if direction == "short":
+            conviction, sig_count, fired = evaluate_short_signals_at_bar(base, df_so_far, btc_so_far)
+            tier_conv = SS.TIERS["watch_now_conviction"]
+            tier_sigs = SS.TIERS["watch_now_signals"]
+        else:
+            conviction, sig_count, fired = evaluate_signals_at_bar(df_so_far, btc_so_far)
+            tier_conv = BACKTEST_TIERS["watch_now_conviction"]
+            tier_sigs = BACKTEST_TIERS["watch_now_signals"]
+        if conviction < tier_conv or sig_count < tier_sigs:
             continue
 
         # Entry at close of bar i
@@ -430,13 +459,13 @@ def backtest_coin(
 # REPORT
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_report(all_trades: list[Trade], elapsed_s: float) -> str:
+def build_report(all_trades: list[Trade], elapsed_s: float, direction: str = "long") -> str:
     lines = []
     sep = "=" * 88
     dash = "-" * 88
 
     lines.append(sep)
-    lines.append(f"  BACKTESTER v1.0  —  {len(all_trades)} simulated trades  ({elapsed_s:.0f}s)")
+    lines.append(f"  BACKTESTER v1.1  —  {len(all_trades)} {direction.upper()} trades  ({elapsed_s:.0f}s)")
     lines.append(sep)
 
     if not all_trades:
@@ -454,6 +483,13 @@ def build_report(all_trades: list[Trade], elapsed_s: float) -> str:
     lines.append("")
     lines.append(f"  OVERALL:   trades={len(rs)}   win_rate={win_rate:.1f}%   "
                  f"avg_R={avg_r:+.2f}   total_R={total_r:+.2f}")
+    worst_r  = min(rs) if rs else 0.0
+    best_r   = max(rs) if rs else 0.0
+    tail     = sum(1 for r in rs if r <= -1.5)
+    tail_pct = (tail / len(rs) * 100) if rs else 0.0
+    lines.append(f"  RISK:      worst={worst_r:+.2f}R   best={best_r:+.2f}R   "
+                 f"squeeze-tail(R<=-1.5)={tail} ({tail_pct:.1f}%)"
+                 + ("   <- gap-through losses" if direction == "short" else ""))
 
     # Outcome breakdown
     out_counts = defaultdict(int)
@@ -553,13 +589,14 @@ def build_report(all_trades: list[Trade], elapsed_s: float) -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def run(
-    coins:    list[str],
-    days:     int,
-    tf:       str = "1h",
+    coins:     list[str],
+    days:      int,
+    tf:        str = "1h",
+    direction: str = "long",
 ) -> None:
     t0 = time.time()
     log.info("=" * 64)
-    log.info(f"BACKTESTER  —  {len(coins)} coins, {days}d, {tf}")
+    log.info(f"BACKTESTER  —  {len(coins)} coins, {days}d, {tf}, direction={direction.upper()}")
     log.info("=" * 64)
 
     # Bars per timeframe
@@ -589,14 +626,14 @@ def run(
         else:
             btc_aligned = None
 
-        trades = backtest_coin(base, df, btc_aligned)
+        trades = backtest_coin(base, df, btc_aligned, direction=direction)
         all_trades.extend(trades)
 
         if i % 5 == 0 or i == len(coins):
             log.info(f"  ...{i}/{len(coins)}  trades_so_far={len(all_trades)}")
 
     elapsed = time.time() - t0
-    report = build_report(all_trades, elapsed)
+    report = build_report(all_trades, elapsed, direction=direction)
     log.info("\n" + report)
 
     # Write outputs
@@ -609,6 +646,7 @@ def run(
         "coins":        coins,
         "days":         days,
         "tf":           tf,
+        "direction":    direction,
         "n_trades":     len(all_trades),
         "weights":      BACKTEST_WEIGHTS,
         "tiers":        BACKTEST_TIERS,
@@ -715,11 +753,20 @@ def _selftest() -> int:
 
 
 if __name__ == "__main__":
+    # Windows console is cp1252 by default; the report uses → and other unicode.
+    if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
     parser = argparse.ArgumentParser(description="Backtester v1.1 — replay signals on history (long + short engine)")
     parser.add_argument("--coins", help="Comma-separated bases (e.g. BTC,ETH,SOL)")
     parser.add_argument("--top",   type=int, help="Take top-N by current 24h volume")
     parser.add_argument("--days",  type=int, default=90, help="Days of history (default 90)")
     parser.add_argument("--tf",    default="1h", help="Timeframe (default 1h)")
+    parser.add_argument("--direction", choices=["long", "short"], default="long",
+                        help="long = ignition signals (default); short = short_scanner bearish signals")
     parser.add_argument("--selftest", action="store_true",
                         help="Run the direction-aware engine self-test and exit")
     args = parser.parse_args()
@@ -734,4 +781,4 @@ if __name__ == "__main__":
     log.info(f"Coins ({len(coins)}): {', '.join(coins[:10])}"
              + ("..." if len(coins) > 10 else ""))
 
-    run(coins=coins, days=args.days, tf=args.tf)
+    run(coins=coins, days=args.days, tf=args.tf, direction=args.direction)
