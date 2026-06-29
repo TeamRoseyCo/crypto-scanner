@@ -123,6 +123,17 @@ PLAN = {
 # Anti-overlap: once you enter a coin, wait this many bars before opening another
 COOLDOWN_BARS = 24
 
+# ─────────────────────────────────────────────────────────────────────────────
+# SHORT-SIDE COST MODELING (Phase 1) — shorts are NOT free to hold or exit.
+# These are MODELED ASSUMPTIONS (the OHLCV cache has no historical funding);
+# Phase 3 paper-trading measures the real numbers. Applied to SHORT trades only,
+# so the existing long backtest stays byte-for-byte unchanged.
+# ─────────────────────────────────────────────────────────────────────────────
+SHORT_COSTS = {
+    "funding_per_8h": 0.0001,   # 0.01%/8h carry paid by a short in a bid market
+    "slippage_fee_r": 0.10,     # ~0.1R round-trip drag (taker fees + slippage)
+}
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TRADE TYPES
@@ -139,6 +150,7 @@ class Trade:
     tp3_price:      float
     conviction:     float
     signal_count:   int
+    direction:      str = "long"          # "long" | "short"
     fired_signals:  list[str] = field(default_factory=list)
     # Filled at exit:
     exited_at_idx:  Optional[int]   = None
@@ -225,23 +237,55 @@ def build_long_plan(entry: float, atr: float) -> Optional[dict]:
     }
 
 
+def build_short_plan(entry: float, atr: float) -> Optional[dict]:
+    """Mirror of build_long_plan: stop ABOVE entry, TPs BELOW entry."""
+    if entry <= 0 or atr <= 0:
+        return None
+    atr_dist = atr * PLAN["atr_stop_mult"]
+    stop = entry + atr_dist
+    stop_pct = (stop - entry) / entry           # positive distance for a short
+    max_stop = -PLAN["stop_min_pct"]            # 0.15
+    min_stop = -PLAN["stop_max_pct"]            # 0.05
+    if stop_pct > max_stop:
+        stop = entry * (1 + max_stop)
+    elif stop_pct < min_stop:
+        stop = entry * (1 + min_stop)
+    risk = stop - entry
+    if risk <= 0:
+        return None
+    return {
+        "stop": stop,
+        "tp1": entry - risk * PLAN["tp_rr"][0],
+        "tp2": entry - risk * PLAN["tp_rr"][1],
+        "tp3": entry - risk * PLAN["tp_rr"][2],
+    }
+
+
 def walk_trade_forward(
     trade:    Trade,
     df:       pd.DataFrame,
     max_bars: int,
 ) -> Trade:
     """From entered_at_idx+1 forward, simulate the STAGED scale-out plan and
-    record the realised BLENDED R (not the full TP3 distance).
+    record the realised BLENDED R. Direction-aware:
 
-    Conservative within-bar assumption: if a bar's low touches the stop, the
-    stop is assumed to fill before any TP touched in that same bar.
+      LONG  : stop below entry (hit on low<=stop), TPs above (hit on high>=tp).
+              Fills exactly at the stop level — long path is unchanged from v1.0.
+      SHORT : stop above entry (hit on high>=stop), TPs below (hit on low<=tp).
+              Models squeeze GAP-THROUGH: if a bar OPENS beyond the stop, the
+              fill is the (worse) open, so a violent pump costs more than 1R.
+              Also charges funding carry + slippage/fee drag (SHORT_COSTS).
+
+    Conservative within-bar assumption (both directions): if a bar's range
+    touches the stop, the stop is assumed to fill before any TP in that bar.
     """
+    is_short = trade.direction == "short"
     start = trade.entered_at_idx + 1
     end   = min(start + max_bars, len(df))
     entry = trade.entry_price
     stop  = trade.stop_price
     tps   = [trade.tp1_price, trade.tp2_price, trade.tp3_price]
-    risk  = entry - stop
+    risk  = (stop - entry) if is_short else (entry - stop)
     if risk <= 0:
         return trade
 
@@ -257,18 +301,29 @@ def walk_trade_forward(
     for i in range(start, end):
         last_i = i
         bar = df.iloc[i]
-        high = float(bar["high"]); low = float(bar["low"])
+        high = float(bar["high"]); low = float(bar["low"]); open_ = float(bar["open"])
 
-        if low <= stop_level:
-            realized_r += remaining * (stop_level - entry) / risk
+        # ----- adverse move → stop (checked first: conservative) -----
+        stop_touched = (high >= stop_level) if is_short else (low <= stop_level)
+        if stop_touched:
+            if is_short:
+                fill = max(stop_level, open_)       # gap-through on a violent pump
+                realized_r += remaining * (entry - fill) / risk
+            else:
+                fill = stop_level                    # unchanged long behaviour
+                realized_r += remaining * (fill - entry) / risk
             remaining = 0.0
-            terminal = (i, stop_level, "tp%d" % highest_tp if highest_tp else "stop")
+            terminal = (i, fill, "tp%d" % highest_tp if highest_tp else "stop")
             break
 
+        # ----- favourable move → TPs -----
         for k, tp in enumerate(tps):
-            if tps_hit[k] or high < tp:
+            if tps_hit[k]:
                 continue
-            realized_r += fracs[k] * (tp - entry) / risk
+            tp_touched = (low <= tp) if is_short else (high >= tp)
+            if not tp_touched:
+                continue
+            realized_r += fracs[k] * ((entry - tp) if is_short else (tp - entry)) / risk
             remaining   = max(0.0, remaining - fracs[k])
             tps_hit[k]  = True
             highest_tp  = k + 1
@@ -285,10 +340,18 @@ def walk_trade_forward(
         if last_i is None:
             return trade
         final_price = float(df["close"].iloc[last_i])
-        realized_r += remaining * (final_price - entry) / risk
+        realized_r += remaining * ((entry - final_price) if is_short else (final_price - entry)) / risk
         terminal = (last_i, final_price, "tp%d" % highest_tp if highest_tp else "time")
 
     exit_i, exit_price, outcome = terminal
+
+    # ----- short carry + transaction drag (Phase 1; shorts only) -----
+    if is_short:
+        bars_held = exit_i - trade.entered_at_idx
+        funding_frac = SHORT_COSTS["funding_per_8h"] * (bars_held / 8.0)   # 1h bars
+        realized_r -= funding_frac * entry / risk
+        realized_r -= SHORT_COSTS["slippage_fee_r"]
+
     trade.exited_at_idx = exit_i
     trade.exit_price    = exit_price
     trade.outcome       = outcome
@@ -305,8 +368,15 @@ def backtest_coin(
     base:        str,
     df:          pd.DataFrame,
     btc_closes:  Optional[pd.Series],
+    direction:   str = "long",
 ) -> list[Trade]:
-    """Walk through `df` bar by bar, simulating ignition entries."""
+    """Walk through `df` bar by bar, simulating entries.
+
+    NOTE (Phase 1): the SIGNAL side is still long-only ignition
+    (`evaluate_signals_at_bar`). `direction` selects the trade PLAN + sizing so
+    the short trade lifecycle is wired and unit-tested (`--selftest`), but a real
+    short replay needs Phase 2 to swap in short_scanner's bearish signals here.
+    """
     trades: list[Trade] = []
     if df is None or len(df) < 200:
         return trades
@@ -331,7 +401,7 @@ def backtest_coin(
         # Entry at close of bar i
         entry = float(df["close"].iloc[i])
         atr   = _atr_local(df_so_far.tail(50), PLAN["atr_period"])
-        plan  = build_long_plan(entry, atr)
+        plan  = build_short_plan(entry, atr) if direction == "short" else build_long_plan(entry, atr)
         if plan is None:
             continue
 
@@ -345,6 +415,7 @@ def backtest_coin(
             tp3_price      = plan["tp3"],
             conviction     = round(conviction, 1),
             signal_count   = sig_count,
+            direction      = direction,
             fired_signals  = list(fired),
         )
         trade = walk_trade_forward(trade, df, PLAN["time_stop_bars"])
@@ -564,13 +635,97 @@ def _resolve_coins(coins_arg: Optional[str], top: Optional[int]) -> list[str]:
     return [c["base"] for c in universe[:30]]
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# SELF-TEST — verifies the direction-aware engine (Phase 1). No network/data.
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _mk_df(bars: list[tuple]) -> pd.DataFrame:
+    return pd.DataFrame(bars, columns=["open", "high", "low", "close"])
+
+
+def _mk_trade(direction, entry, stop, tp1, tp2, tp3) -> Trade:
+    return Trade(base="TEST", entered_at_idx=0, entry_price=entry, stop_price=stop,
+                 tp1_price=tp1, tp2_price=tp2, tp3_price=tp3, conviction=50.0,
+                 signal_count=5, direction=direction)
+
+
+def _selftest() -> int:
+    """Drive hand-built scenarios through walk_trade_forward and assert the R.
+    Proves: short inversion, squeeze gap-through-stop, funding/slippage drag,
+    and that the LONG path is unchanged. Returns a process exit code."""
+    cases = []
+
+    # 1) SHORT win — price falls TP1→TP2→TP3 (risk=7, gross blended R=3.15)
+    t = _mk_trade("short", 100, 107, 89.5, 79, 65)
+    walk_trade_forward(t, _mk_df([
+        (100, 100, 100, 100),   # idx0 entry bar (ignored)
+        (99,  100,  89,  90),   # tp1: low 89 <= 89.5
+        (88,   90,  78,  79),   # tp2: low 78 <= 79
+        (77,   78,  64,  65),   # tp3: low 64 <= 65 → fully closed
+    ]), 100)
+    cases.append(("short win (~+3.05R net)", t.r_multiple, 3.05, 0.06))
+
+    # 2) SHORT stop WITH gap-through — bar opens 115 above stop 107 → fill 115
+    t = _mk_trade("short", 100, 107, 89.5, 79, 65)
+    walk_trade_forward(t, _mk_df([
+        (100, 100, 100, 100),
+        (115, 120, 113, 118),   # gaps up THROUGH stop; fills at the worse open 115
+    ]), 100)
+    cases.append(("short GAP stop (~-2.24R, worse than 1R)", t.r_multiple, -2.24, 0.06))
+
+    # 3) SHORT stop, no gap — open 103 < stop 107 → fills at stop 107 (~-1.10R)
+    t = _mk_trade("short", 100, 107, 89.5, 79, 65)
+    walk_trade_forward(t, _mk_df([
+        (100, 100, 100, 100),
+        (103, 108, 102, 106),   # high 108 >= 107, open 103 < 107 → fill at stop
+    ]), 100)
+    cases.append(("short clean stop (~-1.10R)", t.r_multiple, -1.10, 0.06))
+
+    # 4) LONG win — MUST be unchanged (no funding/slippage): blended R=3.15
+    t = _mk_trade("long", 100, 93, 110.5, 121, 135)
+    walk_trade_forward(t, _mk_df([
+        (100, 100, 100, 100),
+        (101, 111, 100, 110),   # tp1: high 111 >= 110.5
+        (112, 122, 111, 121),   # tp2
+        (123, 136, 122, 135),   # tp3
+    ]), 100)
+    cases.append(("long win (=+3.15R, unchanged)", t.r_multiple, 3.15, 0.001))
+
+    # 5) LONG stop — MUST be unchanged: fills at stop level, R=-1.0
+    t = _mk_trade("long", 100, 93, 110.5, 121, 135)
+    walk_trade_forward(t, _mk_df([
+        (100, 100, 100, 100),
+        (99,  100,  92,  94),   # low 92 <= 93 → fill at stop 93
+    ]), 100)
+    cases.append(("long stop (=-1.00R, unchanged)", t.r_multiple, -1.00, 0.001))
+
+    print("=" * 64)
+    print("  BACKTESTER SHORT-ENGINE SELF-TEST (Phase 1)")
+    print("=" * 64)
+    ok = True
+    for name, got, want, tol in cases:
+        passed = got is not None and abs(got - want) <= tol
+        ok = ok and passed
+        print(f"  [{'PASS' if passed else 'FAIL'}] {name:<40} got={got}  want~{want:+.2f} (±{tol})")
+    print("=" * 64)
+    print("  " + ("ALL PASS — short engine verified" if ok
+                  else "FAILURES — do NOT proceed to Phase 2"))
+    print("=" * 64)
+    return 0 if ok else 1
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Backtester v1.0 — replay ignition signals on history")
+    parser = argparse.ArgumentParser(description="Backtester v1.1 — replay signals on history (long + short engine)")
     parser.add_argument("--coins", help="Comma-separated bases (e.g. BTC,ETH,SOL)")
     parser.add_argument("--top",   type=int, help="Take top-N by current 24h volume")
     parser.add_argument("--days",  type=int, default=90, help="Days of history (default 90)")
     parser.add_argument("--tf",    default="1h", help="Timeframe (default 1h)")
+    parser.add_argument("--selftest", action="store_true",
+                        help="Run the direction-aware engine self-test and exit")
     args = parser.parse_args()
+
+    if args.selftest:
+        sys.exit(_selftest())
 
     coins = _resolve_coins(args.coins, args.top)
     if not coins:
