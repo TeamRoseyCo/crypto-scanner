@@ -392,6 +392,7 @@ def backtest_coin(
     df:          pd.DataFrame,
     btc_closes:  Optional[pd.Series],
     direction:   str = "long",
+    tier:        str = "watch_now",
 ) -> list[Trade]:
     """Walk through `df` bar by bar, simulating entries.
 
@@ -418,8 +419,12 @@ def backtest_coin(
 
         if direction == "short":
             conviction, sig_count, fired = evaluate_short_signals_at_bar(base, df_so_far, btc_so_far)
-            tier_conv = SS.TIERS["watch_now_conviction"]
-            tier_sigs = SS.TIERS["watch_now_signals"]
+            if tier == "on_radar":
+                tier_conv = SS.TIERS["on_radar_conviction"]
+                tier_sigs = SS.TIERS["on_radar_signals"]
+            else:
+                tier_conv = SS.TIERS["watch_now_conviction"]
+                tier_sigs = SS.TIERS["watch_now_signals"]
         else:
             conviction, sig_count, fired = evaluate_signals_at_bar(df_so_far, btc_so_far)
             tier_conv = BACKTEST_TIERS["watch_now_conviction"]
@@ -593,10 +598,12 @@ def run(
     days:      int,
     tf:        str = "1h",
     direction: str = "long",
+    tier:      str = "watch_now",
 ) -> None:
     t0 = time.time()
     log.info("=" * 64)
-    log.info(f"BACKTESTER  —  {len(coins)} coins, {days}d, {tf}, direction={direction.upper()}")
+    log.info(f"BACKTESTER  —  {len(coins)} coins, {days}d, {tf}, "
+             f"direction={direction.upper()}, tier={tier.upper()}")
     log.info("=" * 64)
 
     # Bars per timeframe
@@ -626,7 +633,7 @@ def run(
         else:
             btc_aligned = None
 
-        trades = backtest_coin(base, df, btc_aligned, direction=direction)
+        trades = backtest_coin(base, df, btc_aligned, direction=direction, tier=tier)
         all_trades.extend(trades)
 
         if i % 5 == 0 or i == len(coins):
@@ -767,6 +774,8 @@ if __name__ == "__main__":
     parser.add_argument("--tf",    default="1h", help="Timeframe (default 1h)")
     parser.add_argument("--direction", choices=["long", "short"], default="long",
                         help="long = ignition signals (default); short = short_scanner bearish signals")
+    parser.add_argument("--tier", choices=["watch_now", "on_radar"], default="watch_now",
+                        help="short entry threshold: watch_now (conv>=45) or on_radar (conv>=28, more samples)")
     parser.add_argument("--selftest", action="store_true",
                         help="Run the direction-aware engine self-test and exit")
     args = parser.parse_args()
@@ -781,4 +790,4 @@ if __name__ == "__main__":
     log.info(f"Coins ({len(coins)}): {', '.join(coins[:10])}"
              + ("..." if len(coins) > 10 else ""))
 
-    run(coins=coins, days=args.days, tf=args.tf, direction=args.direction)
+    run(coins=coins, days=args.days, tf=args.tf, direction=args.direction, tier=args.tier)
