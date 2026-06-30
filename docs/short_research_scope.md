@@ -1,11 +1,29 @@
 # Short-Strategy Research & Validation Scope
 
-**Status:** Phase 1 (in progress) · **Created:** 2026-06-29 · **Owner:** Bruno
+**Status:** ⛔ CONCLUDED (2026-06-30) — Phases 1–2 done, **NO tradeable edge**, do not proceed to Phase 3 · **Created:** 2026-06-29 · **Owner:** Bruno
 
 > **Why this exists:** The live edge (93 trades, 52.7% WR, 2.84:1, +2.82% expectancy) is
 > entirely on **longs**. There is *no* validated short track record. This is a disciplined
 > R&D track to find out whether a short edge exists **before** a single dollar of capital
 > touches it. The live **no-shorts rule stays active** through Phases 1–3.
+
+## ⛔ CONCLUSION (2026-06-30) — NO tradeable edge; do NOT proceed to Phase 3
+Phase 2 at scale (**ON-RADAR tier, 80 coins × 90d = 915 short trades**): **win rate 33.7%,
+avg −0.07R, total −60.35R.** Marginally losing — it *converged toward breakeven-minus as n grew*
+(small samples were −0.78R / −0.17R; the apparent strong per-signal edges were **NOISE that
+regressed to ~0** — e.g. `lower_highs` +0.88R → +0.01R, `cmf_negative` +0.11R → −0.07R).
+- **Relative ordering held but is tiny:** distribution/structure signals have slightly positive lift
+  (`bear_distribution_candle` best at +0.14 lift / +0.07R, n=218; `bear_obv_distribution` /
+  `lower_highs` / `vol_distribution` ~+0.07 lift); divergence/squeeze are confirmed anti-edge
+  (`bb_squeeze` −0.18, `bear_failed_breakout` −0.13, `bear_obv_divergence` / `bear_rsi_divergence` neg).
+- Even the **single best signal is +0.07R** — nowhere near the +0.5R bar, and that's *before* real
+  funding and *before* the live squeeze-exclusion filter. A structure-only variant is ~breakeven at best.
+- **squeeze-tail = 0** across all 915 trades — the `max_24h_change 30%` entry filter keeps shorts OUT
+  of the violent parabolas (TAC/RAVE), so shorts die by **attrition** (33.7% WR), not squeezes (worst −1.14R).
+
+**Decision: the no-shorts rule is now empirically validated at n=915. Do NOT paper-trade (Phase 3) or
+deploy a general/selective short strategy.** The engine (Phases 1–2, branch `feat/short-backtest-engine`)
+is kept for future signal research; revisit only if `short_scanner` gains materially new signals.
 
 ## Substrate already in the repo
 - `python-scanners/engine/scanner_v3/short_scanner.py` — short signal generation
@@ -40,7 +58,7 @@ Replay `short_scanner` WATCH NOW / ON RADAR signals over cached down-legs. Outpu
 avg R, expectancy, **worst trade + squeeze-tail impact**, broken down by conviction tier and by
 signal. If no hint of edge → **stop here** (a valid, money-saving outcome).
 
-### Phase 3 — Forward paper-trade *(catches what backtests miss)*
+### Phase 3 — Forward paper-trade *(catches what backtests miss)* — ⛔ SHELVED (Phase 2 showed no edge)
 If Phase 2 promises: log live short signals to `signals.sqlite` (`direction=short, status=paper`)
 and track **real** forward outcomes ~4 weeks / ≥30 signals. Zero capital. Real funding, real
 squeezes, real signal lag.
