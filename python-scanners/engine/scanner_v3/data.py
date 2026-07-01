@@ -201,3 +201,37 @@ def get_market_regime() -> tuple[str, float, float]:
     regime = "bull" if btc_7d_pct >= 3.0 else "sideways" if btc_7d_pct >= -7.0 else "bear"
     log.info(f"Market regime: {regime.upper()} (BTC 7d: {btc_7d_pct:+.2f}%, 24h: {btc_24h_pct:+.2f}%)")
     return regime, btc_7d_pct, btc_24h_pct
+
+
+def get_live_market_change():
+    """Unified LIVE BTC 7d/24h change — the SINGLE source of truth for regime.
+
+    Fresh Bybit 4h klines INCLUDING the current forming bar (so iloc[-1] is the
+    LIVE price), current close vs exactly 168h ago (7d) and 24h ago. This mirrors
+    spot_scanner._market_ctx_from_bybit exactly, so the radar and spot boards
+    report ONE consistent, live regime — fixing the stale closed-1D read that
+    froze the radar's 7d for a full day.
+
+    No CSV cache and no dropped bars (unlike get_btc/_bybit_ohlcv). Returns
+    (btc_7d_pct, btc_24h_pct, btc_price) or None on a fetch miss (caller decides
+    the fallback).
+    """
+    try:
+        r = _BYBIT_SESSION.get(
+            f"{CFG.bybit_api}/v5/market/kline",
+            params={"category": "linear", "symbol": "BTCUSDT", "interval": "240", "limit": 60},
+            timeout=CFG.request_timeout_s,
+        )
+        if r.status_code != 200:
+            return None
+        rows = r.json().get("result", {}).get("list", [])
+        if len(rows) < 43:
+            return None
+        rows.reverse()                              # Bybit is newest-first → ascending
+        closes = [float(x[4]) for x in rows]
+        price = closes[-1]                          # live forming 4h bar
+        btc_7d  = (price / closes[-43] - 1) * 100   # 42 bars × 4h = 168h = 7d
+        btc_24h = (price / closes[-7]  - 1) * 100   # 6 bars × 4h = 24h
+        return btc_7d, btc_24h, price
+    except Exception:
+        return None

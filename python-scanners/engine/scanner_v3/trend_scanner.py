@@ -331,47 +331,38 @@ def _load_last_regime() -> Optional[tuple[str, float, float]]:
         return None
 
 
-def fetch_btc_1d_resilient(bars: int = 200, attempts: int = 2) -> Optional[pd.DataFrame]:
-    """Fetch BTC 1D with a retry on a miss.
+def _detect_regime_live() -> tuple[str, float, float, float]:
+    """LIVE regime via data.get_live_market_change() — fresh Bybit 4h klines,
+    current close vs exactly 168h ago (7d) and 24h ago. This is the SAME method
+    spot_scanner uses, so the radar and spot boards now report ONE consistent,
+    live regime — fixing the stale closed-1D read that froze the radar's 7d for a
+    full day (it compared yesterday's daily close to an 8-day-old one, ignoring
+    the live session).
 
-    Requesting >=200 bars (rather than the old 30) also clears the 50-bar cache
-    floor inside data.get_btc, so a good result is actually REUSED between runs
-    instead of re-hitting the network every scan — which is what exposed the
-    regime read to transient failures in the first place.
+    On a fetch miss, reuse the LAST KNOWN regime (persisted from the previous good
+    run) instead of silently defaulting to sideways; only default if there is no
+    prior state. Thresholds unchanged. Returns (regime, btc_7d_pct, btc_24h_pct, btc_price).
     """
-    for attempt in range(1, attempts + 1):
-        df = data.get_btc("1d", bars)
-        if df is not None and len(df) >= 8:
-            return df
-        if attempt < attempts:
-            log.warning(f"  BTC 1D fetch insufficient (attempt {attempt}/{attempts}) — retrying...")
+    chg = None
+    for attempt in range(1, 3):
+        chg = data.get_live_market_change()
+        if chg is not None:
+            break
+        if attempt < 2:
+            log.warning(f"  BTC regime fetch miss (attempt {attempt}/2) — retrying...")
             time.sleep(2)
-    return None
 
-
-def _classify_regime(btc_1d: Optional[pd.DataFrame]) -> tuple[str, float, float]:
-    """
-    Returns (regime, btc_7d_pct, btc_24h_pct).
-    regime is one of 'bull' | 'sideways' | 'bear'.
-
-    On a transient BTC-1D fetch miss, fall back to the LAST KNOWN regime
-    (persisted from the previous good run) instead of silently defaulting to
-    'sideways' @ 0.00%. Only default to sideways if there is no prior state.
-    """
-    if btc_1d is None or len(btc_1d) < 8:
+    if chg is None:
         last = _load_last_regime()
         if last is not None:
             regime, b7, b24 = last
-            log.warning(f"  BTC 1D unavailable — reusing last known regime: "
+            log.warning(f"  BTC data unavailable — reusing last known regime: "
                         f"{regime.upper()} (BTC 7d {b7:+.2f}%)")
-            return regime, b7, b24
-        log.warning("BTC 1D insufficient and no prior regime on file — defaulting to sideways")
-        return "sideways", 0.0, 0.0
+            return regime, b7, b24, 0.0
+        log.warning("  BTC data unavailable and no prior regime on file — defaulting to sideways")
+        return "sideways", 0.0, 0.0, 0.0
 
-    closes = btc_1d["close"]
-    btc_7d_pct  = (float(closes.iloc[-1]) / float(closes.iloc[-8])  - 1) * 100
-    btc_24h_pct = (float(closes.iloc[-1]) / float(closes.iloc[-2])  - 1) * 100
-
+    btc_7d_pct, btc_24h_pct, btc_price = chg
     if btc_7d_pct >= REGIME["bull_btc_7d_pct"]:
         regime = "bull"
     elif btc_7d_pct >= REGIME["neutral_btc_7d_pct"]:
@@ -380,7 +371,7 @@ def _classify_regime(btc_1d: Optional[pd.DataFrame]) -> tuple[str, float, float]
         regime = "bear"
 
     _save_regime(regime, btc_7d_pct, btc_24h_pct)
-    return regime, btc_7d_pct, btc_24h_pct
+    return regime, btc_7d_pct, btc_24h_pct, btc_price
 
 
 def _tiers_for_regime(regime: str) -> dict:
@@ -953,10 +944,8 @@ def run(
         return {}
 
     # ── BTC reference for regime + RS ────────────────────────────────────────
-    log.info("Fetching BTC 1D for regime detection...")
-    btc_1d = fetch_btc_1d_resilient()
-    regime, btc_7d_pct, btc_24h_pct = _classify_regime(btc_1d)
-    btc_price = float(btc_1d["close"].iloc[-1]) if btc_1d is not None and len(btc_1d) > 0 else 0
+    log.info("Detecting market regime (live BTC 4h, unified with spot)...")
+    regime, btc_7d_pct, btc_24h_pct, btc_price = _detect_regime_live()
     log.info(f"  Regime: {regime.upper()}  |  BTC 7d {btc_7d_pct:+.2f}%  "
              f"|  24h {btc_24h_pct:+.2f}%")
 
