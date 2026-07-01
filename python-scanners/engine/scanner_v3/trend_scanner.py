@@ -152,6 +152,70 @@ ACCOUNT = {
     "tp_split_pct":      [40,  35,  25],
 }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MACRO SIZING OVERLAY (Layer 0 → position size)
+# Reads the macro verdict written by macro_watch.py and shrinks position size
+# when the dollar+yields are a headwind. MEDIUM integration: this NEVER blocks
+# a setup — it only scales the risk/size of the eventual trade. The scanner
+# keeps surfacing everything; macro just sizes the trade down in bad weather.
+#
+# Tune these multipliers freely. 1.0 = full size, lower = smaller.
+# ─────────────────────────────────────────────────────────────────────────────
+MACRO_SIZING = {
+    "RISK-ON":    1.00,   # dollar DOWN + yields DOWN — tailwind, full size
+    "MIXED-POS":  0.85,   # one easing — early thaw
+    "NEUTRAL":    0.75,   # flat — no signal either way
+    "MIXED-NEG":  0.60,   # one rising — still net headwind
+    "RISK-OFF":   0.40,   # dollar UP + yields UP — headwind, shrink hard
+    "?":          0.75,   # macro data unavailable — treat as neutral
+}
+# Fallback when the flag is missing or stale (>this many hours old).
+# Neutral, never zero — the scanner must keep working without macro_watch.
+MACRO_FALLBACK_MULT  = 0.75
+MACRO_STALE_HOURS    = 24
+_MACRO_FLAG_FILE     = _PROJECT_ROOT / "outputs" / "macro" / "latest.json"
+
+
+def get_macro_multiplier() -> tuple[float, str]:
+    """Read macro_watch's verdict flag and return (multiplier, reason_str).
+
+    Safe by design: any problem (missing file, stale, unparseable, unknown
+    verdict) falls back to MACRO_FALLBACK_MULT and NEVER raises. Macro can
+    only shrink or hold size — it cannot block a setup or break the scan.
+    """
+    try:
+        if not _MACRO_FLAG_FILE.exists():
+            return MACRO_FALLBACK_MULT, "macro flag missing — neutral fallback"
+        d = json.loads(_MACRO_FLAG_FILE.read_text(encoding="utf-8"))
+
+        # Staleness check
+        ts = d.get("checked_at_utc")
+        if ts:
+            try:
+                # macro_watch writes a tz-aware UTC ISO string. Parse it and
+                # drop tzinfo so we compare naive-to-naive against utcnow()
+                # (mixing aware + naive raises TypeError).
+                parsed = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                if parsed.tzinfo is not None:
+                    parsed = parsed.replace(tzinfo=None)
+                age_h = (datetime.utcnow() - parsed).total_seconds() / 3600
+                if age_h > MACRO_STALE_HOURS:
+                    return (MACRO_FALLBACK_MULT,
+                            f"macro flag stale ({age_h:.0f}h old) — neutral fallback")
+            except Exception:
+                pass  # bad timestamp → ignore staleness, still use verdict below
+
+        verdict = str(d.get("verdict", "?")).upper()
+        mult    = MACRO_SIZING.get(verdict, MACRO_FALLBACK_MULT)
+        dxy     = d.get("dxy")
+        y10     = d.get("y10")
+        ctx     = ""
+        if dxy is not None and y10 is not None:
+            ctx = f"  DXY {dxy:.2f} / 10Y {y10:.2f}%"
+        return mult, f"macro {verdict} → {mult:.2f}x{ctx}"
+    except Exception as e:
+        return MACRO_FALLBACK_MULT, f"macro read error ({e}) — neutral fallback"
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RESULT TYPES
@@ -629,9 +693,12 @@ def build_trade_plan(
     atr_1d:  float,
     regime:  str,
     account_size: float,
+    macro_mult:   float = 1.0,
 ) -> Optional[TradePlan]:
     """
     ATR-based trade plan with regime-aware sizing.
+    `macro_mult` (0-1) scales position size down in macro headwinds (Layer 0).
+    Default 1.0 = no macro effect (e.g. if called without the overlay).
     Returns None if inputs are invalid.
     """
     if price <= 0 or atr_1d <= 0 or account_size <= 0:
@@ -655,7 +722,10 @@ def build_trade_plan(
     if risk_per_unit <= 0:
         return None
 
-    risk_usdt    = account_size * (risk_pct / 100)
+    # Base risk from regime, then scale by the macro overlay (Layer 0).
+    # macro_mult only shrinks/holds — it is clamped to (0, 1].
+    macro_mult   = max(0.0, min(1.0, macro_mult))
+    risk_usdt    = account_size * (risk_pct / 100) * macro_mult
     quantity     = risk_usdt / risk_per_unit
     pos_value    = quantity * price
     if pos_value > ACCOUNT["max_notional"]:
@@ -893,6 +963,12 @@ def run(
     if regime == "bear":
         log.warning("  BEAR regime — STRONG/LONG tiers blocked, capital preservation mode")
 
+    # ── Macro overlay (Layer 0): read DXY+yields verdict once per scan ───────
+    macro_mult, macro_reason = get_macro_multiplier()
+    log.info(f"  Macro sizing overlay: {macro_reason}")
+    if macro_mult < 1.0:
+        log.info(f"  → position sizes scaled to {macro_mult:.0%} of regime base")
+
     # ── Per-coin scan: fetch all 6 TFs, score, build trade plans ─────────────
     log.info(f"Scanning {len(universe)} coins across {len(TIMEFRAMES)} timeframes...")
     log.info("(this is the slowest scanner — first run ~10min, subsequent ~2-3min)")
@@ -940,6 +1016,7 @@ def run(
                 atr_1d       = atr_1d,
                 regime       = regime,
                 account_size = account_size,
+                macro_mult   = macro_mult,
             )
 
         if result.tier != "below":
