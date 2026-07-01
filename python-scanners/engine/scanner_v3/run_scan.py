@@ -45,6 +45,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
+import data   # shared live regime (get_live_market_change) — one source of truth
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # PATHS
@@ -291,8 +293,12 @@ def parse_spot(data: Optional[dict]) -> dict[str, dict]:
 def get_market_context(data_trend: Optional[dict],
                        data_spot:  Optional[dict]) -> dict:
     """
-    Pull market context from trend+spot JSONs. Trend wins on regime since it's
-    the most authoritative classification.
+    Market context for the master_radar summary.
+
+    BTC 7d/24h + regime come from the LIVE shared source (data.get_live_market_change
+    — fresh Bybit 4h, same fn the trend + spot boards use) so the summary can NEVER
+    inherit a stale trend_v3_LATEST.json. Falls back to the trend/spot JSONs only if
+    the live fetch misses. spot_says_stay_out still comes from the spot JSON.
     """
     ctx = {
         "regime":      "unknown",
@@ -301,7 +307,15 @@ def get_market_context(data_trend: Optional[dict],
         "spot_says_stay_out": False,
         "spot_qualified_count": 0,
     }
-    if data_trend:
+    # Primary: live shared regime (consistent across all boards)
+    live = data.get_live_market_change()
+    if live is not None:
+        ctx["btc_7d_pct"], ctx["btc_24h_pct"], _ = live
+        ctx["regime"] = ("bull"     if ctx["btc_7d_pct"] >=  3.0
+                         else "sideways" if ctx["btc_7d_pct"] >= -7.0
+                         else "bear")
+    elif data_trend:
+        # Fallback: trend JSON (may be stale) only when the live fetch failed
         ctx["regime"]      = data_trend.get("regime", "unknown")
         ctx["btc_7d_pct"]  = data_trend.get("btc_7d_pct")
         ctx["btc_24h_pct"] = data_trend.get("btc_24h_pct")
