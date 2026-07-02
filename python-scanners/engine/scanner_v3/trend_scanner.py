@@ -949,6 +949,11 @@ def run(
     log.info(f"  Regime: {regime.upper()}  |  BTC 7d {btc_7d_pct:+.2f}%  "
              f"|  24h {btc_24h_pct:+.2f}%")
 
+    # BTC 1D reference dataframe for per-coin relative-strength (rs_vs_btc).
+    # Regime/7d/24h now come from the live 4h calc above, but score_coin still
+    # needs the BTC 1D series — fetch it here so it stays defined.
+    btc_1d = data.get_btc("1d", SCAN["ohlcv_bars"])
+
     if regime == "bear":
         log.warning("  BEAR regime — STRONG/LONG tiers blocked, capital preservation mode")
 
