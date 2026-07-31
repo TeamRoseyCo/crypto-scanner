@@ -498,6 +498,13 @@ def run(top_n: int = 50, use_cache: bool = True) -> dict:
         # Stamp metadata that score_coin couldn't see
         result.volume_24h    = float(coin.get("_combined_volume", 0.0))
         result.price_24h_pct = float(coin.get("price_24h_pct", 0.0))
+        # Price must come from the SAME clock as price_24h_pct above (live ticker).
+        # score_coin reads df["close"].iloc[-1] — the last CLOSED bar of a CSV that
+        # get_ohlcv serves from cache for up to cache_max_age_h, so it can sit ~2.5h
+        # behind the tape while the 24h% next to it updates every scan.
+        live_px = float(coin.get("price") or 0.0)
+        if live_px > 0:
+            result.price = live_px
         result.sources       = [
             s for s, key in [("bybit","on_bybit"),("binance","on_binance")]
             if coin.get(key)

@@ -656,7 +656,10 @@ def score_coin(
     result = TrendResult(
         base             = base,
         symbol           = symbol,
-        price            = float(df_1d["close"].iloc[-1]),
+        # Live ticker price, falling back to the last closed 1D bar. The 1D close
+        # is up to a full day behind the tape, and this price feeds build_trade_plan
+        # below — a stale anchor there means stale entry/stop/TP levels.
+        price            = float(coin_meta.get("price") or df_1d["close"].iloc[-1]),
         volume_24h       = float(coin_meta.get("turnover_24h", coin_meta.get("volume_24h", 0))),
         price_24h_pct    = float(coin_meta.get("price_24h_pct", 0)),
         funding_rate     = funding_rate,

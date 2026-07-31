@@ -108,7 +108,18 @@ def get_universe(source: Literal["bybit", "binance", "both"] = "both"):
     merged = []
     for base in set(bybit) | set(binance):
         b, bn = bybit.get(base, {}), binance.get(base, {})
-        merged.append({"base": base, "symbol_bybit": b.get("symbol_bybit"), "symbol_binance": bn.get("symbol_binance"), "price": bn.get("price") or b.get("price") or 0.0, "turnover_24h": b.get("turnover_24h", 0.0), "volume_24h": bn.get("volume_24h", 0.0), "open_interest": b.get("open_interest", 0.0), "oi_value": b.get("oi_value", 0.0), "funding_rate": b.get("funding_rate"), "price_24h_pct": b.get("price_24h_pct", bn.get("price_24h_pct", 0.0)), "on_bybit": bool(b), "on_binance": bool(bn)})
+        # Price MUST follow the same venue the scanners fetch OHLCV from
+        # (ignition._pick_source: Bybit when listed, else Binance; trend is Bybit-only).
+        # Taking price from Binance first while the signals were scored on Bybit klines
+        # put two venues in one row: on 2026-07-31 XMR carried Binance's $118.70 against
+        # a Bybit 24h% and a Bybit-derived score, with the real Bybit tape at $350.13
+        # (LIT the same, 195% out; WAVES is the mirror case at $1.076 vs $0.2202).
+        primary, secondary = (b, bn) if b else (bn, b)
+        price = primary.get("price") or secondary.get("price") or 0.0
+        pct = primary.get("price_24h_pct")
+        if pct is None:
+            pct = secondary.get("price_24h_pct", 0.0)
+        merged.append({"base": base, "symbol_bybit": b.get("symbol_bybit"), "symbol_binance": bn.get("symbol_binance"), "price": price, "turnover_24h": b.get("turnover_24h", 0.0), "volume_24h": bn.get("volume_24h", 0.0), "open_interest": b.get("open_interest", 0.0), "oi_value": b.get("oi_value", 0.0), "funding_rate": b.get("funding_rate"), "price_24h_pct": pct, "on_bybit": bool(b), "on_binance": bool(bn)})
     merged.sort(key=lambda x: max(x.get("turnover_24h", 0.0), x.get("volume_24h", 0.0)), reverse=True)
     return merged
 

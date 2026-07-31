@@ -155,6 +155,9 @@ class CoinView:
     price:          Optional[float] = None
     price_24h_pct:  Optional[float] = None
     volume_24h:     Optional[float] = None
+    # "live" once overwritten from the ticker; "bar_close" if the ticker had no
+    # quote for this base and the value is still a scanner's closed-bar price.
+    price_source:   Optional[str]   = None
 
     # Trade plan (preferred from trend, fallback to spot)
     trade_plan:     Optional[dict] = None
@@ -395,8 +398,11 @@ def build_coin_views(
             v.trend_score = trend[base].get("score")
             v.trend_st_aligned = trend[base].get("st_aligned")
             score += TIER_POINTS["trend"].get(tier, 0.0)
-            # Trend's metadata is most authoritative — overwrite
-            if trend[base].get("price") is not None:
+            # Trend's metadata is most authoritative for score/plan — but NOT for
+            # price: trend derives it from the last closed 1D bar, so letting it
+            # overwrite here is what froze a name's price for a whole day while its
+            # 24h% moved underneath. apply_live_prices() below settles price.
+            if v.price is None and trend[base].get("price") is not None:
                 v.price = trend[base]["price"]
             if trend[base].get("price_24h_pct") is not None:
                 v.price_24h_pct = trend[base]["price_24h_pct"]
@@ -450,6 +456,67 @@ def _classify_bucket(
 # ─────────────────────────────────────────────────────────────────────────────
 # DORMANT HOOKS  — TPI + RSPS integration points (no-op for now)
 # ─────────────────────────────────────────────────────────────────────────────
+
+def apply_live_prices(views: dict[str, CoinView]) -> dict[str, CoinView]:
+    """Settle every view's price from the live ticker — one fetch for the whole run.
+
+    The scanners derive price from OHLCV: ignition from the last closed 1H bar of a
+    CSV that get_ohlcv serves from cache for up to cache_max_age_h, trend from the
+    last closed 1D bar. Both drift from the tape, and both sit next to a price_24h_pct
+    taken from the live ticker — so a row could show a live percentage against a price
+    that had not moved in hours (observed 2026-07-31: 132/139 names carried a price
+    identical to the cent across two scans 40 min apart, 118 of them with a moving
+    24h%; GIGGLE was 23% off the tape).
+
+    This runs after the per-scanner fixes as defence in depth: any future scanner that
+    emits a bar-close price gets corrected here, and price_source records which names
+    the ticker could not settle so a regression is visible in the JSON.
+
+    Prices come from get_universe("both") rather than the Bybit ticker alone, because a
+    base symbol can trade at genuinely different prices on the two venues — WAVES on
+    2026-07-31 was $1.076 on Binance and $0.2202 on Bybit, and it is Binance-only in the
+    universe (its Bybit turnover is under bybit_min_volume). Refreshing that name from
+    Bybit would replace a correct price with a 5x wrong one. get_universe applies the
+    same venue preference the scanners scored on, so the price can never disagree with
+    the series the signals came from.
+    """
+    try:
+        universe = data.get_universe("both")
+    except Exception as e:
+        log.warning(f"  Live price refresh failed ({e}) — prices stay at scanner values")
+        universe = []
+
+    live: dict[str, float] = {}
+    for c in universe:
+        try:
+            px = float(c.get("price") or 0)
+        except (TypeError, ValueError):
+            continue
+        if px > 0:
+            live[c["base"]] = px
+
+    if not live:
+        log.warning("  Live price refresh returned no quotes — prices stay at scanner values")
+        for v in views.values():
+            v.price_source = "bar_close"
+        return views
+
+    refreshed = stale = 0
+    for base, v in views.items():
+        px = live.get(base)
+        if px is None:
+            v.price_source = "bar_close"      # no live quote on either venue
+            stale += 1
+            continue
+        v.price_source = "live"
+        if v.price != px:
+            refreshed += 1
+        v.price = px
+
+    log.info(f"  Live prices: {refreshed} refreshed, {len(live)} quotes, "
+             f"{stale} left at bar-close (no ticker quote)")
+    return views
+
 
 def apply_tpi_gate(views: dict[str, CoinView], context: dict) -> dict[str, CoinView]:
     """
@@ -1036,6 +1103,9 @@ def run(
 
     # Step 5: build CoinView objects with confluence
     views = build_coin_views(ignition, perp, spot, trend)
+
+    # Step 5b: settle the price column from the live ticker (see apply_live_prices)
+    views = apply_live_prices(views)
 
     # Step 6: dormant TPI gate + RSPS rank (no-op for now)
     views = apply_tpi_gate(views,  context)
