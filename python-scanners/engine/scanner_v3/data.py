@@ -178,13 +178,108 @@ def get_ohlcv(base, source, tf="1h", bars=200, use_cache=True):
         if (time.time() - cache.stat().st_mtime) / 3600 < CFG.cache_max_age_h:
             try:
                 df = pd.read_csv(cache, index_col=0, parse_dates=True)
-                if len(df) >= 30: return df
+                # The cache must also be DEEP ENOUGH for what was asked. Serving a
+                # 199-bar file (written by a live 200-bar scan) to a backtest asking
+                # for 999 silently truncated every backtest to ~8 days of 1H and made
+                # their sample sizes depend on the cache's state at run time. The -2
+                # tolerance covers _drop_unclosed_bars trimming the forming bar.
+                if len(df) >= max(30, bars - 2): return df
             except: pass
     df = _bybit_ohlcv(f"{base}USDT", tf, bars) if source == "bybit" else _binance_ohlcv(f"{base}USDT", tf, bars)
     if df is not None:
         try: df.to_csv(cache)
         except: pass
     return df
+
+def _bybit_ohlcv_page(symbol, tf, end_ms, limit=1000):
+    """One page of Bybit klines ending at end_ms (exclusive-ish), newest-first."""
+    params = {"category": "linear", "symbol": symbol, "interval": TF_BYBIT[tf], "limit": limit}
+    if end_ms is not None:
+        params["end"] = int(end_ms)
+    try:
+        r = _BYBIT_SESSION.get(f"{CFG.bybit_api}/v5/market/kline", params=params, timeout=CFG.request_timeout_s)
+        if r.status_code != 200: return None
+        rows = r.json().get("result", {}).get("list", [])
+        if not rows: return None
+        rows.reverse()
+        df = pd.DataFrame(rows, columns=["ts", "open", "high", "low", "close", "volume", "turnover"])
+        df["ts"] = pd.to_datetime(df["ts"].astype("int64"), unit="ms")
+        df.set_index("ts", inplace=True)
+        for col in ("open", "high", "low", "close", "volume"): df[col] = pd.to_numeric(df[col], errors="coerce")
+        return df[["open", "high", "low", "close", "volume"]].dropna()
+    except Exception:
+        return None
+
+
+def _binance_ohlcv_page(symbol, tf, end_ms, limit=1000):
+    """One page of Binance klines ending at end_ms, oldest-first."""
+    params = {"symbol": symbol, "interval": TF_BINANCE[tf], "limit": limit}
+    if end_ms is not None:
+        params["endTime"] = int(end_ms)
+    try:
+        r = _BINANCE_SESSION.get(f"{CFG.binance_api}/klines", params=params, timeout=CFG.request_timeout_s)
+        if r.status_code != 200: return None
+        rows = r.json()
+        if not rows: return None
+        df = pd.DataFrame(rows, columns=["ts", "open", "high", "low", "close", "base_vol", "close_time", "volume", "trades", "taker_base", "taker_quote", "ignore"])
+        df["ts"] = pd.to_datetime(df["ts"], unit="ms")
+        df.set_index("ts", inplace=True)
+        for col in ("open", "high", "low", "close", "volume"): df[col] = pd.to_numeric(df[col], errors="coerce")
+        return df[["open", "high", "low", "close", "volume"]].dropna()
+    except Exception:
+        return None
+
+
+def get_ohlcv_deep(base, source, tf="1h", bars=8760, page_cache_h=24.0):
+    """Deep history by PAGING backwards past the venues' 1000-bar per-request cap.
+
+    get_ohlcv() can never return more than 1000 bars, which is only ~41 days of 1H —
+    far too short to study anything with a macro or regime component. This walks
+    backwards page by page until `bars` is reached or the listing history runs out.
+
+    Cached separately (`<base>_<source>_<tf>_deep.csv`) with a long TTL, because deep
+    history is expensive and its old bars never change. Returns ascending, de-duped,
+    forming bar dropped. None if nothing could be fetched.
+    """
+    cache = _CACHE_DIR / f"{base}_{source}_{tf}_deep.csv"
+    if cache.exists() and (time.time() - cache.stat().st_mtime) / 3600 < page_cache_h:
+        try:
+            df = pd.read_csv(cache, index_col=0, parse_dates=True)
+            if len(df) >= max(30, bars - 2): return _drop_unclosed_bars(df, tf)
+        except Exception:
+            pass
+
+    symbol = f"{base}USDT"
+    page_fn = _bybit_ohlcv_page if source == "bybit" else _binance_ohlcv_page
+    frames, end_ms, guard = [], None, 0
+    total = 0
+    while total < bars and guard < 40:          # 40 pages x 1000 = 40k bars ceiling
+        guard += 1
+        page = page_fn(symbol, tf, end_ms)
+        if page is None or page.empty:
+            break
+        frames.append(page)
+        total += len(page)
+        oldest = page.index[0]
+        nxt = int(oldest.value // 10**6) - 1     # ns -> ms, step before the oldest bar
+        if end_ms is not None and nxt >= end_ms:
+            break                                # no progress — venue returned same page
+        end_ms = nxt
+        if len(page) < 900:
+            break                                # short page = start of listing history
+
+    if not frames:
+        return None
+    df = pd.concat(frames).sort_index()
+    df = df[~df.index.duplicated(keep="last")]
+    if len(df) > bars:
+        df = df.iloc[-bars:]
+    try:
+        df.to_csv(cache)
+    except Exception:
+        pass
+    return _drop_unclosed_bars(df, tf)
+
 
 def get_btc(tf="1h", bars=200):
     cache = _cache_path("BTC", "binance", tf)
